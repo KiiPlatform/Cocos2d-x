@@ -1,0 +1,5 @@
+# cache for current jar dependency. DO NOT EDIT.
+# format is <lastModified> <length> <SHA-1> <path>
+# Encoding is UTF-8
+1389099706000 349252 612846c9857077a039b533718f72db3bc041d389 /Users/guest/Documents/cocos2d-x/cocos2d-x-2.2.2/samples/Cpp/SimpleGame02/proj.android/libs/android-support-v4.jar
+1389099706000 349252 612846c9857077a039b533718f72db3bc041d389 /Users/guest/Documents/cocos2d-x/cocos2d-x-2.2.2/cocos2dx/platform/android/java/libs/android-support-v4.jar
