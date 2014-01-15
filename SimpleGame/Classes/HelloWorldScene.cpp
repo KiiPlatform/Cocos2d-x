@@ -1,15 +1,22 @@
 #include "HelloWorldScene.h"
 #include "GameOverScene.h"
 #include "SimpleAudioEngine.h"
+
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 #include <jni.h>
+#include "platform/android/jni/JniHelper.h"
+#endif
 
 using namespace cocos2d;
+
+#define CLASS_NAME "org/cocos2dx/simplegame/CallFromCPP"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 extern "C"
 {
 	//JNIEXPORT void JNICALL Java_org_cocos2dx_simplegame_SimpleGame_nativeEnd(JNIEnv* env, jobject thiz)
-	JNIEXPORT void JNICALL Java_org_cocos2dx_simplegame_nativeEnd(JNIEnv* env, jobject thiz)
+	JNIEXPORT void JNICALL Java_org_cocos2dx_simplegame_CallCPP_nativeEnd
+	(JNIEnv* env, jobject thiz)
 	{
 	    CCLOG("SimpleGame_nativeEnd");
 		//CCDirector::sharedDirector()->end();
@@ -17,7 +24,7 @@ extern "C"
 
 //package org.cocos2dx.simplegame;
 //	JNIEXPORT jstring JNICALL Java_SampleJava4_concat
-	JNIEXPORT jstring JNICALL Java_org_cocos2dx_simplegame_concat
+	JNIEXPORT jstring JNICALL Java_org_cocos2dx_simplegame_CallCPP_concat
 	(JNIEnv *env, jobject obj, jstring str1, jstring str2) {
 		char buf[256];
 
@@ -46,6 +53,23 @@ extern "C"
 }
 #endif
 
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+//Android
+//call Java
+void jni_test(){
+    CCLOG("Jni_test");
+    JniMethodInfo methodInfo;
+
+    if (JniHelper::getStaticMethodInfo(methodInfo
+                                       , CLASS_NAME
+                                       , "test"
+                                       , "()V"))
+    {
+        methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID);
+        methodInfo.env->DeleteLocalRef(methodInfo.classID);
+    }
+}
+#endif
 
 HelloWorld::~HelloWorld()
 {
@@ -74,6 +98,8 @@ HelloWorld::HelloWorld()
 
 CCScene* HelloWorld::scene()
 {
+	CCLOG("HelloWorld::scene");
+
 	CCScene * scene = NULL;
 	do 
 	{
@@ -96,6 +122,8 @@ CCScene* HelloWorld::scene()
 // on "init" you need to initialize your instance
 bool HelloWorld::init()
 {
+	CCLOG("HelloWorld::init");
+
 	bool bRet = false;
 	do 
 	{
@@ -158,11 +186,15 @@ bool HelloWorld::init()
 		bRet = true;
 	} while (0);
 
+	jni_test();
+
 	return bRet;
 }
 
 void HelloWorld::menuCloseCallback(CCObject* pSender)
 {
+	CCLOG("HelloWorld::menuCloseCallback");
+
 	// "close" menu item clicked
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WINRT) || (CC_TARGET_PLATFORM == CC_PLATFORM_WP8)
     CCMessageBox("You pressed the close button. Windows Store Apps do not implement a close button.", "Alert");
@@ -238,6 +270,8 @@ void HelloWorld::gameLogic(float dt)
 // cpp with cocos2d-x
 void HelloWorld::ccTouchesEnded(CCSet* touches, CCEvent* event)
 {
+	jni_test();
+
 	// Choose one of the touches to work with
 	CCTouch* touch = (CCTouch*)( touches->anyObject() );
 	CCPoint location = touch->getLocation();

@@ -35,13 +35,14 @@ class RegisterCallback extends KiiUserCallBack {
 	
     public RegisterCallback() {
         //this.dialog = dialog;
+    	Log.v(TAG, "RegisterCallback");
     }
     
     @Override
     public void onRegisterCompleted(int token, KiiUser user, Exception e) {
-    	Log.v(TAG, "onRegisterCompleted " + token + " " + user +" " + e);
-    	
         super.onRegisterCompleted(token, user, e);
+        
+    	Log.v(TAG, "onRegisterCompleted " + token + " " + user +" " + e);
 /***        
         ProgressDialogFragment.hide(dialog.getFragmentManager());
         if (e != null) {
