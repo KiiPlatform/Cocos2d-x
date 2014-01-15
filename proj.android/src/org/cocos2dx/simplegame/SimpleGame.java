@@ -25,6 +25,10 @@ package org.cocos2dx.simplegame;
 
 import org.cocos2dx.lib.Cocos2dxActivity;
 
+import com.kii.cloud.storage.Kii;
+import com.kii.cloud.storage.KiiUser;
+import com.kii.cloud.storage.Kii.Site;
+
 import android.os.Bundle;
 import android.util.Log;
 
@@ -35,13 +39,80 @@ public class SimpleGame extends Cocos2dxActivity{
 		super.onCreate(savedInstanceState);
 
 		Log.v(TAG, "onCreate");
-		
+
+/***
 		CallCPP.nativeEnd();
-		
 		String s = CallCPP.concat("hoge", "fuga");
 		Log.v(TAG, "s = " +s);
+***/		
+
+	    //initialize
+        initKiiSDK();
+        
+        // check access token
+        String token = Pref.getStoredAccessToken(getApplicationContext());
+        if (token == null || token.length() == 0) {
+    		Log.v(TAG, "onCreate regist");
+            //toTitleFragment();
+        	//regist
+        	//regist();
+        	login();
+
+            return;
+        } 
+       
+        // login with token
+        AutoLoginCallback callback = new AutoLoginCallback(this);
+        KiiUser.loginWithToken(callback, token);
+        
+		Log.v(TAG, "onCreate end");
 	}
 	
+	//regist
+	
+	private void login(){
+		String username ="muku";
+		String password = "1234";		
+		
+		Log.v(TAG, "login");
+		
+        // call user registration API
+        LoginCallback callback = new LoginCallback();
+        KiiUser.logIn(callback, username, password);
+	}
+	
+	private void regist(){
+		String username ="muku";
+		String password = "1234";
+		
+		Log.v(TAG, "regist");
+		
+        // call user registration API
+        RegisterCallback callback = new RegisterCallback();	//callbackの作成 RegisterCallbackはKiiUserCallBackを継承したクラス
+        KiiUser user = KiiUser.createWithUsername(username);
+        user.register(callback, password);	//KiiUserCallBackを渡す callbackはKiiUserCallBackを継承したクラスのインスタンス（実体）
+		
+	}
+	
+	
+	   /**
+     * Initialize KiiSDK
+     * Please change APP_ID/APP_KEY to your application
+     */
+    private void initKiiSDK() {
+		Log.v(TAG, "initKiiSDK");
+		
+        Kii.initialize(
+                Constants.APP_ID,  // Put your App ID
+                Constants.APP_KEY, // Put your App Key
+                Site.US            // Put your site as you've specified upon creating the app on the dev portal
+                );
+    }
+    
+	
+    //public static native void nativeEnd();
+    //public static native String concat(String str1, String str2);
+    
     static {
         System.loadLibrary("game");
     }

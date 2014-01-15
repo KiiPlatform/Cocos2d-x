@@ -17,12 +17,14 @@ package org.cocos2dx.simplegame;
 
 //import android.support.v4.app.Fragment;
 
+import android.util.Log;
+
 import com.kii.cloud.storage.KiiUser;
 import com.kii.cloud.storage.callback.KiiUserCallBack;
 //import com.kii.util.dialog.ProgressDialogFragment;
 
 class LoginCallback extends KiiUserCallBack {
-
+	private final static String TAG ="LoginCallback";
 //    private LoginDialogFragment dialog;
 
 /***
@@ -32,6 +34,7 @@ class LoginCallback extends KiiUserCallBack {
 ***/
 	
     public LoginCallback() {
+    	Log.v(TAG, "LoginCallback");
         //this.dialog = dialog;
     }
 
@@ -39,6 +42,8 @@ class LoginCallback extends KiiUserCallBack {
     @Override
     public void onLoginCompleted(int token, KiiUser user, Exception e) {
         super.onLoginCompleted(token, user, e);
+        
+    	Log.v(TAG, "onLoginCompleted " + token + " " + user +" " + e);
         
 /***        
         ProgressDialogFragment.hide(dialog.getFragmentManager());
