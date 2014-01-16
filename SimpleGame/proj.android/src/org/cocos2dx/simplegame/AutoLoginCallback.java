@@ -21,7 +21,7 @@ import android.util.Log;
 
 import com.kii.cloud.storage.KiiUser;
 import com.kii.cloud.storage.callback.KiiUserCallBack;
-import com.kii.util.dialog.ProgressDialogFragment;
+
 
 /**
  * Callback class for auto login
