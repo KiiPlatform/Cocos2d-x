@@ -120,7 +120,7 @@
 		<link>
 			<name>Classes</name>
 			<type>2</type>
-			<location>/Users/guest/Documents/cocos2d-x/cocos2d-x-2.2.2/samples/Cpp/SimpleGame02/Classes</location>
+			<location>/Users/guest/Documents/cocos2d-x/cocos2d-x-2.2.2/samples/Cpp/SimpleGame02/SimpleGame/Classes</location>
 		</link>
 		<link>
 			<name>cocos2dx</name>

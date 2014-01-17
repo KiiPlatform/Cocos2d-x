@@ -6,4 +6,5 @@ public class CallCPP {
     public static native void init(int width, int height);
     public static native void step();
     public static native void nativeEnd();
+	public static native void rankingResponse(String str1);	//ランキングデータをc++へ渡す、JSON
 }

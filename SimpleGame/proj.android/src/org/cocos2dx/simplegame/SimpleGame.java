@@ -23,17 +23,21 @@ THE SOFTWARE.
 ****************************************************************************/
 package org.cocos2dx.simplegame;
 
-import java.io.IOException;
 import java.util.List;
 
 import org.cocos2dx.lib.Cocos2dxActivity;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import com.kii.cloud.storage.Kii;
 import com.kii.cloud.storage.KiiBucket;
 import com.kii.cloud.storage.KiiObject;
 import com.kii.cloud.storage.KiiUser;
 import com.kii.cloud.storage.Kii.Site;
-import com.kii.cloud.storage.exception.app.AppException;
+import com.kii.cloud.storage.callback.KiiObjectCallBack;
+import com.kii.cloud.storage.callback.KiiQueryCallBack;
+import com.kii.cloud.storage.callback.KiiUserCallBack;
 import com.kii.cloud.storage.query.KiiClause;
 import com.kii.cloud.storage.query.KiiQuery;
 import com.kii.cloud.storage.query.KiiQueryResult;
@@ -41,6 +45,11 @@ import com.kii.cloud.storage.query.KiiQueryResult;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+
+class RankingData{
+	String userName;
+	int score;
+}
 
 public class SimpleGame extends Cocos2dxActivity{
 	private final static String TAG ="SimpleGame";
@@ -53,11 +62,11 @@ public class SimpleGame extends Cocos2dxActivity{
 
 		Log.v(TAG, "onCreate");
 
-/***
+
 		CallCPP.nativeEnd();
 		String s = CallCPP.concat("hoge", "fuga");
 		Log.v(TAG, "s = " +s);
-***/		
+		
 
 	    //initialize
         initKiiSDK();
@@ -95,75 +104,6 @@ public class SimpleGame extends Cocos2dxActivity{
 		Log.v(TAG, "onCreate end");
 	}
 	
-
-	private void ranking_query(KiiBucket bucket, String name){
-		Log.v(TAG, "ranking_query");
-		
-		// Prepare the target bucket to be queried
-		//KiiBucket bucket = Kii.bucket("myBucket");
-
-		// Define query conditions 
-		KiiQuery query = new KiiQuery( KiiClause.equals(Field.NAME, name) );
-
-        // call KiiCloud API
-		MyQueryCallBack callback = new MyQueryCallBack();
-        callback.setListener(new KiiListenerInterface(){
-			@Override
-			public void onLoginCompleted(int token, KiiUser user, Exception e) {
-			}
-			@Override
-			public void onSaveCompleted(int token, KiiObject object, Exception e) {
-			}
-			@Override
-			public void onRefreshCompleted(int token, KiiObject object, Exception e) {
-			}
-			@Override
-			public void onQueryCompleted(int arg0, KiiQueryResult<KiiObject> result, Exception e) {
-				Log.v(TAG, "login onQueryCompleted " + e);
-				List<KiiObject> objLists = result.getResult();
-				int myScore = 0;
-				for (KiiObject obj : objLists) {
-					Log.v(TAG, "obj " + obj);
-					String name2 = obj.getString(Field.NAME);
-					String score2 = obj.getString(Field.SCORE);
-					int score3 = obj.getInt(Field.SCORE);
-					Log.v(TAG, "ranking_query " + name2 +" "+ score2+ " "+ score3 );
-					if(score3>myScore){
-						myScore = score3;
-						Log.v(TAG, "myScore " + myScore);
-					}
-			  	}
-				Log.v(TAG, "myScore " + myScore);
-			}
-		});   
-        bucket.query(callback,query);
-/***
-		// Query the bucket
-		try {
-			KiiQueryResult<KiiObject> result = bucket.query(query);
-		  
-			List<KiiObject> objLists = result.getResult();
-			int myScore = 0;
-			for (KiiObject obj : objLists) {
-				Log.v(TAG, "obj " + obj);
-				String name2 = obj.getString(Field.NAME);
-				String score2 = obj.getString(Field.SCORE);
-				int score3 = obj.getInt(Field.SCORE);
-				Log.v(TAG, "ranking_query " + name2 +" "+ score2+ " "+ score3 );
-				if(score3>myScore){
-					myScore = score3;
-					Log.v(TAG, "myScore " + myScore);
-				}
-		  	}
-			Log.v(TAG, "myScore " + myScore);
-		} catch (IOException e) {
-		  // handle error
-		} catch (AppException e) {
-		  // handle error
-		}
-***/		
-	}
-
 	/**
 	 * login
 	 */
@@ -173,72 +113,187 @@ public class SimpleGame extends Cocos2dxActivity{
 		
 		Log.v(TAG, "login");
 		
-        // call user registration API
-        MyUserCallback callback = new MyUserCallback();
-        callback.setListener(new KiiListenerInterface(){
+        // call KiiCloud API
+        KiiUser.logIn( new KiiUserCallBack() {
 			@Override
 			public void onLoginCompleted(int token, KiiUser user, Exception e) {
 		    	Log.v(TAG, "login onLoginCompleted " + token + " " + user +" " + e);
 		    	//save();
-
 		    	m_username = username;
 		    	m_appRankingBucket = Kii.bucket(Field.B_RANKING);	//B_RANKING
-		    	//ranking_post(123499, m_username);	//スコアを保存
-		    	
-		    	ranking_query(m_appRankingBucket,m_username);
+		    	//ranking_post(123477, m_username);	//スコアを保存
+		    	//ranking_post(m_appRankingBucket, m_username, 123456);
+		    	//ranking_post(m_appRankingBucket, "hoge_name", 123456+2);
+		    	ranking_query_all(m_appRankingBucket);
+
 			}
-			@Override
-			public void onSaveCompleted(int token, KiiObject object, Exception e) {
-			}
-			@Override
-			public void onRefreshCompleted(int token, KiiObject object, Exception e) {
-			}
-			@Override
-			public void onQueryCompleted(int arg0, KiiQueryResult<KiiObject> result, Exception e) {
-			}
-		});
-        
-        KiiUser.logIn(callback, username, password);
+        }, username, password);
 	}
 	
-	/**
-	 * ranking_post
-	 */
-	private void ranking_post(int score, String name){
-		Log.v(TAG, "ranking_post");
+	private void ranking_post(KiiBucket bucket, String name, int score){
+		ranking_query(bucket, name, score);
+	}
 		
-        KiiObject object = m_appRankingBucket.object();
+	/***
+	 * ranking_query_all
+	 * @param bucket
+	 * @param name
+	 */
+	private void ranking_query_all(KiiBucket bucket){
+		Log.v(TAG, "ranking_query_all");
+		KiiQuery query = new KiiQuery();
+		query.sortByDesc(Field.SCORE);
+        // call KiiCloud API
+		bucket.query( new KiiQueryCallBack<KiiObject>() {
+			@Override
+			public void onQueryCompleted(int arg0, KiiQueryResult<KiiObject> result, Exception e) {
+				Log.v(TAG, "ranking_query_all onQueryCompleted " + e);
+				List<KiiObject> objLists = result.getResult();
+				int size = objLists.size();
+				Log.v(TAG, "size " + size);
+				JSONArray jArray = new JSONArray();
+				for (KiiObject obj : objLists) {
+					//Log.v(TAG, "obj " + obj);
+					String name2 = obj.getString(Field.NAME);
+					String score2 = obj.getString(Field.SCORE);
+					int score3 = obj.getInt(Field.SCORE);
+					//Log.v(TAG, "ranking_query " + name2 +" "+ score2+ " "+ score3 );
+					
+					JSONObject nJArray = new JSONObject();
+					try {
+						nJArray.put(Field.NAME, name2);
+					} catch (JSONException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					try {
+						nJArray.put(Field.SCORE, score2);
+					} catch (JSONException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					jArray.put(nJArray);
 
+			  	}
+				Log.v(TAG, "jArray " + jArray);
+				String s = jArray.toString();
+				CallCPP.rankingResponse(s);
+			}
+        }, query);	
+	}
+	
+	
+	/***
+	 * ranking_query
+	 * @param bucket
+	 * @param name
+	 */
+	private void ranking_query(KiiBucket bucket, final String name, final int score){
+		Log.v(TAG, "ranking_query");
+		KiiQuery query = new KiiQuery();
+		//KiiQuery query = new KiiQuery( KiiClause.equals(Field.NAME, name) );
+		//query.sortByAsc(Field.SCORE);
+		query.sortByDesc(Field.SCORE);
+		
+        // call KiiCloud API
+		bucket.query( new KiiQueryCallBack<KiiObject>() {
+			@Override
+			public void onQueryCompleted(int arg0, KiiQueryResult<KiiObject> result, Exception e) {
+				Log.v(TAG, "ranking_query onQueryCompleted " + e);
+				List<KiiObject> objLists = result.getResult();
+				int myScore = 0;
+				Uri uri = null;
+				int size = objLists.size();
+				Log.v(TAG, "size " + size);
+				for (KiiObject obj : objLists) {
+					Log.v(TAG, "obj " + obj);
+					String name2 = obj.getString(Field.NAME);
+					String score2 = obj.getString(Field.SCORE);
+					int score3 = obj.getInt(Field.SCORE);
+					Log.v(TAG, "ranking_query " + name2 +" "+ score2+ " "+ score3 );
+					if(score3 > myScore){
+						myScore = score3;
+						uri = obj.toUri();	//ハイスコアのuriを保存
+						Log.v(TAG, "myScore " + myScore);
+					}
+			  	}
+				Log.v(TAG, "myScore " + myScore);
+				Log.v(TAG, "uri " + uri);
+				if(score>myScore){
+				//if(true){
+					Log.v(TAG, "hiscore");					
+					if(uri!=null){
+						//ranking_save(uri, name, score);	//uriを使って更新
+					} else {
+						//Log.v(TAG, "uri null");
+						//ranking_save(null, name, score);	//uriを使って更新
+					}
+				} else{
+					Log.v(TAG, "not hiscore");					
+				}
+				CallCPP.rankingResponse("rankingResponse test test test");
+			}
+        }, query);	
+	}
+	
+	/***
+	 * ranking_save
+	 * 自分のハイスコアのobjectを更新、uriを使用
+	 * uriがnullなら新規作成
+	 * @param name
+	 * @param score
+	 */
+	private void ranking_save(Uri uri, String name, int score){
+		Log.v(TAG, "ranking_save " + uri +" "+ name +" "+ score);
+		
+		KiiObject object;
+		if(uri==null){
+			Log.v(TAG, "新規作成");
+			object = m_appRankingBucket.object();	//新規作成はこっちかも
+		} else {
+			Log.v(TAG, "更新");
+			object = KiiObject.createByUri(uri);	//ハイスコアのobjectを更新するuriを使用して特定
+		}
         object.set(Field.NAME, name);
         object.set(Field.SCORE, score);
 
         // call KiiCloud API
-        MyObjectCallback callback = new MyObjectCallback();
-        callback.setListener(new KiiListenerInterface(){
-			@Override
-			public void onLoginCompleted(int token, KiiUser user, Exception e) {
-		    	//Log.v(TAG, "login onLoginCompleted " + token + " " + user +" " + e);
-			}
+        object.save( new KiiObjectCallBack() {
 			@Override
 			public void onSaveCompleted(int token, KiiObject object, Exception e) {
-				Log.v(TAG, "ranking_post onSaveCompleted " + token + " " + object +" " + e);
+				Log.v(TAG, "ranking_save onSaveCompleted " + token + " " + object +" " + e);
 				Uri uri = object.toUri();
-				refresh_ranking(uri);	//読み出して確認
+				ranking_refresh(uri);	//読み出して確認
 			}
+        });
+	}
+	
+	/**
+	 * ranking_refresh
+	 * @param uri
+	 */
+	private void ranking_refresh(Uri uri){
+		Log.v(TAG, "refresh_ranking " + uri);
+        KiiObject object2 = KiiObject.createByUri(uri);
+        
+        // call KiiCloud API
+        object2.refresh( new KiiObjectCallBack() {
 			@Override
 			public void onRefreshCompleted(int token, KiiObject object, Exception e) {
+				Log.v(TAG, "refresh_ranking onRefreshCompleted " + token + " " + object +" " + e);
+				String name = object.getString(Field.NAME);
+				String score = object.getString(Field.SCORE);
+				Log.v(TAG, "refresh_ranking " + name +" "+ score );
 			}
-			@Override
-			public void onQueryCompleted(int arg0, KiiQueryResult<KiiObject> result, Exception e) {
-			}
-		});       
-        object.save(callback);	//saveここでクラウドへ保存される、callbackなしのメソッドもある？		
+        });         
 	}
 
 	/**
 	 * save
 	 */
 	private void save(){
+		Log.v(TAG, "save");
+		
 		String name = "name1";
 		String type = "type1";
 		String amount = "1234";
@@ -253,58 +308,14 @@ public class SimpleGame extends Cocos2dxActivity{
         object.set(Field.AMOUNT, amount);
      
         // call KiiCloud API
-        MyObjectCallback callback = new MyObjectCallback();
-        callback.setListener(new KiiListenerInterface(){
-			@Override
-			public void onLoginCompleted(int token, KiiUser user, Exception e) {
-		    	//Log.v(TAG, "login onLoginCompleted " + token + " " + user +" " + e);
-			}
+        object.save( new KiiObjectCallBack() {
 			@Override
 			public void onSaveCompleted(int token, KiiObject object, Exception e) {
 				Log.v(TAG, "save onSaveCompleted " + token + " " + object +" " + e);
 				Uri uri = object.toUri();
 				refresh(uri);
 			}
-			@Override
-			public void onRefreshCompleted(int token, KiiObject object, Exception e) {
-			}
-			@Override
-			public void onQueryCompleted(int arg0, KiiQueryResult<KiiObject> result, Exception e) {
-			}
-		});       
-        object.save(callback);	//saveここでクラウドへ保存される、callbackなしのメソッドもある？
-	}
-	
-	/**
-	 * refresh
-	 * @param uri
-	 */
-	private void refresh_ranking(Uri uri){
-		Log.v(TAG, "refresh_ranking " + uri);
-        KiiObject object2 = KiiObject.createByUri(uri);
-        
-        // call KiiCloud API
-        MyObjectCallback callback = new MyObjectCallback();
-        callback.setListener(new KiiListenerInterface(){
-			@Override
-			public void onLoginCompleted(int token, KiiUser user, Exception e) {
-			}
-			@Override
-			public void onSaveCompleted(int token, KiiObject object, Exception e) {
-			}
-			@Override
-			public void onRefreshCompleted(int token, KiiObject object, Exception e) {
-				Log.v(TAG, "refresh_ranking onRefreshCompleted " + token + " " + object +" " + e);
-				String name = object.getString(Field.NAME);
-				String score = object.getString(Field.SCORE);
-				Log.v(TAG, "refresh_ranking " + name +" "+ score );
-			}
-			@Override
-			public void onQueryCompleted(int arg0, KiiQueryResult<KiiObject> result, Exception e) {
-			}
-		});       
-        
-		object2.refresh(callback);
+        });        
 	}
 	
 	/**
@@ -312,17 +323,11 @@ public class SimpleGame extends Cocos2dxActivity{
 	 * @param uri
 	 */
 	private void refresh(Uri uri){
+		Log.v(TAG, "refresh " + uri);
         KiiObject object2 = KiiObject.createByUri(uri);
         
         // call KiiCloud API
-        MyObjectCallback callback = new MyObjectCallback();
-        callback.setListener(new KiiListenerInterface(){
-			@Override
-			public void onLoginCompleted(int token, KiiUser user, Exception e) {
-			}
-			@Override
-			public void onSaveCompleted(int token, KiiObject object, Exception e) {
-			}
+        object2.refresh( new KiiObjectCallBack() {
 			@Override
 			public void onRefreshCompleted(int token, KiiObject object, Exception e) {
 				Log.v(TAG, "refresh onRefreshCompleted " + token + " " + object +" " + e);
@@ -331,12 +336,7 @@ public class SimpleGame extends Cocos2dxActivity{
 				String amount2 = object.getString(Field.AMOUNT);
 				Log.v(TAG, "refresh " + name2 +" "+ type2 +" "+amount2 );
 			}
-			@Override
-			public void onQueryCompleted(int arg0, KiiQueryResult<KiiObject> result, Exception e) {
-			}
-		});       
-        
-		object2.refresh(callback);
+        });  
 	}
 	
 	/**
