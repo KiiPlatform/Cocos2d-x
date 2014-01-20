@@ -8,4 +8,10 @@ public class CallFromCPP {
 	public static void test(){
 		Log.v(TAG, "test");
 	}
+	
+	public static void ranking_query_all(){
+		Log.v(TAG, "ranking_query_all");
+		
+		Global.activity.ranking_query_all();
+	}
 }

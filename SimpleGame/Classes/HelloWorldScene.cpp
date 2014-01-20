@@ -1,6 +1,9 @@
 #include "HelloWorldScene.h"
 #include "GameOverScene.h"
+#include "RankingScene.h"
+
 #include "SimpleAudioEngine.h"
+
 
 #include "picojson.h"
 
@@ -83,8 +86,9 @@ extern "C"
 
 		// arrayの中の値をループで取得
 		int index = 0;
-		strcpy(HelloWorld::label_buff, "ranking \n");	//初期化
+		strcpy(HelloWorld::label_buff, "");	//初期化
 		char buff[256];
+		HelloWorld::vScore.clear();	//クリア
 		for (picojson::array::iterator it = a1.begin(); it != a1.end(); it++) {
 			picojson::object& o1 = it->get<picojson::object>();
 			std::string& s1 = o1["name"].get<std::string>();
@@ -96,15 +100,21 @@ extern "C"
 			sprintf(buff,"%s : %s \n", s1.c_str(), s2.c_str() );
 			strcat(HelloWorld::label_buff, buff);//追加
 			index++;
-			if(index>=10){
+			if(index>=7){
 				break;
 			}
 		}
+		CCLOG("label_buff  %s",HelloWorld::label_buff);	//ランキング用の文字列が出来た
+		//HelloWorld::rankingScene->getLayer()->getLabel()->setString(HelloWorld::label_buff);
 
 		int i;
 		for(i=0; i<HelloWorld::vScore.size(); i++){
-			CCLOG("vScore  %d  %s %s", i, HelloWorld::vScore[i].name.c_str(),  HelloWorld::vScore[i].score.c_str());
+			//CCLOG("vScore  %d  %s %s", i, HelloWorld::vScore[i].name.c_str(),  HelloWorld::vScore[i].score.c_str());
 		}
+
+		//ranking画面に反映する
+		//gameOverScene->getLayer()->getLabel()->setString("You Lose :[");
+
 
 		//return env->NewStringUTF(buf);
 	}
@@ -116,6 +126,7 @@ extern "C"
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 //Android
 //call Java
+
 void jni_test(){
     CCLOG("Jni_test");
     JniMethodInfo methodInfo;
@@ -129,10 +140,26 @@ void jni_test(){
         methodInfo.env->DeleteLocalRef(methodInfo.classID);
     }
 }
+
+void jni_ranking_query_all(){
+    CCLOG("Jni_ranking_query_all");
+    JniMethodInfo methodInfo;
+
+    if (JniHelper::getStaticMethodInfo(methodInfo
+                                       , CLASS_NAME
+                                       , "ranking_query_all"
+                                       , "()V"))
+    {
+        methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID);
+        methodInfo.env->DeleteLocalRef(methodInfo.classID);
+    }
+}
+
 #endif
 
 std::vector<ScoreData> HelloWorld::vScore;
 char HelloWorld::label_buff[1024];
+RankingScene *HelloWorld::rankingScene;
 
 HelloWorld::~HelloWorld()
 {
@@ -315,8 +342,8 @@ void HelloWorld::spriteMoveFinished(CCNode* sender)
 		_targets->removeObject(sprite);
         
 		GameOverScene *gameOverScene = GameOverScene::create();
-		//gameOverScene->getLayer()->getLabel()->setString("You Lose :[");
-		gameOverScene->getLayer()->getLabel()->setString(label_buff);
+		gameOverScene->getLayer()->getLabel()->setString("You Lose :[");
+		//gameOverScene->getLayer()->getLabel()->setString(label_buff);
 		CCDirector::sharedDirector()->replaceScene(gameOverScene);
 
 	}

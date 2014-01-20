@@ -25,6 +25,7 @@
 
 #include "GameOverScene.h"
 #include "HelloWorldScene.h"
+#include "StartScene.h"
 
 using namespace cocos2d;
 
@@ -57,20 +58,59 @@ bool GameOverLayer::init()
 {
 	if ( CCLayerColor::initWithColor( ccc4(255,255,255,255) ) )
 	{
+		this->setTouchEnabled(true);
+		//center
+        CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
+        CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
+        _center = ccp(origin.x + visibleSize.width/2, origin.y + visibleSize.height/2);
+
+        //
+        /***
+		CCSprite *player = CCSprite::create("Player.png", CCRectMake(0, 0, 27, 40) );
+		player->setPosition( _center );
+		this->addChild(player);
+		***/
+
 		CCSize winSize = CCDirector::sharedDirector()->getWinSize();
 		//this->_label = CCLabelTTF::create("","Artial", 32);
-		this->_label = CCLabelTTF::create("","Artial", 16);
+		this->_label = CCLabelTTF::create("","Artial", 32);
 		_label->retain();
 		_label->setColor( ccc3(0, 0, 0) );
 		_label->setPosition( ccp(winSize.width/2, winSize.height/2) );
 		this->addChild(_label);
-		
+
+		//label_result
+		CCLabelTTF *label_result = CCLabelTTF::create("","Artial", 32);
+		label_result->retain();
+		label_result->setColor( ccc3(0, 0, 0) );
+		label_result->setString("RESULT");
+		label_result->setPosition( ccp(_center.x , _center.y+100) );
+		this->addChild(label_result);
+
+		//bt_title
+		CCMenuItemImage *pBt_title = CCMenuItemImage::create(
+			"bt_title.png",
+			"bt_title.png",
+			this,
+			menu_selector(GameOverLayer::bt_titleCallback));	//title
+		//CC_BREAK_IF(! pBt_ranking);
+		pBt_title->setPosition(ccp( _center.x , _center.y-110  ) );
+
+		// Create a menu with the "close" menu item, it's an auto release object.
+		CCMenu* pMenu = CCMenu::create(pBt_title, NULL);
+		pMenu->setPosition(CCPointZero);
+		//CC_BREAK_IF(! pMenu);
+
+		// Add the menu to HelloWorld layer as a child layer.
+		this->addChild(pMenu, 1);
+
+/***
 		this->runAction( CCSequence::create(
                                 CCDelayTime::create(5),
                                 CCCallFunc::create(this, 
                                 callfunc_selector(GameOverLayer::gameOverDone)),
                                 NULL));
-		
+***/
 		return true;
 	}
 	else
@@ -79,9 +119,21 @@ bool GameOverLayer::init()
 	}
 }
 
+void GameOverLayer::ccTouchesEnded(cocos2d::CCSet* touches, cocos2d::CCEvent* event){
+	CCLOG("GameOverLayer::ccTouchesEnded");
+	//CCDirector::sharedDirector()->replaceScene( StartScene::create() );
+}
+
+void GameOverLayer::bt_titleCallback(CCObject* pSender)
+{
+	CCLOG("GameOverLayer::bt_titleCallback");
+	CCDirector::sharedDirector()->replaceScene( StartScene::create() );
+}
+
 void GameOverLayer::gameOverDone()
 {
-	CCDirector::sharedDirector()->replaceScene( HelloWorld::scene() );
+	//CCDirector::sharedDirector()->replaceScene( HelloWorld::scene() );
+	CCDirector::sharedDirector()->replaceScene( StartScene::create() );
 }
 
 GameOverLayer::~GameOverLayer()

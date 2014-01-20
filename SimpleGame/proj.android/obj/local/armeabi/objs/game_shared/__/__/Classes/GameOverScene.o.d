@@ -205,7 +205,8 @@ obj/local/armeabi/objs/game_shared/__/__/Classes/GameOverScene.o: \
  /Users/guest/Documents/cocos2d-x/cocos2d-x-2.2.2/samples/Cpp/SimpleGame02/SimpleGame/proj.android/../../../../../cocos2dx/support/component/CCComponentContainer.h \
  jni/../../Classes/HelloWorldScene.h \
  /Users/guest/Documents/cocos2d-x/cocos2d-x-2.2.2/samples/Cpp/SimpleGame02/SimpleGame/proj.android/../../../../../CocosDenshion/android/../include/SimpleAudioEngine.h \
- /Users/guest/Documents/cocos2d-x/cocos2d-x-2.2.2/samples/Cpp/SimpleGame02/SimpleGame/proj.android/../../../../../CocosDenshion/android/../include/Export.h
+ /Users/guest/Documents/cocos2d-x/cocos2d-x-2.2.2/samples/Cpp/SimpleGame02/SimpleGame/proj.android/../../../../../CocosDenshion/android/../include/Export.h \
+ jni/../../Classes/StartScene.h
 
 jni/../../Classes/GameOverScene.h:
 
@@ -620,3 +621,5 @@ jni/../../Classes/HelloWorldScene.h:
 /Users/guest/Documents/cocos2d-x/cocos2d-x-2.2.2/samples/Cpp/SimpleGame02/SimpleGame/proj.android/../../../../../CocosDenshion/android/../include/SimpleAudioEngine.h:
 
 /Users/guest/Documents/cocos2d-x/cocos2d-x-2.2.2/samples/Cpp/SimpleGame02/SimpleGame/proj.android/../../../../../CocosDenshion/android/../include/Export.h:
+
+jni/../../Classes/StartScene.h:

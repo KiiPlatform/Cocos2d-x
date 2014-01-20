@@ -27,6 +27,7 @@
 #define _GAME_OVER_SCENE_H_
 
 #include "cocos2d.h"
+using namespace cocos2d;
 
 class GameOverLayer : public cocos2d::CCLayerColor
 {
@@ -35,10 +36,12 @@ public:
     virtual ~GameOverLayer();
     bool init();
     CREATE_FUNC(GameOverLayer);
-
+	void ccTouchesEnded(cocos2d::CCSet* touches, cocos2d::CCEvent* event);
+	void bt_titleCallback(CCObject* pSender);
     void gameOverDone();
 
     CC_SYNTHESIZE_READONLY(cocos2d::CCLabelTTF*, _label, Label);
+    CCPoint _center;
 };
 
 class GameOverScene : public cocos2d::CCScene

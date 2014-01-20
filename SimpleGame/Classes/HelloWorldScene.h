@@ -8,6 +8,8 @@
 #include <vector>
 using namespace std;
 
+class RankingScene;	//–¼‘O‰ðŒˆ
+
 class Demo {
 public:
 	double d1,d2;
@@ -77,6 +79,7 @@ public:
 	//static
 	static std::vector<ScoreData> vScore;
 	static char label_buff[1024];
+	static RankingScene *rankingScene;
     
 protected:
 	cocos2d::CCArray *_targets;
@@ -84,8 +87,6 @@ protected:
 	int _projectilesDestroyed;
 
 	void addTarget();
-
-
 };
 
 #endif  // __HELLOWORLD_SCENE_H__

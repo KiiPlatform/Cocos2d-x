@@ -62,6 +62,7 @@ public class SimpleGame extends Cocos2dxActivity{
 
 		Log.v(TAG, "onCreate");
 
+		Global.activity = this;
 
 		CallCPP.nativeEnd();
 		String s = CallCPP.concat("hoge", "fuga");
@@ -124,10 +125,14 @@ public class SimpleGame extends Cocos2dxActivity{
 		    	//ranking_post(123477, m_username);	//ÉXÉRÉAÇï€ë∂
 		    	//ranking_post(m_appRankingBucket, m_username, 123456);
 		    	//ranking_post(m_appRankingBucket, "hoge_name", 123456+2);
-		    	ranking_query_all(m_appRankingBucket);
+		    	//ranking_query_all(m_appRankingBucket);
 
 			}
         }, username, password);
+	}
+	
+	public void ranking_query_all(){
+		ranking_query_all(m_appRankingBucket);
 	}
 	
 	private void ranking_post(KiiBucket bucket, String name, int score){
