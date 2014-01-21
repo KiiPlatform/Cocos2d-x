@@ -27,7 +27,20 @@
 #import "EAGLView.h"
 #import "AppDelegate.h"
 
+#import <KiiSDK/Kii.h>
+
 #import "RootViewController.h"
+
+//class HelloWorld;
+//extern G_label_buff[];
+
+void ranking_query_all2(){
+    NSLog(@"ranking_query_all2");
+    
+    AppController *appController = (AppController *)[UIApplication sharedApplication].delegate;
+    [appController ranking_query_all];
+    
+}
 
 @implementation AppController
 
@@ -37,7 +50,13 @@
 // cocos2d application instance
 static AppDelegate s_sharedApplication;
 
+static  NSString *APPID = @"ee573743";
+static  NSString *APPKEY = @"5eb7b8bc1b4e4c98e659431c69cef8d4";
+
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {    
+    
+    NSLog(@"didFinishLaunchingWithOptions");
     
     // Override point for customization after application launch.
 
@@ -73,7 +92,97 @@ static AppDelegate s_sharedApplication;
     [[UIApplication sharedApplication] setStatusBarHidden: YES];
     
     cocos2d::CCApplication::sharedApplication()->run();
+    
+    //kii
+    //Statup Kii platform ... just one line to enable Kii Cloud integaration
+    [Kii beginWithID:APPID andKey:APPKEY andSite:kiiSiteUS];
+    
+    // Login
+    NSString* username = @"muku";
+    NSString* password = @"1234";
+    [KiiUser authenticate:username withPassword:password andDelegate:self andCallback:@selector(authProcessComplete:withError:)];
+    
     return YES;
+}
+
+// kii
+- (void) authProcessComplete:(KiiUser*)user withError:(KiiError*)error {
+    NSLog(@"authProcessComplete");
+    
+    if(error == nil) {
+        NSLog(@"ok");
+        
+        //[self ranking_query_all];
+        
+    } else {
+        NSLog(@"error %@",error);
+    }
+}
+
+- (void)ranking_query_all {
+    NSLog(@"ranking_query_all");
+    
+    //m_appRankingBucket
+    KiiBucket *bucket1 = [Kii bucketWithName:@"b_ranking"];
+    
+    NSError *error = nil;
+    KiiQuery *all_query = [KiiQuery queryWithClause:nil];
+    [all_query sortByDesc:@"score"];
+    NSMutableArray *allResults = [NSMutableArray array];
+    KiiQuery *nextQuery;
+    NSArray *results = [bucket1 executeQuerySynchronous:all_query
+                                              withError:&error
+                                                andNext:&nextQuery];
+    [allResults addObjectsFromArray:results];
+    //NSLog(@"allResults %@ ", allResults);
+    
+    //ログ表示
+    int size = [allResults count];
+    NSMutableArray *mArray = [NSMutableArray array];
+    char buff[1000];
+    for(int i=0;i<size; i++){
+        KiiObject* obj=[allResults objectAtIndex:i];
+        //NSLog(@"obj %@",obj);
+        
+        NSString* name=[[obj dictionaryValue] objectForKey:@"name"];
+        NSString* score=[[obj dictionaryValue] objectForKey:@"score"];
+        NSLog(@"%@ %@",name, score);
+        
+        [mArray addObject:@{@"name" : name,@"score" : score}];
+        
+        //c++へ
+        //const char* c_name = [name UTF8String];
+        //const char* c_score = [score UTF8String];
+        //sprintf(buff,"%s : %s \n", c_name, c_score );
+        //strcat(G_label_buff, buff);//í«â¡
+    }
+
+    //id dict = [NSDictionary dictionaryWithObjectsAndKeys:@"1",@"hoge",@"2",@"fuga", nil];
+    //id dict = [NSArray allResults];
+    
+    /***
+    NSMutableArray *mArray = [NSMutableArray array];
+    [mArray addObject:@{@"name" : @"名前1",@"score" : @"12341"}];
+    [mArray addObject:@{@"name" : @"名前2",@"score" : @"12342"}];
+    [mArray addObject:@{@"name" : @"名前3",@"score" : @"12343"}];
+     ***/
+
+    
+    NSError *error2 = nil;
+    NSData *data = nil;
+    NSString* json_str = nil;
+    if([NSJSONSerialization isValidJSONObject:mArray]){
+        NSLog(@"true isValidJSONObject");
+        data = [NSJSONSerialization dataWithJSONObject:mArray options:NSJSONReadingAllowFragments error:&error2];
+        //NSLog(@"%@",data);
+        //NSLog(@"%@",[[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]autorelease]);
+        json_str = [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]autorelease];
+        NSLog(@"json_str %@", json_str);
+    } else {
+        NSLog(@"false isValidJSONObject");
+    }
+
+    
 }
 
 

@@ -25,6 +25,13 @@
 
 #import "RootViewController.h"
 
+//kii
+//#import "KiiAppSingleton.h"
+//#import "KiiUserValidation.h"
+#import <KiiSDK/Kii.h>
+//#import "KiiProfileViewController.h"
+
+
 
 @implementation RootViewController
 
@@ -44,13 +51,20 @@
 }
 */
 
-/*
+
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    NSLog(@"viewDidLoad");
+ 
+    // Login
+    NSString* username = @"muku";
+    NSString* password = @"1234";
+    [KiiUser authenticate:username withPassword:password andDelegate:self andCallback:@selector(authProcessComplete:withError:)];
 }
  
-*/
+
 // Override to allow orientations other than the default portrait orientation.
 // This method is deprecated on ios6
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
@@ -87,10 +101,21 @@
     // e.g. self.myOutlet = nil;
 }
 
-
 - (void)dealloc {
     [super dealloc];
 }
+
+// kii
+- (void) authProcessComplete:(KiiUser*)user withError:(KiiError*)error {
+    NSLog(@"authProcessComplete");
+    
+    if(error == nil) {
+        
+    } else {
+        
+    }
+}
+
 
 
 @end

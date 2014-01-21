@@ -2,6 +2,8 @@
 #include "GameOverScene.h"
 #include "RankingScene.h"
 
+#include "KRanking.h"
+
 #include "SimpleAudioEngine.h"
 
 
@@ -41,7 +43,7 @@ extern "C"
 		CCLOG("c1 = %s",c1);
 		CCLOG("c2 = %s",c2);
 
-		// •¶Žš—ñ‚ð˜AŒ‹‚·‚é
+		// Ã¯âˆ‚Ã©Ã¶Ã³Ã’Ã‡ï£¿Ã²AÃ¥Ã£Ã‡âˆ‘Ã‡Ãˆ
 		strcpy(buf, c1);
 		strcat(buf, c2);
 
@@ -50,7 +52,7 @@ extern "C"
 		env->ReleaseStringUTFChars(str1, c1);
 		env->ReleaseStringUTFChars(str2, c2);
 
-		// ˜AŒ‹‚µ‚½•¶Žš—ñ‚ð•Ô‚·
+		// Ã²AÃ¥Ã£Ã‡ÂµÃ‡Î©Ã¯âˆ‚Ã©Ã¶Ã³Ã’Ã‡ï£¿Ã¯â€˜Ã‡âˆ‘
 		return env->NewStringUTF(buf);
 	}
 
@@ -72,7 +74,7 @@ extern "C"
 		//picojson::object& o = v.get<picojson::object>();
 
 
-	    // array’l‚ÌŽæ“¾
+	    // arrayÃ­lÃ‡ÃƒÃ©ÃŠÃ¬Ã¦
 	    //picojson::array& a1 = o["array1"].get<picojson::array>();
 		picojson::array& a1 = v.get<picojson::array>();
 
@@ -84,11 +86,11 @@ extern "C"
 	    }
 		 ****/
 
-		// array‚Ì’†‚Ì’l‚ðƒ‹[ƒv‚ÅŽæ“¾
+		// arrayÃ‡ÃƒÃ­ÃœÃ‡ÃƒÃ­lÃ‡ï£¿Ã‰Ã£Ã…[Ã‰vÃ‡â‰ˆÃ©ÃŠÃ¬Ã¦
 		int index = 0;
-		strcpy(HelloWorld::label_buff, "");	//‰Šú‰»
+		strcpy(HelloWorld::label_buff, "");	//Ã¨Ã¢Ã¤Ë™Ã¢Âª
 		char buff[256];
-		HelloWorld::vScore.clear();	//ƒNƒŠƒA
+		HelloWorld::vScore.clear();	//Ã‰NÃ‰Ã¤Ã‰A
 		for (picojson::array::iterator it = a1.begin(); it != a1.end(); it++) {
 			picojson::object& o1 = it->get<picojson::object>();
 			std::string& s1 = o1["name"].get<std::string>();
@@ -98,13 +100,13 @@ extern "C"
 
 			HelloWorld::vScore.push_back(ScoreData(s1,s2));
 			sprintf(buff,"%s : %s \n", s1.c_str(), s2.c_str() );
-			strcat(HelloWorld::label_buff, buff);//’Ç‰Á
+			strcat(HelloWorld::label_buff, buff);//Ã­Â«Ã¢Â¡
 			index++;
 			if(index>=7){
 				break;
 			}
 		}
-		CCLOG("label_buff  %s",HelloWorld::label_buff);	//ƒ‰ƒ“ƒLƒ“ƒO—p‚Ì•¶Žš—ñ‚ªo—ˆ‚½
+		CCLOG("label_buff  %s",HelloWorld::label_buff);	//Ã‰Ã¢Ã‰Ã¬Ã‰LÃ‰Ã¬Ã‰OÃ³pÃ‡ÃƒÃ¯âˆ‚Ã©Ã¶Ã³Ã’Ã‡â„¢Ã¨oÃ³Ã Ã‡Î©
 		//HelloWorld::rankingScene->getLayer()->getLabel()->setString(HelloWorld::label_buff);
 
 		int i;
@@ -112,7 +114,7 @@ extern "C"
 			//CCLOG("vScore  %d  %s %s", i, HelloWorld::vScore[i].name.c_str(),  HelloWorld::vScore[i].score.c_str());
 		}
 
-		//ranking‰æ–Ê‚É”½‰f‚·‚é
+		//rankingÃ¢ÃŠÃ±Â Ã‡â€¦Ã®Î©Ã¢fÃ‡âˆ‘Ã‡Ãˆ
 		//gameOverScene->getLayer()->getLabel()->setString("You Lose :[");
 
 
@@ -121,6 +123,13 @@ extern "C"
 
 
 }
+
+#else
+
+void rankingResponse(char buff){
+
+}
+
 #endif
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
@@ -153,6 +162,21 @@ void jni_ranking_query_all(){
         methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID);
         methodInfo.env->DeleteLocalRef(methodInfo.classID);
     }
+}
+
+#else
+//iPhone
+//call objective-c
+void jni_test(){
+    CCLOG("Jni_test iPhone");
+}
+
+extern void ranking_query_all2();
+
+void jni_ranking_query_all(){
+    CCLOG("Jni_ranking_query_all iPhone");
+    //ranking_query_all2();
+    KRanking::ranking_query_all();
 }
 
 #endif
