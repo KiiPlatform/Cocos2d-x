@@ -206,14 +206,7 @@ obj/local/armeabi/objs/game_shared/__/__/Classes/HelloWorldScene.o: \
  /Users/guest/Documents/cocos2d-x/cocos2d-x-2.2.2/samples/Cpp/SimpleGame02/SimpleGame/proj.android/../../../../../cocos2dx/support/component/CCComponentContainer.h \
  /Users/guest/Documents/cocos2d-x/cocos2d-x-2.2.2/samples/Cpp/SimpleGame02/SimpleGame/proj.android/../../../../../CocosDenshion/android/../include/SimpleAudioEngine.h \
  /Users/guest/Documents/cocos2d-x/cocos2d-x-2.2.2/samples/Cpp/SimpleGame02/SimpleGame/proj.android/../../../../../CocosDenshion/android/../include/Export.h \
- jni/../../Classes/GameOverScene.h jni/../../Classes/RankingScene.h \
- jni/../../Classes/picojson.h \
- /Applications/adt-bundle-mac-x86_64-20131030/android-ndk-r9c/sources/cxx-stl/gnu-libstdc++/4.6/include/algorithm \
- /Applications/adt-bundle-mac-x86_64-20131030/android-ndk-r9c/sources/cxx-stl/gnu-libstdc++/4.6/include/cassert \
- /Applications/adt-bundle-mac-x86_64-20131030/android-ndk-r9c/sources/cxx-stl/gnu-libstdc++/4.6/include/cmath \
- /Applications/adt-bundle-mac-x86_64-20131030/android-ndk-r9c/sources/cxx-stl/gnu-libstdc++/4.6/include/iterator \
- /Applications/adt-bundle-mac-x86_64-20131030/android-ndk-r9c/platforms/android-8/arch-arm/usr/include/jni.h \
- /Users/guest/Documents/cocos2d-x/cocos2d-x-2.2.2/samples/Cpp/SimpleGame02/SimpleGame/proj.android/../../../../../cocos2dx/platform/android/jni/JniHelper.h
+ jni/../../Classes/GameOverScene.h
 
 jni/../../Classes/HelloWorldScene.h:
 
@@ -628,19 +621,3 @@ jni/../../Classes/HelloWorldScene.h:
 /Users/guest/Documents/cocos2d-x/cocos2d-x-2.2.2/samples/Cpp/SimpleGame02/SimpleGame/proj.android/../../../../../CocosDenshion/android/../include/Export.h:
 
 jni/../../Classes/GameOverScene.h:
-
-jni/../../Classes/RankingScene.h:
-
-jni/../../Classes/picojson.h:
-
-/Applications/adt-bundle-mac-x86_64-20131030/android-ndk-r9c/sources/cxx-stl/gnu-libstdc++/4.6/include/algorithm:
-
-/Applications/adt-bundle-mac-x86_64-20131030/android-ndk-r9c/sources/cxx-stl/gnu-libstdc++/4.6/include/cassert:
-
-/Applications/adt-bundle-mac-x86_64-20131030/android-ndk-r9c/sources/cxx-stl/gnu-libstdc++/4.6/include/cmath:
-
-/Applications/adt-bundle-mac-x86_64-20131030/android-ndk-r9c/sources/cxx-stl/gnu-libstdc++/4.6/include/iterator:
-
-/Applications/adt-bundle-mac-x86_64-20131030/android-ndk-r9c/platforms/android-8/arch-arm/usr/include/jni.h:
-
-/Users/guest/Documents/cocos2d-x/cocos2d-x-2.2.2/samples/Cpp/SimpleGame02/SimpleGame/proj.android/../../../../../cocos2dx/platform/android/jni/JniHelper.h:

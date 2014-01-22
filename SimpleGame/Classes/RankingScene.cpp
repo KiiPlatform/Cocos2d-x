@@ -27,6 +27,9 @@
 #include "HelloWorldScene.h"
 #include "StartScene.h"
 
+//#include "KRanking.h"
+
+extern char kii_label_buff[1024];
 extern void jni_ranking_query_all();
 
 using namespace cocos2d;
@@ -56,7 +59,7 @@ RankingScene::~RankingScene()
 	}
 }
 
-char RankingLayer::label_buff[1024];
+//char RankingLayer::label_buff[1024];
 
 bool RankingLayer::init()
 {
@@ -117,10 +120,12 @@ bool RankingLayer::init()
                                 callfunc_selector(GameOverLayer::gameOverDone)),
                                 NULL));
 ***/
+        strcpy(kii_label_buff, "no data");
 		jni_ranking_query_all();
-		
 		this->schedule( schedule_selector(RankingLayer::update) );
 
+        //strcpy(kii_label_buff, "no data");  //iPhoneの場合、ここだとno dataのまま
+        
 		return true;
 	}
 	else
@@ -131,8 +136,11 @@ bool RankingLayer::init()
 
 void RankingLayer::update(float dt)
 {
-	//CCLOG("RankingLayer::update");
-	_label->setString(HelloWorld::label_buff);
+	//CCLOG("RankingLayer::update %s ", kii_label_buff);
+    
+	//_label->setString(HelloWorld::label_buff);
+    //_label->setString(KRanking::ranking_buff);
+    _label->setString(kii_label_buff);
 }
 
 void RankingLayer::ccTouchesEnded(cocos2d::CCSet* touches, cocos2d::CCEvent* event){

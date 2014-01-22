@@ -1,17 +1,26 @@
 #include "HelloWorldScene.h"
 #include "GameOverScene.h"
-#include "RankingScene.h"
+//#include "RankingScene.h"
+//#include "CallFromCPP.h"
 
-#include "KRanking.h"
+//#include "KRanking.h"
 
 #include "SimpleAudioEngine.h"
 
+#if 0
 
 #include "picojson.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+
 #include <jni.h>
+
 #include "platform/android/jni/JniHelper.h"
+
+#else
+
+#include "KRanking.h"
+
 #endif
 
 using namespace cocos2d;
@@ -19,6 +28,7 @@ using namespace cocos2d;
 #define CLASS_NAME "org/cocos2dx/simplegame/CallFromCPP"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+//Android
 extern "C"
 {
 	//JNIEXPORT void JNICALL Java_org_cocos2dx_simplegame_SimpleGame_nativeEnd(JNIEnv* env, jobject thiz)
@@ -126,8 +136,10 @@ extern "C"
 
 #else
 
-void rankingResponse(char buff){
-
+//iPhone
+void iPhone_rankingResponse(const char *json){
+    CCLOG("iPhone_rankingResponse");
+    CCLOG("json = %s",json);
 }
 
 #endif
@@ -151,7 +163,7 @@ void jni_test(){
 }
 
 void jni_ranking_query_all(){
-    CCLOG("Jni_ranking_query_all");
+    CCLOG("Jni_ranking_query_all Android");
     JniMethodInfo methodInfo;
 
     if (JniHelper::getStaticMethodInfo(methodInfo
@@ -176,10 +188,14 @@ extern void ranking_query_all2();
 void jni_ranking_query_all(){
     CCLOG("Jni_ranking_query_all iPhone");
     //ranking_query_all2();
-    KRanking::ranking_query_all();
+    //KRanking::ranking_query_all();
+    CallFromCpp::ranking_query_all();
 }
 
 #endif
+
+#endif
+
 
 std::vector<ScoreData> HelloWorld::vScore;
 char HelloWorld::label_buff[1024];
@@ -300,7 +316,7 @@ bool HelloWorld::init()
 		bRet = true;
 	} while (0);
 
-	jni_test();
+	//jni_test();
 
 	return bRet;
 }
@@ -385,7 +401,7 @@ void HelloWorld::gameLogic(float dt)
 // cpp with cocos2d-x
 void HelloWorld::ccTouchesEnded(CCSet* touches, CCEvent* event)
 {
-	jni_test();
+	//jni_test();
 
 	// Choose one of the touches to work with
 	CCTouch* touch = (CCTouch*)( touches->anyObject() );

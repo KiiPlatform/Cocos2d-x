@@ -27,6 +27,9 @@
 		AC7863B4188E26750051FACF /* bt_ranking.png in Resources */ = {isa = PBXBuildFile; fileRef = AC7863B1188E26750051FACF /* bt_ranking.png */; };
 		AC7863B5188E26750051FACF /* bt_start.png in Resources */ = {isa = PBXBuildFile; fileRef = AC7863B2188E26750051FACF /* bt_start.png */; };
 		AC7863B6188E26750051FACF /* bt_title.png in Resources */ = {isa = PBXBuildFile; fileRef = AC7863B3188E26750051FACF /* bt_title.png */; };
+		AC905A88188F7A09005E8947 /* CallCPP.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AC905A87188F7A09005E8947 /* CallCPP.cpp */; };
+		AC905A8B188F8B84005E8947 /* CallFromCPP.mm in Sources */ = {isa = PBXBuildFile; fileRef = AC905A8A188F8B84005E8947 /* CallFromCPP.mm */; };
+		AC905A8D188F9153005E8947 /* kiiIF.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AC905A8C188F9153005E8947 /* kiiIF.cpp */; };
 		BF1373EF128A898400D9F789 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF492D4B1289302400A09262 /* OpenGLES.framework */; };
 		BF1373F0128A899500D9F789 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BF492C21128924A800A09262 /* libxml2.dylib */; };
 		BF1373F1128A899E00D9F789 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BF492B6912891AC600A09262 /* libz.dylib */; };
@@ -103,6 +106,12 @@
 		AC7863B1188E26750051FACF /* bt_ranking.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bt_ranking.png; sourceTree = "<group>"; };
 		AC7863B2188E26750051FACF /* bt_start.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bt_start.png; sourceTree = "<group>"; };
 		AC7863B3188E26750051FACF /* bt_title.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bt_title.png; sourceTree = "<group>"; };
+		AC905A86188F79F0005E8947 /* CallCPP.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CallCPP.h; sourceTree = "<group>"; };
+		AC905A87188F7A09005E8947 /* CallCPP.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CallCPP.cpp; sourceTree = "<group>"; };
+		AC905A89188F8B77005E8947 /* CallFromCPP.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CallFromCPP.h; sourceTree = "<group>"; };
+		AC905A8A188F8B84005E8947 /* CallFromCPP.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CallFromCPP.mm; sourceTree = "<group>"; };
+		AC905A8C188F9153005E8947 /* kiiIF.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = kiiIF.cpp; sourceTree = "<group>"; };
+		AC905A8E188F9533005E8947 /* KillIF.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KillIF.h; sourceTree = "<group>"; };
 		ACA77310188E1A1E00C2EBAA /* Export.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Export.h; sourceTree = "<group>"; };
 		ACA77311188E1A1E00C2EBAA /* SimpleAudioEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleAudioEngine.h; sourceTree = "<group>"; };
 		BF137426128A8E4600D9F789 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -274,6 +283,8 @@
 				D4E6BC9115FCB5BA008BF525 /* GameOverScene.h */,
 				BF23D4E6143315EB00657E08 /* HelloWorldScene.h */,
 				D4E6BC9015FCB5BA008BF525 /* GameOverScene.cpp */,
+				AC905A8C188F9153005E8947 /* kiiIF.cpp */,
+				AC905A8E188F9533005E8947 /* KillIF.h */,
 			);
 			name = Classes;
 			path = ../Classes;
@@ -289,6 +300,10 @@
 				BF4DE6AC138BB89600CF907D /* RootViewController.mm */,
 				AC6A540A188E74960094044F /* KRanking.h */,
 				AC6A540B188E74FE0094044F /* KRanking.mm */,
+				AC905A86188F79F0005E8947 /* CallCPP.h */,
+				AC905A87188F7A09005E8947 /* CallCPP.cpp */,
+				AC905A89188F8B77005E8947 /* CallFromCPP.h */,
+				AC905A8A188F8B84005E8947 /* CallFromCPP.mm */,
 			);
 			name = ios;
 			sourceTree = "<group>";
@@ -389,12 +404,15 @@
 				AC7863AC188E25540051FACF /* CDAudioManager.m in Sources */,
 				AC7863AD188E25540051FACF /* CDOpenALSupport.m in Sources */,
 				AC6A540C188E74FE0094044F /* KRanking.mm in Sources */,
+				AC905A8B188F8B84005E8947 /* CallFromCPP.mm in Sources */,
 				AC7863AE188E25540051FACF /* CocosDenshion.m in Sources */,
 				AC7863AF188E25540051FACF /* SimpleAudioEngine.mm in Sources */,
 				AC7863B0188E25540051FACF /* SimpleAudioEngine_objc.m in Sources */,
 				BF365AA812A103F70050DCF4 /* AppController.mm in Sources */,
+				AC905A88188F7A09005E8947 /* CallCPP.cpp in Sources */,
 				AC78639C188E22500051FACF /* RankingScene.cpp in Sources */,
 				BF4DE6AD138BB89600CF907D /* RootViewController.mm in Sources */,
+				AC905A8D188F9153005E8947 /* kiiIF.cpp in Sources */,
 				AC78639D188E22500051FACF /* StartScene.cpp in Sources */,
 				D4ABB4B313B4395300552E6E /* main.m in Sources */,
 				BF23D4E7143315EB00657E08 /* AppDelegate.cpp in Sources */,

@@ -9,6 +9,7 @@ LOCAL_MODULE_FILENAME := libgame
 LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../Classes/AppDelegate.cpp \
                    ../../Classes/HelloWorldScene.cpp \
+                   ../../Classes/kiiIF.cpp \
                    ../../Classes/StartScene.cpp \
                    ../../Classes/RankingScene.cpp \
                    ../../Classes/GameOverScene.cpp

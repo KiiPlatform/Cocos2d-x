@@ -54,8 +54,9 @@ class RankingData{
 public class SimpleGame extends Cocos2dxActivity{
 	private final static String TAG ="SimpleGame";
 	
-	KiiBucket m_appRankingBucket;
-	String m_username;
+	KiiBucket m_appRankingBucket = null;
+	String m_username = null;
+	KRanking m_kRanking = null;
 	
 	protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
@@ -63,12 +64,7 @@ public class SimpleGame extends Cocos2dxActivity{
 		Log.v(TAG, "onCreate");
 
 		Global.activity = this;
-
-		CallCPP.nativeEnd();
-		String s = CallCPP.concat("hoge", "fuga");
-		Log.v(TAG, "s = " +s);
 		
-
 	    //initialize
         initKiiSDK();
         login();
@@ -126,17 +122,25 @@ public class SimpleGame extends Cocos2dxActivity{
 		    	//ranking_post(m_appRankingBucket, m_username, 123456);
 		    	//ranking_post(m_appRankingBucket, "hoge_name", 123456+2);
 		    	//ranking_query_all(m_appRankingBucket);
-
+		    	m_kRanking = new KRanking();
 			}
         }, username, password);
 	}
 	
 	public void ranking_query_all(){
-		ranking_query_all(m_appRankingBucket);
+		Log.v(TAG, "ranking_query_all");
+		if(m_kRanking!=null){
+			m_kRanking.ranking_query_all();
+		}
+		//ranking_query_all(m_appRankingBucket);
 	}
 	
-	private void ranking_post(KiiBucket bucket, String name, int score){
-		ranking_query(bucket, name, score);
+	public void ranking_post(String name, int score){
+		Log.v(TAG, "ranking_post " + name +" "+ score);
+		if(m_kRanking!=null){
+			m_kRanking.ranking_post(name, score);
+		}
+		//ranking_query(bucket, name, score);
 	}
 		
 	/***
@@ -228,10 +232,10 @@ public class SimpleGame extends Cocos2dxActivity{
 				//if(true){
 					Log.v(TAG, "hiscore");					
 					if(uri!=null){
-						//ranking_save(uri, name, score);	//uriを使って更新
+						ranking_save(uri, name, score);	//uriを使って更新
 					} else {
-						//Log.v(TAG, "uri null");
-						//ranking_save(null, name, score);	//uriを使って更新
+						Log.v(TAG, "uri null");
+						ranking_save(null, name, score);	//uriを使って更新
 					}
 				} else{
 					Log.v(TAG, "not hiscore");					

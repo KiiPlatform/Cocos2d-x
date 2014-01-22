@@ -43,7 +43,7 @@ public:
 
     CC_SYNTHESIZE_READONLY(cocos2d::CCLabelTTF*, _label, Label);
     CCPoint _center;
-	static char label_buff[1024];
+	//static char label_buff[1024];
 };
 
 class RankingScene : public cocos2d::CCScene
