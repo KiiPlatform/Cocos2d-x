@@ -10,44 +10,6 @@ using namespace std;
 
 class RankingScene;	//–¼‘O‰ðŒˆ
 
-class Demo {
-public:
-	double d1,d2;
-	std::string name;
-	std::string score;
-
-	Demo(double x) { d1 = x; }
-	Demo(double x, double y) { d1 = x; d2 = y; }
-	Demo(std::string a){ name = a; }
-	Demo(std::string a, std::string b){ name = a; score=b;}
-};
-
-
-class ScoreData {
-public:
-
-	std::string name;
-	std::string score;
-
-	ScoreData(std::string a, std::string b){ name = a; score=b;}
-};
-
-
-/***
-class ScoreData
-{
-public:
-	std::string name;
-	std::string score;
-
-	//ScoreData(){ name=0; score=0; }
-
-	ScoreData( std::string a, std::string b ){ name = a; score = b;_}
-
-};
-***/
-
-
 class HelloWorld : public cocos2d::CCLayerColor
 {
 public:
@@ -77,9 +39,11 @@ public:
 	void ccTouchesEnded(cocos2d::CCSet* touches, cocos2d::CCEvent* event);
     
 	//static
+	/***
 	static std::vector<ScoreData> vScore;
 	static char label_buff[1024];
 	static RankingScene *rankingScene;
+	***/
     
 protected:
 	cocos2d::CCArray *_targets;

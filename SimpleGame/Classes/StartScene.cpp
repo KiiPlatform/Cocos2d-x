@@ -26,11 +26,12 @@
 #include "StartScene.h"
 #include "HelloWorldScene.h"
 #include "RankingScene.h"
+//#include "CallFromCPP.h"
 
 using namespace cocos2d;
 
-//extern void jni_ranking_query_all();
-
+extern void jni_ranking_query_all();
+extern void jni_ranking_post(const char *name, int score);
 
 bool StartScene::init()
 {
@@ -118,7 +119,7 @@ bool StartLayer::init()
 		player8->setPosition( ccp1 );
 		this->addChild(player8);
 ***/
-		//ƒ{ƒ^ƒ“
+		//Ã‰{Ã‰^Ã‰Ã¬
 		//bt_start
 		CCMenuItemImage *pBt_start = CCMenuItemImage::create(
 			"bt_start.png",
@@ -176,6 +177,13 @@ void StartLayer::bt_rankingCallback(CCObject* pSender)
 {
 	CCLOG("StartLayer::rankingCallback");
 	CCDirector::sharedDirector()->replaceScene( RankingScene::create() );
+    
+    //CallFromCpp::showAstWall();   //for test
+    //CallFromCpp::ranking_query_all();
+    //CallFromCpp::ranking_post("muku", 123456+2);    //for test
+	//jni_ranking_post("muku-3", 123456+3);
+
+	//jni_ranking_query_all();
 }
 
 void StartLayer::gameOverDone()

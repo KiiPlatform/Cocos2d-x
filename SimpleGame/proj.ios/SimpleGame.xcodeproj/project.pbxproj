@@ -15,7 +15,8 @@
 		AC6A5405188E4D3E0094044F /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC6A5404188E4D3E0094044F /* MobileCoreServices.framework */; };
 		AC6A5407188E4D570094044F /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC6A5406188E4D570094044F /* Accounts.framework */; };
 		AC6A5409188E4D690094044F /* Twitter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC6A5408188E4D690094044F /* Twitter.framework */; };
-		AC6A540C188E74FE0094044F /* KRanking.mm in Sources */ = {isa = PBXBuildFile; fileRef = AC6A540B188E74FE0094044F /* KRanking.mm */; };
+		AC6A540C188E74FE0094044F /* KRanking.mmxxx in Sources */ = {isa = PBXBuildFile; fileRef = AC6A540B188E74FE0094044F /* KRanking.mmxxx */; };
+		AC70BCE81890AD1B006B8B9C /* KRanking_objc.mm in Sources */ = {isa = PBXBuildFile; fileRef = AC70BCE71890AD1B006B8B9C /* KRanking_objc.mm */; };
 		AC786396188E21860051FACF /* libcocos2dx.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC786390188E1EF50051FACF /* libcocos2dx.a */; };
 		AC78639C188E22500051FACF /* RankingScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AC786398188E22500051FACF /* RankingScene.cpp */; };
 		AC78639D188E22500051FACF /* StartScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AC78639A188E22500051FACF /* StartScene.cpp */; };
@@ -85,8 +86,10 @@
 		AC6A5404188E4D3E0094044F /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		AC6A5406188E4D570094044F /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		AC6A5408188E4D690094044F /* Twitter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Twitter.framework; path = System/Library/Frameworks/Twitter.framework; sourceTree = SDKROOT; };
-		AC6A540A188E74960094044F /* KRanking.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KRanking.h; sourceTree = "<group>"; };
-		AC6A540B188E74FE0094044F /* KRanking.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = KRanking.mm; sourceTree = "<group>"; };
+		AC6A540A188E74960094044F /* KRanking.hxxx */ = {isa = PBXFileReference; lastKnownFileType = text; path = KRanking.hxxx; sourceTree = "<group>"; };
+		AC6A540B188E74FE0094044F /* KRanking.mmxxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = KRanking.mmxxx; sourceTree = "<group>"; };
+		AC70BCE61890AD1B006B8B9C /* KRanking_objc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KRanking_objc.h; sourceTree = "<group>"; };
+		AC70BCE71890AD1B006B8B9C /* KRanking_objc.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = KRanking_objc.mm; sourceTree = "<group>"; };
 		AC78638B188E1EF50051FACF /* cocos2dx.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = cocos2dx.xcodeproj; path = ../../../../../cocos2dx/proj.ios/cocos2dx.xcodeproj; sourceTree = "<group>"; };
 		AC786397188E22500051FACF /* picojson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = picojson.h; sourceTree = "<group>"; };
 		AC786398188E22500051FACF /* RankingScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RankingScene.cpp; sourceTree = "<group>"; };
@@ -298,12 +301,14 @@
 				BF365AA712A103F70050DCF4 /* AppController.mm */,
 				BF4DE6AB138BB89600CF907D /* RootViewController.h */,
 				BF4DE6AC138BB89600CF907D /* RootViewController.mm */,
-				AC6A540A188E74960094044F /* KRanking.h */,
-				AC6A540B188E74FE0094044F /* KRanking.mm */,
+				AC6A540A188E74960094044F /* KRanking.hxxx */,
+				AC6A540B188E74FE0094044F /* KRanking.mmxxx */,
 				AC905A86188F79F0005E8947 /* CallCPP.h */,
 				AC905A87188F7A09005E8947 /* CallCPP.cpp */,
 				AC905A89188F8B77005E8947 /* CallFromCPP.h */,
 				AC905A8A188F8B84005E8947 /* CallFromCPP.mm */,
+				AC70BCE61890AD1B006B8B9C /* KRanking_objc.h */,
+				AC70BCE71890AD1B006B8B9C /* KRanking_objc.mm */,
 			);
 			name = ios;
 			sourceTree = "<group>";
@@ -403,7 +408,8 @@
 			files = (
 				AC7863AC188E25540051FACF /* CDAudioManager.m in Sources */,
 				AC7863AD188E25540051FACF /* CDOpenALSupport.m in Sources */,
-				AC6A540C188E74FE0094044F /* KRanking.mm in Sources */,
+				AC70BCE81890AD1B006B8B9C /* KRanking_objc.mm in Sources */,
+				AC6A540C188E74FE0094044F /* KRanking.mmxxx in Sources */,
 				AC905A8B188F8B84005E8947 /* CallFromCPP.mm in Sources */,
 				AC7863AE188E25540051FACF /* CocosDenshion.m in Sources */,
 				AC7863AF188E25540051FACF /* SimpleAudioEngine.mm in Sources */,

@@ -58,10 +58,12 @@
     
     NSLog(@"viewDidLoad");
  
+    /***
     // Login
     NSString* username = @"muku";
     NSString* password = @"1234";
     [KiiUser authenticate:username withPassword:password andDelegate:self andCallback:@selector(authProcessComplete:withError:)];
+     ***/
 }
  
 

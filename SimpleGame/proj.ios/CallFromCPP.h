@@ -13,7 +13,7 @@ class CallFromCpp
 {
 public:
     static void ranking_query_all();
-    
+    static void ranking_post(const char *name, int score);
 };
 
 #endif

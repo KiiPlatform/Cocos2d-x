@@ -40,7 +40,6 @@ bool RankingScene::init()
 		this->_layer = RankingLayer::create();
 		this->_layer->retain();
 		this->addChild(_layer);
-		HelloWorld::rankingScene = this;
 		
 		return true;
 	}

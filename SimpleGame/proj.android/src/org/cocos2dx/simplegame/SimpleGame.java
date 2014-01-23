@@ -137,6 +137,7 @@ public class SimpleGame extends Cocos2dxActivity{
 	
 	public void ranking_post(String name, int score){
 		Log.v(TAG, "ranking_post " + name +" "+ score);
+		
 		if(m_kRanking!=null){
 			m_kRanking.ranking_post(name, score);
 		}

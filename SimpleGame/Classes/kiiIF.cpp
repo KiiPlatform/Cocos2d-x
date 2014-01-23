@@ -24,17 +24,17 @@ using namespace cocos2d;
 #else
 //iPhone
 #include "CallFromCPP.h"
-#include "KRanking.h"
+//#include "KRanking.h"
 
 #endif
 
-//
 
-std::vector<ScoreData> vScore;
-char kii_label_buff[1024];
+std::vector<ScoreData> vScore;  //保存してるだけ、未使用
+char kii_label_buff[1024];  //この文字列をcocos2d-xで表示する
 
-void rankingResponse22(const char *json){
-    CCLOG("rankingResponse22");
+//Android/iPhone共通ルーチン
+void rankingResponseCPP(const char *json){
+    CCLOG("rankingResponseCPP");
     
     CCLOG("json = %s",json);
     //json
@@ -79,8 +79,8 @@ extern "C"
 	JNIEXPORT void JNICALL Java_org_cocos2dx_simplegame_CallCPP_nativeEnd
 	(JNIEnv* env, jobject thiz)
 	{
-	    CCLOG("SimpleGame_nativeEnd");
-		//CCDirector::sharedDirector()->end();
+	    CCLOG("Java_org_cocos2dx_simplegame_CallCPP_nativeEnd");
+		CCDirector::sharedDirector()->end();
 	}
     
 	JNIEXPORT void JNICALL Java_org_cocos2dx_simplegame_CallCPP_rankingResponse
@@ -88,18 +88,24 @@ extern "C"
 	    CCLOG("Java_org_cocos2dx_simplegame_CallCPP_rankingResponse");
         
 		const char *json = env->GetStringUTFChars(str1, 0);
-        rankingResponse22(json);
+        rankingResponseCPP(json);
 	}
 }
 
 #else
 
 //iPhone
+void iPhone_nativeEnd()
+{
+    CCLOG("iPhone_nativeEnd");
+    CCDirector::sharedDirector()->end();
+}
+
 void iPhone_rankingResponse(const char *json){
     CCLOG("iPhone_rankingResponse");
     CCLOG("json = %s",json);
     
-    rankingResponse22(json);
+    rankingResponseCPP(json);
 }
 
 #endif
@@ -136,6 +142,39 @@ void jni_ranking_query_all(){
     }
 }
 
+void jni_ranking_post(const char *name, int score){
+    CCLOG("jni_ranking_post Android %s %d", name, score);
+    JniMethodInfo methodInfo;
+
+    if (JniHelper::getStaticMethodInfo(methodInfo
+                                       , CLASS_NAME
+                                       , "ranking_post"
+                                       , "(Ljava/lang/String;I)V"))
+    {
+        methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID);
+        methodInfo.env->DeleteLocalRef(methodInfo.classID);
+    }
+}
+
+/***
+javapを実行 CallFromCPP.classが必要
+
+Guests-MacBook-Air:tmp guest$ javap -s CallFromCPP
+Compiled from "CallFromCPP.java"
+public class org.cocos2dx.simplegame.CallFromCPP extends java.lang.Object{
+static final java.lang.String TAG;
+  Signature: Ljava/lang/String;
+public org.cocos2dx.simplegame.CallFromCPP();
+  Signature: ()V
+public static void test();
+  Signature: ()V
+public static void ranking_query_all();
+  Signature: ()V
+public static void ranking_post(java.lang.String, int);
+  Signature: (Ljava/lang/String;I)V
+}
+***/
+
 #else
 //iPhone
 //call objective-c
@@ -149,12 +188,19 @@ void jni_ranking_query_all(){
     CCLOG("Jni_ranking_query_all iPhone");
     //ranking_query_all2();
     //KRanking::ranking_query_all();
-    //CallFromCpp::ranking_query_all();
+    CallFromCpp::ranking_query_all();
     
-    KRanking::ranking_query(123456+1);  //for test
+    //KRanking::ranking_query(123456+1);  //for test
 }
 
 
-
+void jni_ranking_post(const char *name, int score){
+    CCLOG("jni_ranking_post iPhone");
+    //ranking_query_all2();
+    //KRanking::ranking_query_all();
+    CallFromCpp::ranking_post(name, score);
+    
+    //KRanking::ranking_query(123456+1);  //for test
+}
 
 #endif

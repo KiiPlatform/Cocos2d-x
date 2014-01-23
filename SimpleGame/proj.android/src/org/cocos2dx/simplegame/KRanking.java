@@ -66,13 +66,15 @@ public class KRanking {
 				int size = objLists.size();
 				Log.v(TAG, "size " + size);
 				JSONArray jArray = new JSONArray();
+				int i = 0;
 				for (KiiObject obj : objLists) {
-					//Log.v(TAG, "obj " + obj);
-					String name2 = obj.getString(Field.NAME);
-					String score2 = obj.getString(Field.SCORE);
-					int score3 = obj.getInt(Field.SCORE);
+					i++;
+					//Log.v(TAG, "obj "+ i +" " + obj);
+					String name2 = obj.getString(Field.NAME, "null_name");
+					String score2 = obj.getString(Field.SCORE,"0");
+					int score3 = obj.getInt(Field.SCORE, 0);
 
-					//Log.v(TAG, "ranking_query " + name2 +" "+ score2+ " "+ score3 );
+					Log.v(TAG, "ranking_query " + name2 +" "+ score2+ " "+ score3 );
 					
 					JSONObject nJArray = new JSONObject();
 					try {
@@ -92,7 +94,7 @@ public class KRanking {
 			  	}
 				Log.v(TAG, "jArray " + jArray);
 				String s = jArray.toString();
-				CallCPP.rankingResponse(s);	//rankingResponseÇ≈JSONÇìnÇ∑
+				CallCPP.rankingResponse(s);	//C++ÇåƒÇ—èoÇ∑
 			}
         }, query);	
 	}
@@ -106,7 +108,6 @@ public class KRanking {
 	 */
 	private void ranking_query(KiiBucket bucket, final String name, final int score){
 		Log.v(TAG, "ranking_query");
-		//KiiQuery query = new KiiQuery();
 		KiiQuery query = new KiiQuery( KiiClause.equals(Field.NAME, name) );
 		query.sortByDesc(Field.SCORE);
 		
@@ -146,7 +147,6 @@ public class KRanking {
 				} else{
 					Log.v(TAG, "not hiscore");					
 				}
-				//CallCPP.rankingResponse("rankingResponse test test test");
 			}
         }, query);	
 	}
