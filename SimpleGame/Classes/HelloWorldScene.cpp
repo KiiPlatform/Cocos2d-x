@@ -67,11 +67,34 @@ bool HelloWorld::init()
 	bool bRet = false;
 	do 
 	{
+        //center
+        CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
+        CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
+        _center = ccp(origin.x + visibleSize.width/2, origin.y + visibleSize.height/2);
+        
 		//////////////////////////////////////////////////////////////////////////
 		// super init first
 		//////////////////////////////////////////////////////////////////////////
 
 		CC_BREAK_IF(! CCLayerColor::initWithColor( ccc4(255,255,255,255) ) );
+        
+        //
+        /***
+        CCRect rect = CCRectMake(0,0,visibleSize.width, visibleSize.height);
+        float h = rect.size.height/2;
+        float w = rect.size.width/2;
+        CCPoint rect1[4];
+        rect1[0] = ccp(-w, -h);
+        rect1[1] = ccp(-w,  h);
+        rect1[2] = ccp( w,  h);
+        rect1[3] = ccp( w, -h);
+        const ccColor4B ccGRAY4 ={166,166,166, 255};
+        CCDrawNode* node_ = CCDrawNode::create();
+        node_->setPosition( CCPointMake( rect.getMidX(), rect.getMidY() ) );
+        node_->drawPolygon(rect1, 4, ccc4FFromccc4B(ccGRAY4), 1, ccc4FFromccc4B(ccGRAY4));
+        this->addChild(node_);
+         ***/
+        //
 
 		//////////////////////////////////////////////////////////////////////////
 		// add your codes below...
@@ -88,8 +111,8 @@ bool HelloWorld::init()
 		CC_BREAK_IF(! pCloseItem);
         
 		// Place the menu item bottom-right conner.
-        CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
-        CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
+        //CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
+        //CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
         
 		pCloseItem->setPosition(ccp(origin.x + visibleSize.width - pCloseItem->getContentSize().width/2,
                                     origin.y + pCloseItem->getContentSize().height/2));
@@ -109,7 +132,25 @@ bool HelloWorld::init()
 		player->setPosition( ccp(origin.x + player->getContentSize().width/2,
                                  origin.y + visibleSize.height/2) );
 		this->addChild(player);
+        
+        /***
+        CCSprite *player2 = CCSprite::create("Player.png", CCRectMake(0, 0, 27, 40) );
+		player2->setPosition( ccp(_center.x , visibleSize.height) );
+		this->addChild(player2);
+         ***/
+        
+        //
+        //label_result
+        _score = 0;
+        sprintf(_score_buffer,"%05d",_score);
+		_label_score = CCLabelTTF::create("","Artial", 16);
+		_label_score->retain();
+		_label_score->setColor( ccc3(0, 0, 0) );
+		_label_score->setString(_score_buffer);
+		_label_score->setPosition( ccp(_center.x , _center.y+120) );
+		this->addChild(_label_score);
 
+        
 		this->schedule( schedule_selector(HelloWorld::gameLogic), 1.0 );
 
 		this->setTouchEnabled(true);
@@ -192,7 +233,11 @@ void HelloWorld::spriteMoveFinished(CCNode* sender)
 		_targets->removeObject(sprite);
         
 		GameOverScene *gameOverScene = GameOverScene::create();
-		gameOverScene->getLayer()->getLabel()->setString("You Lose :[");
+		//gameOverScene->getLayer()->getLabel()->setString("You Lose :[");
+        char buff[256];
+        sprintf(buff,"SCORE %05d",_score);
+        gameOverScene->getLayer()->getLabel()->setString(buff);
+
 		//gameOverScene->getLayer()->getLabel()->setString(label_buff);
 		CCDirector::sharedDirector()->replaceScene(gameOverScene);
 
@@ -217,7 +262,7 @@ void HelloWorld::ccTouchesEnded(CCSet* touches, CCEvent* event)
 	CCTouch* touch = (CCTouch*)( touches->anyObject() );
 	CCPoint location = touch->getLocation();
     
-	CCLog("++++++++after  x:%f, y:%f", location.x, location.y);
+	//CCLog("++++++++after  x:%f, y:%f", location.x, location.y);
 
 	// Set up initial location of projectile
 	CCSize winSize = CCDirector::sharedDirector()->getVisibleSize();
@@ -293,6 +338,10 @@ void HelloWorld::updateGame(float dt)
 			// if (CCRect::CCRectIntersectsRect(projectileRect, targetRect))
             if (projectileRect.intersectsRect(targetRect))
 			{
+                _score += 7 * target->getPosition().x;
+                sprintf(_score_buffer,"%05d",_score);
+                _label_score->setString(_score_buffer);
+                CCLOG("_score = %d", _score);
 				targetsToDelete->addObject(target);
 			}
 		}
@@ -305,10 +354,14 @@ void HelloWorld::updateGame(float dt)
 			this->removeChild(target, true);
 
 			_projectilesDestroyed++;
-			if (_projectilesDestroyed >= 5)
+            CCLOG("_projectilesDestroyed = %d", _projectilesDestroyed);
+			if (_projectilesDestroyed >= 10)
 			{
 				GameOverScene *gameOverScene = GameOverScene::create();
-				gameOverScene->getLayer()->getLabel()->setString("You Win!");
+				//gameOverScene->getLayer()->getLabel()->setString("You Win!");
+                char buff[256];
+                sprintf(buff,"SCORE %05d",_score);
+                gameOverScene->getLayer()->getLabel()->setString(buff);
 				CCDirector::sharedDirector()->replaceScene(gameOverScene);
 			}
 		}
@@ -328,6 +381,8 @@ void HelloWorld::updateGame(float dt)
 		this->removeChild(projectile, true);
 	}
 	projectilesToDelete->release();
+    
+    //sprintf(_score_buffer,"%04d",_score);
 }
 
 void HelloWorld::registerWithTouchDispatcher()

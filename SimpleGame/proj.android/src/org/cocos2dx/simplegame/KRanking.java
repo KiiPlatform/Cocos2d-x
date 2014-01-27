@@ -1,6 +1,7 @@
 package org.cocos2dx.simplegame;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -15,6 +16,7 @@ import com.kii.cloud.storage.KiiObject;
 import com.kii.cloud.storage.KiiUser;
 import com.kii.cloud.storage.callback.KiiObjectCallBack;
 import com.kii.cloud.storage.callback.KiiQueryCallBack;
+import com.kii.cloud.storage.callback.KiiUserCallBack;
 import com.kii.cloud.storage.query.KiiClause;
 import com.kii.cloud.storage.query.KiiQuery;
 import com.kii.cloud.storage.query.KiiQueryResult;
@@ -22,12 +24,18 @@ import com.kii.cloud.storage.query.KiiQueryResult;
 public class KRanking {
 	private final static String TAG ="KRanking";
 	KiiBucket m_appRankingBucket;
-	String m_username;
+	String m_username, m_displayName;
+	private SimpleGame m_simpleGame;
 	
 	public KRanking(){
 		m_appRankingBucket = Kii.bucket(Field.B_RANKING);	//B_RANKING
 	}
 	
+	public KRanking(SimpleGame a) {
+		m_simpleGame = a;
+		m_appRankingBucket = Kii.bucket(Field.B_RANKING);	//B_RANKING
+	}
+
 	/***
 	 * ranking_query_all
 	 * ランキンデータを取得する
@@ -254,19 +262,94 @@ public class KRanking {
         });  
 	}
 	
+	public void login(String token){
+		Log.v(TAG, "login "+ token);
+		KiiUser.loginWithToken( new KiiUserCallBack() {
+			@Override
+			public void onLoginCompleted(int token, KiiUser user, Exception e) {
+		    	Log.v(TAG, "loginWithToken onLoginCompleted " + token + " " + user +" " + e);
+		    	m_displayName = user.getDisplayname();
+		    	Log.v(TAG, "m_displayName " + m_displayName );
+		    	if(m_displayName==null){
+		    		m_displayName = "PlayerName";
+		    	}
+		    	CallCPP.setDisplayame(m_displayName);	//C++を呼び出す
+			}
+		}, token);
+	}
+	
+	/**
+	 * login
+	 */
+	public void login(String userName, String passWord){
+		Log.v(TAG, "login");
+		
+		final String username = userName;
+		String password = passWord;		
+		
+        // call KiiCloud API
+        KiiUser.logIn( new KiiUserCallBack() {
+			@Override
+			public void onLoginCompleted(int token, KiiUser user, Exception e) {
+		    	Log.v(TAG, "login onLoginCompleted " + token + " " + user +" " + e);
+		    	//save();
+		    	m_username = username;
+		    	m_appRankingBucket = Kii.bucket(Field.B_RANKING);	//B_RANKING
+			}
+        }, username, password);
+	}
+	
+	public void regist(String userName, String passWord){
+		Log.v(TAG, "regist " + userName +" "+ passWord);
+
+		String username = userName;
+		String password = passWord;
+        KiiUser user = KiiUser.createWithUsername(username);
+        user.register( new KiiUserCallBack() {
+        	@Override
+        	public void onRegisterCompleted(int token, KiiUser user, Exception e){
+        		Log.v(TAG, "onRegisterCompleted " + token + " " + user +" " + e);
+        		
+                // store access token
+                KiiUser user2 = KiiUser.getCurrentUser();
+                String token2 = user2.getAccessToken();
+                Log.v(TAG, "user2 " + user2);
+                Log.v(TAG, "token2 " + token2);
+                Pref.setStoredAccessToken(m_simpleGame.getApplicationContext(), token2);
+        	}
+        }, password);
+	}
+	
 	/**
 	 * regist
 	 */
 	public void regist(){
-		String username = "muku";
-		String password = "1234";
-		
 		Log.v(TAG, "regist");
+
+		String username;
+		String password;
+		String uuid = UUID.randomUUID().toString();
+		//Pref.setUUID( m_simpleGame.getApplicationContext(), uuid);
+		username = uuid;
+		password = "1234";
+		boolean flag;
+		flag = KiiUser.isValidUserName(username);
+		if(!flag){
+			Log.v(TAG, "isValidUserName error");
+			return;
+		}
+
+		flag = KiiUser.isValidPassword(password);
+		if(!flag){
+			Log.v(TAG, "isValidPassword error");
+			return;
+		}
 		
-        // call user registration API
-        RegisterCallback callback = new RegisterCallback();	//callbackの作成 RegisterCallbackはKiiUserCallBackを継承したクラス
-        KiiUser user = KiiUser.createWithUsername(username);
-        user.register(callback, password);	//KiiUserCallBackを渡す callbackはKiiUserCallBackを継承したクラスのインスタンス（実体）
+		Pref.setUUID( m_simpleGame.getApplicationContext(), uuid);
+		regist(username, password);
+
+		String uuid2 = Pref.getUUID( m_simpleGame.getApplicationContext() );
+		Log.v(TAG, "uuid2 " + uuid2);
 	}
 	
 }

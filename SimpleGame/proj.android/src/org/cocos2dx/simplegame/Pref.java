@@ -36,8 +36,14 @@ public class Pref {
         static final String APP_KEY = "appKey";
         static final String SITE = "site";
         static final String STORED_ACCESS_TOKEN = "token";
+        static final String DISPLAY_NAME = "display_name";
+        static final String UUID = "uuid";
     }
 
+    /**
+     * STORED_ACCESS_TOKEN
+     */
+    
     /**
      * Save access token
      * @param context
@@ -60,6 +66,60 @@ public class Pref {
         return pref.getString(Key.STORED_ACCESS_TOKEN, null);
     }
 
+    
+    /**
+     * DISPLAY_NAME
+     */
+    
+    /**
+     * setDisplayName
+     * @param context
+     * @param token 
+     */
+    public static void setDisplayName(Context context, String display_name) {
+        SharedPreferences pref = getSharedPreferences(context);
+        Editor edit = pref.edit();
+        edit.putString(Key.DISPLAY_NAME, display_name);
+        edit.commit();
+    }
+    
+    /**
+     * getDisplayName 
+     * @param context
+     * @return null if token is not stored in SharedPreferences
+     */
+    public static String getDisplayName(Context context) {
+        SharedPreferences pref = getSharedPreferences(context);
+        return pref.getString(Key.DISPLAY_NAME, null);
+    }
+    
+    /**
+     * UUID
+     */
+    
+    /**
+     * setUUID
+     * @param context
+     * @param token 
+     */
+    public static void setUUID(Context context, String uuid) {
+        SharedPreferences pref = getSharedPreferences(context);
+        Editor edit = pref.edit();
+        edit.putString(Key.UUID, uuid);
+        edit.commit();
+    }
+    
+    /**
+     * getUUID 
+     * @param context
+     * @return null if token is not stored in SharedPreferences
+     */
+    public static String getUUID(Context context) {
+        SharedPreferences pref = getSharedPreferences(context);
+        return pref.getString(Key.UUID, null);
+    }
+    
+    
     /**
      * @param context
      * @return instance of SharedPreferences 

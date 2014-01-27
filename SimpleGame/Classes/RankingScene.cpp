@@ -26,6 +26,7 @@
 #include "RankingScene.h"
 #include "HelloWorldScene.h"
 #include "StartScene.h"
+#include "PName.h"
 
 //#include "KRanking.h"
 
@@ -94,6 +95,7 @@ bool RankingLayer::init()
 		label_ranking->setString("RANKING");
 		label_ranking->setPosition( ccp(_center.x , _center.y+100) );
 		this->addChild(label_ranking);
+        
 
 		//bt_title
 		CCMenuItemImage *pBt_title = CCMenuItemImage::create(

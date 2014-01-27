@@ -6,7 +6,6 @@
 
 USING_NS_CC;
 
-
 AppDelegate::AppDelegate() {
 
 }
@@ -45,6 +44,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
 	CCEGLView::sharedOpenGLView()->setDesignResolutionSize(designSize.width, designSize.height, kResolutionNoBorder);
 #endif
 
+    
     // turn on display FPS
     //pDirector->setDisplayStats(true);
 

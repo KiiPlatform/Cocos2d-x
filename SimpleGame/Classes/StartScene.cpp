@@ -72,16 +72,19 @@ bool StartLayer::init()
         _center = ccp(origin.x + visibleSize.width/2, origin.y + visibleSize.height/2);
 
 		CCSize winSize = CCDirector::sharedDirector()->getWinSize();
-		//this->_label = CCLabelTTF::create("","Artial", 32);
 		this->_label = CCLabelTTF::create("","Artial", 32);
 		_label->setString("TITLE kii sample");
 		_label->retain();
 		_label->setColor( ccc3(0, 0, 0) );
-		//_label->setPosition( ccp(winSize.width/2, winSize.height/2) );
-		_label->setPosition(ccp( _center.x , _center.y+100  ) );
+		_label->setPosition(ccp( _center.x , _center.y+110  ) );
 		this->addChild(_label);
 
-
+        this->_label_name = CCLabelTTF::create("","Artial", 32);
+		_label_name->setString("PlayerName");
+		_label_name->retain();
+		_label_name->setColor( ccc3(0, 0, 0) );
+		_label_name->setPosition(ccp( _center.x , _center.y+80  ) );
+		this->addChild(_label_name);
 
         CCLOG("center %f,%f", _center.x, _center.y);
 
@@ -121,38 +124,46 @@ bool StartLayer::init()
 ***/
 		//É{É^Éì
 		//bt_start
-		CCMenuItemImage *pBt_start = CCMenuItemImage::create(
+		pBt_start = CCMenuItemImage::create(
 			"bt_start.png",
 			"bt_start.png",
 			this,
 			menu_selector(StartLayer::bt_startCallback));	//start
 		//CC_BREAK_IF(! pBt_start);
-		pBt_start->setPosition(ccp( _center.x , _center.y+20  ) );
+		pBt_start->setPosition(ccp( _center.x , _center.y+10  ) );
 
 		//bt_ranking
-		CCMenuItemImage *pBt_ranking = CCMenuItemImage::create(
+		pBt_ranking = CCMenuItemImage::create(
 			"bt_ranking.png",
 			"bt_ranking.png",
 			this,
 			menu_selector(StartLayer::bt_rankingCallback));	//ranking
 		//CC_BREAK_IF(! pBt_ranking);
-		pBt_ranking->setPosition(ccp( _center.x , _center.y-40  ) );
+		pBt_ranking->setPosition(ccp( _center.x , _center.y-50  ) );
+        
+        //bt_ranking
+		pBt_name = CCMenuItemImage::create(
+            "bt_ranking.png",
+            "bt_ranking.png",
+            this,
+            menu_selector(StartLayer::bt_nameCallback));	//ranking
+		//CC_BREAK_IF(! pBt_ranking);
+		pBt_name->setPosition(ccp( _center.x , _center.y-110  ) );
 
 		// Create a menu with the "close" menu item, it's an auto release object.
-		CCMenu* pMenu = CCMenu::create(pBt_start, pBt_ranking, NULL);
+		CCMenu* pMenu = CCMenu::create(pBt_start, pBt_ranking, pBt_name, NULL);
 		pMenu->setPosition(CCPointZero);
 		//CC_BREAK_IF(! pMenu);
 
 		// Add the menu to HelloWorld layer as a child layer.
 		this->addChild(pMenu, 1);
 
-/***
-		this->runAction( CCSequence::create(
-                                CCDelayTime::create(5),
-                                CCCallFunc::create(this, 
-                                callfunc_selector(GameOverLayer::gameOverDone)),
-                                NULL));
-***/
+
+        _pname = PName::layer();
+        _pname->setVisible(false);
+        _pname->setTouchEnabled(false);
+        this->addChild(_pname, 1);
+        _pname->_slayer = this;
 		
 		return true;
 	}
@@ -162,6 +173,18 @@ bool StartLayer::init()
 	}
 }
 
+void StartLayer::setButtonEnabled(bool b){
+    if(b){
+        pBt_start->setEnabled(true);
+        pBt_ranking->setEnabled(true);
+        pBt_name->setEnabled(true);
+    } else {
+        pBt_start->setEnabled(false);
+        pBt_ranking->setEnabled(false);
+        pBt_name->setEnabled(false);
+    }
+}
+
 void StartLayer::ccTouchesEnded(cocos2d::CCSet* touches, cocos2d::CCEvent* event){
 	CCLOG("StartLayer::ccTouchesEnded");
 	//CCDirector::sharedDirector()->replaceScene( HelloWorld::scene() );
@@ -169,13 +192,13 @@ void StartLayer::ccTouchesEnded(cocos2d::CCSet* touches, cocos2d::CCEvent* event
 
 void StartLayer::bt_startCallback(CCObject* pSender)
 {
-	CCLOG("StartLayer::startCallback");
+	CCLOG("StartLayer::bt_startCallback");
 	CCDirector::sharedDirector()->replaceScene( HelloWorld::scene() );
 }
 
 void StartLayer::bt_rankingCallback(CCObject* pSender)
 {
-	CCLOG("StartLayer::rankingCallback");
+	CCLOG("StartLayer::bt_rankingCallback");
 	CCDirector::sharedDirector()->replaceScene( RankingScene::create() );
     
     //CallFromCpp::showAstWall();   //for test
@@ -184,6 +207,12 @@ void StartLayer::bt_rankingCallback(CCObject* pSender)
 	//jni_ranking_post("muku-3", 123456+3);
 
 	//jni_ranking_query_all();
+}
+
+void StartLayer::bt_nameCallback(CCObject* pSender)
+{
+	CCLOG("StartLayer::bt_nameCallback");
+    _pname ->display();
 }
 
 void StartLayer::gameOverDone()

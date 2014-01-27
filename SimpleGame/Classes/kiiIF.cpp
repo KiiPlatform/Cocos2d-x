@@ -31,6 +31,7 @@ using namespace cocos2d;
 
 std::vector<ScoreData> vScore;  //保存してるだけ、未使用
 char kii_label_buff[1024];  //この文字列をcocos2d-xで表示する
+char kii_display_name[256];
 
 //Android/iPhone共通ルーチン
 void rankingResponseCPP(const char *json){
@@ -71,6 +72,9 @@ void rankingResponseCPP(const char *json){
     }
 }
 
+void setDisplayameCPP(const char *display_name){
+    CCLOG("setDisplayameCPP %s", display_name);
+}
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 //Android
@@ -89,6 +93,14 @@ extern "C"
         
 		const char *json = env->GetStringUTFChars(str1, 0);
         rankingResponseCPP(json);
+	}
+
+	JNIEXPORT void JNICALL Java_org_cocos2dx_simplegame_CallCPP_setDisplayame
+	(JNIEnv *env, jobject obj, jstring str1) {
+	    CCLOG("Java_org_cocos2dx_simplegame_CallCPP_setDisplayame");
+
+		const char *display_name = env->GetStringUTFChars(str1, 0);
+		setDisplayameCPP(display_name);
 	}
 }
 

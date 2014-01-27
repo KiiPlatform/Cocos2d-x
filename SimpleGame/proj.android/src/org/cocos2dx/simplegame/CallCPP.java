@@ -7,4 +7,6 @@ public class CallCPP {
     public static native void step();
     public static native void nativeEnd();
 	public static native void rankingResponse(String str1);	//ランキングデータをc++へ渡す、JSON
+	public static native void setDisplayame(String str1);	//Displayameをc++へ渡す、JSON
+
 }

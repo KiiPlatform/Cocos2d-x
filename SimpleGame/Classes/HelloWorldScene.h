@@ -38,6 +38,10 @@ public:
 	void registerWithTouchDispatcher();
 	void ccTouchesEnded(cocos2d::CCSet* touches, cocos2d::CCEvent* event);
     
+    CC_SYNTHESIZE_READONLY(cocos2d::CCLabelTTF*, _label_score, Label);
+    int _score;
+    char _score_buffer[256];
+    
 	//static
 	/***
 	static std::vector<ScoreData> vScore;
@@ -51,6 +55,8 @@ protected:
 	int _projectilesDestroyed;
 
 	void addTarget();
+    
+    cocos2d::CCPoint _center;
 };
 
 #endif  // __HELLOWORLD_SCENE_H__

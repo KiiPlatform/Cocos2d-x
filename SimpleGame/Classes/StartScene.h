@@ -26,6 +26,7 @@
 #ifndef _START_SCENE_H_
 #define _START_SCENE_H_
 
+#include "PName.h"
 #include "cocos2d.h"
 using namespace cocos2d;
 
@@ -39,10 +40,17 @@ public:
 	void ccTouchesEnded(cocos2d::CCSet* touches, cocos2d::CCEvent* event);
 	virtual void bt_startCallback(cocos2d::CCObject* pSender);
 	virtual void bt_rankingCallback(cocos2d::CCObject* pSender);
+    virtual void bt_nameCallback(cocos2d::CCObject* pSender);
     void gameOverDone();
+    
+    CCMenuItemImage *pBt_start, *pBt_ranking, *pBt_name;
 
     CC_SYNTHESIZE_READONLY(cocos2d::CCLabelTTF*, _label, Label);
+    CC_SYNTHESIZE_READONLY(cocos2d::CCLabelTTF*, _label_name, LabelName);
     CCPoint _center;
+    void setButtonEnabled(bool b);
+    
+    PName *_pname;
 };
 
 class StartScene : public cocos2d::CCScene

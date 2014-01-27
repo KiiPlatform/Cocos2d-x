@@ -28,6 +28,7 @@
 
 #include "cocos2d.h"
 using namespace cocos2d;
+class PName;
 
 class RankingLayer : public cocos2d::CCLayerColor
 {
@@ -42,8 +43,10 @@ public:
 	void update(float dt);
 
     CC_SYNTHESIZE_READONLY(cocos2d::CCLabelTTF*, _label, Label);
+    //CC_SYNTHESIZE_READONLY(cocos2d::CCLabelTTF*, _label_name, LabelName);
     CCPoint _center;
 	//static char label_buff[1024];
+    PName *_pName;
 };
 
 class RankingScene : public cocos2d::CCScene
