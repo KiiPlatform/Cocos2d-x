@@ -1,4 +1,4 @@
-proj.android/bin
-proj.android/gen
+SampleGame/proj.android/bin
+SampleGame/proj.android/gen
 .DS_Store
 xcuserdata
