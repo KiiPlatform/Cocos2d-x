@@ -262,6 +262,7 @@
 		AC1B7F9B189746520034A70B /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC1B7F9A189746520034A70B /* MobileCoreServices.framework */; };
 		AC1B7F9D189746610034A70B /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC1B7F9C189746610034A70B /* Accounts.framework */; };
 		AC1B7F9F1897466D0034A70B /* Twitter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC1B7F9E1897466D0034A70B /* Twitter.framework */; };
+		AC96B5A2189B3F9D000FC99D /* KiiSample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AC96B5A1189B3F9D000FC99D /* KiiSample.cpp */; };
 		ACD60B651897A24200F30584 /* KiiAppSingleton.m in Sources */ = {isa = PBXBuildFile; fileRef = ACD60B641897A24100F30584 /* KiiAppSingleton.m */; };
 		BF171245129291EC00B8313A /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB012928DE900B8313A /* OpenGLES.framework */; };
 		BF1712461292920000B8313A /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB212928DE900B8313A /* libxml2.dylib */; };
@@ -796,6 +797,8 @@
 		AC1B7F9A189746520034A70B /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		AC1B7F9C189746610034A70B /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		AC1B7F9E1897466D0034A70B /* Twitter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Twitter.framework; path = System/Library/Frameworks/Twitter.framework; sourceTree = SDKROOT; };
+		AC96B5A0189B3F87000FC99D /* KiiSample.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KiiSample.h; sourceTree = "<group>"; };
+		AC96B5A1189B3F9D000FC99D /* KiiSample.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = KiiSample.cpp; sourceTree = "<group>"; };
 		ACD60B631897A24100F30584 /* KiiAppSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KiiAppSingleton.h; sourceTree = SOURCE_ROOT; };
 		ACD60B641897A24100F30584 /* KiiAppSingleton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KiiAppSingleton.m; sourceTree = SOURCE_ROOT; };
 		BF170DB012928DE900B8313A /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -1357,6 +1360,8 @@
 				1AFAF8B416D35DE700DB1158 /* AppDelegate.h */,
 				1AFAF8B516D35DE700DB1158 /* HelloWorldScene.cpp */,
 				1AFAF8B616D35DE700DB1158 /* HelloWorldScene.h */,
+				AC96B5A0189B3F87000FC99D /* KiiSample.h */,
+				AC96B5A1189B3F9D000FC99D /* KiiSample.cpp */,
 			);
 			name = Classes;
 			path = ../classes;
@@ -2151,6 +2156,7 @@
 				1A8F3B7B175E05DA00049216 /* RegionAttachment.cpp in Sources */,
 				1A8F3B7C175E05DA00049216 /* Skeleton.cpp in Sources */,
 				1A8F3B7D175E05DA00049216 /* SkeletonData.cpp in Sources */,
+				AC96B5A2189B3F9D000FC99D /* KiiSample.cpp in Sources */,
 				1A8F3B7E175E05DA00049216 /* SkeletonJson.cpp in Sources */,
 				1A8F3B7F175E05DA00049216 /* Skin.cpp in Sources */,
 				1A8F3B80175E05DA00049216 /* Slot.cpp in Sources */,

@@ -49,7 +49,7 @@
     NSLog(@"ranking_query_all");
     
     //m_appRankingBucket
-    KiiBucket *bucket1 = [Kii bucketWithName:@"b_ranking"];
+    KiiBucket *bucket1 = [Kii bucketWithName:@"b_ranking02"];
     
     NSError *error = nil;
     KiiQuery *all_query = [KiiQuery queryWithClause:nil];
@@ -67,22 +67,27 @@
     NSLog(@"size %d",size);
     NSMutableArray *mArray = [NSMutableArray array];
     //xx strcpy(KRanking::ranking_buff, "");
-    char buff[256];
+    //char buff[256];
     for(int i=0;i<size; i++){
         KiiObject* obj=[allResults objectAtIndex:i];
         //NSLog(@"obj %d %@",i, obj);
         
         NSString* name=[[obj dictionaryValue] objectForKey:@"name"];        //nilだとnilになる
+        NSString* display_name=[[obj dictionaryValue] objectForKey:@"display_name"];        //nilだとnilになる
+        
         //NSString* score=[[obj dictionaryValue] objectForKey:@"score"];    //NSDecimalNumber に変換されてしまう
         NSDecimalNumber* dnscore=[[obj dictionaryValue] objectForKey:@"score"];
         NSString *score = [dnscore stringValue];
-        NSLog(@"%d %@ %@", i, name, score);
+        NSLog(@"%d %@ %@ %@", i, name, display_name, score);
 
         if(name==nil){  //nilだとmArrayに入らないので値を入れる
             name = @"nil dayo";
         }
+        if(display_name==nil){  //nilだとmArrayに入らないので値を入れる
+            display_name = @"nil dayo";
+        }
         
-        [mArray addObject:@{@"name" : name,@"score" : score}];  //JSONの返還元として使う
+        [mArray addObject:@{@"name" : display_name,@"score" : score}];  //JSONの返還元として使う
 
         /***
         //c++へ
@@ -125,10 +130,10 @@
     //xx g_name = @"muku";   //for test
     
     //m_appRankingBucket
-    KiiBucket *bucket1 = [Kii bucketWithName:@"b_ranking"];
+    KiiBucket *bucket1 = [Kii bucketWithName:@"b_ranking02"];
     
     NSError *error = nil;
-    KiiClause *clause1 = [KiiClause equals:@"name" value:name];  //muku　でテスト
+    KiiClause *clause1 = [KiiClause equals:@"name" value:_username];  //_username
     KiiQuery *query = [KiiQuery queryWithClause:clause1];
     
     [query sortByDesc:@"score"];
@@ -187,11 +192,10 @@
     //NSLog(@"ranking_save %@ %@ %d", g_uri, g_name, score);
     NSLog(@"ranking_save %@ %@ %d", uri, name, score);
     
-    
     KiiObject *object;
     if(uri==nil){
         NSLog(@"新規作成");
-        KiiBucket *bucket = [Kii bucketWithName:@"b_ranking"];
+        KiiBucket *bucket = [Kii bucketWithName:@"b_ranking02"];
         object = [bucket createObject];
     } else {
         NSLog(@"更新");
@@ -206,21 +210,22 @@
     
     NSLog(@"dnscore %@", dnscore);
     
-    [object setObject:name forKey:@"name"];
-    //[object setObject:[NSNumber numberWithInt:987] forKey:@"score"];
+    [object setObject:_username forKey:@"name"];
+    [object setObject:_userDisplayName forKey:@"display_name"];
     [object setObject:dnscore forKey:@"score"];
     
     [object saveAllFieldsSynchronous:TRUE withError:&error];
     
     if(error == nil) {
         NSLog(@"ok");
-        [self ranking_refresh:uri];
+        NSString* uri2 = object.objectURI;
+        NSLog(@"uri2 %@", uri2);
+        [self ranking_refresh:uri2];
     } else {
         NSLog(@"error %@", error);
     }
     
 }
-
 
 -(void) ranking_refresh:(NSString*)uri
 {
@@ -263,7 +268,9 @@
         NSLog(@"loginWithToken OK");
         KiiUser *user = [KiiUser currentUser];
         [KiiAppSingleton sharedInstance].currentUser = user;    //userを保存、変数
-        _userDisplayName =user.displayName;
+        //代入
+        _username = user.username;
+        _userDisplayName = user.displayName;
         NSLog(@"_userDisplayName = %@",_userDisplayName);
         CallCpp::setDisplayame( [_userDisplayName UTF8String] );  //C++を呼び出す
     } else {
@@ -289,9 +296,12 @@
     if(error == nil) {
         [KiiAppSingleton sharedInstance].currentUser = user;    //userを保存、変数
         [[KiiAppSingleton sharedInstance] registerToken];       //トークンを保存、NSUserDefaults
-        [[KiiAppSingleton sharedInstance] setUserName:user.username];
-        [[KiiAppSingleton sharedInstance] setPassword:@"1234"]; //1234固定
-        //_userDisplayName = user.displayName;
+        
+        //既に保存してあるので、保存しない
+        //[[KiiAppSingleton sharedInstance] setUserName:user.username];
+        //[[KiiAppSingleton sharedInstance] setPassword:@"1234"]; //1234固定
+        _username = user.username;
+        _userDisplayName = user.displayName;
         NSLog(@"_userDisplayName = %@",_userDisplayName);
         [self displayNameUpdate:@"PalyerName"]; //Synchronous _userDisplayNameを更新する
         CallCpp::setDisplayame( [_userDisplayName UTF8String] );  //C++を呼び出す
@@ -309,9 +319,14 @@
     if(error == nil) {
         [KiiAppSingleton sharedInstance].currentUser = user;    //userを保存、変数
         [[KiiAppSingleton sharedInstance] registerToken];       //トークンを保存、NSUserDefaults
+        //usernameでloginするために保存する
+        [[KiiAppSingleton sharedInstance] setUserName:user.username];
+        [[KiiAppSingleton sharedInstance] setPassword:@"1234"]; //1234固定
+        _username = user.username;
+        _userDisplayName = user.displayName;
         //_userDisplayName = user.displayName;
         NSLog(@"_userDisplayName = %@",_userDisplayName);
-        [self displayNameUpdate:@"PalyerName"]; //Synchronous _userDisplayNameを更新する
+        [self displayNameUpdate:@"PlayerName"]; //Synchronous PlayerNameで_userDisplayNameを更新する
         CallCpp::setDisplayame( [_userDisplayName UTF8String] );  //C++を呼び出す
     } else {
         // there was a problem

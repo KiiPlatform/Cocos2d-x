@@ -11,7 +11,7 @@
 #import <Foundation/Foundation.h>
 
 @interface KRanking_objc : NSObject {
-    NSString *_userDisplayName;
+    NSString *_userDisplayName, *_username;
 }
 
 // シングルトン

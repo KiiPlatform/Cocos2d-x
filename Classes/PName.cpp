@@ -26,7 +26,7 @@ PName* PName::layer()
 
 bool PName::init()
 {
-    CCLOG("PStaff::init");
+    CCLOG("PName::init");
     
     // super init first
     if ( !CCLayer::init() )

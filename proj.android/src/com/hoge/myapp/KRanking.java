@@ -1,5 +1,6 @@
 package com.hoge.myapp;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
@@ -17,6 +18,7 @@ import com.kii.cloud.storage.KiiUser;
 import com.kii.cloud.storage.callback.KiiObjectCallBack;
 import com.kii.cloud.storage.callback.KiiQueryCallBack;
 import com.kii.cloud.storage.callback.KiiUserCallBack;
+import com.kii.cloud.storage.exception.app.AppException;
 import com.kii.cloud.storage.query.KiiClause;
 import com.kii.cloud.storage.query.KiiQuery;
 import com.kii.cloud.storage.query.KiiQueryResult;
@@ -65,8 +67,12 @@ public class KRanking {
 	 */
 	public void ranking_query_all(){
 		Log.v(TAG, "ranking_query_all");
-		ranking_query_all(m_appRankingBucket);
-		//ranking_post("muku1111",1234+1);
+		m_appRankingBucket = Kii.bucket(Field.B_RANKING);	//B_RANKING
+		if(m_appRankingBucket!=null){
+			ranking_query_all(m_appRankingBucket);
+		} else {
+			Log.v(TAG, "ranking_query_all m_appRankingBucket null");
+		}
 	}
 	
 	/***
@@ -110,7 +116,7 @@ public class KRanking {
 					
 					JSONObject nJArray = new JSONObject();
 					try {
-						nJArray.put(Field.NAME, name2);
+						nJArray.put(Field.NAME, dname);
 					} catch (JSONException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
@@ -140,7 +146,7 @@ public class KRanking {
 	 */
 	private void ranking_query(KiiBucket bucket, final String name, final int score){
 		Log.v(TAG, "ranking_query " + name);
-		KiiQuery query = new KiiQuery( KiiClause.equals(Field.NAME, name) );
+		KiiQuery query = new KiiQuery( KiiClause.equals(Field.NAME, m_username) );	//m_username‚ðŽg‚¤
 		query.sortByDesc(Field.SCORE);
 		
         // call KiiCloud API
@@ -305,6 +311,23 @@ public class KRanking {
 		}, token);
 	}
 	
+	public void loginWithTokenSYNC(String accessToken){
+    	Log.v(TAG, "loginWithTokenSYNC start"); 
+		try {
+		  KiiUser.loginWithToken(accessToken);
+		  KiiUser user = KiiUser.getCurrentUser();
+	    	Log.v(TAG, "user " + user);
+	    	//save();
+	    	m_username = user.getUsername();
+	    	m_appRankingBucket = Kii.bucket(Field.B_RANKING);	//B_RANKING
+		} catch (IOException e) {
+			Log.v(TAG, "IOException e " + e); 
+		} catch (AppException e) {
+			Log.v(TAG, "AppException e " + e); 
+		}
+    	Log.v(TAG, "loginWithTokenSYNC end"); 
+	}
+	
 	/**
 	 * login
 	 */
@@ -345,6 +368,9 @@ public class KRanking {
                 Log.v(TAG, "token2 " + token2);
                 Log.v(TAG, "m_username " + m_username);
                 Pref.setStoredAccessToken(m_simpleGame.getApplicationContext(), token2);
+                Pref.setUSERNAME(m_simpleGame.getApplicationContext(), m_username);
+                Pref.setPASSWORD(m_simpleGame.getApplicationContext(), "1234");	//1234ŒÅ’è
+                
                 displayNameUpdate("PlayerName");
         	}
         }, password);

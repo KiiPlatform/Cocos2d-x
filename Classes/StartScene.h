@@ -42,6 +42,7 @@ public:
 	virtual void bt_startCallback(cocos2d::CCObject* pSender);
 	virtual void bt_rankingCallback(cocos2d::CCObject* pSender);
     virtual void bt_nameCallback(cocos2d::CCObject* pSender);
+    virtual void menuCloseCallback(cocos2d::CCObject* pSender);
     void gameOverDone();
     
     CCMenuItemImage *pBt_start, *pBt_ranking, *pBt_name;

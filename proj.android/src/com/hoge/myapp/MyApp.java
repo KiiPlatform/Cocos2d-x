@@ -60,7 +60,8 @@ public class MyApp extends Cocos2dxActivity{
         	m_kRanking.regist();
         } else {
         	Log.v(TAG, "login proc start");  
-            m_kRanking.login(token);
+            m_kRanking.login(token);	//ASYNC
+            //m_kRanking.loginWithTokenSYNC(token);	//SYNC
         }
        
 		Log.v(TAG, "onCreate end");

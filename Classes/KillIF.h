@@ -13,6 +13,7 @@
 
 //#include <vector>
 
+
 class ScoreData {
 public:
     
@@ -21,5 +22,7 @@ public:
     
 	ScoreData(std::string a, std::string b){ name = a; score=b;}
 };
+
+
 
 #endif

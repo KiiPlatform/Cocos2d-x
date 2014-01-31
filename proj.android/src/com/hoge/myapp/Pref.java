@@ -38,6 +38,8 @@ public class Pref {
         static final String STORED_ACCESS_TOKEN = "token";
         static final String DISPLAY_NAME = "display_name";
         static final String UUID = "uuid";
+        static final String USERNAME = "username";
+        static final String PASSWORD = "password";
     }
 
     /**
@@ -119,6 +121,57 @@ public class Pref {
         return pref.getString(Key.UUID, null);
     }
     
+    /**
+     * USERNAME
+     */
+    
+    /**
+     * setUSERNAME
+     * @param context
+     * @param token 
+     */
+    public static void setUSERNAME(Context context, String uuid) {
+        SharedPreferences pref = getSharedPreferences(context);
+        Editor edit = pref.edit();
+        edit.putString(Key.USERNAME, uuid);
+        edit.commit();
+    }
+    
+    /**
+     * getUSERNAME 
+     * @param context
+     * @return null if token is not stored in SharedPreferences
+     */
+    public static String getUSERNAME(Context context) {
+        SharedPreferences pref = getSharedPreferences(context);
+        return pref.getString(Key.USERNAME, null);
+    }
+    
+    /**
+     * PASSWORD
+     */
+    
+    /**
+     * setPASSWORD
+     * @param context
+     * @param token 
+     */
+    public static void setPASSWORD(Context context, String uuid) {
+        SharedPreferences pref = getSharedPreferences(context);
+        Editor edit = pref.edit();
+        edit.putString(Key.PASSWORD, uuid);
+        edit.commit();
+    }
+    
+    /**
+     * getPASSWORD
+     * @param context
+     * @return null if token is not stored in SharedPreferences
+     */
+    public static String getPASSWORD(Context context) {
+        SharedPreferences pref = getSharedPreferences(context);
+        return pref.getString(Key.PASSWORD, null);
+    }
     
     /**
      * @param context

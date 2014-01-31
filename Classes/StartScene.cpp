@@ -73,6 +73,24 @@ bool StartLayer::init()
         CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
         _center = ccp(origin.x + visibleSize.width/2, origin.y + visibleSize.height/2);
 
+        //close
+		// Create a "close" menu item with close icon, it's an auto release object.
+		CCMenuItemImage *pCloseItem = CCMenuItemImage::create(
+                                                              "CloseNormal.png",
+                                                              "CloseSelected.png",
+                                                              this,
+                                                              menu_selector(StartLayer::menuCloseCallback));
+		//CC_BREAK_IF(! pCloseItem);
+        
+		// Place the menu item bottom-right conner.
+        //CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
+        //CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
+        
+		pCloseItem->setPosition(ccp(origin.x + visibleSize.width - pCloseItem->getContentSize().width/2,
+                                    origin.y + pCloseItem->getContentSize().height/2));
+
+        //
+        
 		CCSize winSize = CCDirector::sharedDirector()->getWinSize();
 		this->_label = CCLabelTTF::create("","Artial", 32);
 		_label->setString("TITLE kii sample");
@@ -82,7 +100,9 @@ bool StartLayer::init()
 		this->addChild(_label);
 
         this->_label_name = CCLabelTTF::create("","Artial", 24);
-		_label_name->setString(kii_display_name);   //kii_display_name
+        char buff[256];
+        sprintf(buff,"name:%s",kii_display_name);
+		_label_name->setString(buff);   //kii_display_name
 		_label_name->retain();
 		_label_name->setColor( ccc3(0, 0, 0) );
 		_label_name->setPosition(ccp( _center.x , _center.y+70  ) );
@@ -154,7 +174,7 @@ bool StartLayer::init()
 		pBt_name->setPosition(ccp( _center.x , _center.y-110  ) );
 
 		// Create a menu with the "close" menu item, it's an auto release object.
-		CCMenu* pMenu = CCMenu::create(pBt_start, pBt_ranking, pBt_name, NULL);
+		CCMenu* pMenu = CCMenu::create(pCloseItem, pBt_start, pBt_ranking, pBt_name, NULL);
 		pMenu->setPosition(CCPointZero);
 		//CC_BREAK_IF(! pMenu);
 
@@ -180,7 +200,9 @@ bool StartLayer::init()
 
 void StartLayer::update(){
 	//CCLOG("StartLayer::update %s", kii_display_name);
-	_label_name->setString(kii_display_name);   //kii_display_name
+    char buff[256];
+    sprintf(buff,"name:%s",kii_display_name);
+    _label_name->setString(buff);   //kii_display_name
 }
 
 void StartLayer::setButtonEnabled(bool b){
@@ -199,6 +221,18 @@ void StartLayer::setButtonEnabled(bool b){
 void StartLayer::ccTouchesEnded(cocos2d::CCSet* touches, cocos2d::CCEvent* event){
 	CCLOG("StartLayer::ccTouchesEnded");
 	//CCDirector::sharedDirector()->replaceScene( HelloWorld::scene() );
+}
+
+void StartLayer::menuCloseCallback(CCObject* pSender)
+{
+	CCLOG("HelloWorld::menuCloseCallback");
+    
+	// "close" menu item clicked
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_WINRT) || (CC_TARGET_PLATFORM == CC_PLATFORM_WP8)
+    CCMessageBox("You pressed the close button. Windows Store Apps do not implement a close button.", "Alert");
+#else
+    CCDirector::sharedDirector()->end();
+#endif
 }
 
 void StartLayer::bt_startCallback(CCObject* pSender)

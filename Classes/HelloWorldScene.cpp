@@ -124,7 +124,7 @@ bool HelloWorld::init()
 		CC_BREAK_IF(! pMenu);
 
 		// Add the menu to HelloWorld layer as a child layer.
-		this->addChild(pMenu, 1);
+		//this->addChild(pMenu, 1); 使用しない
 
 		/////////////////////////////
 		// 2. add your codes below...
@@ -252,7 +252,8 @@ void HelloWorld::spriteMoveFinished(CCNode* sender)
 		GameOverScene *gameOverScene = GameOverScene::create();
 		//gameOverScene->getLayer()->getLabel()->setString("You Lose :[");
         char buff[256];
-        sprintf(buff,"SCORE %05d",_score);
+        //スコア文字列
+        sprintf(buff,"HISCORE: %05d\n  SCORE: %05d",_hiScore, _score);
         saveHIScore(_score);
         gameOverScene->getLayer()->getLabel()->setString(buff);
 
@@ -378,7 +379,8 @@ void HelloWorld::updateGame(float dt)
 				GameOverScene *gameOverScene = GameOverScene::create();
 				//gameOverScene->getLayer()->getLabel()->setString("You Win!");
                 char buff[256];
-                sprintf(buff,"SCORE %05d",_score);
+                //スコア文字列
+                sprintf(buff,"HISCORE %05d\nSCORE %05d",_hiScore, _score);
                 saveHIScore(_score);
                 gameOverScene->getLayer()->getLabel()->setString(buff);
 				CCDirector::sharedDirector()->replaceScene(gameOverScene);

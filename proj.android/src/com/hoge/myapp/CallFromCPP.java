@@ -26,6 +26,13 @@ public class CallFromCPP {
 		
 		Global.activity.displayNameUpdate(name);
 	}
+	
+	//kii if
+	//kiiリクエストを受ける
+	public static void reqKii(String json, int serviceID){
+		
+	}
+
 }
 
 
