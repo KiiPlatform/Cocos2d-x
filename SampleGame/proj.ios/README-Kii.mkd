@@ -3,11 +3,15 @@
 Note: '/' need to be escaped.
 
 2. Execute following command.
-sh ios-proje.sh
+```
+sh ios-proj.sh
+```
 
 3. When you want to commit changes in project settings, revert your local environment changes first. setup cocos\_rpath\_esc.
-Note: meta characters used in regular expression should be escaped.
+Note: meta characters used in regular expression and '/' should be escaped.
 
 4. Execute following command. 
+```
 sh ios-proj.sh -r
+```
 
