@@ -226,6 +226,7 @@
 		379BB9D317F03F3700829B88 /* GUIReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 379BB99117F03F3700829B88 /* GUIReader.cpp */; };
 		379BB9D417F03F3700829B88 /* SceneReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 379BB99317F03F3700829B88 /* SceneReader.cpp */; };
 		46513EB1187BFBA200B5ABE1 /* UITouchGroup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 46513EAF187BFBA200B5ABE1 /* UITouchGroup.cpp */; };
+		74587FB1189FA104008DA948 /* KiiSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74587FB0189FA104008DA948 /* KiiSDK.framework */; };
 		7855E0E1153FEF240059DD9A /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 7855E0DF153FEF240059DD9A /* Default.png */; };
 		AC028A221898B52C00BE0E74 /* bt_name.png in Resources */ = {isa = PBXBuildFile; fileRef = AC028A211898B52B00BE0E74 /* bt_name.png */; };
 		AC1B7F5B189741B00034A70B /* GameOverScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AC1B7F50189741B00034A70B /* GameOverScene.cpp */; };
@@ -258,7 +259,6 @@
 		AC1B7F93189743DC0034A70B /* CallCPP.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AC1B7F8F189743DC0034A70B /* CallCPP.cpp */; };
 		AC1B7F94189743DC0034A70B /* KRanking_objc.mm in Sources */ = {isa = PBXBuildFile; fileRef = AC1B7F92189743DC0034A70B /* KRanking_objc.mm */; };
 		AC1B7F971897441C0034A70B /* CallFromCPP.mm in Sources */ = {isa = PBXBuildFile; fileRef = AC1B7F961897441C0034A70B /* CallFromCPP.mm */; };
-		AC1B7F99189744C10034A70B /* KiiSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC1B7F98189744C10034A70B /* KiiSDK.framework */; };
 		AC1B7F9B189746520034A70B /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC1B7F9A189746520034A70B /* MobileCoreServices.framework */; };
 		AC1B7F9D189746610034A70B /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC1B7F9C189746610034A70B /* Accounts.framework */; };
 		AC1B7F9F1897466D0034A70B /* Twitter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC1B7F9E1897466D0034A70B /* Twitter.framework */; };
@@ -752,6 +752,7 @@
 		379BB99417F03F3700829B88 /* SceneReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SceneReader.h; sourceTree = "<group>"; };
 		46513EAF187BFBA200B5ABE1 /* UITouchGroup.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = UITouchGroup.cpp; sourceTree = "<group>"; };
 		46513EB0187BFBA200B5ABE1 /* UITouchGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UITouchGroup.h; sourceTree = "<group>"; };
+		74587FB0189FA104008DA948 /* KiiSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = KiiSDK.framework; sourceTree = "<group>"; };
 		7855E0DF153FEF240059DD9A /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = SOURCE_ROOT; };
 		AC028A211898B52B00BE0E74 /* bt_name.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bt_name.png; sourceTree = "<group>"; };
 		AC1B7F50189741B00034A70B /* GameOverScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GameOverScene.cpp; path = ../Classes/GameOverScene.cpp; sourceTree = "<group>"; };
@@ -793,7 +794,6 @@
 		AC1B7F92189743DC0034A70B /* KRanking_objc.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = KRanking_objc.mm; sourceTree = SOURCE_ROOT; };
 		AC1B7F951897441C0034A70B /* CallFromCPP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CallFromCPP.h; sourceTree = SOURCE_ROOT; };
 		AC1B7F961897441C0034A70B /* CallFromCPP.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CallFromCPP.mm; sourceTree = SOURCE_ROOT; };
-		AC1B7F98189744C10034A70B /* KiiSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KiiSDK.framework; path = __cocos2dx_relative_root__/../../sdk/KiiSDK.framework; sourceTree = "<group>"; };
 		AC1B7F9A189746520034A70B /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		AC1B7F9C189746610034A70B /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		AC1B7F9E1897466D0034A70B /* Twitter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Twitter.framework; path = System/Library/Frameworks/Twitter.framework; sourceTree = SDKROOT; };
@@ -829,6 +829,7 @@
 				1ACB3244164770DE00914215 /* libcurl.a in Frameworks */,
 				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
 				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
+				74587FB1189FA104008DA948 /* KiiSDK.framework in Frameworks */,
 				288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */,
 				BF171245129291EC00B8313A /* OpenGLES.framework in Frameworks */,
 				BF1712461292920000B8313A /* libxml2.dylib in Frameworks */,
@@ -836,7 +837,6 @@
 				BF1C47F01293687400B63C5D /* QuartzCore.framework in Frameworks */,
 				D44C620C132DFF330009C878 /* OpenAL.framework in Frameworks */,
 				D44C620E132DFF430009C878 /* AVFoundation.framework in Frameworks */,
-				AC1B7F99189744C10034A70B /* KiiSDK.framework in Frameworks */,
 				D44C6210132DFF4E0009C878 /* AudioToolbox.framework in Frameworks */,
 				1AB8703C175E0A92005D39BF /* libwebsockets.a in Frameworks */,
 			);
@@ -1471,7 +1471,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
-				AC1B7F98189744C10034A70B /* KiiSDK.framework */,
+				74587FB0189FA104008DA948 /* KiiSDK.framework */,
 				15A3D87E1682F7B3002FB0C5 /* cocos2dx.xcodeproj */,
 				15A3D8871682F7D5002FB0C5 /* Box2D */,
 				15A3D93A1682F7F9002FB0C5 /* chipmunk */,
@@ -2238,6 +2238,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/guest/Documents/sdk,
+					"/Users/satoshi/git_wc/Cocos2d-x/SampleGame/proj.ios",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
@@ -2292,6 +2293,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/guest/Documents/sdk,
+					"/Users/satoshi/git_wc/Cocos2d-x/SampleGame/proj.ios",
 				);
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
