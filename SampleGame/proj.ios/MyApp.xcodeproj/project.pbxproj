@@ -297,7 +297,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		15A3D87E1682F7B3002FB0C5 /* cocos2dx.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = cocos2dx.xcodeproj; path = ../../../cocos2dx/proj.ios/cocos2dx.xcodeproj; sourceTree = "<group>"; };
+		15A3D87E1682F7B3002FB0C5 /* cocos2dx.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = cocos2dx.xcodeproj; path = __cocos2dx_relative_root__/cocos2dx/proj.ios/cocos2dx.xcodeproj; sourceTree = "<group>"; };
 		15A3D8891682F7D5002FB0C5 /* Box2D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Box2D.h; sourceTree = "<group>"; };
 		15A3D88B1682F7D5002FB0C5 /* b2BroadPhase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = b2BroadPhase.cpp; sourceTree = "<group>"; };
 		15A3D88C1682F7D5002FB0C5 /* b2BroadPhase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = b2BroadPhase.h; sourceTree = "<group>"; };
@@ -793,7 +793,7 @@
 		AC1B7F92189743DC0034A70B /* KRanking_objc.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = KRanking_objc.mm; sourceTree = SOURCE_ROOT; };
 		AC1B7F951897441C0034A70B /* CallFromCPP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CallFromCPP.h; sourceTree = SOURCE_ROOT; };
 		AC1B7F961897441C0034A70B /* CallFromCPP.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CallFromCPP.mm; sourceTree = SOURCE_ROOT; };
-		AC1B7F98189744C10034A70B /* KiiSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KiiSDK.framework; path = ../../../../../sdk/KiiSDK.framework; sourceTree = "<group>"; };
+		AC1B7F98189744C10034A70B /* KiiSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KiiSDK.framework; path = __cocos2dx_relative_root__/../../sdk/KiiSDK.framework; sourceTree = "<group>"; };
 		AC1B7F9A189746520034A70B /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		AC1B7F9C189746610034A70B /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		AC1B7F9E1897466D0034A70B /* Twitter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Twitter.framework; path = System/Library/Frameworks/Twitter.framework; sourceTree = SDKROOT; };
@@ -886,7 +886,7 @@
 				15A3D8FB1682F7D5002FB0C5 /* Rope */,
 			);
 			name = Box2D;
-			path = ../../../external/Box2D;
+			path = "__cocos2dx_relative_root__/../cocos2d-x-2.2.2/external/Box2D";
 			sourceTree = "<group>";
 		};
 		15A3D88A1682F7D5002FB0C5 /* Collision */ = {
@@ -1038,7 +1038,7 @@
 				15A3D9671682F7F9002FB0C5 /* src */,
 			);
 			name = chipmunk;
-			path = ../../../external/chipmunk;
+			path = "__cocos2dx_relative_root__/../cocos2d-x-2.2.2/external/chipmunk";
 			sourceTree = "<group>";
 		};
 		15A3D93E1682F7F9002FB0C5 /* include */ = {
@@ -1149,7 +1149,7 @@
 				1A8F3B42175E05DA00049216 /* spine */,
 			);
 			name = extensions;
-			path = ../../../extensions;
+			path = __cocos2dx_relative_root__/extensions;
 			sourceTree = "<group>";
 		};
 		15A3D9B51682F826002FB0C5 /* CCBReader */ = {
@@ -1313,7 +1313,7 @@
 				15A3DA841682F8A6002FB0C5 /* ios */,
 			);
 			name = CocosDenshion;
-			path = ../../../CocosDenshion;
+			path = __cocos2dx_relative_root__/CocosDenshion;
 			sourceTree = "<group>";
 		};
 		15A3DA811682F8A6002FB0C5 /* include */ = {
@@ -1440,7 +1440,7 @@
 				1AB87037175E0A92005D39BF /* ios */,
 			);
 			name = libwebsockets;
-			path = ../../../external/libwebsockets;
+			path = __cocos2dx_relative_root__/external/libwebsockets;
 			sourceTree = "<group>";
 		};
 		1AB87037175E0A92005D39BF /* ios */ = {
@@ -2253,23 +2253,23 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_VERSION = "";
 				HEADER_SEARCH_PATHS = (
-					"$(SRCROOT)/../../../CocosDenshion/include",
-					"\"$(SRCROOT)/../../../external/chipmunk/include/constraints\"",
-					"\"$(SRCROOT)/../../../external/chipmunk/include/chipmunk\"",
-					"\"$(SRCROOT)/../../../extensions\"",
-					"\"$(SRCROOT)/../../../cocos2dx/kazmath/include\"",
-					"\"$(SRCROOT)/../../../external\"",
-					"\"$(SRCROOT)/../../../cocos2dx\"",
-					"\"$(SRCROOT)/../../../cocos2dx/include\"",
-					"\"$(SRCROOT)/../../../cocos2dx/platform/third_party/ios\"",
-					"\"$(SRCROOT)/../../../cocos2dx/platform/ios\"",
-					"\"$(SRCROOT)/../../../cocos2dx/platform/ios/Simulation\"",
+					"$(SRCROOT)/__cocos2dx_relative_root__/CocosDenshion/include",
+					"\"$(SRCROOT)/__cocos2dx_relative_root__/external/chipmunk/include/constraints\"",
+					"\"$(SRCROOT)/__cocos2dx_relative_root__/external/chipmunk/include/chipmunk\"",
+					"\"$(SRCROOT)/__cocos2dx_relative_root__/extensions\"",
+					"\"$(SRCROOT)/__cocos2dx_relative_root__/cocos2dx/kazmath/include\"",
+					"\"$(SRCROOT)/__cocos2dx_relative_root__/external\"",
+					"\"$(SRCROOT)/__cocos2dx_relative_root__/cocos2dx\"",
+					"\"$(SRCROOT)/__cocos2dx_relative_root__/cocos2dx/include\"",
+					"\"$(SRCROOT)/__cocos2dx_relative_root__/cocos2dx/platform/third_party/ios\"",
+					"\"$(SRCROOT)/__cocos2dx_relative_root__/cocos2dx/platform/ios\"",
+					"\"$(SRCROOT)/__cocos2dx_relative_root__/cocos2dx/platform/ios/Simulation\"",
 				);
 				INFOPLIST_FILE = Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				LIBRARY_SEARCH_PATHS = (
-					"\"$(SRCROOT)/../../../cocos2dx/platform/third_party/ios/libraries\"",
-					"\"$(SRCROOT)/../../../external/libwebsockets/ios/lib\"",
+					"\"$(SRCROOT)/__cocos2dx_relative_root__/cocos2dx/platform/third_party/ios/libraries\"",
+					"\"$(SRCROOT)/__cocos2dx_relative_root__/external/libwebsockets/ios/lib\"",
 				);
 				OTHER_CFLAGS = "-O2";
 				PRODUCT_NAME = MyApp;
@@ -2305,23 +2305,23 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_VERSION = "";
 				HEADER_SEARCH_PATHS = (
-					"$(SRCROOT)/../../../CocosDenshion/include",
-					"\"$(SRCROOT)/../../../external/chipmunk/include/constraints\"",
-					"\"$(SRCROOT)/../../../external/chipmunk/include/chipmunk\"",
-					"\"$(SRCROOT)/../../../extensions\"",
-					"\"$(SRCROOT)/../../../cocos2dx/kazmath/include\"",
-					"\"$(SRCROOT)/../../../external\"",
-					"\"$(SRCROOT)/../../../cocos2dx\"",
-					"\"$(SRCROOT)/../../../cocos2dx/include\"",
-					"\"$(SRCROOT)/../../../cocos2dx/platform/third_party/ios\"",
-					"\"$(SRCROOT)/../../../cocos2dx/platform/ios\"",
-					"\"$(SRCROOT)/../../../cocos2dx/platform/ios/Simulation\"",
+					"$(SRCROOT)/__cocos2dx_relative_root__/CocosDenshion/include",
+					"\"$(SRCROOT)/__cocos2dx_relative_root__/external/chipmunk/include/constraints\"",
+					"\"$(SRCROOT)/__cocos2dx_relative_root__/external/chipmunk/include/chipmunk\"",
+					"\"$(SRCROOT)/__cocos2dx_relative_root__/extensions\"",
+					"\"$(SRCROOT)/__cocos2dx_relative_root__/cocos2dx/kazmath/include\"",
+					"\"$(SRCROOT)/__cocos2dx_relative_root__/external\"",
+					"\"$(SRCROOT)/__cocos2dx_relative_root__/cocos2dx\"",
+					"\"$(SRCROOT)/__cocos2dx_relative_root__/cocos2dx/include\"",
+					"\"$(SRCROOT)/__cocos2dx_relative_root__/cocos2dx/platform/third_party/ios\"",
+					"\"$(SRCROOT)/__cocos2dx_relative_root__/cocos2dx/platform/ios\"",
+					"\"$(SRCROOT)/__cocos2dx_relative_root__/cocos2dx/platform/ios/Simulation\"",
 				);
 				INFOPLIST_FILE = Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				LIBRARY_SEARCH_PATHS = (
-					"\"$(SRCROOT)/../../../cocos2dx/platform/third_party/ios/libraries\"",
-					"\"$(SRCROOT)/../../../external/libwebsockets/ios/lib\"",
+					"\"$(SRCROOT)/__cocos2dx_relative_root__/cocos2dx/platform/third_party/ios/libraries\"",
+					"\"$(SRCROOT)/__cocos2dx_relative_root__/external/libwebsockets/ios/lib\"",
 				);
 				PRODUCT_NAME = MyApp;
 				PROVISIONING_PROFILE = "";
