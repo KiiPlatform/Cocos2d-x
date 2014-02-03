@@ -8,10 +8,8 @@ cocos_rpath_esc=\\.\\.\\/\\.\\.\\/\\.\\.\\/\\.\\.\\/cocos2d-x-2.2.2
 
 if test "$1" = '-r' ; then
     echo "$1 option. revert local path related changes..."
-    cat MyApp.xcodeproj/project.pbxproj | sed -e 's/'$cocos_rpath_esc'/__cocos2dx_relative_root__/g' > MyApp.xcodeproj/project.pbxproj.mod
+    sed -i .tmp 's/'$cocos_rpath_esc'/__cocos2dx_relative_root__/g' MyApp.xcodeproj/project.pbxproj
 else
     echo "Applying local path related changes..."
-    cat MyApp.xcodeproj/project.pbxproj | sed -e 's/__cocos2dx_relative_root__/'$cocos_rpath'/g' > MyApp.xcodeproj/project.pbxproj.mod
+    sed -i .tmp 's/__cocos2dx_relative_root__/'$cocos_rpath'/g' MyApp.xcodeproj/project.pbxproj
 fi
-
-mv MyApp.xcodeproj/project.pbxproj.mod MyApp.xcodeproj/project.pbxproj
