@@ -1,0 +1,17 @@
+# Setup
+1. Edit ios-proj.sh and configure cocos\_rpath following to your environment.
+Note: '/' need to be escaped.
+
+2. Execute following command.
+```
+sh ios-proj.sh
+```
+
+3. When you want to commit changes in project settings, revert your local environment changes first. setup cocos\_rpath\_esc.
+Note: meta characters used in regular expression and '/' should be escaped.
+
+4. Execute following command. 
+```
+sh ios-proj.sh -r
+```
+
