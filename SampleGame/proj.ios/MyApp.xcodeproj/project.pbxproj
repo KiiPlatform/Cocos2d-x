@@ -227,6 +227,7 @@
 		379BB9D417F03F3700829B88 /* SceneReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 379BB99317F03F3700829B88 /* SceneReader.cpp */; };
 		46513EB1187BFBA200B5ABE1 /* UITouchGroup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 46513EAF187BFBA200B5ABE1 /* UITouchGroup.cpp */; };
 		74587FB1189FA104008DA948 /* KiiSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74587FB0189FA104008DA948 /* KiiSDK.framework */; };
+		74587FB7189FA40C008DA948 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74587FB6189FA40C008DA948 /* Social.framework */; };
 		7855E0E1153FEF240059DD9A /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 7855E0DF153FEF240059DD9A /* Default.png */; };
 		AC028A221898B52C00BE0E74 /* bt_name.png in Resources */ = {isa = PBXBuildFile; fileRef = AC028A211898B52B00BE0E74 /* bt_name.png */; };
 		AC1B7F5B189741B00034A70B /* GameOverScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AC1B7F50189741B00034A70B /* GameOverScene.cpp */; };
@@ -261,7 +262,6 @@
 		AC1B7F971897441C0034A70B /* CallFromCPP.mm in Sources */ = {isa = PBXBuildFile; fileRef = AC1B7F961897441C0034A70B /* CallFromCPP.mm */; };
 		AC1B7F9B189746520034A70B /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC1B7F9A189746520034A70B /* MobileCoreServices.framework */; };
 		AC1B7F9D189746610034A70B /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC1B7F9C189746610034A70B /* Accounts.framework */; };
-		AC1B7F9F1897466D0034A70B /* Twitter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC1B7F9E1897466D0034A70B /* Twitter.framework */; };
 		AC96B5A2189B3F9D000FC99D /* KiiSample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AC96B5A1189B3F9D000FC99D /* KiiSample.cpp */; };
 		ACD60B651897A24200F30584 /* KiiAppSingleton.m in Sources */ = {isa = PBXBuildFile; fileRef = ACD60B641897A24100F30584 /* KiiAppSingleton.m */; };
 		BF171245129291EC00B8313A /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB012928DE900B8313A /* OpenGLES.framework */; };
@@ -753,6 +753,7 @@
 		46513EAF187BFBA200B5ABE1 /* UITouchGroup.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = UITouchGroup.cpp; sourceTree = "<group>"; };
 		46513EB0187BFBA200B5ABE1 /* UITouchGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UITouchGroup.h; sourceTree = "<group>"; };
 		74587FB0189FA104008DA948 /* KiiSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = KiiSDK.framework; sourceTree = "<group>"; };
+		74587FB6189FA40C008DA948 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		7855E0DF153FEF240059DD9A /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = SOURCE_ROOT; };
 		AC028A211898B52B00BE0E74 /* bt_name.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bt_name.png; sourceTree = "<group>"; };
 		AC1B7F50189741B00034A70B /* GameOverScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GameOverScene.cpp; path = ../Classes/GameOverScene.cpp; sourceTree = "<group>"; };
@@ -822,7 +823,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AC1B7F9F1897466D0034A70B /* Twitter.framework in Frameworks */,
+				74587FB7189FA40C008DA948 /* Social.framework in Frameworks */,
 				AC1B7F9D189746610034A70B /* Accounts.framework in Frameworks */,
 				AC1B7F9B189746520034A70B /* MobileCoreServices.framework in Frameworks */,
 				15A3DA6A1682F886002FB0C5 /* libcocos2dx.a in Frameworks */,
@@ -1490,6 +1491,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				74587FB6189FA40C008DA948 /* Social.framework */,
 				AC1B7F9E1897466D0034A70B /* Twitter.framework */,
 				AC1B7F9C189746610034A70B /* Accounts.framework */,
 				AC1B7F9A189746520034A70B /* MobileCoreServices.framework */,
