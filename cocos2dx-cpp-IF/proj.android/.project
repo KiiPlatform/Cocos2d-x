@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>MyApp_sample</name>
+	<name>cocos2dx-cpp-IF</name>
 	<comment></comment>
 	<projects>
 	</projects>
@@ -110,7 +110,7 @@
 		<link>
 			<name>Classes</name>
 			<type>2</type>
-			<location>/Users/guest/Documents/cocos2d-x/cocos2d-x-2.2.2/projects/MyApp_sample/Classes</location>
+			<location>/Users/guest/Documents/cocos2d-x/cocos2d-x-2.2.2/projects/MyApp/cocos2dx-cpp-IF/Classes</location>
 		</link>
 		<link>
 			<name>cocos2dx</name>

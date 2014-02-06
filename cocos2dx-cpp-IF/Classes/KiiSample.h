@@ -10,6 +10,7 @@
 #define MyApp_KiiSample_h
 
 #include "cocos2d.h"
+#include "picojson.h"
 
 using namespace std;
 using namespace cocos2d;
@@ -53,11 +54,18 @@ public:
     void object_saveAllFields();
     void callBack_object_saveAllFields(const char *json);
 
+    void object_saveTest1();
+    void object_saveTest2(picojson::object v);
 
     string _backet_key;
     string _userDisplayName;
     string _uri;
     vector<ScoreData> _vScoreData;
+
+    string _score;
+    string _mode;
+    string _premiumUser;
+
 };
 
 #endif

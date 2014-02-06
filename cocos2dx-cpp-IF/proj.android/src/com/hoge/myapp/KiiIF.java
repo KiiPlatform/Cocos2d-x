@@ -148,7 +148,20 @@ public class KiiIF {
 		KiiAPICall kapi = new KiiAPICall(json_map, l);
 		kapi.run_object_refresh();	//object
     }
-    
+
+    public static void object_saveAllFields(final int serviceID, HashMap<String,String> json_map) {
+		Log.v(TAG, "object_saveAllFields");
+		KiiListenerInterface l = new KiiListenerInterface(){
+			@Override
+			public void onCompleted(String json) {
+				Log.v(TAG, "object_saveAllFields onCompleted " + serviceID + " " + json);
+				CallCPP.setDisplayame2(json, serviceID);//C++へ -----
+			}
+		};
+		KiiAPICall kapi = new KiiAPICall(json_map, l);
+		kapi.run_object_saveAllFields();	//object
+    }    
+        
     public static void bucket_query(final int serviceID, HashMap<String,String> json_map) {
 		Log.v(TAG, "bucket_query");
 		KiiListenerInterface l = new KiiListenerInterface(){

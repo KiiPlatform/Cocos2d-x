@@ -263,7 +263,9 @@ void StartLayer::bt_nameCallback(CCObject* pSender)
 
     //serialize();
 	//_pKiiSample->ranking_query_all();	//ランキング取得
-	_pKiiSample->object_save();	//
+	//_pKiiSample->object_save();	//
+
+	_pKiiSample->object_saveTest1();
 
 }
 

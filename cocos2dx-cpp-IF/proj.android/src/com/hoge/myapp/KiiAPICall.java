@@ -40,6 +40,7 @@ public class KiiAPICall {
 		m_json_map = json_map;
 	}
 	
+	//query
 	public void run_query(){
 		Log.v(TAG, "run_query");
 		String backet_key = m_json_map.get("backet_key");
@@ -108,8 +109,9 @@ public class KiiAPICall {
 		//
 	}
 
+	//save
 	public void run_object_save() {
-		Log.v(TAG, "run_object");
+		Log.v(TAG, "run_object_save");
 		
 		String backet_key = m_json_map.get("backet_key");
 		KiiObject object = Kii.bucket(backet_key).object();
@@ -120,10 +122,11 @@ public class KiiAPICall {
 				Log.v(TAG, "key " + key);
 				String val = m_json_map.get(key);
 				Log.v(TAG, "val " + val);
-				String[] strAry = val.split("_");
+				String[] strAry = key.split("_");
 				Log.v(TAG, "strAry.length " + strAry.length );
 				Log.v(TAG, "strAry " + strAry[0] + " "+ strAry[1]);
-				object.set(strAry[0], strAry[1]);	//setを実行
+				Log.v(TAG, "set " + strAry[1] +","+ val);
+				object.set(strAry[1], val);	//setを実行
 			}
 		}
 
@@ -151,8 +154,9 @@ public class KiiAPICall {
 		
 	}
 	
+	//refresh
 	public void run_object_refresh() {
-		Log.v(TAG, "run_object");
+		Log.v(TAG, "run_object_refresh");
 		
 		String s_uri = m_json_map.get("uri");
 		Uri uri = Uri.parse(s_uri);
@@ -185,5 +189,50 @@ public class KiiAPICall {
 		        m_listener.onCompleted(json);
 			}
         });
+	}
+
+	//saveAllFields
+	public void run_object_saveAllFields() {
+		Log.v(TAG, "run_object_saveAllFields");
+		
+		String s_uri = m_json_map.get("uri");
+		Uri objUri = Uri.parse(s_uri);
+		KiiObject object = KiiObject.createByUri(objUri);
+
+		//setを取り出して実行する
+		for (String key : m_json_map.keySet()) {
+			if (key.startsWith("set")) {
+				Log.v(TAG, "key " + key);
+				String val = m_json_map.get(key);
+				Log.v(TAG, "val " + val);
+				String[] strAry = key.split("_");
+				Log.v(TAG, "strAry.length " + strAry.length );
+				Log.v(TAG, "strAry " + strAry[0] + " "+ strAry[1]);
+				Log.v(TAG, "set " + strAry[1] +","+ val);
+				object.set(strAry[1], val);	//setを実行
+			}
+		}
+
+        // call KiiCloud API
+        object.saveAllFields( new KiiObjectCallBack() {
+			@Override
+			public void onSaveCompleted(int token, KiiObject object, Exception e) {
+				Log.v(TAG, "run_object_saveAllFields onSaveCompleted " + token + " " + object +" " + e);
+				Uri uri = object.toUri();
+				Log.v(TAG, "uri " + uri );
+				//jsonを作成する
+				JSONObject json_obj = new JSONObject();
+				String json = null;
+				try {
+					json_obj.put("uri", uri);
+					json = json_obj.toString();
+				} catch (JSONException e1) {
+					// TODO Auto-generated catch block
+					Log.v(TAG, "createApplicationScopeBucket e " + e1);
+					e1.printStackTrace();
+				}
+				m_listener.onCompleted(json);
+			}
+        },true);	
 	}
 }

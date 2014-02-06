@@ -73,6 +73,54 @@ bool KiiSample::init(){
     return true;
 }
 
+//typedef std::map<std::string, picojson::value> object;
+
+
+
+// Set key-value pairs
+/***
+object.set("score", 987);
+object.set("mode", "easy");
+object.set("premiumUser", false);
+👆に似せる
+***/
+
+//型を柔軟にするテスト
+void KiiSample::object_saveTest1(){
+	CCLOG("KiiSample::object_saveTest1");
+
+	//vはmapです
+	picojson::object v;
+    //v["score"] = picojson::value(9000.0);	//コンストラクタでオブジェクトを作る
+    //v["name"] = picojson::value("hoge");	//コンストラクタでオブジェクトを作る
+
+    v.insert( make_pair("score", picojson::value(9000.0) ) );
+    v.insert( make_pair("name", picojson::value("hoge") ) );
+
+	object_saveTest2(v);
+}
+
+void KiiSample::object_saveTest2(picojson::object v){
+	CCLOG("KiiSample::object_saveTest2");
+
+	// 要素を出力する
+	string key;
+	picojson::value val;
+	picojson::object::iterator it = v.begin();
+	while( it != v.end() )
+	{
+		key = (*it).first;
+		val = (*it).second;
+		CCLOG("key %s",key.c_str() );
+
+		++it;
+	}
+    string str = picojson::value(v).serialize();
+    CCLOG("serialize str = %s",str.c_str());
+
+   // v[key] = picojson::value(val);
+}
+
 //Object Bucket の作成
 // Create Application Scope Bucket
 void KiiSample::createApplicationScopeBucket(){
@@ -111,9 +159,9 @@ void KiiSample::object_save(){
     params.insert( make_pair("backet_key", "mydata" ) );	//mydata
 
     //set
-    params.insert( make_pair("set1", "score_987" ) );
-    params.insert( make_pair("set2", "mode_easy" ) );
-    params.insert( make_pair("set3", "premiumUser_false" ) );
+    params.insert( make_pair("set_score", "987" ) );
+    params.insert( make_pair("set_mode", "easy" ) );
+    params.insert( make_pair("set_premiumUser", "false" ) );
 
     kiiReq( params, this, callback_selector(KiiSample::callBack_object_save) );
 
@@ -161,11 +209,17 @@ void KiiSample::callBack_object_refresh(const char *json){
     std::string& mode        = o["mode"].get<std::string>();
     std::string& premiumUser = o["premiumUser"].get<std::string>();
 
-    CCLOG("score %s ",score.c_str() );
-    CCLOG("mode %s ",mode.c_str() );
-    CCLOG("premiumUser %s ",premiumUser.c_str() );
+    //クラス変数へ代入する
+    _score = score;
+    _mode = mode;
+    _premiumUser = premiumUser;
+
+    CCLOG("_score %s ",_score.c_str() );
+    CCLOG("_mode %s ",_mode.c_str() );
+    CCLOG("_premiumUser %s ",_premiumUser.c_str() );
 
     CCLOG("KiiSample::callBack_object_refresh end");
+    object_saveAllFields();
 }
 
 //Object の更新
@@ -179,16 +233,16 @@ void KiiSample::object_saveAllFields(){
     params.insert( make_pair("uri", _uri ) );	//uriを渡してrefreshする
 
     //set
-    params.insert( make_pair("set1", "score_987" ) );
-    params.insert( make_pair("set2", "mode_easy" ) );
-    params.insert( make_pair("set3", "premiumUser_false" ) );
+    params.insert( make_pair("set_score", "9000" ) );
+    params.insert( make_pair("set_mode", _mode ) );
+    params.insert( make_pair("set_premiumUser", _premiumUser ) );
 
     kiiReq( params, this, callback_selector(KiiSample::callBack_object_saveAllFields) );
 
 	CCLOG("KiiSample::init end");
 }
 void KiiSample::callBack_object_saveAllFields(const char *json){
-    CCLOG("KiiSample::callBack_init %s",json);
+    CCLOG("KiiSample::callBack_object_saveAllFields %s",json);
 
     //json objctとして処理する
     std::string err;
@@ -199,6 +253,9 @@ void KiiSample::callBack_object_saveAllFields(const char *json){
 
     _uri = uri.c_str();
     CCLOG("_uri %s ",_uri.c_str() );
+
+    CCLOG("KiiSample::callBack_object_saveAllFields end");
+    object_refresh();	//for test
 }
 
 
