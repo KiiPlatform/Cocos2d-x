@@ -68,6 +68,10 @@ public class MyApp extends Cocos2dxActivity{
 		
 	}
 
+    /***
+     * 
+     * @param name
+     */
     public void displayNameUpdate(String name){
 		Log.v(TAG, "displayNameUpdate");
 		if(m_kRanking!=null){

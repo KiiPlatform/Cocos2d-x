@@ -86,6 +86,10 @@ object.set("premiumUser", false);
 ***/
 
 //型を柔軟にするテスト
+
+/***
+ *
+ */
 void KiiSample::object_saveTest1(){
 	CCLOG("KiiSample::object_saveTest1");
 
