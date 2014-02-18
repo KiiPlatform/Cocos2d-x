@@ -190,7 +190,9 @@ bool StartLayer::init()
         this->addChild(_pname, 1);
         _pname->_slayer = this;
 
-        _pKiiSample = KiiSample::create();
+        //_pKiiSample = KiiSample::create();
+        _pCKiiApiTest = CKiiApiTest::create();	//CKiiApiTest
+        _pCKiiApiTest->createApplicationScopeBucketTest();
 
 		this->schedule( schedule_selector(StartLayer::update) );
 		
@@ -249,8 +251,11 @@ void StartLayer::bt_startCallback(CCObject* pSender)
 void StartLayer::bt_rankingCallback(CCObject* pSender)
 {
 	CCLOG("StartLayer::bt_rankingCallback");
-	CCDirector::sharedDirector()->replaceScene( RankingScene::create() );
-    
+//	CCDirector::sharedDirector()->replaceScene( RankingScene::create() );
+
+	//_pCKiiApiTest->object_refreshTest();
+	_pCKiiApiTest->object_updateTest();
+
 	//jni_ranking_post("muku-3", 123456+3);
 	//jni_ranking_query_all();
 	//jni_save_display_name("hoge");
@@ -265,7 +270,9 @@ void StartLayer::bt_nameCallback(CCObject* pSender)
 	//_pKiiSample->ranking_query_all();	//ランキング取得
 	//_pKiiSample->object_save();	//
 
-	_pKiiSample->object_saveTest1();
+	//_pKiiSample->object_saveTest1();
+	//_pCKiiApiTest->object_saveTest();
+	_pCKiiApiTest->clause1_Test();
 
 }
 

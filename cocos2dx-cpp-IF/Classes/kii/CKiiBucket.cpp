@@ -81,7 +81,7 @@ void CKiiBucket::callback(const char *json, CCObject* target, SEL_callbackHandle
 }
 
 /**
- * @brief バケットを作成する（アプリケーションスコープ）
+ * @brief バケットを作成する（Application Scope）
  *
  * @param backet_key バケットを識別する文字列
  * @param target 呼び出し元のクラスのポインタ
@@ -101,8 +101,83 @@ void CKiiBucket::createApplicationScopeBucket(string backet_key
     params.insert( make_pair("backet_key", backet_key ) );	//mydata
     kiiReq( params, this, callback_selector(CKiiBucket::callBack_createApplicationScopeBucket) );
 }
-
 void CKiiBucket::callBack_createApplicationScopeBucket(const char *json){
+    CCLOG("CKiiBucket::callBack_createApplicationScopeBucket %s",json);
+
+    //json objctとして処理する
+    std::string err;
+    picojson::value v;
+    picojson::parse(v, json, json + strlen(json), &err);
+    picojson::object& o = v.get<picojson::object>();    //object
+    std::string& backet_key = o["backet_key"].get<std::string>();
+
+    _backet_key = backet_key;
+    //char *backet_key = backet_key.c_str();
+    CCLOG("_backet_key=%s ",_backet_key.c_str() );
+
+    callback(json, target_createApplicationScopeBucket,selector_createApplicationScopeBucket);
+}
+
+/**
+ * @brief バケットを作成する（Group Scope）
+ *
+ * @param backet_key バケットを識別する文字列
+ * @param target 呼び出し元のクラスのポインタ
+ * @param selector コールバックメソッドのポインタ
+ * @return backet_key バケットを識別する文字列
+ */
+void CKiiBucket::createGroupScopeBucket(string backet_key
+		, CCObject* target, SEL_callbackHandler selector)
+{
+	CCLOG("CKiiBucket::createApplicationScopeBucket %s", backet_key.c_str() );
+
+	target_createApplicationScopeBucket = target;
+	selector_createApplicationScopeBucket = selector;
+
+    std::map<string, string> params;
+    params.insert( make_pair("cmd", "createGroupScopeBucket" ));
+    params.insert( make_pair("backet_key", backet_key ) );	//mydata
+    kiiReq( params, this, callback_selector(CKiiBucket::callBack_createApplicationScopeBucket) );
+}
+void CKiiBucket::callBack_createGroupScopeBucket(const char *json){
+    CCLOG("CKiiBucket::callBack_createApplicationScopeBucket %s",json);
+
+    //json objctとして処理する
+    std::string err;
+    picojson::value v;
+    picojson::parse(v, json, json + strlen(json), &err);
+    picojson::object& o = v.get<picojson::object>();    //object
+    std::string& backet_key = o["backet_key"].get<std::string>();
+
+    _backet_key = backet_key;
+    //char *backet_key = backet_key.c_str();
+    CCLOG("_backet_key=%s ",_backet_key.c_str() );
+
+    callback(json, target_createApplicationScopeBucket,selector_createApplicationScopeBucket);
+}
+
+/**
+ * @brief バケットを作成する（User Scope）
+ *
+ * @param backet_key バケットを識別する文字列
+ * @param target 呼び出し元のクラスのポインタ
+ * @param selector コールバックメソッドのポインタ
+ * @return backet_key バケットを識別する文字列
+ */
+void CKiiBucket::createUserScopeBucket(string backet_key
+		, CCObject* target, SEL_callbackHandler selector)
+{
+	CCLOG("CKiiBucket::createApplicationScopeBucket %s", backet_key.c_str() );
+
+	target_createApplicationScopeBucket = target;
+	selector_createApplicationScopeBucket = selector;
+
+    std::map<string, string> params;
+    params.insert( make_pair("cmd", "createUserScopeBucket" ));
+    params.insert( make_pair("backet_key", backet_key ) );	//mydata
+    kiiReq( params, this, callback_selector(CKiiBucket::callBack_createApplicationScopeBucket) );
+}
+void CKiiBucket::callBack_createUserScopeBucket(const char *json){
     CCLOG("CKiiBucket::callBack_createApplicationScopeBucket %s",json);
 
     //json objctとして処理する
@@ -122,21 +197,21 @@ void CKiiBucket::callBack_createApplicationScopeBucket(const char *json){
 /**
  * @brief objectを作成する
  *
- * @param set_pairs 保存するkey,valのpair
+ * @param key_value_pairs 保存する key-valueのpair
  * @param target 呼び出し元のクラスのポインタ
  * @param selector コールバックメソッドのポインタ
  * @return なし、別途コールバックより返る
  */
-void CKiiBucket::object_save(picojson::object set_pairs
+void CKiiBucket::object_save(picojson::object key_value_pairs
 		, CCObject* target, SEL_callbackHandler selector)
 {
 	CCLOG("CKiiBucket::object_save");
 	target_object_save = target;
 	selector_object_save = selector;
-	set_pairs.insert( make_pair("cmd", picojson::value("object_save") ) );	//object_save
-	set_pairs.insert( make_pair("backet_key", picojson::value(_backet_key) ) );	//object_save
+	key_value_pairs.insert( make_pair("cmd", picojson::value("object_save") ) );	//object_save
+	key_value_pairs.insert( make_pair("backet_key", picojson::value(_backet_key) ) );	//object_save
 
-    kiiReq2( set_pairs, this, callback_selector(CKiiBucket::callBack_object_save) );
+    kiiReq2( key_value_pairs, this, callback_selector(CKiiBucket::callBack_object_save) );
 
 	CCLOG("CKiiBucket::object_save end");
 }
@@ -186,56 +261,37 @@ void CKiiBucket::callBack_object_refresh(const char *json){
 }
 
 
-
 /**
- * @brief Objectの更新（フルアップデート）
+ * @brief Objectの更新
  *
  * @param　uri オブジェクトを特定するuri文字列
- * @param set_pairs 保存するkey,valのpair
+ * @param key_value_pairs 更新するkey-valueのpair
  * @param target 呼び出し元のクラスのポインタ
  * @param selector コールバックメソッドのポインタ
  * @return なし、別途コールバックより返る
  */
-void CKiiBucket::object_update(picojson::object set_pairs
+void CKiiBucket::object_update(string uri, picojson::object key_value_pairs
 		, CCObject* target, SEL_callbackHandler selector)
 {
 	CCLOG("CKiiBucket::object_update");
 	target_object_save = target;
 	selector_object_save = selector;
-	set_pairs.insert( make_pair("cmd", picojson::value("object_update") ) );	//object_update
-	set_pairs.insert( make_pair("uri", picojson::value(_uri) ) );	//uri アップデートのため
+	key_value_pairs.insert( make_pair("cmd", picojson::value("object_update") ) );	//object_update
+	key_value_pairs.insert( make_pair("uri", picojson::value(_uri) ) );	//uri アップデートのため
 
-    kiiReq2( set_pairs, this, callback_selector(CKiiBucket::callBack_object_save) );
+    kiiReq2( key_value_pairs, this, callback_selector(CKiiBucket::callBack_object_save) );
 
 	CCLOG("CKiiBucket::object_update end");
 }
 
 /**
- * @brief Objectの更新（フルアップデート）
- *
- * @param　uri オブジェクトを特定するuri文字列
- * @param set_pairs 保存するkey,valのpair
- * @param target 呼び出し元のクラスのポインタ
- * @param selector コールバックメソッドのポインタ
- * @return なし、別途コールバックより返る
- */
-void CKiiBucket::object_saveAllFields(string uri, picojson::object set_map
-		, CCObject* target, SEL_callbackHandler selector)
-{
-
-}
-
-void CKiiBucket::callBack_object_saveAllFields(const char *json){
-
-}
-
-/**
  * @brief Object の検索
  *
+ * @param query ソート条件等
  * @param clause 検索条件
  * @return なし、別途コールバックより返る
  */
-void CKiiBucket::query( CKiiClause *clause
+void CKiiBucket::query( CKiiQuery *query
 		, CCObject* target, SEL_callbackHandler selector){
 
 }

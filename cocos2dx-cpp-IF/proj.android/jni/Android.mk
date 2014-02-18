@@ -12,6 +12,10 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../Classes/kiiIF.cpp \
                    ../../Classes/kiiCPP.cpp \
                    ../../Classes/KiiSample.cpp \
+                   ../../Classes/kii/CKiiBucket.cpp \
+                   ../../Classes/kii/CKiiClause.cpp \
+                   ../../Classes/kii/CKiiQuery.cpp \
+                   ../../Classes/kii/CKiiApiTest.cpp \
                    ../../Classes/PName.cpp \
                    ../../Classes/RankingScene.cpp \
                    ../../Classes/StartScene.cpp \

@@ -36,6 +36,8 @@ public:
     void object_updateTest();
     void callBack_object_updateTest(const char *json);
 
+    void clause1_Test();
+
     CKiiBucket *_pCKiiBucket;
     string _backet_key;
     string _userDisplayName;

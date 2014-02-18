@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['query',['query',['../class_c_kii_bucket.html#aaa0404dee706f1330fd4d1261dbdf3f3',1,'CKiiBucket']]]
+  ['query',['query',['../class_c_kii_bucket.html#a8a3f690fc0a2e1d9ba0e81a53a92ef04',1,'CKiiBucket']]]
 ];

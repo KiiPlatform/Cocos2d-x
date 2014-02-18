@@ -11,6 +11,7 @@
 #include "cocos2d.h"
 #include "picojson.h"
 #include "CKiiClause.h"
+#include "CKiiQuery.h"
 
 using namespace std;
 using namespace cocos2d;
@@ -18,6 +19,7 @@ using namespace cocos2d;
 #define callback_selector(_SELECTOR) (SEL_callbackHandler)(&_SELECTOR)
 typedef void (cocos2d::CCObject::*SEL_callbackHandler)(const char *json);
 
+//Kii
 
 class CKiiBucket : public CCObject
 {
@@ -41,7 +43,21 @@ public:
     SEL_callbackHandler selector_createApplicationScopeBucket;
 
     //
-    void object_save(picojson::object set_pairs
+    void createGroupScopeBucket(string backet_key
+    		, CCObject* target, SEL_callbackHandler selector);
+    void callBack_createGroupScopeBucket(const char *json);
+    CCObject* target_createGroupScopeBucket;
+    SEL_callbackHandler selector_createGroupScopeBucket;
+
+    //
+    void createUserScopeBucket(string backet_key
+    		, CCObject* target, SEL_callbackHandler selector);
+    void callBack_createUserScopeBucket(const char *json);
+    CCObject* target_createUserScopeBucket;
+    SEL_callbackHandler selector_createUserScopeBucket;
+
+    //
+    void object_save(picojson::object key_value_pairs
     		, CCObject* target, SEL_callbackHandler selector);
 
     void callBack_object_save(const char *json);
@@ -56,7 +72,7 @@ public:
      SEL_callbackHandler selector_object_refresh;
 
     //
-     void object_update(picojson::object set_pairs
+     void object_update(string uri, picojson::object key_value_pairs
      		, CCObject* target, SEL_callbackHandler selector);
 
 
@@ -65,12 +81,8 @@ public:
      SEL_callbackHandler selector_object_update;
 
 
-    void object_saveAllFields(string uri, picojson::object set_map
-    		, CCObject* target, SEL_callbackHandler selector);
-    void callBack_object_saveAllFields(const char *json);
 
-
-    void query(CKiiClause *clause
+    void query(CKiiQuery *query
     		, CCObject* target, SEL_callbackHandler selector);
     void callBack_query(     const char *json);
 

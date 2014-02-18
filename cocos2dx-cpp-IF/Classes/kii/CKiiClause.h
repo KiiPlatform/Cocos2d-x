@@ -18,6 +18,15 @@ class CKiiClause {
 public:
 	CKiiClause();
 	virtual ~CKiiClause();
+
+	picojson::object _json;
+
+	static CKiiClause* equals(string key, int value);
+	static CKiiClause* equals(string key, bool value);
+	static CKiiClause* equals(string key, string value);
+
+	static CKiiClause* _or(CKiiClause* clauses, ...);
+
 };
 
 #endif /* CKIICLAUSE_H_ */

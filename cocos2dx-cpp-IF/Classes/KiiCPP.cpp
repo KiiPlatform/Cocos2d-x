@@ -61,6 +61,19 @@ void kiiReq( map<string, string> params, CCObject* target, SEL_callbackHandler s
     jni_kiiReq(json.c_str(), g_serviceID);  //Javaをコールする
 }
 
+
+void kiiReq2( picojson::object set_pairs
+		, CCObject* target, SEL_callbackHandler selector )
+{
+    g_serviceID++;
+    selecter_map.insert( make_pair(g_serviceID, selector ));
+    target_map.insert(   make_pair(g_serviceID, target ));
+
+    string json = picojson::value(set_pairs).serialize();
+    jni_kiiReq(json.c_str(), g_serviceID);  //Javaをコールする
+}
+
+
 void kiiRes(const char *json, int serviceID){
 	CCLOG("kiiRes %d %s", serviceID, json);
 

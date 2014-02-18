@@ -28,7 +28,8 @@
 
 #include "PName.h"
 #include "cocos2d.h"
-#include "KiiSample.h"
+//#include "KiiSample.h"
+#include "kii/CKiiApiTest.h"
 
 using namespace cocos2d;
 
@@ -55,7 +56,8 @@ public:
     void setButtonEnabled(bool b);
     
     PName *_pname;
-    KiiSample *_pKiiSample;
+    //KiiSample *_pKiiSample;
+    CKiiApiTest *_pCKiiApiTest;
 };
 
 class StartScene : public cocos2d::CCScene

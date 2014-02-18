@@ -104,7 +104,7 @@ void CKiiApiTest::object_updateTest()
      set_pairs.insert( make_pair("set_mode", picojson::value("easy2") ) );
      set_pairs.insert( make_pair("set_premiumUser", picojson::value("false") ) );
 
-     _pCKiiBucket->object_update(set_pairs,
+     _pCKiiBucket->object_update("hoge", set_pairs,
      		this, callback_selector(CKiiApiTest::callBack_object_updateTest));
 }
 
@@ -114,4 +114,18 @@ void CKiiApiTest::callBack_object_updateTest(const char *json)
     object_refreshTest();	//for test
 }
 
+void CKiiApiTest::clause1_Test(){
+    CCLOG("CKiiApiTest::clause1_Test");
+
+	CKiiClause* e1 = CKiiClause::equals("key1","val1");
+	CKiiClause* e2 = CKiiClause::equals("key2","val2");
+	CKiiClause* e3 = CKiiClause::equals("key3","val3");
+
+    CCLOG("e1=%08x",(unsigned int)e1);
+    CCLOG("e2=%08x",(unsigned int)e2);
+    CCLOG("e3=%08x",(unsigned int)e3);
+
+	CKiiClause* or4 = CKiiClause::_or(e1,e2,e3,NULL);
+
+}
 

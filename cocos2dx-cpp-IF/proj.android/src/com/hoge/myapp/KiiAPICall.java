@@ -22,12 +22,18 @@ import com.kii.cloud.storage.callback.KiiObjectCallBack;
 import com.kii.cloud.storage.callback.KiiQueryCallBack;
 import com.kii.cloud.storage.callback.KiiUserCallBack;
 import com.kii.cloud.storage.exception.app.AppException;
+import com.kii.cloud.storage.exception.app.BadRequestException;
+import com.kii.cloud.storage.exception.app.ConflictException;
+import com.kii.cloud.storage.exception.app.ForbiddenException;
+import com.kii.cloud.storage.exception.app.NotFoundException;
+import com.kii.cloud.storage.exception.app.UnauthorizedException;
+import com.kii.cloud.storage.exception.app.UndefinedException;
 import com.kii.cloud.storage.query.KiiClause;
 import com.kii.cloud.storage.query.KiiQuery;
 import com.kii.cloud.storage.query.KiiQueryResult;
 
 public class KiiAPICall {
-	private final static String TAG ="KRanking";
+	private final static String TAG ="KiiAPICall";
 	private KiiBucket mBucket;
 	private KiiListenerInterface m_listener;
 	private HashMap<String,String> m_json_map;
@@ -145,7 +151,7 @@ public class KiiAPICall {
 					json = json_obj.toString();
 				} catch (JSONException e1) {
 					// TODO Auto-generated catch block
-					Log.v(TAG, "createApplicationScopeBucket e " + e1);
+					Log.v(TAG, "onSaveCompleted e " + e1);
 					e1.printStackTrace();
 				}
 				m_listener.onCompleted(json);
@@ -191,6 +197,84 @@ public class KiiAPICall {
         });
 	}
 
+	//update
+	public void run_object_update() {
+		// TODO Auto-generated method stub
+		Log.v(TAG, "run_object_update");
+		
+		//String backet_key = m_json_map.get("backet_key");
+		//KiiObject object = Kii.bucket(backet_key).object();
+		String s_uri = m_json_map.get("uri");
+		Uri uri = Uri.parse(s_uri);
+		Log.v(TAG, "uri = " + uri);
+        KiiObject object = KiiObject.createByUri(uri);
+        
+        //refresh
+        Log.v(TAG, "run_object_update refresh1");
+        try {
+			object.refresh();	//refresh
+		} catch (BadRequestException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		} catch (UnauthorizedException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		} catch (ForbiddenException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		} catch (ConflictException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		} catch (NotFoundException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		} catch (UndefinedException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		} catch (IOException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+        Log.v(TAG, "run_object_update refresh2");
+        //
+		
+		//setを取り出して実行する
+		for (String key : m_json_map.keySet()) {
+			if (key.startsWith("set")) {
+				Log.v(TAG, "key " + key);
+				String val = m_json_map.get(key);
+				Log.v(TAG, "val " + val);
+				String[] strAry = key.split("_");
+				Log.v(TAG, "strAry.length " + strAry.length );
+				Log.v(TAG, "strAry " + strAry[0] + " "+ strAry[1]);
+				Log.v(TAG, "set " + strAry[1] +","+ val);
+				object.set(strAry[1], val);	//setを実行
+			}
+		}
+
+        // call KiiCloud API
+        object.save( new KiiObjectCallBack() {
+			@Override
+			public void onSaveCompleted(int token, KiiObject object, Exception e) {
+				Log.v(TAG, "run_object onSaveCompleted " + token + " " + object +" " + e);
+				Uri uri = object.toUri();
+				Log.v(TAG, "uri " + uri );
+				//jsonを作成する
+				JSONObject json_obj = new JSONObject();
+				String json = null;
+				try {
+					json_obj.put("uri", uri);
+					json = json_obj.toString();
+				} catch (JSONException e1) {
+					// TODO Auto-generated catch block
+					Log.v(TAG, "onSaveCompleted e " + e1);
+					e1.printStackTrace();
+				}
+				m_listener.onCompleted(json);
+			}
+        });		
+	}	
+	
 	//saveAllFields
 	public void run_object_saveAllFields() {
 		Log.v(TAG, "run_object_saveAllFields");
@@ -235,4 +319,6 @@ public class KiiAPICall {
 			}
         },true);	
 	}
+
+
 }

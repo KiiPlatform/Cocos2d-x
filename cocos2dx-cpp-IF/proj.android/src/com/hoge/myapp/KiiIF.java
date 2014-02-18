@@ -123,6 +123,7 @@ public class KiiIF {
 		}
     }
 	
+    //save
     public static void object_save(final int serviceID, HashMap<String,String> json_map) {
 		Log.v(TAG, "object_save");
 		KiiListenerInterface l = new KiiListenerInterface(){
@@ -136,6 +137,7 @@ public class KiiIF {
 		kapi.run_object_save();	//object
     }
 
+    //refresh
     public static void object_refresh(final int serviceID, HashMap<String,String> json_map) {
 		Log.v(TAG, "object_refresh");
 		KiiListenerInterface l = new KiiListenerInterface(){
@@ -149,6 +151,20 @@ public class KiiIF {
 		kapi.run_object_refresh();	//object
     }
 
+    //update
+    public static void object_update(final int serviceID, HashMap<String,String> json_map) {
+		Log.v(TAG, "object_update");
+		KiiListenerInterface l = new KiiListenerInterface(){
+			@Override
+			public void onCompleted(String json) {
+				Log.v(TAG, "object_update onCompleted " + serviceID + " " + json);
+				CallCPP.setDisplayame2(json, serviceID);//C++へ -----
+			}
+		};
+		KiiAPICall kapi = new KiiAPICall(json_map, l);
+		kapi.run_object_update();	//object
+    }
+    
     public static void object_saveAllFields(final int serviceID, HashMap<String,String> json_map) {
 		Log.v(TAG, "object_saveAllFields");
 		KiiListenerInterface l = new KiiListenerInterface(){

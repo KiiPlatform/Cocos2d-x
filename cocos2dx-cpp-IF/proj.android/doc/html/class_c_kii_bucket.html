@@ -108,14 +108,26 @@ Public Member Functions</h2></td></tr>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>callback</b> (const char *json, CCObject *target, SEL_callbackHandler selector)</td></tr>
 <tr class="separator:a1f4fd49239cd277c1861c83fcb5e098b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a66ba352bd451a254a871903e4f28502c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_kii_bucket.html#a66ba352bd451a254a871903e4f28502c">createApplicationScopeBucket</a> (string backet_key, CCObject *target, SEL_callbackHandler selector)</td></tr>
-<tr class="memdesc:a66ba352bd451a254a871903e4f28502c"><td class="mdescLeft">&#160;</td><td class="mdescRight">バケットを作成する（アプリケーションスコープ）  <a href="#a66ba352bd451a254a871903e4f28502c">More...</a><br/></td></tr>
+<tr class="memdesc:a66ba352bd451a254a871903e4f28502c"><td class="mdescLeft">&#160;</td><td class="mdescRight">バケットを作成する（Application Scope）  <a href="#a66ba352bd451a254a871903e4f28502c">More...</a><br/></td></tr>
 <tr class="separator:a66ba352bd451a254a871903e4f28502c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a260a88c89b192ba5cf2c64b5a99d7dac"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a260a88c89b192ba5cf2c64b5a99d7dac"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>callBack_createApplicationScopeBucket</b> (const char *json)</td></tr>
 <tr class="separator:a260a88c89b192ba5cf2c64b5a99d7dac"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5d70b7701c19ec9176c3ac744bcc2519"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_kii_bucket.html#a5d70b7701c19ec9176c3ac744bcc2519">object_save</a> (picojson::object set_pairs, CCObject *target, SEL_callbackHandler selector)</td></tr>
-<tr class="memdesc:a5d70b7701c19ec9176c3ac744bcc2519"><td class="mdescLeft">&#160;</td><td class="mdescRight">objectを作成する  <a href="#a5d70b7701c19ec9176c3ac744bcc2519">More...</a><br/></td></tr>
-<tr class="separator:a5d70b7701c19ec9176c3ac744bcc2519"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae5bcfa361cef3e6d688335bf2497de13"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_kii_bucket.html#ae5bcfa361cef3e6d688335bf2497de13">createGroupScopeBucket</a> (string backet_key, CCObject *target, SEL_callbackHandler selector)</td></tr>
+<tr class="memdesc:ae5bcfa361cef3e6d688335bf2497de13"><td class="mdescLeft">&#160;</td><td class="mdescRight">バケットを作成する（Group Scope）  <a href="#ae5bcfa361cef3e6d688335bf2497de13">More...</a><br/></td></tr>
+<tr class="separator:ae5bcfa361cef3e6d688335bf2497de13"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7838074f46d59130d0950df5a3ff4753"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7838074f46d59130d0950df5a3ff4753"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>callBack_createGroupScopeBucket</b> (const char *json)</td></tr>
+<tr class="separator:a7838074f46d59130d0950df5a3ff4753"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3b9f2e2cc08c74d99fcda0d4f461befd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_kii_bucket.html#a3b9f2e2cc08c74d99fcda0d4f461befd">createUserScopeBucket</a> (string backet_key, CCObject *target, SEL_callbackHandler selector)</td></tr>
+<tr class="memdesc:a3b9f2e2cc08c74d99fcda0d4f461befd"><td class="mdescLeft">&#160;</td><td class="mdescRight">バケットを作成する（User Scope）  <a href="#a3b9f2e2cc08c74d99fcda0d4f461befd">More...</a><br/></td></tr>
+<tr class="separator:a3b9f2e2cc08c74d99fcda0d4f461befd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7b2b01aac65959c483b6eefd628b9ae8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7b2b01aac65959c483b6eefd628b9ae8"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>callBack_createUserScopeBucket</b> (const char *json)</td></tr>
+<tr class="separator:a7b2b01aac65959c483b6eefd628b9ae8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad175f87e32cecfd03f98f22328bec5a6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_kii_bucket.html#ad175f87e32cecfd03f98f22328bec5a6">object_save</a> (picojson::object key_value_pairs, CCObject *target, SEL_callbackHandler selector)</td></tr>
+<tr class="memdesc:ad175f87e32cecfd03f98f22328bec5a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">objectを作成する  <a href="#ad175f87e32cecfd03f98f22328bec5a6">More...</a><br/></td></tr>
+<tr class="separator:ad175f87e32cecfd03f98f22328bec5a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a57b3dfbce914b0d8ef38145be32f79b3"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a57b3dfbce914b0d8ef38145be32f79b3"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>callBack_object_save</b> (const char *json)</td></tr>
 <tr class="separator:a57b3dfbce914b0d8ef38145be32f79b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -125,21 +137,15 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>callBack_object_save<
 <tr class="memitem:ae5fd5045697030cdce7d004fb7e26bc4"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae5fd5045697030cdce7d004fb7e26bc4"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>callBack_object_refresh</b> (const char *json)</td></tr>
 <tr class="separator:ae5fd5045697030cdce7d004fb7e26bc4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acb04ad4f7f9f0e955975f4442237d441"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_kii_bucket.html#acb04ad4f7f9f0e955975f4442237d441">object_update</a> (picojson::object set_pairs, CCObject *target, SEL_callbackHandler selector)</td></tr>
-<tr class="memdesc:acb04ad4f7f9f0e955975f4442237d441"><td class="mdescLeft">&#160;</td><td class="mdescRight">Objectの更新（フルアップデート）  <a href="#acb04ad4f7f9f0e955975f4442237d441">More...</a><br/></td></tr>
-<tr class="separator:acb04ad4f7f9f0e955975f4442237d441"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1b61cde61e0b90e99e85e859eea22966"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_kii_bucket.html#a1b61cde61e0b90e99e85e859eea22966">object_update</a> (picojson::object key_value_pairs, CCObject *target, SEL_callbackHandler selector)</td></tr>
+<tr class="memdesc:a1b61cde61e0b90e99e85e859eea22966"><td class="mdescLeft">&#160;</td><td class="mdescRight">Objectの更新  <a href="#a1b61cde61e0b90e99e85e859eea22966">More...</a><br/></td></tr>
+<tr class="separator:a1b61cde61e0b90e99e85e859eea22966"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aca9a0b2e3caf7495711312828632bd8e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aca9a0b2e3caf7495711312828632bd8e"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>callBack_object_update</b> (const char *json)</td></tr>
 <tr class="separator:aca9a0b2e3caf7495711312828632bd8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac41f5c221ef100fd85190b4ec52b027d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_kii_bucket.html#ac41f5c221ef100fd85190b4ec52b027d">object_saveAllFields</a> (string uri, picojson::object set_map, CCObject *target, SEL_callbackHandler selector)</td></tr>
-<tr class="memdesc:ac41f5c221ef100fd85190b4ec52b027d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Objectの更新（フルアップデート）  <a href="#ac41f5c221ef100fd85190b4ec52b027d">More...</a><br/></td></tr>
-<tr class="separator:ac41f5c221ef100fd85190b4ec52b027d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0da084bd40c26d964169e84804a18984"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0da084bd40c26d964169e84804a18984"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>callBack_object_saveAllFields</b> (const char *json)</td></tr>
-<tr class="separator:a0da084bd40c26d964169e84804a18984"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaa0404dee706f1330fd4d1261dbdf3f3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_kii_bucket.html#aaa0404dee706f1330fd4d1261dbdf3f3">query</a> (<a class="el" href="class_c_kii_clause.html">CKiiClause</a> *clause, CCObject *target, SEL_callbackHandler selector)</td></tr>
-<tr class="memdesc:aaa0404dee706f1330fd4d1261dbdf3f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Object の検索  <a href="#aaa0404dee706f1330fd4d1261dbdf3f3">More...</a><br/></td></tr>
-<tr class="separator:aaa0404dee706f1330fd4d1261dbdf3f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8a3f690fc0a2e1d9ba0e81a53a92ef04"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_kii_bucket.html#a8a3f690fc0a2e1d9ba0e81a53a92ef04">query</a> (<a class="el" href="class_c_kii_query.html">CKiiQuery</a> *query, CCObject *target, SEL_callbackHandler selector)</td></tr>
+<tr class="memdesc:a8a3f690fc0a2e1d9ba0e81a53a92ef04"><td class="mdescLeft">&#160;</td><td class="mdescRight">Object の検索  <a href="#a8a3f690fc0a2e1d9ba0e81a53a92ef04">More...</a><br/></td></tr>
+<tr class="separator:a8a3f690fc0a2e1d9ba0e81a53a92ef04"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa36a27887af9177dc7809da7b723bb47"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa36a27887af9177dc7809da7b723bb47"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>callBack_query</b> (const char *json)</td></tr>
 <tr class="separator:aa36a27887af9177dc7809da7b723bb47"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -164,6 +170,18 @@ CCObject *&#160;</td><td class="memItemRight" valign="bottom"><b>target_createAp
 <tr class="memitem:a4a5b74eb7eea8c621668c2cd8a5f7cb4"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4a5b74eb7eea8c621668c2cd8a5f7cb4"></a>
 SEL_callbackHandler&#160;</td><td class="memItemRight" valign="bottom"><b>selector_createApplicationScopeBucket</b></td></tr>
 <tr class="separator:a4a5b74eb7eea8c621668c2cd8a5f7cb4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad36b7c5ea5bb1f578d0f24011f7af2b8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad36b7c5ea5bb1f578d0f24011f7af2b8"></a>
+CCObject *&#160;</td><td class="memItemRight" valign="bottom"><b>target_createGroupScopeBucket</b></td></tr>
+<tr class="separator:ad36b7c5ea5bb1f578d0f24011f7af2b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0070b496c90629e11bd409d7fe28cbda"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0070b496c90629e11bd409d7fe28cbda"></a>
+SEL_callbackHandler&#160;</td><td class="memItemRight" valign="bottom"><b>selector_createGroupScopeBucket</b></td></tr>
+<tr class="separator:a0070b496c90629e11bd409d7fe28cbda"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8c191a661195354d60a8b7c0b3538e4b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8c191a661195354d60a8b7c0b3538e4b"></a>
+CCObject *&#160;</td><td class="memItemRight" valign="bottom"><b>target_createUserScopeBucket</b></td></tr>
+<tr class="separator:a8c191a661195354d60a8b7c0b3538e4b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab596059653bc65a47a98f7dfbbd3f55c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab596059653bc65a47a98f7dfbbd3f55c"></a>
+SEL_callbackHandler&#160;</td><td class="memItemRight" valign="bottom"><b>selector_createUserScopeBucket</b></td></tr>
+<tr class="separator:ab596059653bc65a47a98f7dfbbd3f55c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6f53d63ed58db2db7f10f8067d160203"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6f53d63ed58db2db7f10f8067d160203"></a>
 CCObject *&#160;</td><td class="memItemRight" valign="bottom"><b>target_object_save</b></td></tr>
 <tr class="separator:a6f53d63ed58db2db7f10f8067d160203"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -247,7 +265,93 @@ SEL_callbackHandler&#160;</td><td class="memItemRight" valign="bottom"><b>select
       </table>
 </div><div class="memdoc">
 
-<p>バケットを作成する（アプリケーションスコープ） </p>
+<p>バケットを作成する（Application Scope） </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">backet_key</td><td>バケットを識別する文字列 </td></tr>
+    <tr><td class="paramname">target</td><td>呼び出し元のクラスのポインタ </td></tr>
+    <tr><td class="paramname">selector</td><td>コールバックメソッドのポインタ </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>backet_key バケットを識別する文字列 </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ae5bcfa361cef3e6d688335bf2497de13"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CKiiBucket::createGroupScopeBucket </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>backet_key</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CCObject *&#160;</td>
+          <td class="paramname"><em>target</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">SEL_callbackHandler&#160;</td>
+          <td class="paramname"><em>selector</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>バケットを作成する（Group Scope） </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">backet_key</td><td>バケットを識別する文字列 </td></tr>
+    <tr><td class="paramname">target</td><td>呼び出し元のクラスのポインタ </td></tr>
+    <tr><td class="paramname">selector</td><td>コールバックメソッドのポインタ </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>backet_key バケットを識別する文字列 </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a3b9f2e2cc08c74d99fcda0d4f461befd"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CKiiBucket::createUserScopeBucket </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>backet_key</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CCObject *&#160;</td>
+          <td class="paramname"><em>target</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">SEL_callbackHandler&#160;</td>
+          <td class="paramname"><em>selector</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>バケットを作成する（User Scope） </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">backet_key</td><td>バケットを識別する文字列 </td></tr>
@@ -327,7 +431,7 @@ SEL_callbackHandler&#160;</td><td class="memItemRight" valign="bottom"><b>select
 
 </div>
 </div>
-<a class="anchor" id="a5d70b7701c19ec9176c3ac744bcc2519"></a>
+<a class="anchor" id="ad175f87e32cecfd03f98f22328bec5a6"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -335,7 +439,7 @@ SEL_callbackHandler&#160;</td><td class="memItemRight" valign="bottom"><b>select
           <td class="memname">void CKiiBucket::object_save </td>
           <td>(</td>
           <td class="paramtype">picojson::object&#160;</td>
-          <td class="paramname"><em>set_pairs</em>, </td>
+          <td class="paramname"><em>key_value_pairs</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -360,7 +464,7 @@ SEL_callbackHandler&#160;</td><td class="memItemRight" valign="bottom"><b>select
 <p>objectを作成する </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">set_pairs</td><td>保存するkey,valのpair </td></tr>
+    <tr><td class="paramname">key_value_pairs</td><td>保存する key-valueのpair </td></tr>
     <tr><td class="paramname">target</td><td>呼び出し元のクラスのポインタ </td></tr>
     <tr><td class="paramname">selector</td><td>コールバックメソッドのポインタ </td></tr>
   </table>
@@ -370,57 +474,7 @@ SEL_callbackHandler&#160;</td><td class="memItemRight" valign="bottom"><b>select
 
 </div>
 </div>
-<a class="anchor" id="ac41f5c221ef100fd85190b4ec52b027d"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void CKiiBucket::object_saveAllFields </td>
-          <td>(</td>
-          <td class="paramtype">string&#160;</td>
-          <td class="paramname"><em>uri</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">picojson::object&#160;</td>
-          <td class="paramname"><em>set_map</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">CCObject *&#160;</td>
-          <td class="paramname"><em>target</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">SEL_callbackHandler&#160;</td>
-          <td class="paramname"><em>selector</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Objectの更新（フルアップデート） </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname"></td><td>オブジェクトを特定するuri文字列 </td></tr>
-    <tr><td class="paramname">set_pairs</td><td>保存するkey,valのpair </td></tr>
-    <tr><td class="paramname">target</td><td>呼び出し元のクラスのポインタ </td></tr>
-    <tr><td class="paramname">selector</td><td>コールバックメソッドのポインタ </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>なし、別途コールバックより返る </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="acb04ad4f7f9f0e955975f4442237d441"></a>
+<a class="anchor" id="a1b61cde61e0b90e99e85e859eea22966"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -428,7 +482,7 @@ SEL_callbackHandler&#160;</td><td class="memItemRight" valign="bottom"><b>select
           <td class="memname">void CKiiBucket::object_update </td>
           <td>(</td>
           <td class="paramtype">picojson::object&#160;</td>
-          <td class="paramname"><em>set_pairs</em>, </td>
+          <td class="paramname"><em>key_value_pairs</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -450,11 +504,11 @@ SEL_callbackHandler&#160;</td><td class="memItemRight" valign="bottom"><b>select
       </table>
 </div><div class="memdoc">
 
-<p>Objectの更新（フルアップデート） </p>
+<p>Objectの更新 </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname"></td><td>オブジェクトを特定するuri文字列 </td></tr>
-    <tr><td class="paramname">set_pairs</td><td>保存するkey,valのpair </td></tr>
+    <tr><td class="paramname">key_value_pairs</td><td>更新するkey-valueのpair </td></tr>
     <tr><td class="paramname">target</td><td>呼び出し元のクラスのポインタ </td></tr>
     <tr><td class="paramname">selector</td><td>コールバックメソッドのポインタ </td></tr>
   </table>
@@ -464,15 +518,15 @@ SEL_callbackHandler&#160;</td><td class="memItemRight" valign="bottom"><b>select
 
 </div>
 </div>
-<a class="anchor" id="aaa0404dee706f1330fd4d1261dbdf3f3"></a>
+<a class="anchor" id="a8a3f690fc0a2e1d9ba0e81a53a92ef04"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">void CKiiBucket::query </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="class_c_kii_clause.html">CKiiClause</a> *&#160;</td>
-          <td class="paramname"><em>clause</em>, </td>
+          <td class="paramtype"><a class="el" href="class_c_kii_query.html">CKiiQuery</a> *&#160;</td>
+          <td class="paramname"><em>query</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -497,6 +551,7 @@ SEL_callbackHandler&#160;</td><td class="memItemRight" valign="bottom"><b>select
 <p>Object の検索 </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
+    <tr><td class="paramname">query</td><td>ソート条件等 </td></tr>
     <tr><td class="paramname">clause</td><td>検索条件 </td></tr>
   </table>
   </dd>
@@ -512,7 +567,7 @@ SEL_callbackHandler&#160;</td><td class="memItemRight" valign="bottom"><b>select
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Feb 10 2014 18:25:08 for cocos2dx-cpp-IF by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Feb 17 2014 12:02:43 for cocos2dx-cpp-IF by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>
