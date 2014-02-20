@@ -72,17 +72,9 @@ bool RankingLayer::init()
         CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
         _center = ccp(origin.x + visibleSize.width/2, origin.y + visibleSize.height/2);
 
-        //
-        /***
-		CCSprite *player = CCSprite::create("Player.png", CCRectMake(0, 0, 27, 40) );
-		player->setPosition( _center );
-		this->addChild(player);
-		***/
-
 		CCSize winSize = CCDirector::sharedDirector()->getWinSize();
 		//this->_label = CCLabelTTF::create("","Artial", 32);
 		this->_label = CCLabelTTF::create("","Artial", 12);
-		//_label->setString("RANKING");
 		_label->retain();
 		_label->setColor( ccc3(0, 0, 0) );
 		_label->setPosition( ccp( _center.x , _center.y  ) );
@@ -114,19 +106,10 @@ bool RankingLayer::init()
 		// Add the menu to HelloWorld layer as a child layer.
 		this->addChild(pMenu, 1);
 
-/***
-		this->runAction( CCSequence::create(
-                                CCDelayTime::create(5),
-                                CCCallFunc::create(this, 
-                                callfunc_selector(GameOverLayer::gameOverDone)),
-                                NULL));
-***/
         strcpy(kii_label_buff, "no data");
 		jni_ranking_query_all();
 		this->schedule( schedule_selector(RankingLayer::update) );
 
-        //strcpy(kii_label_buff, "no data");  //iPhoneの場合、ここだとno dataのまま
-        
 		return true;
 	}
 	else
@@ -137,10 +120,6 @@ bool RankingLayer::init()
 
 void RankingLayer::update(float dt)
 {
-	//CCLOG("RankingLayer::update %s ", kii_label_buff);
-    
-	//_label->setString(HelloWorld::label_buff);
-    //_label->setString(KRanking::ranking_buff);
     _label->setString(kii_label_buff);
 }
 

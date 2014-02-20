@@ -1,15 +1,8 @@
 #include "HelloWorldScene.h"
 #include "GameOverScene.h"
-//#include "RankingScene.h"
-//#include "CallFromCPP.h"
-
-//#include "KRanking.h"
 
 #include "SimpleAudioEngine.h"
 
-//std::vector<ScoreData> HelloWorld::vScore;
-//char HelloWorld::label_buff[1024];
-//RankingScene *HelloWorld::rankingScene;
 extern void jni_ranking_post(const char *name, int score);
 
 HelloWorld::~HelloWorld()
@@ -78,24 +71,6 @@ bool HelloWorld::init()
 		//////////////////////////////////////////////////////////////////////////
 
 		CC_BREAK_IF(! CCLayerColor::initWithColor( ccc4(255,255,255,255) ) );
-        
-        //
-        /***
-        CCRect rect = CCRectMake(0,0,visibleSize.width, visibleSize.height);
-        float h = rect.size.height/2;
-        float w = rect.size.width/2;
-        CCPoint rect1[4];
-        rect1[0] = ccp(-w, -h);
-        rect1[1] = ccp(-w,  h);
-        rect1[2] = ccp( w,  h);
-        rect1[3] = ccp( w, -h);
-        const ccColor4B ccGRAY4 ={166,166,166, 255};
-        CCDrawNode* node_ = CCDrawNode::create();
-        node_->setPosition( CCPointMake( rect.getMidX(), rect.getMidY() ) );
-        node_->drawPolygon(rect1, 4, ccc4FFromccc4B(ccGRAY4), 1, ccc4FFromccc4B(ccGRAY4));
-        this->addChild(node_);
-         ***/
-        //
 
 		//////////////////////////////////////////////////////////////////////////
 		// add your codes below...
@@ -134,12 +109,6 @@ bool HelloWorld::init()
                                  origin.y + visibleSize.height/2) );
 		this->addChild(player);
         
-        /***
-        CCSprite *player2 = CCSprite::create("Player.png", CCRectMake(0, 0, 27, 40) );
-		player2->setPosition( ccp(_center.x , visibleSize.height) );
-		this->addChild(player2);
-         ***/
-        
         //
         //label_result
         _score = 0;
@@ -150,7 +119,6 @@ bool HelloWorld::init()
 		_label_score->setString(_score_buffer);
 		_label_score->setPosition( ccp(_center.x , _center.y+120) );
 		this->addChild(_label_score);
-
         
 		this->schedule( schedule_selector(HelloWorld::gameLogic), 1.0 );
 
@@ -171,8 +139,6 @@ bool HelloWorld::init()
 
 		bRet = true;
 	} while (0);
-
-	//jni_test();
 
 	return bRet;
 }
@@ -402,12 +368,9 @@ void HelloWorld::updateGame(float dt)
 		this->removeChild(projectile, true);
 	}
 	projectilesToDelete->release();
-    
-    //sprintf(_score_buffer,"%04d",_score);
 }
 
 void HelloWorld::registerWithTouchDispatcher()
 {
-	// CCTouchDispatcher::sharedDispatcher()->addTargetedDelegate(this,0,true);
     CCDirector::sharedDirector()->getTouchDispatcher()->addStandardDelegate(this,0);
 }

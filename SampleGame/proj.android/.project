@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>MyApp</name>
+	<name>KiiSimplegame</name>
 	<comment></comment>
 	<projects>
 	</projects>
@@ -110,7 +110,7 @@
 		<link>
 			<name>Classes</name>
 			<type>2</type>
-			<location>/Users/guest/Documents/cocos2d-x/cocos2d-x-2.2.2/projects/MyApp/Classes</location>
+			<location>/Users/guest/Documents/cocos2d-x/cocos2d-x-2.2.2/projects/MyApp/SampleGame/Classes</location>
 		</link>
 		<link>
 			<name>cocos2dx</name>
