@@ -186,6 +186,12 @@ void HelloWorld::saveHIScore(int score){
 		jni_ranking_post("hoge", _hiScore);
 	} else {
 		CCLOG("not hiscore");
+		//for debug
+		_hiScore = score;
+		_userDefault->setIntegerForKey("k_hiscore", _hiScore);	//save
+		CCLOG("_hiScore %d ", _hiScore);
+		jni_ranking_post("hoge", _hiScore);
+		//
 	}
 }
 

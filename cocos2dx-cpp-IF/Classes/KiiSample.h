@@ -11,6 +11,7 @@
 
 #include "cocos2d.h"
 #include "picojson.h"
+#include "kii/KObject.h"
 
 using namespace std;
 using namespace cocos2d;
@@ -24,7 +25,7 @@ public:
 	ScoreData(std::string a, std::string b){ name = a; score=b;}
 };
 
-class KiiSample : public CCObject
+class KiiSample : public KObject
 {
 public:
 	KiiSample(void);

@@ -11,11 +11,13 @@
 #include "cocos2d.h"
 #include "picojson.h"
 #include "CKiiBucket.h"
+#include "CKiiQuery.h"
+#include "KObject.h"
 
 using namespace std;
 using namespace cocos2d;
 
-class CKiiApiTest : public CCObject
+class CKiiApiTest : public KObject
 {
 public:
 	CKiiApiTest();
@@ -36,6 +38,9 @@ public:
     void object_updateTest();
     void callBack_object_updateTest(const char *json);
 
+    void clause3_Test();
+    void callBack_clause3_Test(const char *json);
+    void clause2_Test();
     void clause1_Test();
 
     CKiiBucket *_pCKiiBucket;

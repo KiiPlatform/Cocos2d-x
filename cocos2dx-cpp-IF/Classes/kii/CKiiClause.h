@@ -21,11 +21,48 @@ public:
 
 	picojson::object _json;
 
+	//equals
+/***
 	static CKiiClause* equals(string key, int value);
-	static CKiiClause* equals(string key, bool value);
+	static CKiiClause* equals(string key, double value);
 	static CKiiClause* equals(string key, string value);
+***/
+	static CKiiClause* equals(const string& key, int value);
+	static CKiiClause* equals(const string& key, double value);
+	static CKiiClause* equals(const string& key, string value);
 
-	static CKiiClause* _or(CKiiClause* clauses, ...);
+
+	//notEquals
+	static CKiiClause* notEquals(const string& key, int value);
+	static CKiiClause* notEquals(const string& key, double value);
+	static CKiiClause* notEquals(const string& key, string value);
+
+	//greaterThan
+	static CKiiClause* greaterThan(const string& key, int value);
+	static CKiiClause* greaterThan(const string& key, double value);
+	static CKiiClause* greaterThan(const string& key, string value);
+
+	//greaterThanOrEqual
+	static CKiiClause* greaterThanOrEqual(const string& key, int value);
+	static CKiiClause* greaterThanOrEqual(const string& key, double value);
+	static CKiiClause* greaterThanOrEqual(const string& key, string value);
+
+	//equals
+	static CKiiClause* lessThan(const string& key, int value);
+	static CKiiClause* lessThan(const string& key, double value);
+	static CKiiClause* lessThan(const string& key, string value);
+
+	//lessThanOrEqual
+	static CKiiClause* lessThanOrEqual(const string& key, int value);
+	static CKiiClause* lessThanOrEqual(const string& key, double value);
+	static CKiiClause* lessThanOrEqual(const string& key, string value);
+
+	//startsWith
+	static CKiiClause* startsWith(const string& key, string value);
+
+	//or and
+	static CKiiClause* _or(int num, ...);
+	static CKiiClause* _and(int num, ...);
 
 };
 

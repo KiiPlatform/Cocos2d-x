@@ -96,18 +96,45 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#ifndef CKIIQUERY_H_</span></div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define CKIIQUERY_H_</span></div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00011"></a><span class="lineno"><a class="line" href="class_c_kii_query.html">   11</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_c_kii_query.html">CKiiQuery</a> {</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <a class="code" href="class_c_kii_query.html">CKiiQuery</a>();</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    <span class="keyword">virtual</span> ~<a class="code" href="class_c_kii_query.html">CKiiQuery</a>();</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;};</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* CKIIQUERY_H_ */</span><span class="preprocessor"></span></div>
-<div class="ttc" id="class_c_kii_query_html"><div class="ttname"><a href="class_c_kii_query.html">CKiiQuery</a></div><div class="ttdef"><b>Definition:</b> CKiiQuery.h:11</div></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &quot;CKiiClause.h&quot;</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &quot;CKiiClause.h&quot;</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &quot;picojson.h&quot;</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
+<div class="line"><a name="l00016"></a><span class="lineno"><a class="line" href="class_c_kii_query.html">   16</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_c_kii_query.html">CKiiQuery</a> {</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <a class="code" href="class_c_kii_query.html#a0737372fcf004587373187ca68542896">CKiiQuery</a>();</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <a class="code" href="class_c_kii_query.html#a0737372fcf004587373187ca68542896">CKiiQuery</a>(<a class="code" href="class_c_kii_clause.html">CKiiClause</a> *clause);</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <span class="keyword">virtual</span> ~<a class="code" href="class_c_kii_query.html">CKiiQuery</a>();</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="comment">//メソッド</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_c_kii_query.html#a9c12f9a838e8ef8be9b9e63b9116e141">sortByDesc</a>(<span class="keywordtype">string</span> key);</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_c_kii_query.html#aa6d34fc6bf6151bdd644eb19eceb1431">sortByAsc</a>(<span class="keywordtype">string</span> key);</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_c_kii_query.html#ac32a445dba5a48478ee9a8b920d732d3">setLimit</a>(<span class="keywordtype">int</span> limit);</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="comment">//void setNextPaginationKey(string key);</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    picojson::object toJson();</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <span class="keywordtype">string</span> toString();</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keywordtype">string</span> toString2();</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="comment">//変数</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    picojson::object _json;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keywordtype">string</span> nextPaginationKey;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keywordtype">int</span> _mLimit;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;};</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* CKIIQUERY_H_ */</span><span class="preprocessor"></span></div>
+<div class="ttc" id="class_c_kii_query_html_ac32a445dba5a48478ee9a8b920d732d3"><div class="ttname"><a href="class_c_kii_query.html#ac32a445dba5a48478ee9a8b920d732d3">CKiiQuery::setLimit</a></div><div class="ttdeci">void setLimit(int limit)</div><div class="ttdoc">一度に返す検索結果の件数上限を指定値に設定 </div><div class="ttdef"><b>Definition:</b> CKiiQuery.cpp:73</div></div>
+<div class="ttc" id="class_c_kii_query_html_a9c12f9a838e8ef8be9b9e63b9116e141"><div class="ttname"><a href="class_c_kii_query.html#a9c12f9a838e8ef8be9b9e63b9116e141">CKiiQuery::sortByDesc</a></div><div class="ttdeci">void sortByDesc(string key)</div><div class="ttdoc">指定フィールドをキーに降順ソート </div><div class="ttdef"><b>Definition:</b> CKiiQuery.cpp:51</div></div>
+<div class="ttc" id="class_c_kii_query_html_aa6d34fc6bf6151bdd644eb19eceb1431"><div class="ttname"><a href="class_c_kii_query.html#aa6d34fc6bf6151bdd644eb19eceb1431">CKiiQuery::sortByAsc</a></div><div class="ttdeci">void sortByAsc(string key)</div><div class="ttdoc">指定フィールドをキーに昇順ソート </div><div class="ttdef"><b>Definition:</b> CKiiQuery.cpp:62</div></div>
+<div class="ttc" id="class_c_kii_query_html_a0737372fcf004587373187ca68542896"><div class="ttname"><a href="class_c_kii_query.html#a0737372fcf004587373187ca68542896">CKiiQuery::CKiiQuery</a></div><div class="ttdeci">CKiiQuery()</div><div class="ttdoc">クエリインスタンスの作成 全Objectを取得する </div><div class="ttdef"><b>Definition:</b> CKiiQuery.cpp:17</div></div>
+<div class="ttc" id="class_c_kii_clause_html"><div class="ttname"><a href="class_c_kii_clause.html">CKiiClause</a></div><div class="ttdef"><b>Definition:</b> CKiiClause.h:17</div></div>
+<div class="ttc" id="class_c_kii_query_html"><div class="ttname"><a href="class_c_kii_query.html">CKiiQuery</a></div><div class="ttdef"><b>Definition:</b> CKiiQuery.h:16</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Feb 17 2014 12:02:43 for cocos2dx-cpp-IF by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Feb 26 2014 15:20:12 for cocos2dx-cpp-IF by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

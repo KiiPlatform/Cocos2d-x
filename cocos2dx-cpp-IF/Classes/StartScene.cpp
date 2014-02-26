@@ -254,8 +254,8 @@ void StartLayer::bt_rankingCallback(CCObject* pSender)
 //	CCDirector::sharedDirector()->replaceScene( RankingScene::create() );
 
 	//_pCKiiApiTest->object_refreshTest();
-	_pCKiiApiTest->object_updateTest();
-
+	//_pCKiiApiTest->object_updateTest();
+	_pCKiiApiTest->createApplicationScopeBucketTest();
 	//jni_ranking_post("muku-3", 123456+3);
 	//jni_ranking_query_all();
 	//jni_save_display_name("hoge");
@@ -272,8 +272,8 @@ void StartLayer::bt_nameCallback(CCObject* pSender)
 
 	//_pKiiSample->object_saveTest1();
 	//_pCKiiApiTest->object_saveTest();
-	_pCKiiApiTest->clause1_Test();
-
+	//_pCKiiApiTest->clause2_Test();
+	_pCKiiApiTest->clause2_Test();
 }
 
 void StartLayer::gameOverDone()

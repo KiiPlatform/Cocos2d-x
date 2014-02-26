@@ -8,15 +8,16 @@
 
 #include "KiiCPP.h"
 #include "picojson.h"
+#include "kii/KObject.h"
 
 #define callback_selector(_SELECTOR) (SEL_callbackHandler)(&_SELECTOR)
-typedef void (cocos2d::CCObject::*SEL_callbackHandler)(const char *json);
+typedef void (KObject::*SEL_callbackHandler)(const char *json);
 
 extern void jni_kiiReq(const char *json, int serviceID);
 
 int g_serviceID;
 std::map<int, SEL_callbackHandler> selecter_map;
-std::map<int, CCObject*> target_map;
+std::map<int, KObject*> target_map;
 
 void serialize() {
     picojson::object v;
@@ -34,7 +35,7 @@ void serialize() {
     CCLOG("serialize str %s",str.c_str());
 }
 
-void kiiReq( map<string, string> params, CCObject* target, SEL_callbackHandler selector ){
+void kiiReq( map<string, string> params, KObject* target, SEL_callbackHandler selector ){
 	CCLOG("kiiReq");
 
     g_serviceID++;
@@ -63,7 +64,7 @@ void kiiReq( map<string, string> params, CCObject* target, SEL_callbackHandler s
 
 
 void kiiReq2( picojson::object set_pairs
-		, CCObject* target, SEL_callbackHandler selector )
+		, KObject* target, SEL_callbackHandler selector )
 {
     g_serviceID++;
     selecter_map.insert( make_pair(g_serviceID, selector ));
@@ -78,7 +79,7 @@ void kiiRes(const char *json, int serviceID){
 	CCLOG("kiiRes %d %s", serviceID, json);
 
     SEL_callbackHandler selecter = selecter_map[serviceID];
-    CCObject* target = target_map[serviceID];
+    KObject* target = target_map[serviceID];
     CCLOG("kiiRes2");
     if (target && selecter)
     {

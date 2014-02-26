@@ -31,6 +31,8 @@ public class KiiIF {
 		// TODO Auto-generated method stub
 		try {
 			JSONObject rootObject = new JSONObject(json);
+			//JSONObject queryObject  = rootObject.getJSONObject("query");
+			//Log.v(TAG, "queryObject =" + queryObject);
 			 Iterator<String> it = rootObject.keys();
 			 int i = 0;
 			 HashMap<String,String>   json_map = new HashMap<String,String>();
@@ -188,9 +190,8 @@ public class KiiIF {
 			}
 		};
 		KiiAPICall kapi = new KiiAPICall(json_map, l);
-		kapi.run_query();
+		kapi.run_query2();	//2
     }
-    
 
     public static void display_name_update(int serviceID, HashMap<String,String> json_map) {
 		Log.v(TAG, "display_name_update");

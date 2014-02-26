@@ -16,9 +16,9 @@ typedef void (CCObject::*SEL_MenuHandler)(CCObject*);
  ***/
 
 #define callback_selector(_SELECTOR) (SEL_callbackHandler)(&_SELECTOR)
-typedef void (cocos2d::CCObject::*SEL_callbackHandler)(const char *json);
+typedef void (KObject::*SEL_callbackHandler)(const char *json);
 
-extern void kiiReq( map<string, string> params, CCObject* target, SEL_callbackHandler selector ); //kiiリクエストを実行
+extern void kiiReq( map<string, string> params, KObject* target, SEL_callbackHandler selector ); //kiiリクエストを実行
 
 /***
 KiiSample::KiiSample(void)
@@ -49,13 +49,13 @@ KiiSample* KiiSample::create()
     if (pSprite && pSprite->init())
     {
         CCLOG("KiiSample::create ok");
-        pSprite->autorelease();
-        pSprite->retain();	//※ 後に追加した部分 ※　ないとKiiSample::~KiiSampleが呼ばれる
+        //pSprite->autorelease();
+        //pSprite->retain();	//※ 後に追加した部分 ※　ないとKiiSample::~KiiSampleが呼ばれる
 
         return pSprite;
     }
     CCLOG("KiiSample::create error");
-    CC_SAFE_DELETE(pSprite);
+    //CC_SAFE_DELETE(pSprite);
     return NULL;
 }
 

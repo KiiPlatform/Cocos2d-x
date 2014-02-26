@@ -6,7 +6,7 @@
  */
 
 #include "CKiiApiTest.h"
-
+#include "KObject.h"
 CKiiApiTest::CKiiApiTest() {
 	// TODO Auto-generated constructor stub
 
@@ -23,18 +23,18 @@ CKiiApiTest* CKiiApiTest::create()
     if (pSprite && pSprite->init())
     {
         CCLOG("CKiiApiTest::create ok");
-        pSprite->autorelease();
-        pSprite->retain();	//※ 後に追加した部分 ※　ないとKiiSample::~KiiSampleが呼ばれる
+        //pSprite->autorelease();
+        //pSprite->retain();	//※ 後に追加した部分 ※　ないとKiiSample::~KiiSampleが呼ばれる
         return pSprite;
     }
     CCLOG("CKiiApiTest::create error");
-    CC_SAFE_DELETE(pSprite);
+    //CC_SAFE_DELETE(pSprite);
     return NULL;
 }
 
 bool CKiiApiTest::init()
 {
-    CCLOG("CKiiApiTest::create error");
+    CCLOG("CKiiApiTest::init");
     _pCKiiBucket = CKiiBucket::create();
     return true;
 }
@@ -42,7 +42,8 @@ bool CKiiApiTest::init()
 void CKiiApiTest::createApplicationScopeBucketTest()
 {
     CCLOG("CKiiApiTest::createApplicationScopeBucketTest");
-    _pCKiiBucket->createApplicationScopeBucket("b_hoge1",
+    //b_ranking02
+    _pCKiiBucket->createApplicationScopeBucket("b_ranking02",
     		this, callback_selector(CKiiApiTest::callBack_createApplicationScopeBucketTest) );
 }
 
@@ -114,18 +115,67 @@ void CKiiApiTest::callBack_object_updateTest(const char *json)
     object_refreshTest();	//for test
 }
 
+void CKiiApiTest::clause3_Test(){
+    CCLOG("CKiiApiTest::clause3_Test");
+
+	CKiiClause* e1 = CKiiClause::equals("name","43f76824-e92b-4a8f-a34d-8fac92248250");	//43f7
+	CKiiQuery* q = new CKiiQuery(e1);
+	CKiiQuery* q2 = new CKiiQuery();
+	q->sortByDesc("score");
+	string s = q->toString2();
+
+    CCLOG("s = %s", s.c_str() );
+
+    //set
+    picojson::object set_pairs;
+    set_pairs.insert( make_pair("query", q->_json ) );	//q or q2
+    _pCKiiBucket->query(set_pairs,
+    		this, callback_selector(CKiiApiTest::callBack_clause3_Test));
+}
+void CKiiApiTest::callBack_clause3_Test(const char *json){
+    CCLOG("CKiiApiTest::callBack_clause3_Test");
+    CCLOG("json %s ",json );
+}
+
+void CKiiApiTest::clause2_Test(){
+    CCLOG("CKiiApiTest::clause2_Test");
+
+	CKiiClause* e1 = CKiiClause::lessThanOrEqual("key1",1);
+	CKiiClause* e2 = CKiiClause::lessThanOrEqual("key2",2.222);
+	CKiiClause* e3 = CKiiClause::lessThanOrEqual("key3",3);
+	CKiiClause* e4 = CKiiClause::lessThanOrEqual("key4","hoge");
+
+	CKiiClause* or4 = CKiiClause::_and(3,e1,e2,e3,e4,NULL);
+
+	//CKiiQuery* q = new CKiiQuery(or4);
+	//string s = q->toString();
+
+    //CCLOG("s = %s", s.c_str() );
+
+}
+
 void CKiiApiTest::clause1_Test(){
     CCLOG("CKiiApiTest::clause1_Test");
 
-	CKiiClause* e1 = CKiiClause::equals("key1","val1");
-	CKiiClause* e2 = CKiiClause::equals("key2","val2");
-	CKiiClause* e3 = CKiiClause::equals("key3","val3");
+    int val1 = 1;
+	//CKiiClause* e1 = CKiiClause::equals("key1",val1);
+	CKiiClause* e1 = CKiiClause::equals("key1",1234);
 
+	double dval = 2.222;
+	CKiiClause* e2 = CKiiClause::equals("key2",2.222);
+	CKiiClause* e3 = CKiiClause::equals("key3",5678);
+	CKiiClause* e4 = CKiiClause::equals("key4","hoge");
+
+	/***
     CCLOG("e1=%08x",(unsigned int)e1);
     CCLOG("e2=%08x",(unsigned int)e2);
     CCLOG("e3=%08x",(unsigned int)e3);
+    CCLOG("e4=%08x",(unsigned int)e4);
+    ***/
 
-	CKiiClause* or4 = CKiiClause::_or(e1,e2,e3,NULL);
+	CKiiClause* or4 = CKiiClause::_or(3,e1,e2,e3,e4,NULL);
 
+	//CKiiQuery* q = CKiiQuery::CKiiQuery(or4);
+	//string s = q->toString();
 }
 

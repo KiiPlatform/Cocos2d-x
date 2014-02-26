@@ -60,6 +60,7 @@ public class KiiAPICall {
 		KiiBucket bucket = Kii.bucket(backet_key);	//B_RANKING
 		//KiiClause_equals
 		KiiQuery query;
+
 		String eq1 = m_json_map.get("KiiClause_equals1");
 		String eq2 = m_json_map.get("KiiClause_equals2");
 		if( (eq1 != null) && (eq2 != null) ){
@@ -68,7 +69,6 @@ public class KiiAPICall {
 		} else {
 			query = new KiiQuery();
 		}
-		
 		//sortByDesc
 		String field = m_json_map.get("sortByDesc");
 		if(field != null){
@@ -92,18 +92,9 @@ public class KiiAPICall {
 					String score2 = obj.getString(Field.SCORE,"0");
 					Log.v(TAG, "onQueryCompleted " + i+ " " +name2 +" "+ dname + " "+ score2 );
 					JSONObject nJArray = new JSONObject();
-					try {
-						nJArray.put(Field.NAME, dname);
-					} catch (JSONException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-					try {
-						nJArray.put(Field.SCORE, score2);
-					} catch (JSONException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
+					//keyのloop
+					
+					//
 					jArray.put(nJArray);
 			  	}
 				Log.v(TAG, "jArray " + jArray);
@@ -114,6 +105,76 @@ public class KiiAPICall {
         }, query);			
 		//
 	}
+
+	//query
+	public void run_query2(){
+		Log.v(TAG, "run_query2");
+		
+		String error;
+		//bucket
+		String backet_key = m_json_map.get("backet_key");
+		if(backet_key==null){
+			error = "backet_key";
+			Log.v(TAG, "error " + error);
+			return;
+		}
+		
+		//query
+		String s_query = m_json_map.get("query");
+		if(s_query==null){
+			error = "query";
+			Log.v(TAG, "error " + error);
+			return;
+		}
+		Log.v(TAG, "s_query " + s_query);
+		KiiBucket bucket = Kii.bucket(backet_key);	//B_RANKING
+		
+		KiiQuery query = new KiiQuery(s_query);
+		
+		//JavaでつくったQuery、for test
+		//KiiQuery query = new KiiQuery( KiiClause.equals(Field.NAME, "63533edf-d796-4dec-b341-feb61d07ced3") );
+		//query.sortByDesc(Field.SCORE);
+		//
+		//KiiQuery query = new KiiQuery();
+		
+		//queryを実行
+		bucket.query( new KiiQueryCallBack<KiiObject>() {
+			@Override
+			public void onQueryCompleted(int arg0, KiiQueryResult<KiiObject> result, Exception e) {
+				Log.v(TAG, "run onQueryCompleted " + e);
+				List<KiiObject> objLists = result.getResult();
+				int size = objLists.size();
+				Log.v(TAG, "size " + size);
+				JSONArray jArray = new JSONArray();	//レスポンスするすべてのjsonを入れる
+				for (KiiObject obj : objLists) {
+					//nJArrayの作成
+					HashSet<String> keyset = obj.keySet();//objectのkeyを取得
+			        Iterator<String> it = keyset.iterator();
+					JSONObject nJArray = new JSONObject();	//１行分のjson
+					//keyのvalを集めて１行分のjsonを作成する
+					while (it.hasNext()) {
+			        	String key = it.next();
+			        	Log.v(TAG, "key " + key );
+			        	String val = obj.getString(key);
+			        	Log.v(TAG, "val " + val );
+			        	try {
+			        		nJArray.put(key, val);		//すべてkeyについてputする
+						} catch (JSONException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+			        }
+					jArray.put(nJArray);	//作成した１行をputする
+			  	}
+				Log.v(TAG, "jArray " + jArray);
+				String s = jArray.toString();
+				//リスナーを実行する
+				m_listener.onCompleted(s);
+			}
+        }, query);			
+		//
+	}
+	
 
 	//save
 	public void run_object_save() {
