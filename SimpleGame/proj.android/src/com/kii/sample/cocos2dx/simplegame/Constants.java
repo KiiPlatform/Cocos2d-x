@@ -13,22 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.hoge.myapp;
+package com.kii.sample.cocos2dx.simplegame;
 
-public interface Field {
-    public static final String NAME = "name";
-    public static final String TYPE = "type";
-    public static final String AMOUNT = "amount";
-    public static final String DISPLAYNAME = "display_name";
-    
-    public static final String _CREATED = "_created";
-    
-    public interface Type {
-        public static final int INCOME = 1;
-        public static final int EXPENSE = 2;
-    }
-    
-    public static final String B_RANKING = "b_ranking02";
-    public static final String SCORE = "score";
-    
+public class Constants {
+    public static final String APP_ID = "ee573743";
+    public static final String APP_KEY = "5eb7b8bc1b4e4c98e659431c69cef8d4";
+	public static final String BUCKET_NAME = "balance_book";
+
+/***
+	//test_android	
+	public static final String APP_ID = "2a660337";
+	public static final String APP_KEY = "662b2ab10c3af70c85ea5403bb301dc5";
+	public static final String BUCKET_NAME = "test_android";
+***/	
 }

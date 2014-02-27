@@ -1,4 +1,4 @@
-package com.hoge.myapp;
+package com.kii.sample.cocos2dx.simplegame;
 
 import java.io.IOException;
 import java.util.List;
@@ -56,14 +56,14 @@ public class KRanking {
 			public void onUpdateCompleted(int token,   KiiUser user, Exception e) {
 				Log.v(TAG, "displayNameUpdate onUpdateCompleted " + token + " " + user +" " + e);
 				m_displayName = user.getDisplayname();
-				CallCPP.setDisplayame(m_displayName);	//C++‚ğŒÄ‚Ño‚·
+				CallCPP.setDisplayame(m_displayName);	//C++ï¿½ï¿½ï¿½Ä‚Ñoï¿½ï¿½
 			}
         });
 	}
 	
 	/***
 	 * ranking_query_all
-	 * ƒ‰ƒ“ƒLƒ“ƒf[ƒ^‚ğæ“¾‚·‚é
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½
 	 */
 	public void ranking_query_all(){
 		Log.v(TAG, "ranking_query_all");
@@ -76,7 +76,7 @@ public class KRanking {
 	}
 	
 	/***
-	 * ƒXƒRƒA‚ğƒ|ƒXƒg‚·‚éAƒnƒCƒXƒRƒA‚È‚çXV‚³‚ê‚é
+	 * ï¿½Xï¿½Rï¿½Aï¿½ï¿½ï¿½|ï¿½Xï¿½gï¿½ï¿½ï¿½ï¿½Aï¿½nï¿½Cï¿½Xï¿½Rï¿½Aï¿½È‚ï¿½Xï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½
 	 * @param name
 	 * @param score
 	 */
@@ -87,14 +87,14 @@ public class KRanking {
 	
 	/***
 	 * ranking_query_all
-	 * ƒ‰ƒ“ƒLƒ“ƒf[ƒ^‚ğæ“¾‚µ‚Äc++‚Ö“n‚·Ac++‚Íƒ‰ƒ“ƒLƒ“ƒO‚ğ•\¦‚·‚é
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½c++ï¿½Ö“nï¿½ï¿½ï¿½Ac++ï¿½Íƒï¿½ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½Oï¿½ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * @param bucket
 	 */
 	private void ranking_query_all(KiiBucket bucket){
 		Log.v(TAG, "ranking_query_all " + bucket);
 		KiiQuery query = new KiiQuery();
 		query.sortByDesc(Field.SCORE);
-        // call KiiCloud API ƒR[ƒ‹ƒoƒbƒN‚ÅƒŒƒXƒ|ƒ“ƒX‚ğ‚à‚ç‚¤
+        // call KiiCloud API ï¿½Rï¿½[ï¿½ï¿½ï¿½oï¿½bï¿½Nï¿½Åƒï¿½ï¿½Xï¿½|ï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½ï¿½ï¿½ç‚¤
 		bucket.query( new KiiQueryCallBack<KiiObject>() {
 			@Override
 			public void onQueryCompleted(int arg0, KiiQueryResult<KiiObject> result, Exception e) {
@@ -132,21 +132,21 @@ public class KRanking {
 			  	}
 				Log.v(TAG, "jArray " + jArray);
 				String s = jArray.toString();
-				CallCPP.rankingResponse(s);	//C++‚ğŒÄ‚Ño‚·
+				CallCPP.rankingResponse(s);	//C++ï¿½ï¿½ï¿½Ä‚Ñoï¿½ï¿½
 			}
         }, query);	
 	}
 	
 	/***
 	 * ranking_query
-	 * ƒvƒŒƒCŒ‹‰Ê‚ğƒ|ƒXƒg‚·‚é‚½‚ß‚É‚Ü‚¸Aƒ‰ƒ“ƒLƒ“ƒO‚ğæ“¾‚µ‚ÄƒnƒCƒXƒRƒA‚È‚çsave‚·‚é
+	 * ï¿½vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Ê‚ï¿½ï¿½|ï¿½Xï¿½gï¿½ï¿½ï¿½é‚½ï¿½ß‚É‚Ü‚ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Äƒnï¿½Cï¿½Xï¿½Rï¿½Aï¿½È‚ï¿½saveï¿½ï¿½ï¿½ï¿½
 	 * @param bucket
 	 * @param name
 	 * @param score
 	 */
 	private void ranking_query(KiiBucket bucket, final String name, final int score){
 		Log.v(TAG, "ranking_query " + name);
-		KiiQuery query = new KiiQuery( KiiClause.equals(Field.NAME, m_username) );	//m_username‚ğg‚¤
+		KiiQuery query = new KiiQuery( KiiClause.equals(Field.NAME, m_username) );	//m_usernameï¿½ï¿½ï¿½gï¿½ï¿½
 		query.sortByDesc(Field.SCORE);
 		
         // call KiiCloud API
@@ -167,20 +167,20 @@ public class KRanking {
 					Log.v(TAG, "ranking_query " + name2 +" "+ score2+ " "+ score3 );
 					if(score3 > myScore){
 						myScore = score3;
-						uri = obj.toUri();	//ƒnƒCƒXƒRƒA‚Ìuri‚ğ•Û‘¶
+						uri = obj.toUri();	//ï¿½nï¿½Cï¿½Xï¿½Rï¿½Aï¿½ï¿½uriï¿½ï¿½Û‘ï¿½
 						Log.v(TAG, "myScore " + myScore);
 					}
 			  	}
 				Log.v(TAG, "myScore " + myScore);
 				Log.v(TAG, "uri " + uri);
-				if(score>myScore){	//size‚ª0‚Ìê‡myScore‚ª0‚Ì‚Ü‚Ü‚È‚Ì‚Åscore‚ª0‚æ‚è‘å‚«‚¢‚Æ^‚É‚È‚é
+				if(score>myScore){	//sizeï¿½ï¿½0ï¿½Ìê‡myScoreï¿½ï¿½0ï¿½Ì‚Ü‚Ü‚È‚Ì‚ï¿½scoreï¿½ï¿½0ï¿½ï¿½ï¿½å‚«ï¿½ï¿½ï¿½Æ^ï¿½É‚È‚ï¿½
 				//if(true){
 					Log.v(TAG, "hiscore");					
 					if(uri!=null){
-						ranking_save(uri, name, score);	//uri‚ğg‚Á‚ÄXV save
+						ranking_save(uri, name, score);	//uriï¿½ï¿½ï¿½gï¿½ï¿½ï¿½ÄXï¿½V save
 					} else {
 						Log.v(TAG, "uri null");
-						ranking_save(null, name, score);//uri‚Ínull‚È‚Ì‚ÅV‹Kì¬ save
+						ranking_save(null, name, score);//uriï¿½ï¿½nullï¿½È‚Ì‚ÅVï¿½Kï¿½ì¬ save
 					}
 				} else{
 					Log.v(TAG, "not hiscore");					
@@ -191,8 +191,8 @@ public class KRanking {
 	
 	/***
 	 * ranking_save
-	 * ©•ª‚ÌƒnƒCƒXƒRƒA‚Ìobject‚ğXVAuri‚ğg—p
-	 * uri‚ªnull‚È‚çV‹Kì¬
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½Ìƒnï¿½Cï¿½Xï¿½Rï¿½Aï¿½ï¿½objectï¿½ï¿½ï¿½Xï¿½Vï¿½Auriï¿½ï¿½ï¿½gï¿½p
+	 * uriï¿½ï¿½nullï¿½È‚ï¿½Vï¿½Kï¿½ì¬
 	 * @param name
 	 * @param score
 	 */
@@ -201,11 +201,11 @@ public class KRanking {
 		
 		KiiObject object;
 		if(uri==null){
-			Log.v(TAG, "V‹Kì¬");
-			object = m_appRankingBucket.object();	//V‹Kì¬‚Í‚±‚Á‚¿‚©‚à
+			Log.v(TAG, "ï¿½Vï¿½Kï¿½ì¬");
+			object = m_appRankingBucket.object();	//ï¿½Vï¿½Kï¿½ì¬ï¿½Í‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		} else {
-			Log.v(TAG, "XV");
-			object = KiiObject.createByUri(uri);	//ƒnƒCƒXƒRƒA‚Ìobject‚ğXV‚·‚éuri‚ğg—p‚µ‚Ä“Á’è
+			Log.v(TAG, "ï¿½Xï¿½V");
+			object = KiiObject.createByUri(uri);	//ï¿½nï¿½Cï¿½Xï¿½Rï¿½Aï¿½ï¿½objectï¿½ï¿½ï¿½Xï¿½Vï¿½ï¿½ï¿½ï¿½uriï¿½ï¿½ï¿½gï¿½pï¿½ï¿½ï¿½Ä“ï¿½ï¿½ï¿½
 		}
         object.set(Field.NAME, m_username);
         object.set(Field.DISPLAYNAME, m_displayName);
@@ -217,7 +217,7 @@ public class KRanking {
 			public void onSaveCompleted(int token, KiiObject object, Exception e) {
 				Log.v(TAG, "ranking_save onSaveCompleted " + token + " " + object +" " + e);
 				Uri uri = object.toUri();
-				ranking_refresh(uri);	//“Ç‚İo‚µ‚ÄŠm”F
+				ranking_refresh(uri);	//ï¿½Ç‚İoï¿½ï¿½ï¿½ÄŠmï¿½F
 			}
         });
 	}
@@ -306,7 +306,7 @@ public class KRanking {
 		    	if(m_displayName==null){
 		    		m_displayName = "PlayerName";
 		    	}
-		    	CallCPP.setDisplayame(m_displayName);	//C++‚ğŒÄ‚Ño‚·
+		    	CallCPP.setDisplayame(m_displayName);	//C++ï¿½ï¿½ï¿½Ä‚Ñoï¿½ï¿½
 			}
 		}, token);
 	}
@@ -369,7 +369,7 @@ public class KRanking {
                 Log.v(TAG, "m_username " + m_username);
                 Pref.setStoredAccessToken(m_simpleGame.getApplicationContext(), token2);
                 Pref.setUSERNAME(m_simpleGame.getApplicationContext(), m_username);
-                Pref.setPASSWORD(m_simpleGame.getApplicationContext(), "1234");	//1234ŒÅ’è
+                Pref.setPASSWORD(m_simpleGame.getApplicationContext(), "1234");	//1234ï¿½Å’ï¿½
                 
                 displayNameUpdate("PlayerName");
         	}

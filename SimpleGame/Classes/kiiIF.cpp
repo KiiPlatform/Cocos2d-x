@@ -19,8 +19,10 @@ using namespace cocos2d;
 #include <jni.h>
 
 #include "platform/android/jni/JniHelper.h"
+//package com.kii.sample.cocos2dx.simplegame;
 //#define CLASS_NAME "org/cocos2dx/simplegame/CallFromCPP"
-#define CLASS_NAME "com/hoge/myapp/CallFromCPP"
+//#define CLASS_NAME "com/hoge/myapp/CallFromCPP"
+#define CLASS_NAME "com.kii/sample/cocos2dx/simplegame/CallFromCPP"
 
 #else
 //iPhone
@@ -80,10 +82,11 @@ void setDisplayameCPP(const char *display_name){
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 //Android
+////package com.kii.sample.cocos2dx.simplegame;
 extern "C"
 {
 	//JNIEXPORT void JNICALL Java_org_cocos2dx_simplegame_CallCPP_nativeEnd
-	JNIEXPORT void JNICALL Java_com_hoge_myapp_CallCPP_nativeEnd
+	JNIEXPORT void JNICALL Java_com_kii_sample_cocos2dx_simplegame_CallCPP_nativeEnd
 
 	(JNIEnv* env, jobject thiz)
 	{
@@ -92,7 +95,7 @@ extern "C"
 	}
     
 	//JNIEXPORT void JNICALL Java_org_cocos2dx_simplegame_CallCPP_rankingResponse
-	JNIEXPORT void JNICALL Java_com_hoge_myapp_CallCPP_rankingResponse
+	JNIEXPORT void JNICALL Java_com_kii_sample_cocos2dx_simplegame_CallCPP_rankingResponse
 	(JNIEnv *env, jobject obj, jstring str1) {
 	    CCLOG("Java_org_cocos2dx_simplegame_CallCPP_rankingResponse");
         
@@ -101,7 +104,7 @@ extern "C"
 	}
 
 	//JNIEXPORT void JNICALL Java_org_cocos2dx_simplegame_CallCPP_setDisplayame
-	JNIEXPORT void JNICALL Java_com_hoge_myapp_CallCPP_setDisplayame
+	JNIEXPORT void JNICALL Java_com_kii_sample_cocos2dx_simplegame_CallCPP_setDisplayame
 	(JNIEnv *env, jobject obj, jstring str1) {
 	    CCLOG("Java_org_cocos2dx_simplegame_CallCPP_setDisplayame");
 

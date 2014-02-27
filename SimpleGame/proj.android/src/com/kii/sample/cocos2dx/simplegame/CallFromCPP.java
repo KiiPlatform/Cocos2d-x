@@ -1,4 +1,4 @@
-package com.hoge.myapp;
+package com.kii.sample.cocos2dx.simplegame;
 
 import android.util.Log;
 
@@ -28,7 +28,7 @@ public class CallFromCPP {
 	}
 	
 	//kii if
-	//kiiƒŠƒNƒGƒXƒg‚ðŽó‚¯‚é
+	//kiiï¿½ï¿½ï¿½Nï¿½Gï¿½Xï¿½gï¿½ï¿½ï¿½ó‚¯‚ï¿½
 	public static void reqKii(String json, int serviceID){
 		
 	}
