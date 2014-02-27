@@ -23,7 +23,7 @@
 		<string>Icon-152.png</string>
 	</array>
 	<key>CFBundleIdentifier</key>
-	<string>com.hoge.myapp</string>
+	<string>com.kii.sample.cocos2dx.simplegame</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
