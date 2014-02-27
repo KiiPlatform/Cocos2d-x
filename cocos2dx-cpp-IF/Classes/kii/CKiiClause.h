@@ -29,36 +29,36 @@ public:
 ***/
 	static CKiiClause* equals(const string& key, int value);
 	static CKiiClause* equals(const string& key, double value);
-	static CKiiClause* equals(const string& key, string value);
+	static CKiiClause* equals(const string& key, const string& value);
 
 
 	//notEquals
 	static CKiiClause* notEquals(const string& key, int value);
 	static CKiiClause* notEquals(const string& key, double value);
-	static CKiiClause* notEquals(const string& key, string value);
+	static CKiiClause* notEquals(const string& key, const string& value);
 
 	//greaterThan
 	static CKiiClause* greaterThan(const string& key, int value);
 	static CKiiClause* greaterThan(const string& key, double value);
-	static CKiiClause* greaterThan(const string& key, string value);
+	static CKiiClause* greaterThan(const string& key, const string& value);
 
 	//greaterThanOrEqual
 	static CKiiClause* greaterThanOrEqual(const string& key, int value);
 	static CKiiClause* greaterThanOrEqual(const string& key, double value);
-	static CKiiClause* greaterThanOrEqual(const string& key, string value);
+	static CKiiClause* greaterThanOrEqual(const string& key, const string& value);
 
 	//equals
 	static CKiiClause* lessThan(const string& key, int value);
 	static CKiiClause* lessThan(const string& key, double value);
-	static CKiiClause* lessThan(const string& key, string value);
+	static CKiiClause* lessThan(const string& key, const string& value);
 
 	//lessThanOrEqual
 	static CKiiClause* lessThanOrEqual(const string& key, int value);
 	static CKiiClause* lessThanOrEqual(const string& key, double value);
-	static CKiiClause* lessThanOrEqual(const string& key, string value);
+	static CKiiClause* lessThanOrEqual(const string& key, const string& value);
 
 	//startsWith
-	static CKiiClause* startsWith(const string& key, string value);
+	static CKiiClause* startsWith(const string& key, const string& value);
 
 	//or and
 	static CKiiClause* _or(int num, ...);

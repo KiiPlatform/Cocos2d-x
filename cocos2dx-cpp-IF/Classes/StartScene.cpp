@@ -273,7 +273,7 @@ void StartLayer::bt_nameCallback(CCObject* pSender)
 	//_pKiiSample->object_saveTest1();
 	//_pCKiiApiTest->object_saveTest();
 	//_pCKiiApiTest->clause2_Test();
-	_pCKiiApiTest->clause2_Test();
+	_pCKiiApiTest->clause1_Test();
 }
 
 void StartLayer::gameOverDone()

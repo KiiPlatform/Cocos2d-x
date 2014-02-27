@@ -151,6 +151,8 @@ bool HelloWorld::init()
 		_label_score->setPosition( ccp(_center.x , _center.y+120) );
 		this->addChild(_label_score);
 
+        //
+        
         
 		this->schedule( schedule_selector(HelloWorld::gameLogic), 1.0 );
 

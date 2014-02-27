@@ -80,7 +80,7 @@ CKiiClause* CKiiClause::equals(string key, bool value){
  * @param value to be compared.
  * @return KiiClause instance.
  */
-CKiiClause* CKiiClause::equals(const string& key, string value){
+CKiiClause* CKiiClause::equals(const string& key, const string& value){
     CCLOG("CKiiClause::equals string %s %s",key.c_str(), value.c_str());
 	CKiiClause *clause = new CKiiClause();
 	picojson::object json;
@@ -140,7 +140,7 @@ CKiiClause* CKiiClause::notEquals(const string& key, double value){
  * @param value to be compared.
  * @return KiiClause instance.
  */
-CKiiClause* CKiiClause::notEquals(const string& key, string value){
+CKiiClause* CKiiClause::notEquals(const string& key, const string& value){
     CCLOG("CKiiClause::equals string %s %s",key.c_str(),value.c_str());
 	CKiiClause *clause = new CKiiClause();
 	picojson::object json;
@@ -204,7 +204,7 @@ CKiiClause* CKiiClause::greaterThan(const string& key, double value){
  * @param value to be compared.
  * @return KiiClause instance.
  */
-CKiiClause* CKiiClause::greaterThan(const string& key, string value){
+CKiiClause* CKiiClause::greaterThan(const string& key, const string& value){
     CCLOG("CKiiClause::equals string %s %s",key.c_str(),value.c_str());
 	CKiiClause *clause = new CKiiClause();
 	picojson::object json;
@@ -268,7 +268,7 @@ CKiiClause* CKiiClause::greaterThanOrEqual(const string& key, double value){
  * @param value to be compared.
  * @return KiiClause instance.
  */
-CKiiClause* CKiiClause::greaterThanOrEqual(const string& key, string value){
+CKiiClause* CKiiClause::greaterThanOrEqual(const string& key, const string& value){
     CCLOG("CKiiClause::equals string %s %s",key.c_str(),value.c_str());
 	CKiiClause *clause = new CKiiClause();
 	picojson::object json;
@@ -332,7 +332,7 @@ CKiiClause* CKiiClause::lessThan(const string& key, double value){
  * @param value to be compared.
  * @return KiiClause instance.
  */
-CKiiClause* CKiiClause::lessThan(const string& key, string value){
+CKiiClause* CKiiClause::lessThan(const string& key, const string& value){
     CCLOG("CKiiClause::equals string %s %s",key.c_str(),value.c_str());
 	CKiiClause *clause = new CKiiClause();
 	picojson::object json;
@@ -396,7 +396,7 @@ CKiiClause* CKiiClause::lessThanOrEqual(const string& key, double value){
  * @param value to be compared.
  * @return KiiClause instance.
  */
-CKiiClause* CKiiClause::lessThanOrEqual(const string& key, string value){
+CKiiClause* CKiiClause::lessThanOrEqual(const string& key, const string& value){
     CCLOG("CKiiClause::lessThanOrEqual string %s %s",key.c_str(),value.c_str());
 	CKiiClause *clause = new CKiiClause();
 	picojson::object json;
@@ -418,7 +418,7 @@ CKiiClause* CKiiClause::lessThanOrEqual(const string& key, string value){
  * @param value to be compared.
  * @return KiiClause instance.
  */
-CKiiClause* CKiiClause::startsWith(const string& key, string value){
+CKiiClause* CKiiClause::startsWith(const string& key, const string& value){
     CCLOG("CKiiClause::equals string %s %s",key.c_str(),value.c_str());
 	CKiiClause *clause = new CKiiClause();
 	picojson::object json;
