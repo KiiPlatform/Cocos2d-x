@@ -1,0 +1,326 @@
+\hypertarget{class_c_kii_bucket}{\section{C\-Kii\-Bucket Class Reference}
+\label{class_c_kii_bucket}\index{C\-Kii\-Bucket@{C\-Kii\-Bucket}}
+}
+Inheritance diagram for C\-Kii\-Bucket\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_c_kii_bucket}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{class_c_kii_bucket_ae687c3b2a7e95b6e425303c9d944d35b}{init} ()
+\begin{DoxyCompactList}\small\item\em 初期化処理 \end{DoxyCompactList}\item 
+\hypertarget{class_c_kii_bucket_a1f4fd49239cd277c1861c83fcb5e098b}{void {\bfseries callback} (const char $\ast$json, C\-C\-Object $\ast$target, S\-E\-L\-\_\-callback\-Handler selector)}\label{class_c_kii_bucket_a1f4fd49239cd277c1861c83fcb5e098b}
+
+\item 
+void \hyperlink{class_c_kii_bucket_a66ba352bd451a254a871903e4f28502c}{create\-Application\-Scope\-Bucket} (string backet\-\_\-key, C\-C\-Object $\ast$target, S\-E\-L\-\_\-callback\-Handler selector)
+\begin{DoxyCompactList}\small\item\em バケットを作成する（\-Application Scope） \end{DoxyCompactList}\item 
+\hypertarget{class_c_kii_bucket_a260a88c89b192ba5cf2c64b5a99d7dac}{void {\bfseries call\-Back\-\_\-create\-Application\-Scope\-Bucket} (const char $\ast$json)}\label{class_c_kii_bucket_a260a88c89b192ba5cf2c64b5a99d7dac}
+
+\item 
+void \hyperlink{class_c_kii_bucket_ae5bcfa361cef3e6d688335bf2497de13}{create\-Group\-Scope\-Bucket} (string backet\-\_\-key, C\-C\-Object $\ast$target, S\-E\-L\-\_\-callback\-Handler selector)
+\begin{DoxyCompactList}\small\item\em バケットを作成する（\-Group Scope） \end{DoxyCompactList}\item 
+\hypertarget{class_c_kii_bucket_a7838074f46d59130d0950df5a3ff4753}{void {\bfseries call\-Back\-\_\-create\-Group\-Scope\-Bucket} (const char $\ast$json)}\label{class_c_kii_bucket_a7838074f46d59130d0950df5a3ff4753}
+
+\item 
+void \hyperlink{class_c_kii_bucket_a3b9f2e2cc08c74d99fcda0d4f461befd}{create\-User\-Scope\-Bucket} (string backet\-\_\-key, C\-C\-Object $\ast$target, S\-E\-L\-\_\-callback\-Handler selector)
+\begin{DoxyCompactList}\small\item\em バケットを作成する（\-User Scope） \end{DoxyCompactList}\item 
+\hypertarget{class_c_kii_bucket_a7b2b01aac65959c483b6eefd628b9ae8}{void {\bfseries call\-Back\-\_\-create\-User\-Scope\-Bucket} (const char $\ast$json)}\label{class_c_kii_bucket_a7b2b01aac65959c483b6eefd628b9ae8}
+
+\item 
+void \hyperlink{class_c_kii_bucket_ad175f87e32cecfd03f98f22328bec5a6}{object\-\_\-save} (picojson\-::object key\-\_\-value\-\_\-pairs, C\-C\-Object $\ast$target, S\-E\-L\-\_\-callback\-Handler selector)
+\begin{DoxyCompactList}\small\item\em objectを作成する \end{DoxyCompactList}\item 
+\hypertarget{class_c_kii_bucket_a57b3dfbce914b0d8ef38145be32f79b3}{void {\bfseries call\-Back\-\_\-object\-\_\-save} (const char $\ast$json)}\label{class_c_kii_bucket_a57b3dfbce914b0d8ef38145be32f79b3}
+
+\item 
+void \hyperlink{class_c_kii_bucket_a04d59d67bce72418cbe2a11861b64e4f}{object\-\_\-refresh} (string uri, C\-C\-Object $\ast$target, S\-E\-L\-\_\-callback\-Handler selector)
+\begin{DoxyCompactList}\small\item\em Objectを取得する \end{DoxyCompactList}\item 
+\hypertarget{class_c_kii_bucket_ae5fd5045697030cdce7d004fb7e26bc4}{void {\bfseries call\-Back\-\_\-object\-\_\-refresh} (const char $\ast$json)}\label{class_c_kii_bucket_ae5fd5045697030cdce7d004fb7e26bc4}
+
+\item 
+void \hyperlink{class_c_kii_bucket_a1b61cde61e0b90e99e85e859eea22966}{object\-\_\-update} (picojson\-::object key\-\_\-value\-\_\-pairs, C\-C\-Object $\ast$target, S\-E\-L\-\_\-callback\-Handler selector)
+\begin{DoxyCompactList}\small\item\em Objectの更新 \end{DoxyCompactList}\item 
+\hypertarget{class_c_kii_bucket_aca9a0b2e3caf7495711312828632bd8e}{void {\bfseries call\-Back\-\_\-object\-\_\-update} (const char $\ast$json)}\label{class_c_kii_bucket_aca9a0b2e3caf7495711312828632bd8e}
+
+\item 
+void \hyperlink{class_c_kii_bucket_a8a3f690fc0a2e1d9ba0e81a53a92ef04}{query} (\hyperlink{class_c_kii_query}{C\-Kii\-Query} $\ast$query, C\-C\-Object $\ast$target, S\-E\-L\-\_\-callback\-Handler selector)
+\begin{DoxyCompactList}\small\item\em Object の検索 \end{DoxyCompactList}\item 
+\hypertarget{class_c_kii_bucket_aa36a27887af9177dc7809da7b723bb47}{void {\bfseries call\-Back\-\_\-query} (const char $\ast$json)}\label{class_c_kii_bucket_aa36a27887af9177dc7809da7b723bb47}
+
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{class_c_kii_bucket}{C\-Kii\-Bucket} $\ast$ \hyperlink{class_c_kii_bucket_a282979b68d7540433bfb24a4624702de}{create} ()
+\begin{DoxyCompactList}\small\item\em メモリー確保する \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_c_kii_bucket_ae62e874439f55143f8009f88da23bc99}{string {\bfseries \-\_\-backet\-\_\-key}}\label{class_c_kii_bucket_ae62e874439f55143f8009f88da23bc99}
+
+\item 
+\hypertarget{class_c_kii_bucket_aa18c6b0053f2e0a2a07c33e5dc490802}{string {\bfseries \-\_\-uri}}\label{class_c_kii_bucket_aa18c6b0053f2e0a2a07c33e5dc490802}
+
+\item 
+\hypertarget{class_c_kii_bucket_ab0a3c000da769ed033a6d2354db3221a}{C\-C\-Object $\ast$ {\bfseries target\-\_\-create\-Application\-Scope\-Bucket}}\label{class_c_kii_bucket_ab0a3c000da769ed033a6d2354db3221a}
+
+\item 
+\hypertarget{class_c_kii_bucket_a4a5b74eb7eea8c621668c2cd8a5f7cb4}{S\-E\-L\-\_\-callback\-Handler {\bfseries selector\-\_\-create\-Application\-Scope\-Bucket}}\label{class_c_kii_bucket_a4a5b74eb7eea8c621668c2cd8a5f7cb4}
+
+\item 
+\hypertarget{class_c_kii_bucket_ad36b7c5ea5bb1f578d0f24011f7af2b8}{C\-C\-Object $\ast$ {\bfseries target\-\_\-create\-Group\-Scope\-Bucket}}\label{class_c_kii_bucket_ad36b7c5ea5bb1f578d0f24011f7af2b8}
+
+\item 
+\hypertarget{class_c_kii_bucket_a0070b496c90629e11bd409d7fe28cbda}{S\-E\-L\-\_\-callback\-Handler {\bfseries selector\-\_\-create\-Group\-Scope\-Bucket}}\label{class_c_kii_bucket_a0070b496c90629e11bd409d7fe28cbda}
+
+\item 
+\hypertarget{class_c_kii_bucket_a8c191a661195354d60a8b7c0b3538e4b}{C\-C\-Object $\ast$ {\bfseries target\-\_\-create\-User\-Scope\-Bucket}}\label{class_c_kii_bucket_a8c191a661195354d60a8b7c0b3538e4b}
+
+\item 
+\hypertarget{class_c_kii_bucket_ab596059653bc65a47a98f7dfbbd3f55c}{S\-E\-L\-\_\-callback\-Handler {\bfseries selector\-\_\-create\-User\-Scope\-Bucket}}\label{class_c_kii_bucket_ab596059653bc65a47a98f7dfbbd3f55c}
+
+\item 
+\hypertarget{class_c_kii_bucket_a6f53d63ed58db2db7f10f8067d160203}{C\-C\-Object $\ast$ {\bfseries target\-\_\-object\-\_\-save}}\label{class_c_kii_bucket_a6f53d63ed58db2db7f10f8067d160203}
+
+\item 
+\hypertarget{class_c_kii_bucket_a90b8bf7cb1cc5ed6c299a574833f3fd2}{S\-E\-L\-\_\-callback\-Handler {\bfseries selector\-\_\-object\-\_\-save}}\label{class_c_kii_bucket_a90b8bf7cb1cc5ed6c299a574833f3fd2}
+
+\item 
+\hypertarget{class_c_kii_bucket_a8c0104fa7149cab6e17f61bc19f1f9da}{C\-C\-Object $\ast$ {\bfseries target\-\_\-object\-\_\-refresh}}\label{class_c_kii_bucket_a8c0104fa7149cab6e17f61bc19f1f9da}
+
+\item 
+\hypertarget{class_c_kii_bucket_ac9e641126b3d8315b2b41c55f829190b}{S\-E\-L\-\_\-callback\-Handler {\bfseries selector\-\_\-object\-\_\-refresh}}\label{class_c_kii_bucket_ac9e641126b3d8315b2b41c55f829190b}
+
+\item 
+\hypertarget{class_c_kii_bucket_aa616408b44438626c91901fadf0c5887}{C\-C\-Object $\ast$ {\bfseries target\-\_\-object\-\_\-update}}\label{class_c_kii_bucket_aa616408b44438626c91901fadf0c5887}
+
+\item 
+\hypertarget{class_c_kii_bucket_ad840394a0cc208a1fd19ba0a0b147f5e}{S\-E\-L\-\_\-callback\-Handler {\bfseries selector\-\_\-object\-\_\-update}}\label{class_c_kii_bucket_ad840394a0cc208a1fd19ba0a0b147f5e}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_c_kii_bucket_a282979b68d7540433bfb24a4624702de}{\index{C\-Kii\-Bucket@{C\-Kii\-Bucket}!create@{create}}
+\index{create@{create}!CKiiBucket@{C\-Kii\-Bucket}}
+\subsubsection[{create}]{\setlength{\rightskip}{0pt plus 5cm}{\bf C\-Kii\-Bucket} $\ast$ C\-Kii\-Bucket\-::create (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{class_c_kii_bucket_a282979b68d7540433bfb24a4624702de}
+
+
+メモリー確保する 
+
+
+\begin{DoxyParams}{Parameters}
+{\em @return} & \\
+\hline
+{\em なし} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+オブジェクトのポインター 
+\end{DoxyReturn}
+\hypertarget{class_c_kii_bucket_a66ba352bd451a254a871903e4f28502c}{\index{C\-Kii\-Bucket@{C\-Kii\-Bucket}!create\-Application\-Scope\-Bucket@{create\-Application\-Scope\-Bucket}}
+\index{create\-Application\-Scope\-Bucket@{create\-Application\-Scope\-Bucket}!CKiiBucket@{C\-Kii\-Bucket}}
+\subsubsection[{create\-Application\-Scope\-Bucket}]{\setlength{\rightskip}{0pt plus 5cm}void C\-Kii\-Bucket\-::create\-Application\-Scope\-Bucket (
+\begin{DoxyParamCaption}
+\item[{string}]{backet\-\_\-key, }
+\item[{C\-C\-Object $\ast$}]{target, }
+\item[{S\-E\-L\-\_\-callback\-Handler}]{selector}
+\end{DoxyParamCaption}
+)}}\label{class_c_kii_bucket_a66ba352bd451a254a871903e4f28502c}
+
+
+バケットを作成する（\-Application Scope） 
+
+
+\begin{DoxyParams}{Parameters}
+{\em backet\-\_\-key} & バケットを識別する文字列 \\
+\hline
+{\em target} & 呼び出し元のクラスのポインタ \\
+\hline
+{\em selector} & コールバックメソッドのポインタ \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+backet\-\_\-key バケットを識別する文字列 
+\end{DoxyReturn}
+\hypertarget{class_c_kii_bucket_ae5bcfa361cef3e6d688335bf2497de13}{\index{C\-Kii\-Bucket@{C\-Kii\-Bucket}!create\-Group\-Scope\-Bucket@{create\-Group\-Scope\-Bucket}}
+\index{create\-Group\-Scope\-Bucket@{create\-Group\-Scope\-Bucket}!CKiiBucket@{C\-Kii\-Bucket}}
+\subsubsection[{create\-Group\-Scope\-Bucket}]{\setlength{\rightskip}{0pt plus 5cm}void C\-Kii\-Bucket\-::create\-Group\-Scope\-Bucket (
+\begin{DoxyParamCaption}
+\item[{string}]{backet\-\_\-key, }
+\item[{C\-C\-Object $\ast$}]{target, }
+\item[{S\-E\-L\-\_\-callback\-Handler}]{selector}
+\end{DoxyParamCaption}
+)}}\label{class_c_kii_bucket_ae5bcfa361cef3e6d688335bf2497de13}
+
+
+バケットを作成する（\-Group Scope） 
+
+
+\begin{DoxyParams}{Parameters}
+{\em backet\-\_\-key} & バケットを識別する文字列 \\
+\hline
+{\em target} & 呼び出し元のクラスのポインタ \\
+\hline
+{\em selector} & コールバックメソッドのポインタ \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+backet\-\_\-key バケットを識別する文字列 
+\end{DoxyReturn}
+\hypertarget{class_c_kii_bucket_a3b9f2e2cc08c74d99fcda0d4f461befd}{\index{C\-Kii\-Bucket@{C\-Kii\-Bucket}!create\-User\-Scope\-Bucket@{create\-User\-Scope\-Bucket}}
+\index{create\-User\-Scope\-Bucket@{create\-User\-Scope\-Bucket}!CKiiBucket@{C\-Kii\-Bucket}}
+\subsubsection[{create\-User\-Scope\-Bucket}]{\setlength{\rightskip}{0pt plus 5cm}void C\-Kii\-Bucket\-::create\-User\-Scope\-Bucket (
+\begin{DoxyParamCaption}
+\item[{string}]{backet\-\_\-key, }
+\item[{C\-C\-Object $\ast$}]{target, }
+\item[{S\-E\-L\-\_\-callback\-Handler}]{selector}
+\end{DoxyParamCaption}
+)}}\label{class_c_kii_bucket_a3b9f2e2cc08c74d99fcda0d4f461befd}
+
+
+バケットを作成する（\-User Scope） 
+
+
+\begin{DoxyParams}{Parameters}
+{\em backet\-\_\-key} & バケットを識別する文字列 \\
+\hline
+{\em target} & 呼び出し元のクラスのポインタ \\
+\hline
+{\em selector} & コールバックメソッドのポインタ \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+backet\-\_\-key バケットを識別する文字列 
+\end{DoxyReturn}
+\hypertarget{class_c_kii_bucket_ae687c3b2a7e95b6e425303c9d944d35b}{\index{C\-Kii\-Bucket@{C\-Kii\-Bucket}!init@{init}}
+\index{init@{init}!CKiiBucket@{C\-Kii\-Bucket}}
+\subsubsection[{init}]{\setlength{\rightskip}{0pt plus 5cm}bool C\-Kii\-Bucket\-::init (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_c_kii_bucket_ae687c3b2a7e95b6e425303c9d944d35b}
+
+
+初期化処理 
+
+
+\begin{DoxyParams}{Parameters}
+{\em なし} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+成功or失敗 
+\end{DoxyReturn}
+\hypertarget{class_c_kii_bucket_a04d59d67bce72418cbe2a11861b64e4f}{\index{C\-Kii\-Bucket@{C\-Kii\-Bucket}!object\-\_\-refresh@{object\-\_\-refresh}}
+\index{object\-\_\-refresh@{object\-\_\-refresh}!CKiiBucket@{C\-Kii\-Bucket}}
+\subsubsection[{object\-\_\-refresh}]{\setlength{\rightskip}{0pt plus 5cm}void C\-Kii\-Bucket\-::object\-\_\-refresh (
+\begin{DoxyParamCaption}
+\item[{string}]{uri, }
+\item[{C\-C\-Object $\ast$}]{target, }
+\item[{S\-E\-L\-\_\-callback\-Handler}]{selector}
+\end{DoxyParamCaption}
+)}}\label{class_c_kii_bucket_a04d59d67bce72418cbe2a11861b64e4f}
+
+
+Objectを取得する 
+
+
+\begin{DoxyParams}{Parameters}
+{\em uri} & オブジェクトを特定するuri文字列 \\
+\hline
+{\em target} & 呼び出し元のクラスのポインタ \\
+\hline
+{\em selector} & コールバックメソッドのポインタ \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+なし、別途コールバックより返る 
+\end{DoxyReturn}
+\hypertarget{class_c_kii_bucket_ad175f87e32cecfd03f98f22328bec5a6}{\index{C\-Kii\-Bucket@{C\-Kii\-Bucket}!object\-\_\-save@{object\-\_\-save}}
+\index{object\-\_\-save@{object\-\_\-save}!CKiiBucket@{C\-Kii\-Bucket}}
+\subsubsection[{object\-\_\-save}]{\setlength{\rightskip}{0pt plus 5cm}void C\-Kii\-Bucket\-::object\-\_\-save (
+\begin{DoxyParamCaption}
+\item[{picojson\-::object}]{key\-\_\-value\-\_\-pairs, }
+\item[{C\-C\-Object $\ast$}]{target, }
+\item[{S\-E\-L\-\_\-callback\-Handler}]{selector}
+\end{DoxyParamCaption}
+)}}\label{class_c_kii_bucket_ad175f87e32cecfd03f98f22328bec5a6}
+
+
+objectを作成する 
+
+
+\begin{DoxyParams}{Parameters}
+{\em key\-\_\-value\-\_\-pairs} & 保存する key-\/valueのpair \\
+\hline
+{\em target} & 呼び出し元のクラスのポインタ \\
+\hline
+{\em selector} & コールバックメソッドのポインタ \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+なし、別途コールバックより返る 
+\end{DoxyReturn}
+\hypertarget{class_c_kii_bucket_a1b61cde61e0b90e99e85e859eea22966}{\index{C\-Kii\-Bucket@{C\-Kii\-Bucket}!object\-\_\-update@{object\-\_\-update}}
+\index{object\-\_\-update@{object\-\_\-update}!CKiiBucket@{C\-Kii\-Bucket}}
+\subsubsection[{object\-\_\-update}]{\setlength{\rightskip}{0pt plus 5cm}void C\-Kii\-Bucket\-::object\-\_\-update (
+\begin{DoxyParamCaption}
+\item[{picojson\-::object}]{key\-\_\-value\-\_\-pairs, }
+\item[{C\-C\-Object $\ast$}]{target, }
+\item[{S\-E\-L\-\_\-callback\-Handler}]{selector}
+\end{DoxyParamCaption}
+)}}\label{class_c_kii_bucket_a1b61cde61e0b90e99e85e859eea22966}
+
+
+Objectの更新 
+
+
+\begin{DoxyParams}{Parameters}
+{\em } & オブジェクトを特定するuri文字列 \\
+\hline
+{\em key\-\_\-value\-\_\-pairs} & 更新するkey-\/valueのpair \\
+\hline
+{\em target} & 呼び出し元のクラスのポインタ \\
+\hline
+{\em selector} & コールバックメソッドのポインタ \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+なし、別途コールバックより返る 
+\end{DoxyReturn}
+\hypertarget{class_c_kii_bucket_a8a3f690fc0a2e1d9ba0e81a53a92ef04}{\index{C\-Kii\-Bucket@{C\-Kii\-Bucket}!query@{query}}
+\index{query@{query}!CKiiBucket@{C\-Kii\-Bucket}}
+\subsubsection[{query}]{\setlength{\rightskip}{0pt plus 5cm}void C\-Kii\-Bucket\-::query (
+\begin{DoxyParamCaption}
+\item[{{\bf C\-Kii\-Query} $\ast$}]{query, }
+\item[{C\-C\-Object $\ast$}]{target, }
+\item[{S\-E\-L\-\_\-callback\-Handler}]{selector}
+\end{DoxyParamCaption}
+)}}\label{class_c_kii_bucket_a8a3f690fc0a2e1d9ba0e81a53a92ef04}
+
+
+Object の検索 
+
+
+\begin{DoxyParams}{Parameters}
+{\em query} & ソート条件等 \\
+\hline
+{\em clause} & 検索条件 \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+なし、別途コールバックより返る 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/\-Users/guest/\-Documents/cocos2d-\/x/cocos2d-\/x-\/2.\-2.\-2/projects/\-My\-App/cocos2dx-\/cpp-\/\-I\-F/\-Classes/kii/C\-Kii\-Bucket.\-h\item 
+/\-Users/guest/\-Documents/cocos2d-\/x/cocos2d-\/x-\/2.\-2.\-2/projects/\-My\-App/cocos2dx-\/cpp-\/\-I\-F/\-Classes/kii/C\-Kii\-Bucket.\-cpp\end{DoxyCompactItemize}
