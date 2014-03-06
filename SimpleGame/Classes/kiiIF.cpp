@@ -81,23 +81,17 @@ void setDisplayameCPP(const char *display_name){
 ////package com.kii.sample.cocos2dx.simplegame;
 extern "C"
 {
-<<<<<<< HEAD
+
 	//JNIEXPORT void JNICALL Java_org_cocos2dx_simplegame_CallCPP_nativeEnd
 	JNIEXPORT void JNICALL Java_com_kii_sample_cocos2dx_simplegame_CallCPP_nativeEnd
 
-=======
-	JNIEXPORT void JNICALL Java_com_kii_sample_cocos2dx_simplegame_CallCPP_nativeEnd
->>>>>>> muku
 	(JNIEnv* env, jobject thiz)
 	{
 	    CCLOG("Java_org_cocos2dx_simplegame_CallCPP_nativeEnd");
 		CCDirector::sharedDirector()->end();
 	}
     
-<<<<<<< HEAD
 	//JNIEXPORT void JNICALL Java_org_cocos2dx_simplegame_CallCPP_rankingResponse
-=======
->>>>>>> muku
 	JNIEXPORT void JNICALL Java_com_kii_sample_cocos2dx_simplegame_CallCPP_rankingResponse
 	(JNIEnv *env, jobject obj, jstring str1) {
 	    CCLOG("Java_org_cocos2dx_simplegame_CallCPP_rankingResponse");
@@ -106,10 +100,7 @@ extern "C"
         rankingResponseCPP(json);
 	}
 
-<<<<<<< HEAD
 	//JNIEXPORT void JNICALL Java_org_cocos2dx_simplegame_CallCPP_setDisplayame
-=======
->>>>>>> muku
 	JNIEXPORT void JNICALL Java_com_kii_sample_cocos2dx_simplegame_CallCPP_setDisplayame
 	(JNIEnv *env, jobject obj, jstring str1) {
 	    CCLOG("Java_org_cocos2dx_simplegame_CallCPP_setDisplayame");
