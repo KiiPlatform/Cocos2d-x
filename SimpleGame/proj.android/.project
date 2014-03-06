@@ -110,7 +110,7 @@
 		<link>
 			<name>Classes</name>
 			<type>2</type>
-			<location>/Users/guest/Documents/cocos2d-x/cocos2d-x-2.2.2/projects/MyApp/SimpleGame/Classes</location>
+			<location>/Users/guest/Documents/cocos2d-x/cocos2d-x-2.2.2/projects/MyApp/SampleGame/Classes</location>
 		</link>
 		<link>
 			<name>cocos2dx</name>
