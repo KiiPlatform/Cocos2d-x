@@ -143,12 +143,6 @@ void PName::ccTouchMoved(cocos2d::CCTouch *pTouch, cocos2d::CCEvent *pEvent)
 void PName::ccTouchEnded(cocos2d::CCTouch *pTouch, cocos2d::CCEvent *pEvent)
 {
     CCLOG("PStaff::ccTouchEnded");
-    /***
-    this->setTouchEnabled(false);
-    this->setVisible(false);
-    
-    _slayer->setButtonEnabled(true);
-     ***/
 }
 
 void PName::display(){
@@ -158,16 +152,13 @@ void PName::display(){
     this->setVisible(true);
     
     _slayer->setButtonEnabled(false);
-    
 }
 
 void PName::bt_nameCallback(CCObject* pSender)
 {
 	CCLOG("StartLayer::bt_nameCallback");
     CCLOG("kii_display_name %s", kii_display_name);
-    //jni_save_display_name(kii_display_name);
-    //jni_ranking_post(kii_display_name, 1234);
-    //jni_ranking_query_all();
+
     this->setTouchEnabled(false);
     this->setVisible(false);
     

@@ -1,5 +1,5 @@
 package com.kii.sample.cocos2dx.simplegame;
 
 public class Global {
-	public static MyApp activity;
+	public static KiiSimplegame activity;
 }

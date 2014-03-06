@@ -10,7 +10,7 @@
     <application android:label="@string/app_name"
         android:icon="@drawable/icon">
 
-        <activity android:name="com.kii.sample.cocos2dx.simplegame.MyApp"
+        <activity android:name="com.kii.sample.cocos2dx.simplegame.KiiSimplegame"
                   android:label="@string/app_name"
                   android:screenOrientation="landscape"
                   android:theme="@android:style/Theme.NoTitleBar.Fullscreen"

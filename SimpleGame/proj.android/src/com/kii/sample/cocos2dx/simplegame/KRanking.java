@@ -28,13 +28,13 @@ public class KRanking {
 	KiiBucket m_appRankingBucket;
 	String m_username, m_displayName;
 	//private KiiUser m_user;
-	private MyApp m_simpleGame;
+	private KiiSimplegame m_simpleGame;
 	
 	public KRanking(){
 		m_appRankingBucket = Kii.bucket(Field.B_RANKING);	//B_RANKING
 	}
 	
-	public KRanking(MyApp a) {
+	public KRanking(KiiSimplegame a) {
 		m_simpleGame = a;
 		m_appRankingBucket = Kii.bucket(Field.B_RANKING);	//B_RANKING
 	}
