@@ -78,15 +78,20 @@ void setDisplayameCPP(const char *display_name){
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 //Android
+////package com.kii.sample.cocos2dx.simplegame;
 extern "C"
 {
+
+	//JNIEXPORT void JNICALL Java_org_cocos2dx_simplegame_CallCPP_nativeEnd
 	JNIEXPORT void JNICALL Java_com_kii_sample_cocos2dx_simplegame_CallCPP_nativeEnd
+
 	(JNIEnv* env, jobject thiz)
 	{
 	    CCLOG("Java_org_cocos2dx_simplegame_CallCPP_nativeEnd");
 		CCDirector::sharedDirector()->end();
 	}
     
+	//JNIEXPORT void JNICALL Java_org_cocos2dx_simplegame_CallCPP_rankingResponse
 	JNIEXPORT void JNICALL Java_com_kii_sample_cocos2dx_simplegame_CallCPP_rankingResponse
 	(JNIEnv *env, jobject obj, jstring str1) {
 	    CCLOG("Java_org_cocos2dx_simplegame_CallCPP_rankingResponse");
@@ -95,6 +100,7 @@ extern "C"
         rankingResponseCPP(json);
 	}
 
+	//JNIEXPORT void JNICALL Java_org_cocos2dx_simplegame_CallCPP_setDisplayame
 	JNIEXPORT void JNICALL Java_com_kii_sample_cocos2dx_simplegame_CallCPP_setDisplayame
 	(JNIEnv *env, jobject obj, jstring str1) {
 	    CCLOG("Java_org_cocos2dx_simplegame_CallCPP_setDisplayame");

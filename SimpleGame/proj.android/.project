@@ -110,7 +110,7 @@
 		<link>
 			<name>Classes</name>
 			<type>2</type>
-			<location>/Users/guest/Documents/cocos2d-x/cocos2d-x-2.2.2/projects/MyApp/SampleGame/Classes</location>
+			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/Classes</locationURI>
 		</link>
 		<link>
 			<name>cocos2dx</name>
