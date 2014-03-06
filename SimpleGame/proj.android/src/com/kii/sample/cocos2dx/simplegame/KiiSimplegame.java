@@ -33,7 +33,7 @@ import com.kii.cloud.storage.Kii.Site;
 import android.os.Bundle;
 import android.util.Log;
 
-public class MyApp extends Cocos2dxActivity{
+public class KiiSimplegame extends Cocos2dxActivity{
 	private final static String TAG ="MyApp";
 	
 	KiiBucket m_appRankingBucket = null;
@@ -43,7 +43,7 @@ public class MyApp extends Cocos2dxActivity{
     protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);	
 		
-		MyApp a = this;
+		KiiSimplegame a = this;
 		
 		Log.v(TAG, "onCreate");
 
