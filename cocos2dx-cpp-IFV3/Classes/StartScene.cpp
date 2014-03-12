@@ -31,6 +31,7 @@
 
 using namespace cocos2d;
 
+extern char kii_name[256];
 extern char kii_display_name[256];
 extern void jni_ranking_query_all();
 extern void jni_ranking_post(const char *name, int score);
@@ -76,15 +77,26 @@ bool StartLayer::init()
 		_label->setPosition( Point(winSize.width/2, winSize.height/2 + 110 ) );
 		this->addChild(_label);
 
-        this->_label_name = LabelTTF::create("","Artial", 24);
         char buff[256];
+		//_label_name
+        this->_label_name = LabelTTF::create("","Artial", 10);
         //sprintf(buff,"name:%s",kii_display_name);
-        sprintf(buff,"name:%s","hoge");
+        sprintf(buff,"name:%s","name");
 		_label_name->setString(buff);   //kii_display_name
 		_label_name->retain();
 		_label_name->setColor( Color3B(0, 0, 0) );
-		_label_name->setPosition( Point(winSize.width/2, winSize.height/2 +70) );
+		_label_name->setPosition( Point(winSize.width/2, winSize.height/2 +60+17) );
 		this->addChild(_label_name);
+
+		//_label_dname
+        this->_label_dname = LabelTTF::create("","Artial", 24);
+        //sprintf(buff,"name:%s",kii_display_name);
+        sprintf(buff,"name:%s","dname");
+        _label_dname->setString(buff);   //kii_display_name
+        _label_dname->retain();
+        _label_dname->setColor( Color3B(0, 0, 0) );
+        _label_dname->setPosition( Point(winSize.width/2, winSize.height/2 +60) );
+		this->addChild(_label_dname);
 
         // Place the menu item bottom-right conner.
         auto visibleSize = Director::getInstance()->getVisibleSize();
@@ -159,8 +171,11 @@ void StartLayer::update(float dt){
 	//CCLOG("StartLayer::update");
 	//CCLOG("StartLayer::update %s", kii_display_name);
     char buff[256];
-    sprintf(buff,"name:%s",kii_display_name);
+    sprintf(buff,"name:%s",kii_name);
     _label_name->setString(buff);   //kii_display_name
+
+    sprintf(buff,"display_name:%s",kii_display_name);
+    _label_dname->setString(buff);   //kii_display_name
 }
 
 void StartLayer::setButtonEnabled(bool b){

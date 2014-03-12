@@ -51,6 +51,7 @@ public:
     CCMenuItemImage *pBt_start, *pBt_ranking, *pBt_name;
     
     CC_SYNTHESIZE_READONLY(cocos2d::CCLabelTTF*, _label, Label);
+    CC_SYNTHESIZE_READONLY(cocos2d::CCLabelTTF*, _label_dname, LabelDName);
     CC_SYNTHESIZE_READONLY(cocos2d::CCLabelTTF*, _label_name, LabelName);
     CCPoint _center;
     void setButtonEnabled(bool b);

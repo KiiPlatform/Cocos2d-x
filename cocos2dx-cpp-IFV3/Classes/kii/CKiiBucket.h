@@ -88,13 +88,19 @@ public:
     KObject* target_object_update;
      SEL_callbackHandler selector_object_update;
 
+    void query(std::shared_ptr<CKiiQuery>& query
+     		, KObject* target, SEL_callbackHandler selector);
+    void callBack_query(     const char *json);
+    KObject* target_object_query2;
+     SEL_callbackHandler selector_object_query2;
 
+/***
     void query(picojson::object key_value_pairs
     		, KObject* target, SEL_callbackHandler selector);
     void callBack_query(     const char *json);
     KObject* target_object_query;
      SEL_callbackHandler selector_object_query;
-
+***/
 
 };
 

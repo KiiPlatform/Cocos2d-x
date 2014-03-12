@@ -113,8 +113,9 @@ void PName::editBoxEditingDidEnd(EditBox* editBox) {
     char buff[256];
     strcpy( buff, editBox->getText() );
     if(buff[0]!=0){
-    	//strcpy( kii_display_name, buff );
-    	//jni_save_display_name(kii_display_name);
+    	CCLOG("text ari");
+    	strcpy( kii_display_name, buff );
+    	jni_save_display_name(kii_display_name);
     } else {
     	CCLOG("text null");
     }

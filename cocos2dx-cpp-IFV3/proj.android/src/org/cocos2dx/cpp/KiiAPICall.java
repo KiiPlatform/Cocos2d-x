@@ -198,7 +198,8 @@ public class KiiAPICall {
 				Log.v(TAG, "key " + key);
 				String val = m_json_map.get(key);
 				Log.v(TAG, "val " + val);
-				String[] strAry = key.split("_");
+				//String[] strAry = key.split("_");
+				String[] strAry = key.split("set_");
 				Log.v(TAG, "strAry.length " + strAry.length );
 				Log.v(TAG, "strAry " + strAry[0] + " "+ strAry[1]);
 				Log.v(TAG, "set " + strAry[1] +","+ val);
@@ -314,19 +315,22 @@ public class KiiAPICall {
 				Log.v(TAG, "key " + key);
 				String val = m_json_map.get(key);
 				Log.v(TAG, "val " + val);
-				String[] strAry = key.split("_");
+				//String[] strAry = key.split("_");
+				String[] strAry = key.split("set_");
 				Log.v(TAG, "strAry.length " + strAry.length );
-				Log.v(TAG, "strAry " + strAry[0] + " "+ strAry[1]);
+				Log.v(TAG, "strAry[0] " + strAry[0] );
+				Log.v(TAG, "strAry[1] " + strAry[1] );
 				Log.v(TAG, "set " + strAry[1] +","+ val);
 				object.set(strAry[1], val);	//setを実行
 			}
 		}
-
+		Log.v(TAG, "object="+object);
         // call KiiCloud API
+		Log.v(TAG, "run_object_update object.save");
         object.save( new KiiObjectCallBack() {
 			@Override
 			public void onSaveCompleted(int token, KiiObject object, Exception e) {
-				Log.v(TAG, "run_object onSaveCompleted " + token + " " + object +" " + e);
+				Log.v(TAG, "run_object_update onSaveCompleted " + token + " " + object +" " + e);
 				Uri uri = object.toUri();
 				Log.v(TAG, "uri " + uri );
 				//jsonを作成する

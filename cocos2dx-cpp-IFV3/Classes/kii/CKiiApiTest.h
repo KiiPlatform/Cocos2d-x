@@ -38,10 +38,17 @@ public:
     void object_updateTest();
     void callBack_object_updateTest(const char *json);
 
-    void queryMyScore(const char *name, int hiscore);
+    void queryMyScore(int hiscore);
     void callBack_queryMyScore(const char *json);
-    void queryMyScore2(const char *name, int hiscore);
+
+    void queryMyScore2();
     void callBack_queryMyScore2(const char *json);
+
+    void updateMyScore(string uri, int hiscore);
+    void callBack_updateMyScore(const char *json);
+
+    void saveMyScore(int hiscore);
+    void callBack_saveMyScore(const char *json);
 
     void clause5_Test();
     void callBack_clause5_Test(const char *json);
@@ -56,12 +63,14 @@ public:
 
     CKiiBucket *_pCKiiBucket;
     string _backet_key;
-    string _userDisplayName;
+    string _name, _display_name;
     string _uri;
 
     string _score;
     string _mode;
     string _premiumUser;
+
+    int _hiscore;
 };
 
 #endif /* CKIIAPITEST_H_ */

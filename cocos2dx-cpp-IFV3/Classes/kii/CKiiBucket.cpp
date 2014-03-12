@@ -275,16 +275,19 @@ void CKiiBucket::object_update(string uri, picojson::object key_value_pairs
 		, KObject* target, SEL_callbackHandler selector)
 {
 	CCLOG("CKiiBucket::object_update");
+	CCLOG("uri=%s", uri.c_str());
+
 	target_object_save = target;
 	selector_object_save = selector;
 	key_value_pairs.insert( make_pair("cmd", picojson::value("object_update") ) );	//object_update
-	key_value_pairs.insert( make_pair("uri", picojson::value(_uri) ) );	//uri アップデートのため
+	key_value_pairs.insert( make_pair("uri", picojson::value(uri) ) );	//uri アップデートのため
 
     kiiReq2( key_value_pairs, this, callback_selector(CKiiBucket::callBack_object_save) );
 
 	CCLOG("CKiiBucket::object_update end");
 }
 
+#if 0
 /**
  * @brief Object の検索
  *
@@ -294,7 +297,7 @@ void CKiiBucket::object_update(string uri, picojson::object key_value_pairs
  */
 void CKiiBucket::query( picojson::object key_value_pairs
 		, KObject* target, SEL_callbackHandler selector){
-	CCLOG("CKiiBucket::query");
+	CCLOG("CKiiBucket::query -----");
 	if(_backet_key==""){
 		CCLOG("_backet_key NULL error");
 		return;
@@ -314,4 +317,42 @@ void CKiiBucket::callBack_query(const char *json){
     callback(json, target_object_query,selector_object_query);
 	CCLOG("CKiiBucket::callBack_query end");
 }
+#endif
+
+
+/**
+ * @brief Object の検索
+ *
+ * @param query ソート条件等
+ * @param clause 検索条件
+ * @return なし、別途コールバックより返る
+ */
+void CKiiBucket::query( std::shared_ptr<CKiiQuery>& query
+		, KObject* target, SEL_callbackHandler selector){
+	CCLOG("CKiiBucket::query -----");
+	if(_backet_key==""){
+		CCLOG("_backet_key NULL error");
+		return;
+	}
+	target_object_query2 = target;
+	selector_object_query2 = selector;
+
+	//json作成
+    picojson::object key_value_pairs;
+    key_value_pairs.insert( make_pair("query", picojson::value(query->_json) ) );
+
+	key_value_pairs.insert( make_pair("cmd", picojson::value("bucket_query") ) );	//bucket_query
+	key_value_pairs.insert( make_pair("backet_key", picojson::value(_backet_key) ) );	//mydata
+	//key_value_pairs.insert( make_pair("query", query->_json ) );
+
+    kiiReq2( key_value_pairs, this, callback_selector(CKiiBucket::callBack_query) );
+
+	CCLOG("CKiiBucket::query end");
+}
+void CKiiBucket::callBack_query(const char *json){
+	CCLOG("CKiiBucket::callBack_query");
+    callback(json, target_object_query2,selector_object_query2);
+	CCLOG("CKiiBucket::callBack_query end");
+}
+
 

@@ -37,6 +37,8 @@ extern void kiiRes(const char *json, int serviceID);
 std::vector<ScoreData> vScore;  //菫晏ｭ倥＠縺ｦ繧九□縺代�∵悴菴ｿ逕ｨ
 char kii_label_buff[1024];  //縺薙�譁�ｭ怜�繧団ocos2d-x縺ｧ陦ｨ遉ｺ縺吶ｋ
 char kii_display_name[256];
+char kii_name[256];
+
 
 //Android/iPhone蜈ｱ騾壹Ν繝ｼ繝√Φ
 void rankingResponseCPP(const char *json){
@@ -82,6 +84,11 @@ void setDisplayameCPP(const char *display_name){
     strcpy( kii_display_name, display_name );
 }
 
+void setNameCPP(const char *name){
+    CCLOG("setNameCPP %s", name);
+    strcpy( kii_name, name );
+}
+
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 //Android
 extern "C"
@@ -102,6 +109,15 @@ extern "C"
         
 		const char *json = env->GetStringUTFChars(str1, 0);
         rankingResponseCPP(json);
+	}
+
+	//JNIEXPORT void JNICALL Java_org_cocos2dx_simplegame_CallCPP_setDisplayame
+	JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_CallCPP_setName
+	(JNIEnv *env, jobject obj, jstring str1) {
+	    CCLOG("Java_org_cocos2dx_cpp_CallCPP_setName");
+
+		const char *name = env->GetStringUTFChars(str1, 0);
+		setNameCPP(name);
 	}
 
 	//JNIEXPORT void JNICALL Java_org_cocos2dx_simplegame_CallCPP_setDisplayame

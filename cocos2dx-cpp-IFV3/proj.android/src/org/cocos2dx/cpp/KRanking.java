@@ -306,6 +306,7 @@ public class KRanking {
 		    	if(m_displayName==null){
 		    		m_displayName = "PlayerName";
 		    	}
+		    	CallCPP.setName(m_username);	//C++���Ăяo��
 		    	CallCPP.setDisplayame(m_displayName);	//C++���Ăяo��
 			}
 		}, token);
@@ -372,6 +373,7 @@ public class KRanking {
                 Pref.setPASSWORD(m_simpleGame.getApplicationContext(), "1234");	//1234�Œ�
                 
                 displayNameUpdate("PlayerName");
+		    	CallCPP.setName(m_username);	//C++���Ăяo��
         	}
         }, password);
 	}

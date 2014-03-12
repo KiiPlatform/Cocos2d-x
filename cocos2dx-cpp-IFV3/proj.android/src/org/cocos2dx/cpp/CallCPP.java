@@ -8,6 +8,8 @@ public class CallCPP {
     public static native void nativeEnd();
 	public static native void rankingResponse(String str1);	//�����L���O�f�[�^��c++�֓n���AJSON
 	public static native void setDisplayame(String str1);	//Displayame��c++�֓n���AJSON
+	public static native void setName(String str1);	//Displayame��c++�֓n���AJSON
+
 	public static native void setDisplayame2(String str1, int serviceID);	//Displayame��c++�֓n���AJSON
 
 	

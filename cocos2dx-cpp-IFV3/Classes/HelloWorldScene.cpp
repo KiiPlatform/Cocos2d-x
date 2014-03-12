@@ -4,6 +4,8 @@
 
 using namespace cocos2d;
 
+extern char kii_name[256];
+
 HelloWorld::~HelloWorld()
 {
 	if (_targets)
@@ -130,12 +132,16 @@ bool HelloWorld::init()
 		_userDefault = CCUserDefault::sharedUserDefault();
 		_hiScore = _userDefault->getIntegerForKey("k_hiscore",0);	//load
 		CCLOG("_hiScore  %d", _hiScore);
-		_pCKiiApiTest = CKiiApiTest::create();
+		//_pCKiiApiTest = CKiiApiTest::create();
 
 		// use updateGame instead of update, otherwise it will conflit with SelectorProtocol::update
 		// see http://www.cocos2d-x.org/boards/6/topics/1478
 		this->schedule( schedule_selector(HelloWorld::updateGame) );
+
 		_pCKiiApiTest = CKiiApiTest::create();	//CKiiApiTest
+		//_pCKiiApiTest->_name = kii_name;
+		//CCLOG("_pCKiiApiTest->_name=%s", _pCKiiApiTest->_name.c_str());
+
 		CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic("background-music-aac.wav", true);
 
 		bRet = true;
@@ -153,7 +159,7 @@ void HelloWorld::saveHIScore(int score){
 		CCLOG("_hiScore %d ", _hiScore);
 		//xx jni_ranking_post("hoge", _hiScore);
         //_pCKiiApiTest = CKiiApiTest::create();	//CKiiApiTest
-        _pCKiiApiTest->queryMyScore("hoge", _hiScore);
+        _pCKiiApiTest->queryMyScore(_hiScore);
 	} else {
 		CCLOG("not hiscore");
 		//for debug
@@ -161,7 +167,7 @@ void HelloWorld::saveHIScore(int score){
 		//_userDefault->setIntegerForKey("k_hiscore", _hiScore);	//save
 		CCLOG("not _hiScore %d ", _hiScore);
 		//xx jni_ranking_post("hoge", _hiScore);
-		_pCKiiApiTest->queryMyScore("hoge", _hiScore);	//for debug
+		_pCKiiApiTest->queryMyScore(_hiScore);	//for debug
 		//
 	}
 	CCLOG("HelloWorld::saveHIScore2");

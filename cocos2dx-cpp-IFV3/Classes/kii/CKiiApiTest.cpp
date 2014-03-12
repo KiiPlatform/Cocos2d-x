@@ -9,6 +9,8 @@
 #include "KObject.h"
 
 extern char kii_label_buff[1024];
+extern char kii_name[256];
+extern char kii_display_name[256];
 
 CKiiApiTest::CKiiApiTest() {
 	// TODO Auto-generated constructor stub
@@ -25,9 +27,15 @@ CKiiApiTest* CKiiApiTest::create()
 	CKiiApiTest *pSprite = new CKiiApiTest();
     if (pSprite && pSprite->init())
     {
-        CCLOG("CKiiApiTest::create ok");
         //pSprite->autorelease();
         //pSprite->retain();	//※ 後に追加した部分 ※　ないとKiiSample::~KiiSampleが呼ばれる
+        pSprite->_name = kii_name;
+        pSprite->_display_name = kii_display_name;
+
+        CCLOG("_name=%s", pSprite->_name.c_str());
+        CCLOG("_display_name=%s", pSprite->_display_name.c_str());
+
+        CCLOG("CKiiApiTest::create ok");
         return pSprite;
     }
     CCLOG("CKiiApiTest::create error");
@@ -45,8 +53,8 @@ bool CKiiApiTest::init()
 void CKiiApiTest::createApplicationScopeBucketTest()
 {
     CCLOG("CKiiApiTest::createApplicationScopeBucketTest");
-    //b_ranking02
-    _pCKiiBucket->createApplicationScopeBucket("b_ranking02",
+    //b_ranking03
+    _pCKiiBucket->createApplicationScopeBucket("b_ranking03",	//03
     		this, callback_selector(CKiiApiTest::callBack_createApplicationScopeBucketTest) );
 }
 
@@ -60,7 +68,7 @@ void CKiiApiTest::callBack_createApplicationScopeBucketTest(const char *json)
 
 void CKiiApiTest::object_saveTest()
 {
-    CCLOG("CKiiApiTest::object_saveTest");
+    CCLOG("CKiiApiTest::object_saveTest -----");
 
     //set
     picojson::object set_pairs;
@@ -90,7 +98,7 @@ void CKiiApiTest::callBack_object_saveTest(const char *json)
 
 void CKiiApiTest::object_refreshTest()
 {
-    CCLOG("CKiiApiTest::object_refreshTest");
+    CCLOG("CKiiApiTest::object_refreshTest -----");
     _pCKiiBucket->object_refresh(_uri,
     		this, callback_selector(CKiiApiTest::callBack_object_refreshTest));
 }
@@ -103,7 +111,7 @@ void CKiiApiTest::callBack_object_refreshTest(const char *json)
 
 void CKiiApiTest::object_updateTest()
 {
-    CCLOG("CKiiApiTest::object_updateTest");
+    CCLOG("CKiiApiTest::object_updateTest -----");
     //set
      picojson::object set_pairs;
      set_pairs.insert( make_pair("set_score", picojson::value("999") ) );
@@ -120,35 +128,41 @@ void CKiiApiTest::callBack_object_updateTest(const char *json)
     object_refreshTest();	//for test
 }
 
-//queryMyScore
-void CKiiApiTest::queryMyScore(const char *name, int hiscore){
-    CCLOG("CKiiApiTest::queryMyScore");
+//バケットを作成
+void CKiiApiTest::queryMyScore(int hiscore){
+    CCLOG("CKiiApiTest::queryMyScore -----");
+    CCLOG("hiscore = %d", hiscore );
+    _hiscore = hiscore;	//クラス変数に保存する
+    //_hiscore = 5678;
+    CCLOG("_hiscore = %d", _hiscore );
     //バケットを作成
     //b_ranking02
-    _pCKiiBucket->createApplicationScopeBucket("b_ranking02",
+    _pCKiiBucket->createApplicationScopeBucket("b_ranking03",	//03
     		this, callback_selector(CKiiApiTest::callBack_queryMyScore) );
     CCLOG("CKiiApiTest::queryMyScore end ---");
 }
 void CKiiApiTest::callBack_queryMyScore(const char *json){
     CCLOG("CKiiApiTest::callBack_queryMyScore");
     CCLOG("json %s ",json );
-    queryMyScore2("hoge",1234);
+    queryMyScore2();
 }
 
-//queryMyScore2
-void CKiiApiTest::queryMyScore2(const char *name, int hiscore){
-    CCLOG("CKiiApiTest::queryMyScore2");
+//自分のスコアを検索
+void CKiiApiTest::queryMyScore2(){
+    CCLOG("CKiiApiTest::queryMyScore2 -----");
 
     //自分のスコアを検索
-    auto e1 = CKiiClause::equals("name","43f76824-e92b-4a8f-a34d-8fac92248250");
+    //auto e1 = CKiiClause::equals("name","43f76824-e92b-4a8f-a34d-8fac92248250");
+    auto e1 = CKiiClause::equals("name",_name);
     auto q = std::make_shared<CKiiQuery>(e1);	//new
 	string s = q->toString2();
+	q->sortByDesc("score");
     CCLOG("s = %s", s.c_str() );
 
     //set
-    picojson::object set_pairs;
-    set_pairs.insert( make_pair("query", picojson::value(q->_json) ) );	//q or q2
-    _pCKiiBucket->query(set_pairs,
+    //picojson::object set_pairs;
+    //set_pairs.insert( make_pair("query", picojson::value(q->_json) ) );	//q or q2
+    _pCKiiBucket->query(q,
     		this, callback_selector(CKiiApiTest::callBack_queryMyScore2));
 
     CCLOG("CKiiApiTest::queryMyScore end ---");
@@ -166,19 +180,89 @@ void CKiiApiTest::callBack_queryMyScore2(const char *json){
     picojson::array& a1 = v.get<picojson::array>();
 
     int index = 0;
+    std::string _uri_, name, display_name, score;
     for (picojson::array::iterator it = a1.begin(); it != a1.end(); it++) {
         picojson::object& o1 = it->get<picojson::object>();
-        std::string& s1 = o1["display_name"].get<std::string>();
-        std::string& s2 = o1["score"].get<std::string>();
-        std::string& s3 = o1["_uri_"].get<std::string>();
-        sprintf(buff,"%d %s : %s \n", index+1, s1.c_str(), s2.c_str() );
+        name = o1["name"].get<std::string>();
+        display_name = o1["display_name"].get<std::string>();
+        score = o1["score"].get<std::string>();
+        _uri_ = o1["_uri_"].get<std::string>();
+        sprintf(buff,"%d %s %s %s %s\n",
+        		index+1, name.c_str(), display_name.c_str(), score.c_str(), _uri_.c_str() );
         CCLOG("buff=%s",buff);
-        CCLOG("_uri_=%s",s3.c_str() );
         index++;
-        break;
+        break;	//１回でループを抜ける
     }
     CCLOG("index = %d",index);
     //
+    //CCLOG("_uri_=%s",_uri_.c_str() );
+    if(_uri_!=""){
+    	CCLOG("score ari");
+    	_name = name;
+    	_display_name = display_name;
+    	_score = score;
+    	_uri = _uri_;
+    	CCLOG("_uri=%s", _uri.c_str());
+    	updateMyScore(_uri, _hiscore);	//保存していた変数を使ってスコアを更新するupdate
+    } else {
+    	CCLOG("score nasi");
+    	saveMyScore(_hiscore);	//新規作成なのでsave
+    }
+    CCLOG("CKiiApiTest::callBack_queryMyScore2 end ---");
+}
+
+//スコアの更新
+void CKiiApiTest::updateMyScore(string uri, int hiscore){
+    CCLOG("CKiiApiTest::updateMyScore -----");
+    CCLOG("hiscore = %d", hiscore );
+	CCLOG("uri=%s", uri.c_str());
+    //set
+     picojson::object set_pairs;
+     set_pairs.insert( make_pair("set_score", picojson::value((double)hiscore) ) );
+     set_pairs.insert( make_pair("set_name", picojson::value(_name) ) );
+     set_pairs.insert( make_pair("set_display_name", picojson::value(_display_name) ) );
+
+     string uri2 = uri;
+     _pCKiiBucket->object_update(uri2, set_pairs,
+     		this, callback_selector(CKiiApiTest::callBack_updateMyScore));
+}
+void CKiiApiTest::callBack_updateMyScore(const char *json){
+    CCLOG("CKiiApiTest::callBack_updateMyScore");
+    CCLOG("json %s ",json );
+
+    object_refreshTest();
+}
+
+//スコアの新規作成
+void CKiiApiTest::saveMyScore(int hiscore){
+    CCLOG("CKiiApiTest::saveMyScore -----");
+
+    //set
+    picojson::object set_pairs;
+    set_pairs.insert( make_pair("set_score", picojson::value((double)hiscore) ) );
+    set_pairs.insert( make_pair("set_name", picojson::value(_name) ) );
+    set_pairs.insert( make_pair("set_display_name", picojson::value(_display_name) ) );
+
+    _pCKiiBucket->object_save(set_pairs,
+    		this, callback_selector(CKiiApiTest::callBack_saveMyScore));
+}
+void CKiiApiTest::callBack_saveMyScore(const char *json){
+    std::string err;
+
+    CCLOG("CKiiApiTest::callBack_saveMyScore");
+    CCLOG("json %s ",json );
+    //_uriの保存
+    picojson::value v;
+    picojson::parse(v, json, json + strlen(json), &err);
+    picojson::object& o = v.get<picojson::object>();
+    string uri = o["uri"].get<std::string>();
+    if(uri!=""){
+    	_uri = uri;
+    	CCLOG("_uri=%s ",_uri.c_str() );
+    } else {
+    	CCLOG("uri error");
+    }
+    object_refreshTest();
 }
 
 void CKiiApiTest::clause4_Test(){
@@ -193,7 +277,8 @@ void CKiiApiTest::clause4_Test(){
     //set
     picojson::object set_pairs;
     set_pairs.insert( make_pair("query", picojson::value(q->_json) ) );	//q or q2
-    _pCKiiBucket->query(set_pairs,
+
+    _pCKiiBucket->query(q,
     		this, callback_selector(CKiiApiTest::callBack_clause4_Test));
 
     CCLOG("CKiiApiTest::clause4_Test end ---");
@@ -267,9 +352,10 @@ void CKiiApiTest::clause3_Test(){
     CCLOG("s = %s", s.c_str() );
 
     //set
-    picojson::object set_pairs;
-    set_pairs.insert( make_pair("query", picojson::value(q->_json) ) );	//q or q2
-    _pCKiiBucket->query(set_pairs,
+    //picojson::object set_pairs;
+    //set_pairs.insert( make_pair("query", picojson::value(q->_json) ) );	//q or q2
+
+    _pCKiiBucket->query(q,
     		this, callback_selector(CKiiApiTest::callBack_clause3_Test));
 
     CCLOG("CKiiApiTest::clause3_Test end ---");
