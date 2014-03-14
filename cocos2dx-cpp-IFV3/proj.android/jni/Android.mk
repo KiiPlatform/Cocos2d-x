@@ -12,12 +12,13 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../Classes/RankingScene.cpp \
                    ../../Classes/GameOverScene.cpp \
                    ../../Classes/kii/CKiiClause.cpp \
-                   ../../Classes/kii/CKiiApiTest.cpp \
-                   ../../Classes/kii/KObject.cpp \
+                   ../../Classes/kii/KBase.cpp \
                    ../../Classes/kii/CKiiBucket.cpp \
                    ../../Classes/kii/CKiiQuery.cpp \
-                   ../../Classes/kiiIF.cpp \
-                   ../../Classes/kiiCPP.cpp \
+                   ../../Classes/kii_jni/kiiIF.cpp \
+                   ../../Classes/kii_jni/kiiCPP.cpp \
+                   ../../Classes/test/CKiiApiTest.cpp \
+                   ../../Classes/kiiRanking/kiiRanking.cpp \
                    ../../Classes/PName.cpp \
                    ../../Classes/HelloWorldScene.cpp
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../Classes

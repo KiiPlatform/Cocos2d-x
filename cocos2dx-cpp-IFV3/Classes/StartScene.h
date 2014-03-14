@@ -28,7 +28,7 @@
 
 #include "PName.h"
 #include "cocos2d.h"
-#include "kii/CKiiApiTest.h"
+#include "test/CKiiApiTest.h"
 
 class StartLayer : public cocos2d::LayerColor
 {

@@ -2,7 +2,8 @@
 #define __HELLOWORLD_SCENE_H__
 
 #include "cocos2d.h"
-#include "kii/CKiiApiTest.h"
+//#include "test/CKiiApiTest.h"
+#include "kiiRanking/KiiRanking.h"
 
 //#include "SimpleAudioEngine.h"
 
@@ -39,7 +40,7 @@ public:
     int _score,_hiScore;
     char _score_buffer[256];
     cocos2d::CCUserDefault* _userDefault;
-    CKiiApiTest *_pCKiiApiTest;
+    KiiRanking *_pKiiRanking;
     
 protected:
 	cocos2d::Array *_targets;

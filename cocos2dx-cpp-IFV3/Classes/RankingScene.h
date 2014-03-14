@@ -28,7 +28,8 @@
 
 #include "PName.h"
 #include "cocos2d.h"
-#include "kii/CKiiApiTest.h"
+//#include "test/CKiiApiTest.h"
+#include "kiiRanking/KiiRanking.h"
 
 class RankingLayer : public cocos2d::LayerColor
 {
@@ -49,7 +50,7 @@ public:
     CCPoint _center;
 	//static char label_buff[1024];
     PName *_pName;
-    CKiiApiTest *_pCKiiApiTest;
+    KiiRanking *_pKiiRanking;
 };
 
 class RankingScene : public cocos2d::Scene

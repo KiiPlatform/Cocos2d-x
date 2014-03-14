@@ -138,7 +138,8 @@ bool HelloWorld::init()
 		// see http://www.cocos2d-x.org/boards/6/topics/1478
 		this->schedule( schedule_selector(HelloWorld::updateGame) );
 
-		_pCKiiApiTest = CKiiApiTest::create();	//CKiiApiTest
+		//KiiRanking
+		_pKiiRanking = KiiRanking::create();	//CKiiApiTest
 		//_pCKiiApiTest->_name = kii_name;
 		//CCLOG("_pCKiiApiTest->_name=%s", _pCKiiApiTest->_name.c_str());
 
@@ -159,7 +160,7 @@ void HelloWorld::saveHIScore(int score){
 		CCLOG("_hiScore %d ", _hiScore);
 		//xx jni_ranking_post("hoge", _hiScore);
         //_pCKiiApiTest = CKiiApiTest::create();	//CKiiApiTest
-        _pCKiiApiTest->queryMyScore(_hiScore);
+		_pKiiRanking->postMyScore(_hiScore);	//ランキングをポストする
 	} else {
 		CCLOG("not hiscore");
 		//for debug
@@ -167,7 +168,7 @@ void HelloWorld::saveHIScore(int score){
 		//_userDefault->setIntegerForKey("k_hiscore", _hiScore);	//save
 		CCLOG("not _hiScore %d ", _hiScore);
 		//xx jni_ranking_post("hoge", _hiScore);
-		_pCKiiApiTest->queryMyScore(_hiScore);	//for debug
+		_pKiiRanking->postMyScore(_hiScore);	//for debug
 		//
 	}
 	CCLOG("HelloWorld::saveHIScore2");

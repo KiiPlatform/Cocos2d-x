@@ -25,7 +25,6 @@
 
 #include "RankingScene.h"
 #include "HelloWorldScene.h"
-#include "HelloWorldScene.h"
 #include "StartScene.h"
 #include "PName.h"
 
@@ -101,8 +100,8 @@ bool RankingLayer::init()
         strcpy(kii_label_buff, "no data");
  		//jni_ranking_query_all();
 
-        _pCKiiApiTest = CKiiApiTest::create();	//CKiiApiTest
-        _pCKiiApiTest->createApplicationScopeBucketTest();
+        _pKiiRanking = KiiRanking::create();	//CKiiApiTest
+        _pKiiRanking->createApplicationScopeBucketTest();
         //_pCKiiApiTest->clause4_Test();
 
  		this->schedule( schedule_selector(RankingLayer::update) );

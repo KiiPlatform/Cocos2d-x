@@ -12,7 +12,7 @@
 #include "picojson.h"
 #include "CKiiClause.h"
 #include "CKiiQuery.h"
-#include "KObject.h"
+#include "KBase.h"
 
 
 using namespace std;
@@ -24,12 +24,12 @@ typedef void (cocos2d::CCObject::*SEL_callbackHandler)(const char *json);
 ***/
 
 #define callback_selector(_SELECTOR) (SEL_callbackHandler)(&_SELECTOR)
-typedef void (KObject::*SEL_callbackHandler)(const char *json);
+typedef void (KBase::*SEL_callbackHandler)(const char *json);
 
 //Kii
 
 //class CKiiBucket : public CCObject
-class CKiiBucket : public KObject
+class CKiiBucket : public KBase
 {
 public:
 	CKiiBucket();
@@ -41,13 +41,13 @@ public:
     string _backet_key;
     string _uri;
 
-    void callback(const char *json, KObject* target, SEL_callbackHandler selector);
+    void callback(const char *json, KBase* target, SEL_callbackHandler selector);
 
     //
     void createApplicationScopeBucket(string backet_key
-    		, KObject* target, SEL_callbackHandler selector);
+    		, KBase* target, SEL_callbackHandler selector);
     void callBack_createApplicationScopeBucket(const char *json);
-    KObject* target_createApplicationScopeBucket;
+    KBase* target_createApplicationScopeBucket;
     SEL_callbackHandler selector_createApplicationScopeBucket;
 
 #if 0
@@ -68,30 +68,30 @@ public:
 
     //
     void object_save(picojson::object key_value_pairs
-    		, KObject* target, SEL_callbackHandler selector);
+    		, KBase* target, SEL_callbackHandler selector);
 
     void callBack_object_save(const char *json);
-    KObject* target_object_save;
+    KBase* target_object_save;
      SEL_callbackHandler selector_object_save;
 
     //
     void object_refresh(string uri
-    		, KObject* target, SEL_callbackHandler selector);
+    		, KBase* target, SEL_callbackHandler selector);
     void callBack_object_refresh(const char *json);
-    KObject* target_object_refresh;
+    KBase* target_object_refresh;
      SEL_callbackHandler selector_object_refresh;
 
     //
      void object_update(string uri, picojson::object key_value_pairs
-     		, KObject* target, SEL_callbackHandler selector);
+     		, KBase* target, SEL_callbackHandler selector);
     void callBack_object_update(const char *json);
-    KObject* target_object_update;
+    KBase* target_object_update;
      SEL_callbackHandler selector_object_update;
 
     void query(std::shared_ptr<CKiiQuery>& query
-     		, KObject* target, SEL_callbackHandler selector);
+     		, KBase* target, SEL_callbackHandler selector);
     void callBack_query(     const char *json);
-    KObject* target_object_query2;
+    KBase* target_object_query2;
      SEL_callbackHandler selector_object_query2;
 
 /***

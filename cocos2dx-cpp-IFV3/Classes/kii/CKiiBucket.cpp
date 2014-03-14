@@ -8,8 +8,8 @@
 #include "CKiiBucket.h"
 
 extern void kiiReq2( picojson::object set_pairs
-		, KObject* target, SEL_callbackHandler selector ); //kiiリクエストを実行
-extern void kiiReq( map<string, string> params, KObject* target
+		, KBase* target, SEL_callbackHandler selector ); //kiiリクエストを実行
+extern void kiiReq( map<string, string> params, KBase* target
 		, SEL_callbackHandler selector ); //kiiリクエストを実行
 
 
@@ -68,7 +68,7 @@ bool CKiiBucket::init(){
 	return true;
 }
 
-void CKiiBucket::callback(const char *json, KObject* target, SEL_callbackHandler selector)
+void CKiiBucket::callback(const char *json, KBase* target, SEL_callbackHandler selector)
 {
     CCLOG("CKiiBucket::callback1");
     if (target && selector)
@@ -90,7 +90,7 @@ void CKiiBucket::callback(const char *json, KObject* target, SEL_callbackHandler
  * @return backet_key バケットを識別する文字列
  */
 void CKiiBucket::createApplicationScopeBucket(string backet_key
-		, KObject* target, SEL_callbackHandler selector)
+		, KBase* target, SEL_callbackHandler selector)
 {
 	CCLOG("CKiiBucket::createApplicationScopeBucket %s", backet_key.c_str() );
 
@@ -206,7 +206,7 @@ void CKiiBucket::callBack_createUserScopeBucket(const char *json){
  * @return なし、別途コールバックより返る
  */
 void CKiiBucket::object_save(picojson::object key_value_pairs
-		, KObject* target, SEL_callbackHandler selector)
+		, KBase* target, SEL_callbackHandler selector)
 {
 	CCLOG("CKiiBucket::object_save");
 	target_object_save = target;
@@ -244,7 +244,7 @@ void CKiiBucket::callBack_object_save(const char *json){
  * @return なし、別途コールバックより返る
  */
 void CKiiBucket::object_refresh(string uri
-		, KObject* target, SEL_callbackHandler selector)
+		, KBase* target, SEL_callbackHandler selector)
 {
 	CCLOG("CKiiBucket::object_refresh");
 
@@ -272,7 +272,7 @@ void CKiiBucket::callBack_object_refresh(const char *json){
  * @return なし、別途コールバックより返る
  */
 void CKiiBucket::object_update(string uri, picojson::object key_value_pairs
-		, KObject* target, SEL_callbackHandler selector)
+		, KBase* target, SEL_callbackHandler selector)
 {
 	CCLOG("CKiiBucket::object_update");
 	CCLOG("uri=%s", uri.c_str());
@@ -328,7 +328,7 @@ void CKiiBucket::callBack_query(const char *json){
  * @return なし、別途コールバックより返る
  */
 void CKiiBucket::query( std::shared_ptr<CKiiQuery>& query
-		, KObject* target, SEL_callbackHandler selector){
+		, KBase* target, SEL_callbackHandler selector){
 	CCLOG("CKiiBucket::query -----");
 	if(_backet_key==""){
 		CCLOG("_backet_key NULL error");

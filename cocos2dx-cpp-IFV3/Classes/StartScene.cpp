@@ -27,7 +27,7 @@
 #include "HelloWorldScene.h"
 #include "RankingScene.h"
 
-#include <android_native_app_glue.h>
+//xx #include <android_native_app_glue.h>
 
 using namespace cocos2d;
 
