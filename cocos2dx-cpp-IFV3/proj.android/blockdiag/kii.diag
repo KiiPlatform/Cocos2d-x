@@ -1,0 +1,37 @@
+{
+  // Set edge metrix.
+  edge_length = 192;  // default value is 192
+  span_height = 12;  // default value is 40
+
+  // Set fontsize.
+  default_fontsize = 11;  // default value is 11
+  
+  // Do not show activity line
+  activation = none;
+
+  //KiiRanking
+  
+  //postMyScore
+  AP -> KiiRanking [label = "postMyScore"];  
+  KiiRanking ->> KiiCpp [label = "createApplicationScopeBucket"];
+  KiiCpp -> kiiJava [label = "JSON"]
+  kiiJava -> kiiCloud [label = "Http request"]
+  kiiJava <- kiiCloud [label = "Http response"]
+  KiiRanking <- kiiJava [label = "callBack_postMyScore"]
+
+  KiiRanking -> KiiRanking [label = "queryMyScore"];  
+  KiiRanking -> KiiCpp [label = "Bucket query"];
+  KiiCpp -> kiiJava [label = "JSON"]
+  kiiJava -> kiiCloud [label = "Http request"]
+  kiiJava <- kiiCloud [label = "Http response"]
+  KiiRanking <- kiiJava [label = "callBack_queryMyScore"]
+  
+  KiiRanking -> KiiRanking [label = "updateMyScore"];  
+  KiiRanking -> KiiCpp [label = "object_update"];
+  KiiCpp -> kiiJava [label = "JSON"]
+  kiiJava -> kiiCloud [label = "Http request"]
+  kiiJava <- kiiCloud [label = "Http response"]
+  KiiRanking <- kiiJava [label = "callBack_updateMyScore"]
+  
+  AP <- KiiRanking [label = "JSON"]
+}
