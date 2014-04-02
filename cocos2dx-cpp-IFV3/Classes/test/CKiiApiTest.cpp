@@ -245,9 +245,29 @@ void CKiiApiTest::clause2_Test(){
 
 }
 
+//バケットを作成
+void CKiiApiTest::postMyScore(int hiscore){
+    CCLOG("KiiRanking::postMyScore ---");
+    CCLOG("hiscore = %d", hiscore );
+    //_hiscore = hiscore;	//クラス変数に保存する
+    //_hiscore = 5678;
+    //CCLOG("_hiscore = %d", _hiscore );
+    //バケットを作成
+    //b_ranking03
+    _pCKiiBucket->createApplicationScopeBucket("b_ranking03",	//03
+                                               this, callback_selector(CKiiApiTest::callBack_postMyScore) );
+    CCLOG("KiiRanking::postMyScore end ---");
+}
+void CKiiApiTest::callBack_postMyScore(const char *json){
+    CCLOG("CKiiApiTest::callBack_queryMyScore");
+    CCLOG("json %s ",json );
+    clause1_Test();
+}
+
 void CKiiApiTest::clause1_Test(){
     CCLOG("CKiiApiTest::clause1_Test");
 
+/***
     int val1 = 1;
 	//CKiiClause* e1 = CKiiClause::equals("key1",val1);
     auto e1 = CKiiClause::equals("key1",1234);
@@ -256,7 +276,17 @@ void CKiiApiTest::clause1_Test(){
 	auto e2 = CKiiClause::equals("key2",2.222);
 	auto e3 = CKiiClause::equals("key3",5678);
 	auto e4 = CKiiClause::equals("key4","hoge");
-
+***/
+    int val1 = 1;
+	//CKiiClause* e1 = CKiiClause::equals("key1",val1);
+    auto e1 = CKiiClause::equals("key1",1234);
+    //auto e1 = CKiiClause::lessThanOrEqual("score",1234);
+    
+	double dval = 2.222;
+	auto e2 = CKiiClause::lessThanOrEqual("score",2222);
+	auto e3 = CKiiClause::lessThanOrEqual("score",5678);
+	auto e4 = CKiiClause::lessThanOrEqual("score",1111);
+    
 	/***
     CCLOG("e1=%08x",(unsigned int)e1);
     CCLOG("e2=%08x",(unsigned int)e2);
@@ -264,12 +294,22 @@ void CKiiApiTest::clause1_Test(){
     CCLOG("e4=%08x",(unsigned int)e4);
     ***/
 
-	auto or4 = CKiiClause::_or(3,e1.get(),e2.get(),e3.get(),e4.get(),NULL);
+	auto or4 = CKiiClause::_and(3,e1.get(),e2.get(),e3.get(),e4.get(),NULL);
 	auto q = std::make_shared<CKiiQuery>(or4);	//new
 	string s = q->toString2();
 	//CKiiQuery* q = CKiiQuery::CKiiQuery(or4);
 	//string s = q->toString();
 
+    _pCKiiBucket->query(q,
+                        this, callback_selector(CKiiApiTest::callBack_clause1_Test));
+    
     CCLOG("CKiiApiTest::clause1_Test end ---");
+}
+void CKiiApiTest::callBack_clause1_Test(const char *json){
+    //char buff[256];
+    //std::string err;
+    
+    CCLOG("KiiRanking::callBack_queryMyScore");
+    CCLOG("json %s ",json );
 }
 

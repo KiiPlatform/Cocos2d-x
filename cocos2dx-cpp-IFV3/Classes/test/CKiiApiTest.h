@@ -48,7 +48,13 @@ public:
     void callBack_clause3_Test(const char *json);
 
     void clause2_Test();
+    
+    void postMyScore(int hiscore);
+    void callBack_postMyScore(const char *json);
+    
     void clause1_Test();
+    void callBack_clause1_Test(const char *json);
+
 
     CKiiBucket *_pCKiiBucket;
     string _backet_key;

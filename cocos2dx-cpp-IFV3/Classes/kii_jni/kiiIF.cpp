@@ -197,6 +197,18 @@ void iPhone_setDisplayame(const char *name){
     setDisplayameCPP(name);
 }
 
+void iPhone_setDisplayame2(const char *str1, int serviceID){
+    CCLOG("iPhone_setDisplayame");
+    kiiRes(str1, serviceID);
+}
+
+void iPhone_setName(const char *name){
+    CCLOG("iPhone_setDisplayame");
+    CCLOG("name = %s",name);
+    
+    setNameCPP(name);
+}
+
 #endif
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
@@ -325,7 +337,6 @@ void jni_ranking_query_all(){
     //KRanking::ranking_query(123456+1);  //for test
 }
 
-
 void jni_ranking_post(const char *name, int score){
     CCLOG("jni_ranking_post iPhone");
     //ranking_query_all2();
@@ -337,6 +348,11 @@ void jni_ranking_post(const char *name, int score){
 
 void jni_save_display_name(const char *name){
     CallFromCpp::save_display_name(name);
+}
+
+void jni_kiiReq(const char *json, int serviceID){
+    CCLOG("jni_kiiReq iPhone %s %d", json, serviceID);
+    CallFromCpp::kiiReq(json, serviceID);
 }
 
 #endif

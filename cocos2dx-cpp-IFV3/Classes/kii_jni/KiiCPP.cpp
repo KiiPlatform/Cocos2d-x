@@ -88,7 +88,7 @@ void kiiReq2( picojson::object set_pairs
 
 
 void kiiRes(const char *json, int serviceID){
-	CCLOG("kiiRes %d %s", serviceID, json);
+	CCLOG("kiiRes1 %d %s", serviceID, json);
 
     SEL_callbackHandler selecter = selecter_map[serviceID];
     KBase* target = target_map[serviceID];

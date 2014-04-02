@@ -195,6 +195,7 @@ std::shared_ptr<CKiiClause> CKiiClause::greaterThan(const string& key, int value
     std::shared_ptr<CKiiClause> clause = std::make_shared<CKiiClause>();	//new
 
     picojson::object json;
+	//json.insert( make_pair("type2", picojson::value("greaterThan") ) );
 	json.insert( make_pair("type", picojson::value("range") ) );
 	json.insert( make_pair("field", picojson::value(key) ) );
 	json.insert( make_pair("lowerLimit", picojson::value( (double)value) ) );
@@ -218,6 +219,7 @@ std::shared_ptr<CKiiClause> CKiiClause::greaterThan(const string& key, double va
     std::shared_ptr<CKiiClause> clause = std::make_shared<CKiiClause>();	//new
 
     picojson::object json;
+	//json.insert( make_pair("type2", picojson::value("greaterThan") ) );
 	json.insert( make_pair("type", picojson::value("range") ) );
 	json.insert( make_pair("field", picojson::value(key) ) );
 	json.insert( make_pair("lowerLimit", picojson::value( value) ) );
@@ -239,6 +241,7 @@ std::shared_ptr<CKiiClause> CKiiClause::greaterThan(const string& key, const str
     std::shared_ptr<CKiiClause> clause = std::make_shared<CKiiClause>();	//new
 
     picojson::object json;
+	//json.insert( make_pair("type2", picojson::value("greaterThan") ) );
 	json.insert( make_pair("type", picojson::value("range") ) );
 	json.insert( make_pair("field", picojson::value(key) ) );
 	json.insert( make_pair("lowerLimit", picojson::value( value) ) );
@@ -262,6 +265,7 @@ std::shared_ptr<CKiiClause> CKiiClause::greaterThanOrEqual(const string& key, in
 
     std::shared_ptr<CKiiClause> clause = std::make_shared<CKiiClause>();	//new
 	picojson::object json;
+	//json.insert( make_pair("type2", picojson::value("greaterThanOrEqual") ) );
 	json.insert( make_pair("type", picojson::value("range") ) );
 	json.insert( make_pair("field", picojson::value(key) ) );
 	json.insert( make_pair("lowerLimit", picojson::value( (double)value) ) );
@@ -283,6 +287,7 @@ std::shared_ptr<CKiiClause> CKiiClause::greaterThanOrEqual(const string& key, do
 
     std::shared_ptr<CKiiClause> clause = std::make_shared<CKiiClause>();	//new
 	picojson::object json;
+	//json.insert( make_pair("type2", picojson::value("greaterThanOrEqual") ) );
 	json.insert( make_pair("type", picojson::value("range") ) );
 	json.insert( make_pair("field", picojson::value(key) ) );
 	json.insert( make_pair("lowerLimit", picojson::value( value) ) );
@@ -303,6 +308,7 @@ std::shared_ptr<CKiiClause> CKiiClause::greaterThanOrEqual(const string& key, co
     CCLOG("CKiiClause::equals string %s %s",key.c_str(),value.c_str());
     std::shared_ptr<CKiiClause> clause = std::make_shared<CKiiClause>();	//new
 	picojson::object json;
+	//json.insert( make_pair("type2", picojson::value("greaterThanOrEqual") ) );
 	json.insert( make_pair("type", picojson::value("range") ) );
 	json.insert( make_pair("field", picojson::value(key) ) );
 	json.insert( make_pair("lowerLimit", picojson::value( value) ) );
@@ -326,6 +332,7 @@ std::shared_ptr<CKiiClause> CKiiClause::lessThan(const string& key, int value){
 
     std::shared_ptr<CKiiClause> clause = std::make_shared<CKiiClause>();	//new
 	picojson::object json;
+	//json.insert( make_pair("type2", picojson::value("lessThan") ) );
 	json.insert( make_pair("type", picojson::value("range") ) );
 	json.insert( make_pair("field", picojson::value(key) ) );
 	json.insert( make_pair("upperLimit", picojson::value( (double)value) ) );
@@ -347,6 +354,7 @@ std::shared_ptr<CKiiClause> CKiiClause::lessThan(const string& key, double value
 
     std::shared_ptr<CKiiClause> clause = std::make_shared<CKiiClause>();	//new
 	picojson::object json;
+	json.insert( make_pair("type2", picojson::value("lessThan") ) );
 	json.insert( make_pair("type", picojson::value("range") ) );
 	json.insert( make_pair("field", picojson::value(key) ) );
 	json.insert( make_pair("upperLimit", picojson::value( value) ) );
@@ -367,6 +375,7 @@ std::shared_ptr<CKiiClause> CKiiClause::lessThan(const string& key, const string
     CCLOG("CKiiClause::equals string %s %s",key.c_str(),value.c_str());
     std::shared_ptr<CKiiClause> clause = std::make_shared<CKiiClause>();	//new
 	picojson::object json;
+	//json.insert( make_pair("type2", picojson::value("lessThan") ) );
 	json.insert( make_pair("type", picojson::value("range") ) );
 	json.insert( make_pair("field", picojson::value(key) ) );
 	json.insert( make_pair("upperLimit", picojson::value( value) ) );
@@ -390,6 +399,7 @@ std::shared_ptr<CKiiClause> CKiiClause::lessThanOrEqual(const string& key, int v
 
     std::shared_ptr<CKiiClause> clause = std::make_shared<CKiiClause>();	//new
 	picojson::object json;
+	//json.insert( make_pair("type2", picojson::value("lessThanOrEqual") ) );
 	json.insert( make_pair("type", picojson::value("range") ) );
 	json.insert( make_pair("field", picojson::value(key) ) );
 	json.insert( make_pair("upperLimit", picojson::value( (double)value) ) );
@@ -411,6 +421,7 @@ std::shared_ptr<CKiiClause> CKiiClause::lessThanOrEqual(const string& key, doubl
 
     std::shared_ptr<CKiiClause> clause = std::make_shared<CKiiClause>();	//new
 	picojson::object json;
+	//json.insert( make_pair("type2", picojson::value("lessThanOrEqual") ) );
 	json.insert( make_pair("type", picojson::value("range") ) );
 	json.insert( make_pair("field", picojson::value(key) ) );
 	json.insert( make_pair("upperLimit", picojson::value( value) ) );
@@ -431,6 +442,7 @@ std::shared_ptr<CKiiClause> CKiiClause::lessThanOrEqual(const string& key, const
     CCLOG("CKiiClause::lessThanOrEqual string %s %s",key.c_str(),value.c_str());
     std::shared_ptr<CKiiClause> clause = std::make_shared<CKiiClause>();	//new
 	picojson::object json;
+	//json.insert( make_pair("type2", picojson::value("lessThanOrEqual") ) );
 	json.insert( make_pair("type", picojson::value("range") ) );
 	json.insert( make_pair("field", picojson::value(key) ) );
 	json.insert( make_pair("upperLimit", picojson::value( value) ) );

@@ -35,14 +35,66 @@ public class KiiIF {
 			//Log.v(TAG, "queryObject =" + queryObject);
 			 Iterator<String> it = rootObject.keys();
 			 int i = 0;
-			 HashMap<String,String>   json_map = new HashMap<String,String>();
+			 //HashMap<String,String>   json_map = new HashMap<String,String>();
+			 HashMap<String,Object>   json_map = new HashMap<String,Object>();	//Objectに変更
+
 			 while (it.hasNext()) {
 				 i++;
 				 String key =it.next();
-				 String val = rootObject.getString(key);
-				 Log.v(TAG, i + " key " + key+ ","+val);
-				 json_map.put(key, val);
+				 //Object val = null;
+				 //Object val_str = rootObject.getString(key);
+
+				 ///***
+				 Object val_obj = rootObject.get(key);
+				 //Object val_obj = rootObject.optString(key);	//OKになる
+
+				 //Log.v(TAG, i+" "+ key +" "+val_obj);
+				 //json_map.put(key, val_obj);
+				 //型判定
+				 if (val_obj instanceof String){
+					 Log.v(TAG, "instanceof String" + val_obj);
+					 json_map.put(key, val_obj);
+				 } else if(val_obj instanceof Integer){
+					 Log.v(TAG, "instanceof Integer" + val_obj);
+					 json_map.put(key, val_obj);
+				 } else if(val_obj instanceof Double){
+					 Log.v(TAG, "instanceof Double" + val_obj);
+					 json_map.put(key, val_obj);
+				 } else if(val_obj instanceof JSONObject){
+					 Log.v(TAG, "instanceof JSONObject" + val_obj);
+					 Object val_str = rootObject.optString(key);	//OKになる
+					 json_map.put(key, val_str);	//Stringにする
+				 } else {
+					 //エラー
+					 Log.v(TAG, "instanceof Err" + val_obj);
+				 }
+				 //***/
+				 
+				 /***
+				 Object val_str = rootObject.optString(key);
+				 if(val_str!=null){ Log.v(TAG, "val_str"); }
+				 Object val_int = rootObject.optInt(key,9999);
+				 if(val_int!=null){ Log.v(TAG, "val_int"); }
+				 Object val_dou = rootObject.optDouble(key,9999.9999f);
+				 if(val_dou!=null){ Log.v(TAG, "val_dou"); }
+
+				 if(val_int!=null){
+					 Log.v(TAG, i + " key " + key+ ",Int "+val_int);
+					 json_map.put(key, val_str);					 
+				 } else if(val_dou!=null){
+					 Log.v(TAG, i + " key " + key+ ",Double "+val_dou);
+					 json_map.put(key, val_int);					 
+				 } else if(val_str!=null){
+					 Log.v(TAG, i + " key " + key+ ",String "+val_str);
+					 json_map.put(key, val_dou);					 
+				 } else {
+					 Log.v(TAG, i + " key " + key+ ",null");
+					 json_map.put(key, null);					 
+				 }
+				 ***/
+
 			 } 
+			 
 			String cmd = rootObject.getString("cmd");
 	        Class c = null;
 			try {
@@ -74,6 +126,7 @@ public class KiiIF {
 				//method.invoke(null, null);	//引数なし
 	        	//method.invoke(null, serviceID);	//引数１つ
 	        	Object[] args   = new Object[]{  Integer.valueOf(serviceID), json_map };
+	        	Log.v(TAG, "args " + args[0] +" "+ args[1]); 
 	        	method.invoke(null, args);	//メソッドを実行
 			} catch (IllegalArgumentException e) {
 				// TODO Auto-generated catch block
@@ -128,7 +181,7 @@ public class KiiIF {
     }
 	
     //save
-    public static void object_save(final int serviceID, HashMap<String,String> json_map) {
+    public static void object_save(final int serviceID, HashMap<String,Object> json_map) {
 		Log.v(TAG, "object_save");
 		KiiListenerInterface l = new KiiListenerInterface(){
 			@Override
@@ -142,7 +195,7 @@ public class KiiIF {
     }
 
     //refresh
-    public static void object_refresh(final int serviceID, HashMap<String,String> json_map) {
+    public static void object_refresh(final int serviceID, HashMap<String,Object> json_map) {
 		Log.v(TAG, "object_refresh");
 		KiiListenerInterface l = new KiiListenerInterface(){
 			@Override
@@ -156,7 +209,7 @@ public class KiiIF {
     }
 
     //update
-    public static void object_update(final int serviceID, HashMap<String,String> json_map) {
+    public static void object_update(final int serviceID, HashMap<String,Object> json_map) {
 		Log.v(TAG, "object_update");
 		KiiListenerInterface l = new KiiListenerInterface(){
 			@Override
@@ -169,7 +222,7 @@ public class KiiIF {
 		kapi.run_object_update();	//object
     }
     
-    public static void object_saveAllFields(final int serviceID, HashMap<String,String> json_map) {
+    public static void object_saveAllFields(final int serviceID, HashMap<String,Object> json_map) {
 		Log.v(TAG, "object_saveAllFields");
 		KiiListenerInterface l = new KiiListenerInterface(){
 			@Override
@@ -179,10 +232,10 @@ public class KiiIF {
 			}
 		};
 		KiiAPICall kapi = new KiiAPICall(json_map, l);
-		kapi.run_object_saveAllFields();	//object
+		//kapi.run_object_saveAllFields();	//object
     }    
         
-    public static void bucket_query(final int serviceID, HashMap<String,String> json_map) {
+    public static void bucket_query(final int serviceID, HashMap<String,Object> json_map) {
 		Log.v(TAG, "bucket_query");
 		KiiListenerInterface l = new KiiListenerInterface(){
 			@Override
@@ -195,7 +248,7 @@ public class KiiIF {
 		kapi.run_query2();	//2
     }
 
-    public static void display_name_update(int serviceID, HashMap<String,String> json_map) {
+    public static void display_name_update(int serviceID, HashMap<String,String> Object) {
 		Log.v(TAG, "display_name_update");
     }
     

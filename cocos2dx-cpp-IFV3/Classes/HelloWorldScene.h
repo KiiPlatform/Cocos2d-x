@@ -3,9 +3,12 @@
 
 #include "cocos2d.h"
 //#include "test/CKiiApiTest.h"
-#include "kiiRanking/KiiRanking.h"
+
+#include "kiiRanking/KiiRanking.h"	//Android
+//#include "KiiRanking.h"	//iPhone
 
 //#include "SimpleAudioEngine.h"
+
 
 class HelloWorld : public cocos2d::LayerColor
 {
@@ -40,6 +43,7 @@ public:
     int _score,_hiScore;
     char _score_buffer[256];
     cocos2d::CCUserDefault* _userDefault;
+    
     KiiRanking *_pKiiRanking;
     
 protected:

@@ -152,7 +152,7 @@ bool StartLayer::init()
         this->addChild(_pname, 1);
         _pname->_slayer = this;
 
-        //_pCKiiApiTest = CKiiApiTest::create();	//CKiiApiTest
+        _pCKiiApiTest = CKiiApiTest::create();	//CKiiApiTest
         //_pCKiiApiTest->createApplicationScopeBucketTest();
         //_pCKiiApiTest->clause4_Test();
 
@@ -231,9 +231,9 @@ extern struct android_app* g_state;
 void StartLayer::bt_nameCallback(Object* sender)
 {
 	CCLOG("StartLayer::bt_nameCallback");
-    _pname ->display();
+    //xx _pname ->display();
     //jniTest(g_state);
-	//_pCKiiApiTest->clause3_Test();
+	_pCKiiApiTest->postMyScore(1234);
 }
 
 StartLayer::~StartLayer()

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>4F09233C-511F-44D5-8736-1E46E1F4F55E</string>
+	<key>IDESourceControlProjectName</key>
+	<string>SimpleGame</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>6982793D-F2F5-4F1D-9F6C-15BF3D1D12A5</key>
+		<string>https://github.com/KiiPlatform/Cocos2d-x.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>SimpleGame/proj.ios/SimpleGame.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>6982793D-F2F5-4F1D-9F6C-15BF3D1D12A5</key>
+		<string>../../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/KiiPlatform/Cocos2d-x.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>6982793D-F2F5-4F1D-9F6C-15BF3D1D12A5</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>6982793D-F2F5-4F1D-9F6C-15BF3D1D12A5</string>
+			<key>IDESourceControlWCCName</key>
+			<string>MyApp</string>
+		</dict>
+	</array>
+</dict>
+</plist>

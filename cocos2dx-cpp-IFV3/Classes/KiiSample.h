@@ -12,6 +12,7 @@
 #include "cocos2d.h"
 #include "picojson.h"
 #include "kii/KObject.h"
+//#include "KObject.h"
 
 using namespace std;
 using namespace cocos2d;

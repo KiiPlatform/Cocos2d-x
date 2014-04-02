@@ -15,6 +15,7 @@ public:
     static void ranking_query_all();
     static void ranking_post(const char *name, int score);
     static void save_display_name(const char *name);
+    static void kiiReq(const char *json, int servideID);
 };
 
 #endif

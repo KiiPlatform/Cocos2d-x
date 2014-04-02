@@ -273,13 +273,13 @@
         _userDisplayName = user.displayName;
         NSLog(@"_userDisplayName = %@",_userDisplayName);
         CallCpp::setDisplayame( [_userDisplayName UTF8String] );  //C++を呼び出す
+        CallCpp::setName( [_username UTF8String] );  //C++を呼び出す
     } else {
         NSLog(@"loginWithToken NG");
         //userとpasswdを使ってloginがいい？
         //[self regist];
     }
 }
-
 
 -(void) loginWithUserName
 {
@@ -305,6 +305,7 @@
         NSLog(@"_userDisplayName = %@",_userDisplayName);
         [self displayNameUpdate:@"PalyerName"]; //Synchronous _userDisplayNameを更新する
         CallCpp::setDisplayame( [_userDisplayName UTF8String] );  //C++を呼び出す
+        CallCpp::setName( [_username UTF8String] );  //C++を呼び出す
     } else {
         // there was a problem
         NSLog(@"error %@", error);
@@ -328,6 +329,7 @@
         NSLog(@"_userDisplayName = %@",_userDisplayName);
         [self displayNameUpdate:@"PlayerName"]; //Synchronous PlayerNameで_userDisplayNameを更新する
         CallCpp::setDisplayame( [_userDisplayName UTF8String] );  //C++を呼び出す
+        CallCpp::setName( [_username UTF8String] );  //C++を呼び出す
     } else {
         // there was a problem
         NSLog(@"error %@", error);

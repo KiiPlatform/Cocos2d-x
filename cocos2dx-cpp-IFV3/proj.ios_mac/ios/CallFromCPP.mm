@@ -8,6 +8,7 @@
 
 #include "CallFromCPP.h"
 #import "KRanking_objc.h"
+#import "KiiIF.h"
 
 void CallFromCpp::ranking_query_all(){
     NSLog(@"CallFromCpp::ranking_query_all");
@@ -28,4 +29,11 @@ void CallFromCpp::save_display_name(const char *name){
     
     NSString* ns_name = [NSString stringWithCString: name encoding:NSUTF8StringEncoding];
     [[KRanking_objc sharedInstance] displayNameUpdate:ns_name];
+}
+
+void CallFromCpp::kiiReq(const char *json, int servideID){
+     NSLog(@"CallFromCpp::kiiReq %s", json);
+    
+    [[KiiIF sharedInstance] kiiReq:servideID json:json];
+    
 }
