@@ -39,7 +39,6 @@ typedef void(^KiiExperimentBlock)(KiiExperiment* experiment, NSError* error);
  @exception NSInvalidArgumentException Thrown if given experiment id is <br>
   - Nil or empty <br>
   - Does not match with the pattern [a-zA-Z0-9\-\_\.]\{2,100\}"<br>
- @exception KiiIllegalStateException will be thrown if there is no logged user.
  */
 + (KiiExperiment*) getExperimentSynchronous:(NSString*) experimentID withError:(NSError**) error;
 
@@ -58,17 +57,20 @@ typedef void(^KiiExperimentBlock)(KiiExperiment* experiment, NSError* error);
  @exception NSInvalidArgumentException Thrown if given experiment id is <br>
   - Nil or empty <br>
   - Does not match with the pattern [a-zA-Z0-9\-\_\.]\{2,100\}" <br>
- @exception KiiIllegalStateException will be thrown if there is no logged user.
  */
 + (void) getExperiment:(NSString*) experimentID withBlock:(KiiExperimentBlock) completion;
 
 /** Get the variation applied to this trial.
- Get the variation applied to this trial. Variation will be determined by specified rate of each variation in this experiment. 
+ Get the variation applied to this trial. Variation will be determined by specified rate of each variation in this experiment.
+ 
  Current login user information will be used for sampling. If the experiment has finished with specified variant, the specified variant will be returned regardless of login user information. 
- If the experiment has been terminated without specified variant an error (code 902) will be returned.
- If the experiment has paused an error (code 903) will be returned.
+
+ - If the experiment is in draft an error (code 902) will be returned.
+ - If the experiment has been paused an error (code 903) will be returned.
+ - If the experiment has been terminated without specified variant an error (code 904) will be returned.
+ - If No user logged in, an error (code 906) will be returned.
+
  @param error An NSError object, passed by reference.
- @exception KiiIllegalStateException will be thrown if there is no logged user.
  */
 - (KiiVariation*) appliedVariationWithError:(NSError**) error;
 
@@ -78,7 +80,6 @@ If you use <KiiVariationSamplerByKiiUser> with current login user, it will be sa
  @note An error will be returned if the experiment is not applied, depending on implementation of KiiVariationSampler.
  @param sampler an instance of object that conform KiiVariationSampler protocol.
  @param error An NSError object, passed by reference.
- @exception KiiIllegalStateException will be thrown if there is no logged user.
  */
 - (KiiVariation*) appliedVariationWithSampler:(id<KiiVariationSampler>) sampler andError:(NSError**) error;
 

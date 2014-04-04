@@ -27,6 +27,9 @@
 
 + (BOOL)isNilOrEmptyString:(NSString *)testString;
 
++ (BOOL)isNilOrNSNullOrEmptyString:(NSString *)testString;
+
 + (void) _callMethod:(SEL)method onDelegate:(id)delegate waitUntilDone : (BOOL) shouldWait withFirstObjects:(id)firstObj andArguments:(va_list)args;
 
++ (NSString*) mimeTypeForFileAtPath:(NSString*)path;
 @end

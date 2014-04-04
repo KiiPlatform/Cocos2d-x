@@ -88,12 +88,13 @@
         
     } else {
         NSLog(@"error %@", error);
+        result = [self makeErrorJsonString:error];
     }
 
     // コールバックが指定された場合には、それを呼び出す。
     if (handler) {
         NSLog(@"handler");
-        handler(result, error);
+        handler(result, error); //errorは使用しない
     }
 }
 
@@ -137,12 +138,13 @@
         
     } else {
         NSLog(@"ranking_refresh %@ ", error);
+        result = [self makeErrorJsonString:error];
     }
     
     // コールバックが指定された場合には、それを呼び出す。
     if (handler) {
         NSLog(@"handler");
-        handler(result, error);
+        handler(result, error); //errorは使用しない
     }
 }
 
@@ -215,13 +217,14 @@
         
     } else {
         NSLog(@"error %@", error);
+        result = [self makeErrorJsonString:error];
     }
     
     
     // コールバックが指定された場合には、それを呼び出す。
     if (handler) {
         NSLog(@"handler");
-        handler(result, error);
+        handler(result, error); //errorは使用しない
     }
 }
 
@@ -283,13 +286,11 @@
     NSLog(@"_json_map=%@", _json_map);
     
     KiiQuery *kii_query=nil;
-    KiiClause *totalClause = nil;
+    //KiiClause *totalClause = nil;
 
-
-    
     //run_queryの処理 バラバラにする
     //query
-    NSString *result;
+    //NSString *result;
     NSDictionary *query = [_json_map objectForKey:@"query"];
     NSLog(@"query=%@", query);
     if(query!=nil){
@@ -534,47 +535,82 @@
 //結果の処理
 -(void)handleResults:(NSArray *)retResults err:(NSError *)retError handler:(CallbackHandler)handler{
     NSLog(@"handleResults %@ %@", retResults, retError);
+
+    //retError = (NSError *)@"hoge erro dayo";    //for debug
     
-    //ログ表示 _uri_の追加
-    NSMutableArray *jArray = [NSMutableArray array];
-    int size = [retResults count];
-    for(int i=0;i<size; i++){
-        KiiObject* obj=[retResults objectAtIndex:i];
-        NSMutableDictionary *dic = [obj dictionaryValue];
-        //_uri_を追加
-        NSString *uri = obj.objectURI;
-        [dic setObject:uri forKey:@"_uri_"];
-        //NSLog(@"%d %@", i, dic);
-        [jArray addObject:dic];
-    }
-    NSLog(@"jArray %@", jArray);
-    
-    //JSONにする
     NSString *result;
-    NSError *error2 = nil;
-    NSData *data = nil;
-    //NSString* json_str = nil;
-    if([NSJSONSerialization isValidJSONObject:jArray]){
-        NSLog(@"true isValidJSONObject");
-        data = [NSJSONSerialization dataWithJSONObject:jArray options:NSJSONReadingAllowFragments error:&error2];
-        //NSLog(@"%@",data);
-        //result
-        result = [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]autorelease];
-        NSLog(@"result %@", result);
-        
-        //CallCpp::setDisplayame2([json_str UTF8String], serviceID);
-        //CallCpp::rankingResponse( [json_str UTF8String] );  //C++を呼び出す
-    } else {
-        result = nil;
-        NSLog(@"false isValidJSONObject");
-    }
-    //
+    if(retError == nil) {
     
+        //ログ表示 _uri_の追加
+        NSMutableArray *jArray = [NSMutableArray array];
+        int size = [retResults count];
+        for(int i=0;i<size; i++){
+            KiiObject* obj=[retResults objectAtIndex:i];
+            NSMutableDictionary *dic = [obj dictionaryValue];
+            //_uri_を追加
+            NSString *uri = obj.objectURI;
+            [dic setObject:uri forKey:@"_uri_"];
+            //NSLog(@"%d %@", i, dic);
+            [jArray addObject:dic];
+        }
+        NSLog(@"jArray %@", jArray);
+    
+        //JSONにする
+        NSError *error2 = nil;
+        NSData *data = nil;
+        //NSString* json_str = nil;
+        if([NSJSONSerialization isValidJSONObject:jArray]){
+            NSLog(@"true isValidJSONObject");
+            data = [NSJSONSerialization dataWithJSONObject:jArray options:NSJSONReadingAllowFragments error:&error2];
+            //NSLog(@"%@",data);
+            //result
+            result = [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]autorelease];
+            NSLog(@"result %@", result);
+        
+            //CallCpp::setDisplayame2([json_str UTF8String], serviceID);
+            //CallCpp::rankingResponse( [json_str UTF8String] );  //C++を呼び出す
+        } else {
+            result = nil;
+            NSLog(@"false isValidJSONObject");
+        }
+    //
+    } else {
+        NSLog(@"error %@", retError);
+        result = [self makeErrorJsonString:retError];
+    }
     NSError *error = nil;
     if (handler) {
         NSLog(@"handler");
         handler(result, error);
     }
+
+    
 }
+
+-(NSString *)makeErrorJsonString:(NSError *)error
+{
+    NSLog(@"makeErrorJsonString %@", error);
+    
+    NSString *result;
+    NSData *data = nil;
+    NSError *error2 = nil;
+    NSDictionary *dic = [NSDictionary dictionaryWithObject:error forKey:@"_error_"];
+    if([NSJSONSerialization isValidJSONObject:dic]){
+        NSLog(@"true isValidJSONObject");
+        data = [NSJSONSerialization dataWithJSONObject:dic options:NSJSONReadingAllowFragments error:&error2];
+        //NSLog(@"%@",data);
+        //result
+        result = [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]autorelease];
+        NSLog(@"result %@", result);
+    } else {
+        result = nil;
+        NSLog(@"false isValidJSONObject");
+    }
+    return result;
+
+}
+
+
+
 
 @end

@@ -10,9 +10,7 @@
 #import "KiiPushSubscription.h"
 #import "KiiBaseBucket.h"
 
-@class KiiObject, KiiQuery, KiiUser, KiiBucket, KiiGroup, KiiACL,KiiRTransferManager;
-
-
+@class KiiObject, KiiQuery, KiiUser, KiiBucket, KiiGroup, KiiACL, KiiRTransferManager;
 
 typedef void (^KiiBucketBlock)(KiiBucket *bucket, NSError *error);
 typedef void (^KiiQueryResultBlock)(KiiQuery *query, KiiBucket *bucket, NSArray *results, KiiQuery *nextQuery, NSError *error);
@@ -188,5 +186,5 @@ typedef void (^KiiQueryResultBlock)(KiiQuery *query, KiiBucket *bucket, NSArray 
 /** Get transfer manager object based on this bucket
 @return A transfer manager object based on this file bucket. 
  */
--(KiiRTransferManager*) transferManager;
+-(KiiRTransferManager *) transferManager;
 @end

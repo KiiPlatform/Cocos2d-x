@@ -44,6 +44,8 @@ public:
 	virtual void bt_rankingCallback(cocos2d::Object* sender);
     virtual void bt_nameCallback(cocos2d::Object* sender);
     void gameOverDone();
+    void picojson_test();
+    
     
 	//void onTouchesEnded(const std::vector<cocos2d::Touch*>& touches, cocos2d::Event* event);
 

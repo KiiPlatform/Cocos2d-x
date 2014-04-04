@@ -64,6 +64,8 @@ typedef enum { GET, PUT, POST, FORMPOST, DELETE , HEAD } HttpMethods;
 - (id) initWithPath:(NSString*)path andApp:(BOOL)appInPath;
 - (id) initWithPath:(NSString*)path;
 
+- (id) initWithUrl:(NSString *)url;
+
 - (void) setRequestPath:(NSString *)reqPath withApp:(BOOL)appInURL;
 
 - (NSDictionary*) makeSynchronousRequest:(NSError**)sendError andResponse:(int*)response withETag:(NSString**) etag discardBody:(BOOL)discardBody;

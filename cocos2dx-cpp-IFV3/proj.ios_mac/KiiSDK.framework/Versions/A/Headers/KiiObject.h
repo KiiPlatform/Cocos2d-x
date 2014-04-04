@@ -12,6 +12,11 @@
 @class KiiACL, KiiBucket, KiiACL, KiiObject,KiiUploader,KiiDownloader, KiiGeoPoint;
 typedef void (^KiiObjectBlock)(KiiObject *object, NSError *error);
 
+typedef void (^KiiObjectPublishBodyBlock)(KiiObject *obj, NSString *url, NSError *error);
+
+typedef void (^KiiObjectBodyProgressBlock)(KiiObject *obj, NSUInteger completedSizeInBytes, NSUInteger totalSizeInBytes, NSError *error);
+
+typedef void (^KiiObjectBodyCompletionBlock)(KiiObject *obj, NSError *error);
 
 /** A server-compatible object for generic storage use cases */
 @interface KiiObject : NSObject<FileHolder>
@@ -37,6 +42,8 @@ typedef void (^KiiObjectBlock)(KiiObject *object, NSError *error);
 /** The bucket that owns this object */
 @property (readonly) KiiBucket *bucket;
 
+/** The content type of object body. nil by default, the value will be set automatically after successful upload/download object body operation. The value will be nullified after object deletion or object body deletion. */
+@property(nonatomic,readonly) NSString* bodyContentType;
 
 /** Create a KiiObject that references an existing object
  
@@ -376,6 +383,382 @@ typedef void (^KiiObjectBlock)(KiiObject *object, NSError *error);
  For developer purposes only, this method prints the object in a readable format to the log for testing.
  */
 - (void) describe;
+
+///---------------------------------------------------------------------------------------
+/// @name Object Body Handling
+///---------------------------------------------------------------------------------------
+
+/** Synchronously Publish the KiiObject body and return the public URL. URL will not be expired.
+ 
+ This is blocking method.
+ URL of published object body refers to the original object body, any updates on original will reflect.
+ 
+ If the object does not have id, an error (Error code : 501) will be returned.
+ 
+ If the object is not found on the server, an error (Error code : 510) will be returned.
+ 
+ If the object does not have body, an error (Error code : 517) will be returned.
+ 
+ @param error An NSError object, set to nil to test for errors.
+ @return the URL for the KiiObject body contents.
+ */
+- (NSString*) publishBodySynchronous: (NSError**) error;
+
+/** Asynchronously Publish the KiiObject body and return the public URL. URL will not be expired.
+ 
+ This is non blocking method. 
+ 
+ If the object does not have id, an error (Error code : 501) will be returned.
+ 
+ If the object is not found on the server, an error (Error code : 510) will be returned.
+ 
+ If the object does not have body, an error (Error code : 517) will be returned.
+ 
+        [object publishBodyWithBlock:^(KiiObject *object, NSString *url, NSError *error) {
+             if (error){
+             // error handling;
+             }else{
+             NSLog(@"Published URL : %@",url);
+             //do something with the URL
+            }
+        }];
+ 
+ @param block completion block.
+ @param error An NSError object, set to nil to test for errors.
+ @exception NSInvalidArgumentException will be thrown if completion block is nil.
+ */
+- (void) publishBodyWithBlock:(KiiObjectPublishBodyBlock) block;
+
+
+/** Synchronously Publish the KiiObject body and return the public URL. URL will be expired at the specified expiration date.
+ 
+ This is blocking method.
+ URL of published object body refers to the original object body, any updates on original will reflect.
+ 
+ If the object does not have id, an error (Error code : 501) will be returned.
+ 
+ If the object is not found on the server, an error (Error code : 510) will be returned.
+ 
+ If the object does not have body, an error (Error code : 517) will be returned.
+ 
+ If the expirationDate is not future date, an error (Error code : 521) will be returned.
+ 
+ @param expirationDate defined expiration date.
+ @param error An NSError object, set to nil to test for errors.
+ @return the URL for the KiiObject body contents.
+ */
+- (NSString*) publishBodySynchronousExpiresAt:(NSDate*) expirationDate andError: (NSError**) error;
+
+/** Asynchronously Publish the KiiObject attached file and return the file URL. URL will be expired at the specified expiration date.
+ 
+ This is non blocking method.
+ URL of published object body refers to the original object body, any updates on original will reflect.
+ 
+ If the object does not have id, an error (Error code : 501) will be returned.
+ 
+ If the object is not found on the server, an error (Error code : 510) will be returned.
+ 
+ If the object does not have body, an error (Error code : 517) will be returned.
+ 
+ If the expirationDate is not future date, an error (Error code : 521) will be returned.
+ 
+        [object publishBodyExpiresAt:expirationDate andBlock:^(KiiObject *obj, NSString *url, NSError *error) {
+            if (error){
+            // error handling;
+            }else{
+            NSLog(@"Published URL : %@",url);
+            //do something with the URL
+            }
+        }];
+ 
+ @param expirationDate defined expiration date.
+ @param block completion block. See code snippet above.
+ @return the URL for the KiiObject body contents.
+ @exception NSInvalidArgumentException will be thrown if completion block is nil.
+ */
+- (void) publishBodyExpiresAt:(NSDate*) expirationDate withBlock:(KiiObjectPublishBodyBlock) block;
+
+/** Synchronously Publish the KiiObject body and return the public URL. URL will be expired in the specified time interval since now.
+ 
+ This is blocking method.
+ URL of published object body refers to the original object body, any updates on original will reflect.
+ 
+ If the object does not have id, an error (Error code : 501) will be returned.
+ 
+ If the object is not found on the server, an error (Error code : 510) will be returned.
+ 
+ If the object does not have body, an error (Error code : 517) will be returned.
+ 
+ If the timeInterval is 0, an error (Error code : 522) will be returned.
+
+ @param timeInterval NSUInteger time interval since now (in seconds).
+ @param error An NSError object, set to nil to test for errors.
+ @return the URL for the KiiObject body contents.
+ */
+- (NSString*) publishBodySynchronousExpiresIn:(NSUInteger) timeInterval andError: (NSError**) error;
+
+/** Asynchronously Publish the KiiObject body and return the public URL. URL will be expired in time interval since now.
+ 
+ This is non blocking method. 
+ 
+ If the object does not have id, an error (Error code : 501) will be returned.
+ 
+ If the object is not found on the server, an error (Error code : 510) will be returned.
+ 
+ If the object does not have body, an error (Error code : 517) will be returned.
+ 
+ If the file url path is not writable, an error (Error code : 519) will be returned.
+ 
+ If the timeInterval is 0, an error (Error code : 522) will be returned.
+ 
+        NSUinteger nextOneHour = 60 * 60;
+        [object publishBodyExpiresIn:nextOneHour andBlock:^(KiiObject *obj,NSString *url, NSError *error) {
+            if (error){
+            // error handling;
+            }else{
+            NSLog(@"Published URL : %@",url);
+            //do something with the URL
+            }
+        }];
+ 
+ @param timeInterval NSUInteger time interval since now (in seconds).
+ @param completion block.
+ @exception NSInvalidArgumentException will be thrown if completion block is nil.
+ */
+- (void) publishBodyExpiresIn:(NSUInteger) timeInterval withBlock:(KiiObjectPublishBodyBlock) block;
+
+/** Synchronously download object body.
+ 
+ This is blocking method. If destination file exist, it will be overwriten.
+ 
+ If the object does not have id, an error (Error code : 501) will be returned.
+ 
+ If the object is not found on the server, an error (Error code : 510) will be returned.
+ 
+ If the object does not have body, an error (Error code : 517) will be returned.
+ 
+ If the file url path is not writable, an error (Error code : 519) will be returned.
+ 
+ @param destinationFileURL url for destination file, it should have 'file://' scheme.
+ @param error An NSError object, set to nil to test for errors.
+ */
+- (void) downloadBodySynchronousWithURL:(NSURL*) destinationFileURL andError:(NSError**) error;
+
+/** Asynchronously download object body with progress and completion.
+ 
+ This is non blocking method. If destination file exist, it will be overwriten.
+ 
+ If the object does not have id, an error (Error code : 501) will be returned.
+ 
+ If the object is not found on the server, an error (Error code : 510) will be returned.
+ 
+ If the object does not have body, an error (Error code : 517) will be returned.
+ 
+ If the file url path is not writable, an error (Error code : 519) will be returned.
+
+        [object downloadBodyWithURL:destinationFileURL
+                       andCompletion:^(KiiObject *obj, NSError *error)
+        {
+            // do something during download progress
+        }
+        andProgess:^(KiiObject *obj, NSUInteger completedSizeInBytes, NSUInteger totalSizeInBytes, NSError *error)
+        {
+            // do something on completion
+        }];
+ 
+ @param destinationFileURL url for destination file, it should have 'file://' scheme.
+ @param completion block for handling completion.
+ @param progress block for handling progress.
+ */
+- (void) downloadBodyWithURL:(NSURL*) destinationFileURL andCompletion:(KiiObjectBodyCompletionBlock) completion andProgess:(KiiObjectBodyProgressBlock) progess ;
+
+/** Asynchronously download object body with completion.
+ 
+ This is non blocking method. If destination file exist, it will be overwriten.
+ 
+ If the object does not have id, an error (Error code : 501) will be returned.
+ 
+ If the object is not found on the server, an error (Error code : 510) will be returned.
+ 
+ If the object does not have body, an error (Error code : 517) will be returned.
+ 
+ If the file url path is not writable, an error (Error code : 519) will be returned.
+ 
+        [object downloadBodyWithURL:destinationFileURL
+                       andCompletion:^(KiiObject *obj, NSError *error)
+        {
+            // do something on completion
+        }];
+ 
+ @param destinationFileURL url for destination file, it should have 'file://' scheme.
+ @param completion block for handling completion. 
+ */
+- (void) downloadBodyWithURL:(NSURL*) destinationFileURL andCompletion:(KiiObjectBodyCompletionBlock) completion;
+
+/** Generate NSURLRequest instance for downloading object body.
+ 
+ The generated request can be used to implement iOS 7 background transfer feature.
+ 
+ If the object does not have id, nil will be returned.
+ 
+ If the object body does not exist, it fails on execution.
+ 
+ @return NSURLRequest instance to download object body.
+ */
+- (NSURLRequest*) generateDownloadRequest;
+
+/** Synchronously upload object body.
+ 
+ This is blocking method.
+ 
+ If the object does not have id, an error (Error code : 501) will be returned.
+ 
+ If the object is not found on the server, an error (Error code : 510) will be returned.
+ 
+ If the file url path is not exist or is a directory, an error (Error code : 518) will be returned.
+ 
+ If the file url path is not readable, an error (Error code : 520) will be returned.
+
+ @param sourceFileURL url for source file, it should have 'file://' scheme.
+ @param contentType Content type of the object body. Please refer to http://www.iana.org/assignments/media-types/media-types.xhtml for the standard. If nil is passed, it will be parsed from URL's file extension.
+ @param error An NSError object, set to nil to test for errors.
+ @note After this operation, KiiObject version on cloud will be updated. If you want to use <saveSynchronous:withError:> or <saveAllFieldsSynchronous:withError:> with overwrite=NO argument, please do <refreshSynchronous:> before saving.
+ */
+- (void) uploadBodySynchronousWithURL:(NSURL*) sourceFileURL andContentType: (NSString*) contentType andError:(NSError**) error;
+
+/** Synchronously upload object body.
+ 
+ This is blocking method.
+ 
+ If the object does not have id, an error (Error code : 501) will be returned.
+ 
+ If the object is not found on the server, an error (Error code : 510) will be returned.
+ 
+ @param data NSData to upload. This is mandatory, can not be nil. An invalid parameter exception will be thrown if nil is passed.
+ @param contentType Content type of the object body. Please refer to http://www.iana.org/assignments/media-types/media-types.xhtml for the standard. If nil is passed, it will be set as "application/octet-stream".
+ @param error An NSError object, set to nil to test for errors.
+ @exception NSInvalidArgumentException if data is nil.
+ @note After this operation, KiiObject version on cloud will be updated. If you want to use <saveSynchronous:withError:> or <saveAllFieldsSynchronous:withError:> with overwrite=NO argument, please do <refreshSynchronous:> before saving.
+ */
+- (void) uploadBodySynchronousWithData:(NSData*) data andContentType: (NSString*) contentType andError:(NSError**) error;
+
+/** Asynchronously upload object body with progress and completion.
+ 
+ This is non blocking method.
+ 
+ If the object does not have id, an error (Error code : 501) will be returned.
+ 
+ If the object is not found on the server, an error (Error code : 510) will be returned.
+ 
+ If the file url path is not exist or is a directory, an error (Error code : 518) will be returned.
+ 
+ If the file url path is not readable, an error (Error code : 520) will be returned.
+ 
+        [object uploadBodyWithURL:sourceFileURL
+    andCompletion:^(KiiObject *obj, NSError *error)
+            {
+            // do something during download progress
+            }
+    andProgess:^(KiiObject *obj, NSUInteger completedSizeInBytes, NSUInteger totalSizeInBytes, NSError *error)
+            {
+            // do something on completion
+        }];
+ 
+ @param sourceFileURL url for source file, it should have 'file://' scheme.
+ @param contentType Content type of the object body. Please refer to http://www.iana.org/assignments/media-types/media-types.xhtml for the standard. If nil is passed, it will be set as "application/octet-stream".
+ @param completion block for handling completion.
+ @param contentType Content type of the object body. Please refer to http://www.iana.org/assignments/media-types/media-types.xhtml for the standard. If nil is passed, it will be parsed from URL's file extension.
+ @param progress block for handling progress.
+ @note After this operation, KiiObject version on cloud will be updated. If you want to use <saveSynchronous:withError:> or <saveAllFieldsSynchronous:withError:> with overwrite=NO argument, please do <refreshSynchronous:> before saving.
+ */
+- (void) uploadBodyWithURL:(NSURL*) sourceFileURL andContentType: (NSString*) contentType andCompletion:(KiiObjectBodyCompletionBlock) completion andProgess:(KiiObjectBodyProgressBlock) progess;
+
+/** Asynchronously upload object body with progress and completion.
+ 
+ This is non blocking method.
+ 
+ If the object does not have id, an error (Error code : 501) will be returned.
+ 
+ If the object is not found on the server, an error (Error code : 510) will be returned.
+ 
+         [object uploadBodyWithData:data
+             andCompletion:^(KiiObject *obj, NSError *error)
+             {
+             // do something during download progress
+             }
+             andProgess:^(KiiObject *obj, NSUInteger completedSizeInBytes, NSUInteger totalSizeInBytes, NSError *error)
+             {
+             // do something on completion
+         }];
+ 
+ @param data NSData to upload. This is mandatory, can not be nil. An invalid parameter exception will be thrown if nil is passed.
+ @param contentType Content type of the object body. Please refer to http://www.iana.org/assignments/media-types/media-types.xhtml for the standard. If nil is passed, it will be set as "application/octet-stream".
+ @param completion block for handling completion.
+ @param progress block for handling progress.
+ @exception NSInvalidArgumentException if data is nil.
+ @note After this operation, KiiObject version on cloud will be updated. If you want to use <saveSynchronous:withError:> or <saveAllFieldsSynchronous:withError:> with overwrite=NO argument, please do <refreshSynchronous:> before saving.
+ */
+- (void) uploadBodyWithData:(NSData*) data andContentType: (NSString*) contentType andCompletion:(KiiObjectBodyCompletionBlock) completion andProgess:(KiiObjectBodyProgressBlock) progess;
+
+/** Asynchronously upload object body with completion.
+ 
+ This is non blocking method.
+ 
+ If the object does not have id, an error (Error code : 501) will be returned.
+ 
+ If the object is not found on the server, an error (Error code : 510) will be returned.
+ 
+ If the file url path is not exist or is a directory, an error (Error code : 518) will be returned.
+
+ If the file url path is not readable, an error (Error code : 520) will be returned.
+ 
+        [object uploadBodyWithURL:sourceFileURL
+            andCompletion:^(KiiObject *obj, NSError *error)
+            {
+            // do something on completion
+        }];
+ 
+ @param sourceFileURL url for source file, it should have 'file://' scheme.
+ @param contentType Content type of the object body. Please refer to http://www.iana.org/assignments/media-types/media-types.xhtml for the standard. If nil is passed, it will be parsed from URL's file extension.
+ @param completion block for handling completion.
+ @note After this operation, KiiObject version on cloud will be updated. If you want to use <saveSynchronous:withError:> or <saveAllFieldsSynchronous:withError:> with overwrite=NO argument, please do <refreshSynchronous:> before saving.
+ */
+- (void) uploadBodyWithURL:(NSURL*) sourceFileURL andContentType: (NSString*) contentType andCompletion:(KiiObjectBodyCompletionBlock) completion;
+
+/** Asynchronously upload object body with completion.
+ 
+ This is non blocking method.
+ 
+ If the object does not have id, an error (Error code : 501) will be returned.
+ 
+ If the object is not found on the server, an error (Error code : 510) will be returned.
+ 
+        [object uploadBodyWithData:data
+                     andCompletion:^(KiiObject *obj, NSError *error)
+                    {
+                    // do something during download progress
+        }];
+ 
+ @param data NSData to upload. This is mandatory, can not be nil. An invalid parameter exception will be thrown if nil is passed.
+ @param contentType Content type of the object body. Please refer to http://www.iana.org/assignments/media-types/media-types.xhtml for the standard. If nil is passed, it will be set as "application/octet-stream".
+ @param completion block for handling completion.
+ @exception NSInvalidArgumentException if data is nil.
+ @note After this operation, KiiObject version on cloud will be updated. If you want to use <saveSynchronous:withError:> or <saveAllFieldsSynchronous:withError:> with overwrite=NO argument, please do <refreshSynchronous:> before saving.
+ */
+- (void) uploadBodyWithData:(NSData*) data andContentType: (NSString*) contentType andCompletion:(KiiObjectBodyCompletionBlock) completion;
+
+/** Generate NSURLRequest instance for uploading object body.
+ 
+ The generated request can be used to implement iOS 7 background transfer feature.
+ 
+ If the object does not have id, nil will be returned.
+ 
+ If the object does not exist, it fails on execution.
+ 
+ @return NSURLRequest instance to upload object body.
+ */
+- (NSURLRequest*) generateUploadRequest;
+
 
 ///---------------------------------------------------------------------------------------
 /// @name Resumable Transfer Handling

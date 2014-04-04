@@ -80,27 +80,32 @@ public class KiiAPICall {
 			@Override
 			public void onQueryCompleted(int arg0, KiiQueryResult<KiiObject> result, Exception e) {
 				Log.v(TAG, "run_query onQueryCompleted " + e);
-				List<KiiObject> objLists = result.getResult();
-				int size = objLists.size();
-				Log.v(TAG, "size " + size);
-				JSONArray jArray = new JSONArray();
-				int i = 0;
-				for (KiiObject obj : objLists) {
-					i++;
-					String name2 = obj.getString(Field.NAME, "null_name");
-					String dname = obj.getString(Field.DISPLAYNAME, "null_name");
-					String score2 = obj.getString(Field.SCORE,"0");
-					Log.v(TAG, "onQueryCompleted " + i+ " " +name2 +" "+ dname + " "+ score2 );
-					JSONObject nJArray = new JSONObject();
-					//keyのloop
-					
-					//
-					jArray.put(nJArray);
-			  	}
-				Log.v(TAG, "jArray " + jArray);
-				String s = jArray.toString();
-				//リスナーを実行する
-				m_listener.onCompleted(s);
+				if(e!=null){
+					List<KiiObject> objLists = result.getResult();
+					int size = objLists.size();
+					Log.v(TAG, "size " + size);
+					JSONArray jArray = new JSONArray();
+					int i = 0;
+					for (KiiObject obj : objLists) {
+						i++;
+						String name2 = obj.getString(Field.NAME, "null_name");
+						String dname = obj.getString(Field.DISPLAYNAME, "null_name");
+						String score2 = obj.getString(Field.SCORE,"0");
+						Log.v(TAG, "onQueryCompleted " + i+ " " +name2 +" "+ dname + " "+ score2 );
+						JSONObject nJArray = new JSONObject();
+						//keyのloop
+						
+						//
+						jArray.put(nJArray);
+				  	}
+					Log.v(TAG, "jArray " + jArray);
+					String s = jArray.toString();
+					//リスナーを実行する
+					m_listener.onCompleted(s);
+				} else {
+					String json =makeErrorJsonString(e);
+					m_listener.onCompleted(json);
+				}
 			}
         }, query);			
 		//
@@ -132,7 +137,8 @@ public class KiiAPICall {
 		}
 		Log.v(TAG, "s_query " + s_query);
 		KiiBucket bucket = Kii.bucket(backet_key);	//B_RANKING
-		
+
+		//KiiQuery query = null;
 		KiiQuery query = new KiiQuery(s_query);
 		
 		//JavaでつくったQuery、for test
@@ -145,46 +151,52 @@ public class KiiAPICall {
 		bucket.query( new KiiQueryCallBack<KiiObject>() {
 			@Override
 			public void onQueryCompleted(int arg0, KiiQueryResult<KiiObject> result, Exception e) {
+
 				Log.v(TAG, "run_query2 onQueryCompleted " + e);
-				List<KiiObject> objLists = result.getResult();
-				int size = objLists.size();
-				Log.v(TAG, "size " + size);
-				Log.v(TAG, "objLists " + objLists);
-				JSONArray jArray = new JSONArray();	//レスポンスするすべてのjsonを入れる
-				for (KiiObject obj : objLists) {
-					Uri uri = obj.toUri();
-					Log.v(TAG, "uri=" + uri );
-					
-					//nJArrayの作成
-					HashSet<String> keyset = obj.keySet();//objectのkeyを取得
-			        Iterator<String> it = keyset.iterator();
-					JSONObject nJArray = new JSONObject();	//１行分のjson
-					//keyのvalを集めて１行分のjsonを作成する
-					while (it.hasNext()) {
-			        	String key = it.next();
-			        	Log.v(TAG, "key " + key );
-			        	//String val = obj.getString(key);	Stringはやめ
-			        	Object val = obj.getObject(key);	//getObjectを新設した
-			        	Log.v(TAG, "val " + val );
-			        	try {
-			        		nJArray.put(key, val);		//すべてkeyについてputする
+				if(e==null){
+					List<KiiObject> objLists = result.getResult();
+					int size = objLists.size();
+					Log.v(TAG, "size " + size);
+					Log.v(TAG, "objLists " + objLists);
+					JSONArray jArray = new JSONArray();	//レスポンスするすべてのjsonを入れる
+					for (KiiObject obj : objLists) {
+						Uri uri = obj.toUri();
+						Log.v(TAG, "uri=" + uri );
+						
+						//nJArrayの作成
+						HashSet<String> keyset = obj.keySet();//objectのkeyを取得
+				        Iterator<String> it = keyset.iterator();
+						JSONObject nJArray = new JSONObject();	//１行分のjson
+						//keyのvalを集めて１行分のjsonを作成する
+						while (it.hasNext()) {
+				        	String key = it.next();
+				        	Log.v(TAG, "key " + key );
+				        	//String val = obj.getString(key);	Stringはやめ
+				        	Object val = obj.getObject(key);	//getObjectを新設した
+				        	Log.v(TAG, "val " + val );
+				        	try {
+				        		nJArray.put(key, val);		//すべてkeyについてputする
+							} catch (JSONException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+				        }
+						try {
+							nJArray.put("_uri_", uri.toString());
 						} catch (JSONException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
-			        }
-					try {
-						nJArray.put("_uri_", uri.toString());
-					} catch (JSONException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-					jArray.put(nJArray);	//作成した１行をputする
-			  	}
-				Log.v(TAG, "jArray " + jArray);
-				String s = jArray.toString();
-				//リスナーを実行する
-				m_listener.onCompleted(s);
+						jArray.put(nJArray);	//作成した１行をputする
+				  	}
+					Log.v(TAG, "jArray " + jArray);
+					String s = jArray.toString();
+					//リスナーを実行する
+					m_listener.onCompleted(s);
+				} else {
+					String json =makeErrorJsonString(e);
+					m_listener.onCompleted(json);
+				}
 			}
         }, query);			
 		//
@@ -236,21 +248,27 @@ public class KiiAPICall {
         object.save( new KiiObjectCallBack() {
 			@Override
 			public void onSaveCompleted(int token, KiiObject object, Exception e) {
-				Log.v(TAG, "run_object onSaveCompleted " + token + " " + object +" " + e);
-				Uri uri = object.toUri();
-				Log.v(TAG, "uri " + uri );
-				//jsonを作成する
-				JSONObject json_obj = new JSONObject();
-				String json = null;
-				try {
-					json_obj.put("uri", uri);
-					json = json_obj.toString();
-				} catch (JSONException e1) {
-					// TODO Auto-generated catch block
-					Log.v(TAG, "onSaveCompleted e " + e1);
-					e1.printStackTrace();
-				}
-				m_listener.onCompleted(json);
+				String json;
+				if(e==null){
+					Log.v(TAG, "run_object onSaveCompleted " + token + " " + object +" " + e);
+					Uri uri = object.toUri();
+					Log.v(TAG, "uri " + uri );
+					//jsonを作成する
+					JSONObject json_obj = new JSONObject();
+					json = null;
+					try {
+						json_obj.put("uri", uri);
+						json = json_obj.toString();
+					} catch (JSONException e1) {
+						// TODO Auto-generated catch block
+						Log.v(TAG, "onSaveCompleted e " + e1);
+						e1.printStackTrace();
+					}
+					m_listener.onCompleted(json);
+        		} else {
+					json =makeErrorJsonString(e);
+					m_listener.onCompleted(json);
+        		}
 			}
         });
 		
@@ -271,26 +289,32 @@ public class KiiAPICall {
         object2.refresh( new KiiObjectCallBack() {
 			@Override
 			public void onRefreshCompleted(int token, KiiObject object, Exception e) {
-				Log.v(TAG, "refresh_ranking onRefreshCompleted " + token + " " + object +" " + e);
-				HashSet<String> keyset = object.keySet();//objectのkeyを取得
-		        Iterator<String> it = keyset.iterator();
-				JSONObject json_obj = new JSONObject();
-		        while (it.hasNext()) {
-		        	String key = it.next();
-		        	Log.v(TAG, "key " + key );
-		        	//String val = object.getString(key);	//String
-		        	//Object val = object.get(key);	//Object
-		        	Object val = object.getObject(key);	//getObjectを新設した
-		        	Log.v(TAG, "val " + val );
-		        	try {
-						json_obj.put(key, val);	//valをObjectにした
-					} catch (JSONException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-		        }
-		        String json = json_obj.toString();
-		        m_listener.onCompleted(json);
+				String json;
+				if(e==null){
+					Log.v(TAG, "refresh_ranking onRefreshCompleted " + token + " " + object +" " + e);
+					HashSet<String> keyset = object.keySet();//objectのkeyを取得
+			        Iterator<String> it = keyset.iterator();
+					JSONObject json_obj = new JSONObject();
+			        while (it.hasNext()) {
+			        	String key = it.next();
+			        	Log.v(TAG, "key " + key );
+			        	//String val = object.getString(key);	//String
+			        	//Object val = object.get(key);	//Object
+			        	Object val = object.getObject(key);	//getObjectを新設した
+			        	Log.v(TAG, "val " + val );
+			        	try {
+							json_obj.put(key, val);	//valをObjectにした
+						} catch (JSONException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+			        }
+			        json = json_obj.toString();
+			        m_listener.onCompleted(json);
+				} else {
+					json =makeErrorJsonString(e);
+					m_listener.onCompleted(json);
+				}
 			}
         });
 	}
@@ -376,24 +400,45 @@ public class KiiAPICall {
         object.save( new KiiObjectCallBack() {
 			@Override
 			public void onSaveCompleted(int token, KiiObject object, Exception e) {
-				Log.v(TAG, "run_object_update onSaveCompleted " + token + " " + object +" " + e);
-				Uri uri = object.toUri();
-				Log.v(TAG, "uri " + uri );
-				//jsonを作成する
-				JSONObject json_obj = new JSONObject();
 				String json = null;
-				try {
-					json_obj.put("uri", uri);
-					json = json_obj.toString();
-				} catch (JSONException e1) {
-					// TODO Auto-generated catch block
-					Log.v(TAG, "onSaveCompleted e " + e1);
-					e1.printStackTrace();
+				if(e==null){
+					Log.v(TAG, "run_object_update onSaveCompleted " + token + " " + object +" " + e);
+					Uri uri = object.toUri();
+					Log.v(TAG, "uri " + uri );
+					//jsonを作成する
+					JSONObject json_obj = new JSONObject();
+					json = null;
+					try {
+						json_obj.put("uri", uri);
+						json = json_obj.toString();
+					} catch (JSONException e1) {
+						// TODO Auto-generated catch block
+						Log.v(TAG, "onSaveCompleted e " + e1);
+						e1.printStackTrace();
+					}
+					m_listener.onCompleted(json);
+				} else {
+					json =makeErrorJsonString(e);
+					m_listener.onCompleted(json);
 				}
-				m_listener.onCompleted(json);
 			}
         });		
-	}	
+	}
+	
+	public String makeErrorJsonString(Exception e){
+		//jsonを作成する
+		JSONObject json_obj = new JSONObject();
+		String json = null;
+		try {
+			json_obj.put("_error_", e);
+			json = json_obj.toString();
+		} catch (JSONException e1) {
+			// TODO Auto-generated catch block
+			Log.v(TAG, "onSaveCompleted e " + e1);
+			e1.printStackTrace();
+		}
+		return json;
+	}
 
 /***
 	//saveAllFields

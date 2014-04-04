@@ -61,7 +61,7 @@ void kiiReq( map<string, string> params, KBase* target, SEL_callbackHandler sele
     picojson::object v;
     while( it != params.end() ) {
     	i++;
-    	CCLOG("params %d %s %s",i, (*it).first.c_str(), (*it).second.c_str() );
+    	//CCLOG("params %d %s %s",i, (*it).first.c_str(), (*it).second.c_str() );
     	//cout << (*it).first << ":" << (*it).second << endl;
     	key = (*it).first;
     	val = (*it).second;

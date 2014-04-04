@@ -47,6 +47,8 @@ public:
     void queryALL();
     void callBack_queryALL(const char *json);
     
+    string check_error(const char *json);
+    
     CKiiBucket *_pCKiiBucket;
     string _backet_key;
     string _name, _display_name;

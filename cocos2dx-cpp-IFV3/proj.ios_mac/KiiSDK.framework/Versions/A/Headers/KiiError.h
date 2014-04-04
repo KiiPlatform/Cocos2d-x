@@ -40,6 +40,10 @@
  - *317* - Invalid credentials, please check whether the credentials associated with social network is valid
  - *318* - Social network account has been already linked.
  - *319* - Social network account is not linked.
+ - *320* - Social network authentication was canceled.
+ - *321* - Server side login is failed with error. Additional error info is available in userInfo[@"description"] and userInfo[@"server_code"].
+ - *322* - Unable to load authentication page. Additional error info is available in userInfo[@"description"].
+ - *323* - Unsupported Application structure. Server-side authentication needs rootViewController to be assigned on Application main window.
  
  <h3>File API Errors (4xx)</h3>
  - *401* - Unable to delete file from cloud
@@ -47,6 +51,7 @@
  - *403* - Unable to retrieve local file for uploading. May not exist, or may be a directory
  - *404* - Unable to shred file. Must be in the trash before it is permanently deleted
  - *405* - Unable to perform operation - a valid container must be set first
+ - *406* - Insufficient space in cloud to store data
  
  <h3>Core Object Errors (5xx)</h3>
  - *501* - Invalid objects passed to method. Must be already saved on server
@@ -65,7 +70,13 @@
  - *514* - At least one of the ACL entries saved to an object failed. Please note there may also have been one or more successful entries
  - *515* - Bucket parent(user/group) of the bucket does not exist in the cloud.
  - *516* - The object you are trying to operate is illegal state. If you want to update KiiObject, please call <[KiiObject refreshSynchronous:]> before call this method.
-
+ - *517* - The object body does not exist.
+ - *518* - Unable to access file URL. May not exist, or may be a directory.
+ - *519* - File URL is not writable.
+ - *520* - File URL is not readable.
+ - *521* - Invalid expiration date. It must be on the future.
+ - *522* - Invalid expiration interval, should be greather than 0.
+ 
  <h3>Query Errors (6xx)</h3>
  - *601* - No more query results exist
  - *602* - Query limit set too high
@@ -99,17 +110,22 @@
  - *810* - Transfer was terminated
  - *811* - Transfer has already started
  - *812* - Object body integrity not assured. ClientHash must be same during transfer.
- - *813* - Object body range not satisfiable. Please try to transfer using another task.
+ - *813* - Object body range not satisfiable. Transfer has terminated, please start transfer again.
  - *814* - File path is not writable.
  - *815* - Invalid destination file, file range is not assured
  - *816* - Unable to operate transfer manager. The transfer manager can not operate since current user is nil or different from the user who instantiate.
- 
+
  <h3>AB Testing Errors (9xx)</h3>
  - *901* - Experiment with specified ID is not found.
  - *902* - The experiment is in draft. you need to run experiment before starting A/B testing.
  - *903* - The experiment has been paused.
  - *904* - The experiment has been terminated with no specified variation.
  - *905* - Variation with specified name is not found.
+ - *906* - Failed to apply variation due to no user logged in.
+
+  <h3>PhotoColle Errors (10xx)</h3>
+ - *1001* - Unsupported MIME type for PhotoColle transfer.
+
  */
 @interface KiiError : NSError
 
@@ -197,6 +213,18 @@
 /* Social network account has is not linked */
 + (NSError*) socialAccountNotLinked;
 
+/* Social network server-side authentication was canceled. */
++ (NSError*) socialNetworkAuthCanceled;
+
+/* Social network server-side login failed with error. */
++ (NSError*) serverSideLoginFailedWithErrorCode:(NSString*) code;
+
+/* Unable to load authentication page : <error message> */
++ (NSError*) unableToLoadAuthPageWithErrorMessage:(NSString*) message;
+
+/* Unsupported Application structure. Server-side authentication needs rootViewController to be assigned on Application main window. */
++ (NSError*) rootViewControllerNotSet;
+
 /* File API Errors (4xx) */
 
 /* Unable to delete file from cloud */
@@ -213,6 +241,9 @@
 
 /* Unable to perform operation - a valid container must be set first. */
 + (NSError*) fileContainerNotSpecified;
+
+/* Insufficient space in cloud to store data */
++ (NSError*) insufficientSpaceInCloud;
 
 
 /* Core Object Errors (5xx) */
@@ -261,6 +292,25 @@
 
 /* The object you are trying to operate is illegal state. If you want to update KiiObject, please call <[KiiObject refreshSynchronous:]> before call this method. */
 + (NSError *)illegalStateObject;
+
+/* Object body does not exist */
++ (NSError *)objectBodyNotExistInCloud;
+
+/* Unable to access file URL. May not exist, or may be a directory.*/
++ (NSError *)notAccessibleURL;
+
+/* File URL is not writable. */
++ (NSError *)notWritableURL;
+
+/* File URL is not readable. */
++ (NSError *)notReadableURL;
+
+/* Invalid date, date is not future */
++ (NSError *)dateNotFuture;
+
+/* Invalid interval, should be greater than zero */
++ (NSError *)intervalZero;
+
 
 /* Query Errors (6xx) */
 
@@ -353,7 +403,7 @@
 /* Object body integrity not assured. ClientHash must be same during transfer. */
 + (NSError *)objectBodyIntegrityNotAssured;
 
-/* Object body range not satisfiable. Please try to transfer using another task. */
+/* Object body range not satisfiable. Transfer has terminated, please start transfer again. */
 + (NSError *)objectBodyRangeNotSatisfiable;
 
 /* File path is not writable */
@@ -385,5 +435,11 @@
  */
 + (NSError*) variationNotFound;
 
+/** Failed to apply variation due to no user logged in.
+ */
++ (NSError*) failedToApplyVariationDueToNoUserLoggedIn;
+
+/* Unsupported MIME type for PhotoColle transfer. */
++ (NSError *)unsupportedMIMETypeForPhotoColleTransfer;
 
 @end

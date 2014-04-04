@@ -104,6 +104,14 @@ void KiiRanking::postMyScore(int hiscore){
 void KiiRanking::callBack_postMyScore(const char *json){
     CCLOG("KiiRanking::callBack_queryMyScore");
     CCLOG("json %s ",json );
+    
+    //エラーを確認
+    string err = check_error(json);
+    if(err!=""){
+        CCLOG("err %s ",err.c_str() );
+        return;
+    }
+    
     queryMyScore();
 }
 
@@ -134,6 +142,13 @@ void KiiRanking::callBack_queryMyScore(const char *json){
 
     CCLOG("KiiRanking::callBack_queryMyScore");
     CCLOG("json %s ",json );
+    
+    //エラーを確認
+    string err1 = check_error(json);
+    if(err1!=""){
+        CCLOG("err %s ",err1.c_str() );
+        return;
+    }
     
     //
     picojson::value v;
@@ -207,6 +222,13 @@ void KiiRanking::callBack_updateMyScore(const char *json){
     CCLOG("KiiRanking::callBack_updateMyScore");
     CCLOG("json %s ",json );
     
+    //エラーを確認
+    string err1 = check_error(json);
+    if(err1!=""){
+        CCLOG("err %s ",err1.c_str() );
+        return;
+    }
+    
     object_refreshTest();
 }
 
@@ -228,6 +250,14 @@ void KiiRanking::callBack_saveMyScore(const char *json){
     
     CCLOG("KiiRanking::callBack_saveMyScore");
     CCLOG("json %s ",json );
+    
+    //エラーを確認
+    string err1 = check_error(json);
+    if(err1!=""){
+        CCLOG("err %s ",err1.c_str() );
+        return;
+    }
+    
     //_uriの保存
     picojson::value v;
     picojson::parse(v, json, json + strlen(json), &err);
@@ -265,6 +295,14 @@ void KiiRanking::callBack_queryALL(const char *json){
     
     CCLOG("KiiRanking::callBack_queryALL");
     CCLOG("json %s ",json );
+    
+    //エラーを確認
+    string err1 = check_error(json);
+    if(err1!=""){
+        CCLOG("err %s ",err1.c_str() );
+        return;
+    }
+    
     //
     picojson::value v;
     picojson::parse(v, json, json + strlen(json), &err);
@@ -275,14 +313,63 @@ void KiiRanking::callBack_queryALL(const char *json){
     strcpy(kii_label_buff, "");
     for (picojson::array::iterator it = a1.begin(); it != a1.end(); it++) {
         picojson::object& o1 = it->get<picojson::object>();
-        std::string& s1 = o1["display_name"].get<std::string>();
+        std::string& s1 = o1["display_name"].get<std::string>();    //display_nameの取り出し
         //std::string& s2 = o1["score"].get<std::string>();
         
+        //socre
+        /***
         dscore = o1["score"].get<double>();
         iscore = (int)dscore;
         CCLOG("dscore=%6.1f",dscore);
         CCLOG("iscore=%06d",iscore);
+         ***/
         
+        //
+        //scoreの取り出し、エラー処理付き
+        //エラー処理を例として入れたもの、本来は必要ないが、サーバーから来るJSONの形式が変化した時にエラー判定出来る
+        
+        bool b;
+        int c;
+        double dscore = 0;
+        string sscore;
+        //json_mapに全部入れる
+        map<std::string,std::string> json_map;
+        //const picojson::value::object& obj = v.get<picojson::object>();
+        for (picojson::value::object::const_iterator i = o1.begin(); i != o1.end(); ++i) {
+            CCLOG("v  %s %s", i->first.c_str(), i->second.to_str().c_str() );
+            json_map.insert( make_pair(i->first,i->second.to_str() ) ); //insertする
+        }
+        
+        c = json_map.count("score");
+        CCLOG("score c=%d",c);
+        if(c>0){
+            //scoreあり
+            
+            //スコアの型判定とデコード double　が正しい
+            b = o1["score"].is<double>();
+            CCLOG("score is double b=%d",b);
+            if(b){
+                dscore = o1["score"].get<double>();  //double
+                iscore = (int)dscore;
+                CCLOG("dscore=%f",dscore);
+            }
+            
+            //スコアの型判定とデコード string こちらはエラー
+            b = o1["score"].is<std::string>();
+            CCLOG("score is string b=%d",b);
+            if(b){
+                sscore = o1["score"].get<std::string>(); //string
+                iscore = -1; //エラー時
+                CCLOG("sscore=%s",sscore.c_str() );
+            }
+        } else {
+            CCLOG("score nai");
+            iscore = -1; //エラー時
+        }
+        //
+        
+        
+        //表示文字列の作成
         //sprintf(buff,"%d %s : %s \n", index+1, s1.c_str(), s2.c_str() );
         sprintf(buff,"%d %12s : %06d \n", index+1, s1.c_str(), iscore );
 
@@ -298,4 +385,32 @@ void KiiRanking::callBack_queryALL(const char *json){
     CCLOG("---");
     CCLOG("kii_label_buff %s",kii_label_buff);
     //
+}
+
+string KiiRanking::check_error(const char *json){
+    CCLOG("KiiRanking::check_error");
+    CCLOG("json %s ",json );
+          
+    std::string err;
+    picojson::value v;
+    picojson::parse(v, json, json + strlen(json), &err);
+    
+    string _error_;
+    bool b;
+    b = v.is<picojson::object>();
+    if(b){
+        picojson::object& o = v.get<picojson::object>();
+        
+        b = o["_error_"].is<std::string>();
+        if(b){
+            _error_ = o["_error_"].get<std::string>();
+        }
+        
+    } else {
+        _error_  ="";
+    }
+    CCLOG("_error_=%s",_error_.c_str() );
+    
+    return _error_;
+    
 }

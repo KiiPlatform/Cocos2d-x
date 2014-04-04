@@ -45,7 +45,7 @@ extern char kii_name[256];
 void rankingResponseCPP(const char *json){
     CCLOG("rankingResponseCPP");
     
-    CCLOG("json = %s",json);
+    //CCLOG("json = %s",json);
     //json
     std::string err;
     
@@ -72,7 +72,7 @@ void rankingResponseCPP(const char *json){
             break;
         }
     }
-    CCLOG("kii_label_buff %s",kii_label_buff);	//蜃ｺ譚･荳翫′縺｣縺溯｡ｨ遉ｺ譁�ｭ怜�
+    //CCLOG("kii_label_buff %s",kii_label_buff);	//蜃ｺ譚･荳翫′縺｣縺溯｡ｨ遉ｺ譁�ｭ怜�
     
     int i;
     for(i=0; i<vScore.size(); i++){
@@ -158,7 +158,7 @@ extern "C"
 	    CCLOG("Java_org_cocos2dx_cpp_CallCPP_CallCPP_kiiRes2");
         
 		const char *str2 = env->GetStringUTFChars(str1, 0);
-	    CCLOG("str1 %s", str2);
+	    //CCLOG("str1 %s", str2);
 
 	    //CCLOG("serviceID %d", jstring str1);
 		//kiiRes(json, serviceID);
@@ -169,7 +169,7 @@ extern "C"
 	    CCLOG("Java_org_cocos2dx_cpp_CallCPP_CallCPP_kiiRes");
 
 		const char *json = env->GetStringUTFChars(str1, 0);
-	    CCLOG("serviceID %d", serviceID);
+	    //CCLOG("serviceID %d", serviceID);
 		kiiRes(json, serviceID);
 	}
 }
@@ -185,14 +185,14 @@ void iPhone_nativeEnd()
 
 void iPhone_rankingResponse(const char *json){
     CCLOG("iPhone_rankingResponse");
-    CCLOG("json = %s",json);
+    //CCLOG("json = %s",json);
     
     rankingResponseCPP(json);
 }
 
 void iPhone_setDisplayame(const char *name){
     CCLOG("iPhone_setDisplayame");
-    CCLOG("name = %s",name);
+    //CCLOG("name = %s",name);
     
     setDisplayameCPP(name);
 }
@@ -204,7 +204,7 @@ void iPhone_setDisplayame2(const char *str1, int serviceID){
 
 void iPhone_setName(const char *name){
     CCLOG("iPhone_setDisplayame");
-    CCLOG("name = %s",name);
+    //CCLOG("name = %s",name);
     
     setNameCPP(name);
 }
@@ -230,7 +230,7 @@ void jni_test(){
 }
 
 void jni_ranking_query_all(){
-    CCLOG("Jni_ranking_query_all Android");
+    //CCLOG("Jni_ranking_query_all Android");
     JniMethodInfo methodInfo;
     
     if (JniHelper::getStaticMethodInfo(methodInfo
@@ -244,7 +244,7 @@ void jni_ranking_query_all(){
 }
 
 void jni_ranking_post(const char *name, int score){
-    CCLOG("jni_ranking_post Android %s %d", name, score);
+    //CCLOG("jni_ranking_post Android %s %d", name, score);
     JniMethodInfo methodInfo;
 
     if (JniHelper::getStaticMethodInfo(methodInfo
@@ -261,7 +261,7 @@ void jni_ranking_post(const char *name, int score){
 }
 
 void jni_save_display_name(const char *name){
-    CCLOG("jni_save_display_name Android %s", name);
+    //CCLOG("jni_save_display_name Android %s", name);
     JniMethodInfo methodInfo;
 
     if (JniHelper::getStaticMethodInfo(methodInfo
@@ -329,7 +329,7 @@ void jni_test(){
 //extern void ranking_query_all2();
 
 void jni_ranking_query_all(){
-    CCLOG("Jni_ranking_query_all iPhone");
+    //CCLOG("Jni_ranking_query_all iPhone");
     //ranking_query_all2();
     //KRanking::ranking_query_all();
     CallFromCpp::ranking_query_all();
@@ -338,7 +338,7 @@ void jni_ranking_query_all(){
 }
 
 void jni_ranking_post(const char *name, int score){
-    CCLOG("jni_ranking_post iPhone");
+    //CCLOG("jni_ranking_post iPhone");
     //ranking_query_all2();
     //KRanking::ranking_query_all();
     CallFromCpp::ranking_post(name, score);
@@ -351,7 +351,7 @@ void jni_save_display_name(const char *name){
 }
 
 void jni_kiiReq(const char *json, int serviceID){
-    CCLOG("jni_kiiReq iPhone %s %d", json, serviceID);
+    //CCLOG("jni_kiiReq iPhone %s %d", json, serviceID);
     CallFromCpp::kiiReq(json, serviceID);
 }
 

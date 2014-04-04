@@ -48,6 +48,9 @@
 #import "KiiGeoPoint.h"
 #import "KiiPushSubscription.h"
 #import "FileHolder.h"
+#import "KiiCloudPhotoColle.h"
+#import "KiiPhotoColleRTransferManager.h"
+#import "KiiPhotoColleSocialConnect.h"
 
 
 @class KiiFile, KiiUser, KiiBucket, KiiGroup;
@@ -155,7 +158,6 @@ typedef NS_ENUM(NSUInteger, KiiSite) {
  @param entryName a specific entry name for this server code. Can not be nil and valid entryName pattern is "[a-zA-Z][_a-zA-Z0-9]*$"
  @return KiiServerCodeEntry instance.
  @exception NSInvalidArgumentException Thrown if given entryName is not valid.
- @exception KiiIllegalStateException Thrown if no user has logged in.
  */
 +(KiiServerCodeEntry*)serverCodeEntry:(NSString*) entryName;
 
@@ -165,7 +167,6 @@ typedef NS_ENUM(NSUInteger, KiiSite) {
  @return KiiServerCodeEntry instance.
  @exception NSInvalidArgumentException Thrown if given entryName is not valid or version is nil/empty.
  @exception NSInvalidArgumentException Thrown if given version is nil or empty.
- @exception KiiIllegalStateException Thrown if no user has logged in.
  */
 +(KiiServerCodeEntry*)serverCodeEntry:(NSString*) entryName withVersion:(NSString*) version;
 

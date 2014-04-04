@@ -9,12 +9,12 @@
 
 CKiiClause::CKiiClause() {
 	// TODO Auto-generated constructor stub
-    CCLOG("CKiiClause::CKiiClause");
+    //CCLOG("CKiiClause::CKiiClause");
 }
 
 CKiiClause::~CKiiClause() {
 	// TODO Auto-generated destructor stub
-    CCLOG("CKiiClause::~CKiiClause");
+    //CCLOG("CKiiClause::~CKiiClause");
 }
 
 //--- equals ---
@@ -27,7 +27,7 @@ CKiiClause::~CKiiClause() {
  * @return std::shared_ptr<CKiiClause> instance.
  */
 std::shared_ptr<CKiiClause> CKiiClause::equals(const string& key, int value){
-    CCLOG("CKiiClause::equals int %s %d ",key.c_str(), value);
+    //CCLOG("CKiiClause::equals int %s %d ",key.c_str(), value);
 
     std::shared_ptr<CKiiClause> clause = std::make_shared<CKiiClause>();	//new
     picojson::object json;
@@ -63,7 +63,7 @@ std::shared_ptr<CKiiClause> CKiiClause::equals2(const string& key, int value){
  * @return std::shared_ptr<CKiiClause> instance.
  */
 std::shared_ptr<CKiiClause> CKiiClause::equals(const string& key, double value){
-    CCLOG("CKiiClause::equals double %s %f", key.c_str(), value);
+    //CCLOG("CKiiClause::equals double %s %f", key.c_str(), value);
 
     std::shared_ptr<CKiiClause> clause = std::make_shared<CKiiClause>();	//new
 
@@ -78,7 +78,7 @@ std::shared_ptr<CKiiClause> CKiiClause::equals(const string& key, double value){
 #if 0
 //bool
 CKiiClause* CKiiClause::equals(string key, bool value){
-    CCLOG("CKiiClause::equals bool");
+    //CCLOG("CKiiClause::equals bool");
 
 	CKiiClause *clause = new CKiiClause();
 	picojson::object json;
@@ -99,7 +99,7 @@ CKiiClause* CKiiClause::equals(string key, bool value){
  * @return std::shared_ptr<CKiiClause> instance.
  */
 std::shared_ptr<CKiiClause> CKiiClause::equals(const string& key, const string& value){
-    CCLOG("CKiiClause::equals string %s %s",key.c_str(), value.c_str());
+    //CCLOG("CKiiClause::equals string %s %s",key.c_str(), value.c_str());
     std::shared_ptr<CKiiClause> clause = std::make_shared<CKiiClause>();	//new
 
     picojson::object json;
@@ -122,7 +122,7 @@ std::shared_ptr<CKiiClause> CKiiClause::equals(const string& key, const string& 
  * @return std::shared_ptr<CKiiClause> instance.
  */
 std::shared_ptr<CKiiClause> CKiiClause::notEquals(const string& key, int value){
-    CCLOG("CKiiClause::equals int");
+    //CCLOG("CKiiClause::equals int");
 
     std::shared_ptr<CKiiClause> clause = std::make_shared<CKiiClause>();	//new
 
@@ -142,7 +142,7 @@ std::shared_ptr<CKiiClause> CKiiClause::notEquals(const string& key, int value){
  * @return std::shared_ptr<CKiiClause> instance.
  */
 std::shared_ptr<CKiiClause> CKiiClause::notEquals(const string& key, double value){
-    CCLOG("CKiiClause::equals double");
+    //CCLOG("CKiiClause::equals double");
 
     std::shared_ptr<CKiiClause> clause = std::make_shared<CKiiClause>();	//new
 
@@ -165,7 +165,7 @@ std::shared_ptr<CKiiClause> CKiiClause::notEquals(const string& key, double valu
  * @return std::shared_ptr<CKiiClause> instance.
  */
 std::shared_ptr<CKiiClause> CKiiClause::notEquals(const string& key, const string& value){
-    CCLOG("CKiiClause::equals string %s %s",key.c_str(),value.c_str());
+    //CCLOG("CKiiClause::equals string %s %s",key.c_str(),value.c_str());
     std::shared_ptr<CKiiClause> clause = std::make_shared<CKiiClause>();	//new
 
 	picojson::object json, json2;
@@ -190,7 +190,7 @@ std::shared_ptr<CKiiClause> CKiiClause::notEquals(const string& key, const strin
  * @return std::shared_ptr<CKiiClause> instance.
  */
 std::shared_ptr<CKiiClause> CKiiClause::greaterThan(const string& key, int value){
-    CCLOG("CKiiClause::equals int");
+    //CCLOG("CKiiClause::equals int");
 
     std::shared_ptr<CKiiClause> clause = std::make_shared<CKiiClause>();	//new
 
@@ -214,7 +214,7 @@ std::shared_ptr<CKiiClause> CKiiClause::greaterThan(const string& key, int value
  * @return std::shared_ptr<CKiiClause> instance.
  */
 std::shared_ptr<CKiiClause> CKiiClause::greaterThan(const string& key, double value){
-    CCLOG("CKiiClause::equals double");
+    //CCLOG("CKiiClause::equals double");
 
     std::shared_ptr<CKiiClause> clause = std::make_shared<CKiiClause>();	//new
 
@@ -237,7 +237,7 @@ std::shared_ptr<CKiiClause> CKiiClause::greaterThan(const string& key, double va
  * @return std::shared_ptr<CKiiClause> instance.
  */
 std::shared_ptr<CKiiClause> CKiiClause::greaterThan(const string& key, const string& value){
-    CCLOG("CKiiClause::equals string %s %s",key.c_str(),value.c_str());
+    //CCLOG("CKiiClause::equals string %s %s",key.c_str(),value.c_str());
     std::shared_ptr<CKiiClause> clause = std::make_shared<CKiiClause>();	//new
 
     picojson::object json;
@@ -261,7 +261,7 @@ std::shared_ptr<CKiiClause> CKiiClause::greaterThan(const string& key, const str
  * @return std::shared_ptr<CKiiClause> instance.
  */
 std::shared_ptr<CKiiClause> CKiiClause::greaterThanOrEqual(const string& key, int value){
-    CCLOG("CKiiClause::equals int");
+    //CCLOG("CKiiClause::equals int");
 
     std::shared_ptr<CKiiClause> clause = std::make_shared<CKiiClause>();	//new
 	picojson::object json;
@@ -283,7 +283,7 @@ std::shared_ptr<CKiiClause> CKiiClause::greaterThanOrEqual(const string& key, in
  * @return std::shared_ptr<CKiiClause> instance.
  */
 std::shared_ptr<CKiiClause> CKiiClause::greaterThanOrEqual(const string& key, double value){
-    CCLOG("CKiiClause::equals double");
+    //CCLOG("CKiiClause::equals double");
 
     std::shared_ptr<CKiiClause> clause = std::make_shared<CKiiClause>();	//new
 	picojson::object json;
@@ -305,7 +305,7 @@ std::shared_ptr<CKiiClause> CKiiClause::greaterThanOrEqual(const string& key, do
  * @return std::shared_ptr<CKiiClause> instance.
  */
 std::shared_ptr<CKiiClause> CKiiClause::greaterThanOrEqual(const string& key, const string& value){
-    CCLOG("CKiiClause::equals string %s %s",key.c_str(),value.c_str());
+    //CCLOG("CKiiClause::equals string %s %s",key.c_str(),value.c_str());
     std::shared_ptr<CKiiClause> clause = std::make_shared<CKiiClause>();	//new
 	picojson::object json;
 	//json.insert( make_pair("type2", picojson::value("greaterThanOrEqual") ) );
@@ -328,7 +328,7 @@ std::shared_ptr<CKiiClause> CKiiClause::greaterThanOrEqual(const string& key, co
  * @return std::shared_ptr<CKiiClause> instance.
  */
 std::shared_ptr<CKiiClause> CKiiClause::lessThan(const string& key, int value){
-    CCLOG("CKiiClause::equals int");
+    //CCLOG("CKiiClause::equals int");
 
     std::shared_ptr<CKiiClause> clause = std::make_shared<CKiiClause>();	//new
 	picojson::object json;
@@ -350,7 +350,7 @@ std::shared_ptr<CKiiClause> CKiiClause::lessThan(const string& key, int value){
  * @return std::shared_ptr<CKiiClause> instance.
  */
 std::shared_ptr<CKiiClause> CKiiClause::lessThan(const string& key, double value){
-    CCLOG("CKiiClause::equals double");
+    //CCLOG("CKiiClause::equals double");
 
     std::shared_ptr<CKiiClause> clause = std::make_shared<CKiiClause>();	//new
 	picojson::object json;
@@ -372,7 +372,7 @@ std::shared_ptr<CKiiClause> CKiiClause::lessThan(const string& key, double value
  * @return std::shared_ptr<CKiiClause> instance.
  */
 std::shared_ptr<CKiiClause> CKiiClause::lessThan(const string& key, const string& value){
-    CCLOG("CKiiClause::equals string %s %s",key.c_str(),value.c_str());
+    //CCLOG("CKiiClause::equals string %s %s",key.c_str(),value.c_str());
     std::shared_ptr<CKiiClause> clause = std::make_shared<CKiiClause>();	//new
 	picojson::object json;
 	//json.insert( make_pair("type2", picojson::value("lessThan") ) );
@@ -395,7 +395,7 @@ std::shared_ptr<CKiiClause> CKiiClause::lessThan(const string& key, const string
  * @return std::shared_ptr<CKiiClause> instance.
  */
 std::shared_ptr<CKiiClause> CKiiClause::lessThanOrEqual(const string& key, int value){
-    CCLOG("CKiiClause::lessThanOrEqual int");
+    //CCLOG("CKiiClause::lessThanOrEqual int");
 
     std::shared_ptr<CKiiClause> clause = std::make_shared<CKiiClause>();	//new
 	picojson::object json;
@@ -417,7 +417,7 @@ std::shared_ptr<CKiiClause> CKiiClause::lessThanOrEqual(const string& key, int v
  * @return std::shared_ptr<CKiiClause> instance.
  */
 std::shared_ptr<CKiiClause> CKiiClause::lessThanOrEqual(const string& key, double value){
-    CCLOG("CKiiClause::lessThanOrEqual double");
+    //CCLOG("CKiiClause::lessThanOrEqual double");
 
     std::shared_ptr<CKiiClause> clause = std::make_shared<CKiiClause>();	//new
 	picojson::object json;
@@ -439,7 +439,7 @@ std::shared_ptr<CKiiClause> CKiiClause::lessThanOrEqual(const string& key, doubl
  * @return std::shared_ptr<CKiiClause> instance.
  */
 std::shared_ptr<CKiiClause> CKiiClause::lessThanOrEqual(const string& key, const string& value){
-    CCLOG("CKiiClause::lessThanOrEqual string %s %s",key.c_str(),value.c_str());
+    //CCLOG("CKiiClause::lessThanOrEqual string %s %s",key.c_str(),value.c_str());
     std::shared_ptr<CKiiClause> clause = std::make_shared<CKiiClause>();	//new
 	picojson::object json;
 	//json.insert( make_pair("type2", picojson::value("lessThanOrEqual") ) );
@@ -462,7 +462,7 @@ std::shared_ptr<CKiiClause> CKiiClause::lessThanOrEqual(const string& key, const
  * @return Kistd::shared_ptr<CKiiClause>iClause instance.
  */
 std::shared_ptr<CKiiClause> CKiiClause::startsWith(const string& key, const string& value){
-    CCLOG("CKiiClause::equals string %s %s",key.c_str(),value.c_str());
+    //CCLOG("CKiiClause::equals string %s %s",key.c_str(),value.c_str());
     std::shared_ptr<CKiiClause> clause = std::make_shared<CKiiClause>();	//new
 	picojson::object json;
 	json.insert( make_pair("type", picojson::value("prefix") ) );
@@ -483,7 +483,7 @@ std::shared_ptr<CKiiClause> CKiiClause::startsWith(const string& key, const stri
  * @return given clause.
  */
 std::shared_ptr<CKiiClause> CKiiClause::_or(int num, ...){
-    CCLOG("CKiiClause::_or");
+    //CCLOG("CKiiClause::_or");
     std::shared_ptr<CKiiClause> clause = std::make_shared<CKiiClause>();	//new
     va_list args;
     va_start(args,num);
@@ -498,7 +498,7 @@ std::shared_ptr<CKiiClause> CKiiClause::_or(int num, ...){
 	json.insert( make_pair("type", picojson::value("or") ) );
 	picojson::object o;
 	picojson::array v;
-	CCLOG("CKiiClause::_or2");
+	//CCLOG("CKiiClause::_or2");
 	int count = 0;
     while(i)
     {
@@ -508,12 +508,12 @@ std::shared_ptr<CKiiClause> CKiiClause::_or(int num, ...){
         //CCLOG("i2=%08x",(unsigned int)i);
     }
     va_end(args);
-	CCLOG("CKiiClause::equals _or3");
+	//CCLOG("CKiiClause::equals _or3");
 	json.insert( make_pair("clauses", picojson::value(v) ) );
     clause->_json = json;
 
     string str = picojson::value(json).serialize();
-    CCLOG("serialize str %s",str.c_str());
+    //CCLOG("serialize str %s",str.c_str());
 
 
     return clause;
@@ -528,7 +528,7 @@ std::shared_ptr<CKiiClause> CKiiClause::_or(int num, ...){
  * @return given clause.
  */
 std::shared_ptr<CKiiClause> CKiiClause::_and(int num, ...){
-    CCLOG("CKiiClause::_and");
+    //CCLOG("CKiiClause::_and");
     std::shared_ptr<CKiiClause> clause = std::make_shared<CKiiClause>();	//new
     va_list args;
     va_start(args,num);
@@ -544,7 +544,7 @@ std::shared_ptr<CKiiClause> CKiiClause::_and(int num, ...){
 	json.insert( make_pair("type", picojson::value("and") ) );
 	picojson::object o;
 	picojson::array v;
-	CCLOG("CKiiClause::_or2");
+	//CCLOG("CKiiClause::_or2");
     while(i)
     {
         v.push_back( picojson::value( i->_json ) );
@@ -552,12 +552,12 @@ std::shared_ptr<CKiiClause> CKiiClause::_and(int num, ...){
         //CCLOG("i2=%08x",(unsigned int)i);
     }
     va_end(args);
-	CCLOG("CKiiClause::equals _or3");
+	//CCLOG("CKiiClause::equals _or3");
 	json.insert( make_pair("clauses", picojson::value(v) ) );
     clause->_json = json;
 
     string str = picojson::value(json).serialize();
-    CCLOG("serialize str %s",str.c_str());
+    //CCLOG("serialize str %s",str.c_str());
 
     return clause;
 }

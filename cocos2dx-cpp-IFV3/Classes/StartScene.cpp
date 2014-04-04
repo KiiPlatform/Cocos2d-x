@@ -231,9 +231,13 @@ extern struct android_app* g_state;
 void StartLayer::bt_nameCallback(Object* sender)
 {
 	CCLOG("StartLayer::bt_nameCallback");
-    //xx _pname ->display();
-    //jniTest(g_state);
-	_pCKiiApiTest->postMyScore(1234);
+    
+    //xx _pname ->display();    //これが本当
+    
+    //jniTest(g_state); //for debug
+	//_pCKiiApiTest->postMyScore(1234);   //for debug
+    picojson_test();
+    
 }
 
 StartLayer::~StartLayer()
@@ -243,4 +247,103 @@ StartLayer::~StartLayer()
 		_label->release();
 		_label = NULL;
 	}
+}
+
+void StartLayer::picojson_test(){
+    CCLOG("StartLayer::picojson_test");
+    
+    std::string err;
+    bool b;
+    
+    //JSONテスト文字列
+    const char *json_txt = "{\"display_name\":\"Asdf\",\"name\":\"ae6d5df6-6baf-4641-8b93-204927f96667\",\"score\":3414}";        //double
+    //const char *json_txt = "{\"display_name\":\"Asdf\",\"name\":\"ae6d5df6-6baf-4641-8b93-204927f96667\",\"score\":\"3414\"}";  //string
+    
+    picojson::value v;
+    picojson::parse(v, json_txt, json_txt + strlen(json_txt), &err);
+    picojson::object& o = v.get<picojson::object>();
+
+    double dscore = 0;
+    string sscore;
+    
+    //エラー処理なしで取り出し
+    string display_name = o["display_name"].get<std::string>();
+    string name = o["name"].get<std::string>();
+    
+    CCLOG("display_name=%s",display_name.c_str() );
+    CCLOG("name=%s",name.c_str() );
+
+/***
+    //スコアの型判定とデコード double
+    b = o["score"].is<double>();
+    CCLOG("score is double b=%d",b);
+    if(b){
+        dscore = o["score"].get<double>();  //double
+        CCLOG("dscore=%f",dscore);
+    }
+
+    //スコアの型判定とデコード string
+    b = o["score"].is<std::string>();
+    CCLOG("score is string b=%d",b);
+    if(b){
+        sscore = o["score"].get<std::string>(); //string
+        CCLOG("sscore=%s",sscore.c_str() );
+    }
+***/
+
+/***
+//これを実行するとkeyにscore2が増えてしまう
+    //score2があるか？
+    b = o["score2"].is<std::string>();
+    CCLOG("score2 is string b=%d",b);
+    if(b){
+        sscore = o["score2"].get<std::string>(); //string
+        CCLOG("sscore=%s",sscore.c_str() );
+    }
+***/
+    
+    //json_mapに全部入れる
+    map<std::string,std::string> json_map;
+    const picojson::value::object& obj = v.get<picojson::object>();
+    for (picojson::value::object::const_iterator i = obj.begin(); i != obj.end(); ++i) {
+        CCLOG("v  %s %s", i->first.c_str(), i->second.to_str().c_str() );
+        json_map.insert( make_pair(i->first,i->second.to_str() ) ); //insertする
+    }
+    
+    //json_mapの内容を表示する
+    map<std::string,std::string>::iterator it,begin,end;
+    it = json_map.begin();
+    end = json_map.end();
+    while( it != end )
+	{
+		//cout << (*it).first << ":" << (*it).second << endl;
+        CCLOG("json_map  %s %s", it->first.c_str(), it->second.c_str() );
+		++it;
+	}
+    
+    //scoreの取り出し、エラー処理付き
+    int c;
+    c = json_map.count("score");
+    CCLOG("score c=%d",c);
+    if(c>0){
+        //scoreあり
+        
+        //スコアの型判定とデコード double
+        b = o["score"].is<double>();
+        CCLOG("score is double b=%d",b);
+        if(b){
+            dscore = o["score"].get<double>();  //double
+            CCLOG("dscore=%f",dscore);
+        }
+        
+        //スコアの型判定とデコード string
+        b = o["score"].is<std::string>();
+        CCLOG("score is string b=%d",b);
+        if(b){
+            sscore = o["score"].get<std::string>(); //string
+            CCLOG("sscore=%s",sscore.c_str() );
+        }
+    } else {
+        CCLOG("score nai");
+    }
 }
