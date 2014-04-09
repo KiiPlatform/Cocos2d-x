@@ -7,6 +7,9 @@
 
 #include "CKiiQuery.h"
 
+#define MYCCLOG(...)       do {} while (0)
+//#define MYCCLOG(format, ...)      cocos2d::log(format, ##__VA_ARGS__)
+
 //コンストラクタ
 
 /**

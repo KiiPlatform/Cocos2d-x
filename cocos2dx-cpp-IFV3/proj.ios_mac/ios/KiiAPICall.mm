@@ -9,14 +9,20 @@
 #import "KiiAPICall.h"
 #import <KiiSDK/Kii.h>
 
+
+
+#define MYNSLog( m, args... )
+//#define MYNSLog( m, args... ) NSLog( m, ##args )
+
+
 @implementation KiiAPICall
 
 
 // 引数にBlockのコールバック関数を受け取る処理
 -(void)doSomeWorkWith:(CallbackHandler)handler {
-    NSLog(@"KiiAPICall doSomeWorkWith");
-    NSLog(@"_serviceID=%d", _serviceID);
-    NSLog(@"_json_map=%@", _json_map);
+    MYNSLog(@"KiiAPICall doSomeWorkWith");
+    MYNSLog(@"_serviceID=%d", _serviceID);
+    MYNSLog(@"_json_map=%@", _json_map);
     
     // 何らかの処理を行います。
     // ここではコールバックに渡す内容のインスタンスを作成しているのみ。
@@ -26,15 +32,15 @@
     
     // コールバックが指定された場合には、それを呼び出す。
     if (handler) {
-        NSLog(@"handler");
+        MYNSLog(@"handler");
         handler(result, error);
     }
 }
 
 -(void)run_object_save:(CallbackHandler)handler {
-    NSLog(@"KiiAPICall run_object_save");
-    NSLog(@"_serviceID=%d", _serviceID);
-    NSLog(@"_json_map=%@", _json_map);
+    MYNSLog(@"KiiAPICall run_object_save");
+    MYNSLog(@"_serviceID=%d", _serviceID);
+    MYNSLog(@"_json_map=%@", _json_map);
     
     NSError *error   = nil;
     NSString *result = nil;
@@ -42,7 +48,7 @@
     // 何らかの処理を行います。
     // ここではコールバックに渡す内容のインスタンスを作成しているのみ。
 
-    NSLog(@"新規作成");
+    MYNSLog(@"新規作成");
     KiiObject *object;
     NSString *backet_key = [_json_map objectForKey:@"backet_key"];
     KiiBucket *bucket = [Kii bucketWithName:backet_key];
@@ -51,22 +57,22 @@
     //setを取り出して実行する
     //[object setObject:_username forKey:@"name"];
     for (id key in [_json_map keyEnumerator]) {
-        //NSLog(@"Key:%@ Value:%@", key, [dictionary valueForKey:key]);
+        //MYNSLog(@"Key:%@ Value:%@", key, [dictionary valueForKey:key]);
         NSString *val = [_json_map objectForKey:key];
-        NSLog(@"key:%@  val:%@",key,val);
+        MYNSLog(@"key:%@  val:%@",key,val);
         if( [key hasPrefix:@"set_"] ){
             NSArray *keys = [key componentsSeparatedByString:@"set_"];
-            //NSLog(@"%@  %@",keys,val);
+            //MYNSLog(@"%@  %@",keys,val);
             NSString *key2 = [keys objectAtIndex:1];
             [object setObject:val forKey:key2]; //setする
-            NSLog(@"set %@  %@",key2,val);
+            MYNSLog(@"set %@  %@",key2,val);
         }
     }
     
     //save
     [object saveAllFieldsSynchronous:TRUE withError:&error];
     if(error == nil) {
-        NSLog(@"ok");
+        MYNSLog(@"ok");
         
         NSMutableDictionary *mdic = [NSMutableDictionary dictionary];
         NSString *uri = object.objectURI;
@@ -76,32 +82,32 @@
         NSError *error2 = nil;
         NSData *data = nil;
         if([NSJSONSerialization isValidJSONObject:mdic]){
-            NSLog(@"true isValidJSONObject");
+            MYNSLog(@"true isValidJSONObject");
             data = [NSJSONSerialization dataWithJSONObject:mdic options:NSJSONReadingAllowFragments error:&error2];
             //result
             result = [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]autorelease];
-            NSLog(@"result %@", result);
+            MYNSLog(@"result %@", result);
         } else {
             result = nil;
-            NSLog(@"false isValidJSONObject");
+            MYNSLog(@"false isValidJSONObject");
         }
         
     } else {
-        NSLog(@"error %@", error);
+        MYNSLog(@"error %@", error);
         result = [self makeErrorJsonString:error];
     }
 
     // コールバックが指定された場合には、それを呼び出す。
     if (handler) {
-        NSLog(@"handler");
+        MYNSLog(@"handler");
         handler(result, error); //errorは使用しない
     }
 }
 
 -(void)run_object_refresh:(CallbackHandler)handler {
-    NSLog(@"KiiAPICall run_object_refresh");
-    NSLog(@"_serviceID=%d", _serviceID);
-    NSLog(@"_json_map=%@", _json_map);
+    MYNSLog(@"KiiAPICall run_object_refresh");
+    MYNSLog(@"_serviceID=%d", _serviceID);
+    MYNSLog(@"_json_map=%@", _json_map);
     
     NSError *error   = nil;
     NSString *result = nil;
@@ -109,7 +115,7 @@
     // 何らかの処理を行います。
     // ここではコールバックに渡す内容のインスタンスを作成しているのみ。
     NSString *s_uri = [_json_map objectForKey:@"uri"];
-    NSLog(@"s_uri %@",s_uri);
+    MYNSLog(@"s_uri %@",s_uri);
     
     //refresh
     KiiObject *object = [KiiObject objectWithURI:s_uri];
@@ -118,7 +124,7 @@
         NSString* name=[[object dictionaryValue] objectForKey:@"name"];
         NSDecimalNumber* dnscore=[[object dictionaryValue] objectForKey:@"score"];
         
-        NSLog(@"ranking_refresh %@ %@", name, dnscore);
+        MYNSLog(@"ranking_refresh %@ %@", name, dnscore);
         
         NSDictionary *mdic = [object dictionaryValue];
         
@@ -126,32 +132,32 @@
         NSError *error2 = nil;
         NSData *data = nil;
         if([NSJSONSerialization isValidJSONObject:mdic]){
-            NSLog(@"true isValidJSONObject");
+            MYNSLog(@"true isValidJSONObject");
             data = [NSJSONSerialization dataWithJSONObject:mdic options:NSJSONReadingAllowFragments error:&error2];
             //result
             result = [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]autorelease];
-            NSLog(@"result %@", result);
+            MYNSLog(@"result %@", result);
         } else {
             result = nil;
-            NSLog(@"false isValidJSONObject");
+            MYNSLog(@"false isValidJSONObject");
         }
         
     } else {
-        NSLog(@"ranking_refresh %@ ", error);
+        MYNSLog(@"ranking_refresh %@ ", error);
         result = [self makeErrorJsonString:error];
     }
     
     // コールバックが指定された場合には、それを呼び出す。
     if (handler) {
-        NSLog(@"handler");
+        MYNSLog(@"handler");
         handler(result, error); //errorは使用しない
     }
 }
 
 -(void)run_object_update:(CallbackHandler)handler {
-    NSLog(@"KiiAPICall run_object_update");
-    NSLog(@"_serviceID=%d", _serviceID);
-    NSLog(@"_json_map=%@", _json_map);
+    MYNSLog(@"KiiAPICall run_object_update");
+    MYNSLog(@"_serviceID=%d", _serviceID);
+    MYNSLog(@"_json_map=%@", _json_map);
     
     NSError *error   = nil;
     NSString *result = nil;
@@ -159,7 +165,7 @@
     // 何らかの処理を行います。
     // ここではコールバックに渡す内容のインスタンスを作成しているのみ。
     NSString *s_uri = [_json_map objectForKey:@"uri"];
-    NSLog(@"s_uri %@",s_uri);
+    MYNSLog(@"s_uri %@",s_uri);
     
     //refresh
     KiiObject *object = [KiiObject objectWithURI:s_uri];
@@ -168,34 +174,34 @@
         NSString* name=[[object dictionaryValue] objectForKey:@"name"];
         NSDecimalNumber* dnscore=[[object dictionaryValue] objectForKey:@"score"];
         
-        NSLog(@"ranking_refresh %@ %@", name, dnscore);
+        MYNSLog(@"ranking_refresh %@ %@", name, dnscore);
     } else {
-        NSLog(@"ranking_refresh %@ ", error);
+        MYNSLog(@"ranking_refresh %@ ", error);
     }
 
     //setを取り出して実行する
     //[object setObject:_username forKey:@"name"];
     for (id key in [_json_map keyEnumerator]) {
-        //NSLog(@"Key:%@ Value:%@", key, [dictionary valueForKey:key]);
+        //MYNSLog(@"Key:%@ Value:%@", key, [dictionary valueForKey:key]);
         //NSString *val = [_json_map objectForKey:key];   //NSStringじゃないかも
         id id_val = [_json_map objectForKey:key];   //NSStringじゃないかも
 
-        NSLog(@"key:%@  id_val:%@",key,id_val);
+        MYNSLog(@"key:%@  id_val:%@",key,id_val);
         if( [key hasPrefix:@"set_"] ){
             NSArray *keys = [key componentsSeparatedByString:@"set_"];
-            //NSLog(@"%@  %@",keys,val);
+            //MYNSLog(@"%@  %@",keys,val);
             NSString *key2 = [keys objectAtIndex:1];
-            NSLog(@"object=%@ key2=%@  id_val=%@",object,key2,id_val);
+            MYNSLog(@"object=%@ key2=%@  id_val=%@",object,key2,id_val);
             [object setObject:id_val forKey:key2]; //setする
-            //NSLog(@"set %@  %@",key2,id_val);
+            //MYNSLog(@"set %@  %@",key2,id_val);
         }
     }
     
     //save
-    NSLog(@"saveAllFieldsSynchronous ---");
+    MYNSLog(@"saveAllFieldsSynchronous ---");
     [object saveAllFieldsSynchronous:TRUE withError:&error];
     if(error == nil) {
-        NSLog(@"ok");
+        MYNSLog(@"ok");
         
         NSMutableDictionary *mdic = [NSMutableDictionary dictionary];
         NSString *uri = object.objectURI;
@@ -205,31 +211,31 @@
         NSError *error2 = nil;
         NSData *data = nil;
         if([NSJSONSerialization isValidJSONObject:mdic]){
-            NSLog(@"true isValidJSONObject");
+            MYNSLog(@"true isValidJSONObject");
             data = [NSJSONSerialization dataWithJSONObject:mdic options:NSJSONReadingAllowFragments error:&error2];
             //result
             result = [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]autorelease];
-            NSLog(@"result %@", result);
+            MYNSLog(@"result %@", result);
         } else {
             result = nil;
-            NSLog(@"false isValidJSONObject");
+            MYNSLog(@"false isValidJSONObject");
         }
         
     } else {
-        NSLog(@"error %@", error);
+        MYNSLog(@"error %@", error);
         result = [self makeErrorJsonString:error];
     }
     
     
     // コールバックが指定された場合には、それを呼び出す。
     if (handler) {
-        NSLog(@"handler");
+        MYNSLog(@"handler");
         handler(result, error); //errorは使用しない
     }
 }
 
 -(KiiClause *)createClause:(NSDictionary *)clause {
-    NSLog(@"createClause %@",clause);
+    MYNSLog(@"createClause %@",clause);
     
     KiiClause *kii_clause;
     NSString *field, *type, *value, *type2;
@@ -281,9 +287,9 @@
 }
 
 -(void)run_query:(CallbackHandler)handler {
-    NSLog(@"KiiAPICall run_query");
-    NSLog(@"_serviceID=%d", _serviceID);
-    NSLog(@"_json_map=%@", _json_map);
+    MYNSLog(@"KiiAPICall run_query");
+    MYNSLog(@"_serviceID=%d", _serviceID);
+    MYNSLog(@"_json_map=%@", _json_map);
     
     KiiQuery *kii_query=nil;
     //KiiClause *totalClause = nil;
@@ -292,17 +298,17 @@
     //query
     //NSString *result;
     NSDictionary *query = [_json_map objectForKey:@"query"];
-    NSLog(@"query=%@", query);
+    MYNSLog(@"query=%@", query);
     if(query!=nil){
         NSNumber *descending = [query objectForKey:@"descending"];
 
         NSString *orderBy = [query objectForKey:@"orderBy"];
-        NSLog(@"descending=%@", descending);
-        NSLog(@"orderBy=%@", orderBy);
+        MYNSLog(@"descending=%@", descending);
+        MYNSLog(@"orderBy=%@", orderBy);
     
         //clause
         NSDictionary *clause = [query objectForKey:@"clause"];
-        NSLog(@"clause=%@", clause);
+        MYNSLog(@"clause=%@", clause);
         
 /***
         NSString *field, *type, *value;
@@ -311,20 +317,20 @@
             
             if([type isEqualToString:@"and"] || [type isEqualToString:@"or"]){
                 NSArray *clauses = [clause objectForKey:@"clauses"];
-                NSLog(@"clauses=%@", clauses);
+                MYNSLog(@"clauses=%@", clauses);
                 
                 int size = [clauses count];
-                NSLog(@"size %d",size);
+                MYNSLog(@"size %d",size);
                 for(int i=0;i<size; i++){
                     NSDictionary *clause2 =[clauses objectAtIndex:i];
-                    NSLog(@"clause2 %d, %@",i,clause2);
+                    MYNSLog(@"clause2 %d, %@",i,clause2);
                     field = [clause2 objectForKey:@"field"];
                     type =  [clause2 objectForKey:@"type"];
                     value = [clause2 objectForKey:@"value"];
                     
-                    NSLog(@"field=%@", field);
-                    NSLog(@"type=%@",  type);
-                    NSLog(@"value=%@", value);
+                    MYNSLog(@"field=%@", field);
+                    MYNSLog(@"type=%@",  type);
+                    MYNSLog(@"value=%@", value);
                 }
                 // Combine the clauses with an 'AND'
                 //KiiClause *totalClause = [KiiClause and:clause1, clause2, nil];
@@ -403,7 +409,7 @@
                     //はいはず
                 }
                 
-                //NSLog(@"return");
+                //MYNSLog(@"return");
                 //return;
             } else {
                 //１つだけ
@@ -411,15 +417,15 @@
                 type =  [clause objectForKey:@"type"];
                 value = [clause objectForKey:@"value"];
         
-                NSLog(@"field=%@", field);
-                NSLog(@"type=%@",  type);
-                NSLog(@"value=%@", value);
+                MYNSLog(@"field=%@", field);
+                MYNSLog(@"type=%@",  type);
+                MYNSLog(@"value=%@", value);
                 
                 totalClause = [self createClause:clause];
             }
         } else {
             //エラー、エラー処理はあとで
-            NSLog(@"error!!");
+            MYNSLog(@"error!!");
             return;
         }
  
@@ -455,8 +461,8 @@
         KiiQueryResultBlock __block __weak weakQueryBlock;
         KiiQueryResultBlock queryBlock = ^(KiiQuery *retQuery, KiiBucket *retBucket, NSArray *retResults, KiiQuery *retNextQuery, NSError *retError) {
             
-            NSLog(@"queryBlock ---");
-            NSLog(@"retError %@",retError);
+            MYNSLog(@"queryBlock ---");
+            MYNSLog(@"retError %@",retError);
             
             // We got some valid results
             //if (retError == nil) {
@@ -473,7 +479,7 @@
         };
         weakQueryBlock = queryBlock;
         
-        NSLog(@"executeQuery ---");
+        MYNSLog(@"executeQuery ---");
         //KiiQuery *all_query = [KiiQuery queryWithClause:nil];
         [kii_bucket executeQuery:kii_query withBlock:queryBlock];
         //[kii_bucket executeQuery:all_query withBlock:queryBlock];
@@ -483,7 +489,7 @@
 /***
         //結果
         [allResults addObjectsFromArray:results];
-        NSLog(@"allResults1 %@ ", allResults);
+        MYNSLog(@"allResults1 %@ ", allResults);
         
         //ログ表示 _uri_の追加
         NSMutableArray *jArray = [NSMutableArray array];
@@ -494,28 +500,28 @@
             //_uri_を追加
             NSString *uri = obj.objectURI;
             [dic setObject:uri forKey:@"_uri_"];
-            NSLog(@"%d %@", i, dic);
+            MYNSLog(@"%d %@", i, dic);
             [jArray addObject:dic];
         }
-        NSLog(@"jArray %@", jArray);
+        MYNSLog(@"jArray %@", jArray);
         
         //JSONにする
         NSError *error2 = nil;
         NSData *data = nil;
         //NSString* json_str = nil;
         if([NSJSONSerialization isValidJSONObject:jArray]){
-            NSLog(@"true isValidJSONObject");
+            MYNSLog(@"true isValidJSONObject");
             data = [NSJSONSerialization dataWithJSONObject:jArray options:NSJSONReadingAllowFragments error:&error2];
-            //NSLog(@"%@",data);
+            //MYNSLog(@"%@",data);
             //result
             result = [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]autorelease];
-            NSLog(@"result %@", result);
+            MYNSLog(@"result %@", result);
             
             //CallCpp::setDisplayame2([json_str UTF8String], serviceID);
             //CallCpp::rankingResponse( [json_str UTF8String] );  //C++を呼び出す
         } else {
             result = nil;
-            NSLog(@"false isValidJSONObject");
+            MYNSLog(@"false isValidJSONObject");
         }
         //
         
@@ -526,7 +532,7 @@
     // ここではコールバックに渡す内容のインスタンスを作成しているのみ。
     NSError *error = nil;
     if (handler) {
-        NSLog(@"handler");
+        MYNSLog(@"handler");
         handler(result, error);
     }
  ***/
@@ -534,7 +540,7 @@
 
 //結果の処理
 -(void)handleResults:(NSArray *)retResults err:(NSError *)retError handler:(CallbackHandler)handler{
-    NSLog(@"handleResults %@ %@", retResults, retError);
+    MYNSLog(@"handleResults %@ %@", retResults, retError);
 
     //retError = (NSError *)@"hoge erro dayo";    //for debug
     
@@ -550,37 +556,37 @@
             //_uri_を追加
             NSString *uri = obj.objectURI;
             [dic setObject:uri forKey:@"_uri_"];
-            //NSLog(@"%d %@", i, dic);
+            //MYNSLog(@"%d %@", i, dic);
             [jArray addObject:dic];
         }
-        NSLog(@"jArray %@", jArray);
+        MYNSLog(@"jArray %@", jArray);
     
         //JSONにする
         NSError *error2 = nil;
         NSData *data = nil;
         //NSString* json_str = nil;
         if([NSJSONSerialization isValidJSONObject:jArray]){
-            NSLog(@"true isValidJSONObject");
+            MYNSLog(@"true isValidJSONObject");
             data = [NSJSONSerialization dataWithJSONObject:jArray options:NSJSONReadingAllowFragments error:&error2];
-            //NSLog(@"%@",data);
+            //MYNSLog(@"%@",data);
             //result
             result = [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]autorelease];
-            NSLog(@"result %@", result);
+            MYNSLog(@"result %@", result);
         
             //CallCpp::setDisplayame2([json_str UTF8String], serviceID);
             //CallCpp::rankingResponse( [json_str UTF8String] );  //C++を呼び出す
         } else {
             result = nil;
-            NSLog(@"false isValidJSONObject");
+            MYNSLog(@"false isValidJSONObject");
         }
     //
     } else {
-        NSLog(@"error %@", retError);
+        MYNSLog(@"error %@", retError);
         result = [self makeErrorJsonString:retError];
     }
     NSError *error = nil;
     if (handler) {
-        NSLog(@"handler");
+        MYNSLog(@"handler");
         handler(result, error);
     }
 
@@ -589,22 +595,22 @@
 
 -(NSString *)makeErrorJsonString:(NSError *)error
 {
-    NSLog(@"makeErrorJsonString %@", error);
+    MYNSLog(@"makeErrorJsonString %@", error);
     
     NSString *result;
     NSData *data = nil;
     NSError *error2 = nil;
     NSDictionary *dic = [NSDictionary dictionaryWithObject:error forKey:@"_error_"];
     if([NSJSONSerialization isValidJSONObject:dic]){
-        NSLog(@"true isValidJSONObject");
+        MYNSLog(@"true isValidJSONObject");
         data = [NSJSONSerialization dataWithJSONObject:dic options:NSJSONReadingAllowFragments error:&error2];
-        //NSLog(@"%@",data);
+        //MYNSLog(@"%@",data);
         //result
         result = [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]autorelease];
-        NSLog(@"result %@", result);
+        MYNSLog(@"result %@", result);
     } else {
         result = nil;
-        NSLog(@"false isValidJSONObject");
+        MYNSLog(@"false isValidJSONObject");
     }
     return result;
 

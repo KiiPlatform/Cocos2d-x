@@ -10,6 +10,9 @@
 #include "picojson.h"
 #include "kii/KBase.h"
 
+#define MYCCLOG(...)       do {} while (0)
+//#define MYCCLOG(format, ...)      cocos2d::log(format, ##__VA_ARGS__)
+
 #define callback_selector(_SELECTOR) (SEL_callbackHandler)(&_SELECTOR)
 typedef void (KBase::*SEL_callbackHandler)(const char *json);
 
@@ -20,7 +23,7 @@ std::map<int, SEL_callbackHandler> selecter_map;
 std::map<int, KBase*> target_map;
 
 void serialize2(  ){
-	CCLOG("kiiReq");
+	MYCCLOG("kiiReq");
 
 	string str1 = "hoge";
 	string str2 = "fuga";
@@ -44,11 +47,11 @@ void serialize() {
 
     string str = picojson::value(v).serialize();
     //printf("serialized content = %s\r\n" ,  str.c_str());
-    CCLOG("serialize str %s",str.c_str());
+    MYCCLOG("serialize str %s",str.c_str());
 }
 
 void kiiReq( map<string, string> params, KBase* target, SEL_callbackHandler selector ){
-	CCLOG("kiiReq");
+	MYCCLOG("kiiReq");
 
     g_serviceID++;
     selecter_map.insert( make_pair(g_serviceID, selector ));
@@ -61,7 +64,7 @@ void kiiReq( map<string, string> params, KBase* target, SEL_callbackHandler sele
     picojson::object v;
     while( it != params.end() ) {
     	i++;
-    	//CCLOG("params %d %s %s",i, (*it).first.c_str(), (*it).second.c_str() );
+    	//MYCCLOG("params %d %s %s",i, (*it).first.c_str(), (*it).second.c_str() );
     	//cout << (*it).first << ":" << (*it).second << endl;
     	key = (*it).first;
     	val = (*it).second;
@@ -88,15 +91,15 @@ void kiiReq2( picojson::object set_pairs
 
 
 void kiiRes(const char *json, int serviceID){
-	CCLOG("kiiRes1 %d %s", serviceID, json);
+	MYCCLOG("kiiRes1 %d %s", serviceID, json);
 
     SEL_callbackHandler selecter = selecter_map[serviceID];
     KBase* target = target_map[serviceID];
-    CCLOG("kiiRes2");
+    MYCCLOG("kiiRes2");
     if (target && selecter)
     {
-        CCLOG("kiiRes3");
+        MYCCLOG("kiiRes3");
         (target->*selecter)(json);  //コールバックを実行する
     }
-    CCLOG("kiiRes4");
+    MYCCLOG("kiiRes4");
 }

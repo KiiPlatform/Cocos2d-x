@@ -1,6 +1,6 @@
 package org.cocos2dx.cpp;
 
-import android.util.Log;
+//import android.util.Log;
 
 public class CallFromCPP {
 	static final String TAG ="CallFromCPP";

@@ -17,6 +17,9 @@
 
 #include "KiiRanking.h"
 
+#define MYCCLOG(...)       do {} while (0)
+//#define MYCCLOG(format, ...)      cocos2d::log(format, ##__VA_ARGS__)
+
 //実体をここに置く
 char kii_label_buff[1024];
 char kii_name[256];
@@ -32,7 +35,7 @@ KiiRanking::~KiiRanking() {
 
 KiiRanking* KiiRanking::create()
 {
-	CCLOG("KiiRanking::create");
+	MYCCLOG("KiiRanking::create");
 	KiiRanking *pSprite = new KiiRanking();
     if (pSprite && pSprite->init())
     {
@@ -41,27 +44,27 @@ KiiRanking* KiiRanking::create()
         pSprite->_name = kii_name;
         pSprite->_display_name = kii_display_name;
         
-        CCLOG("_name=%s", pSprite->_name.c_str());
-        CCLOG("_display_name=%s", pSprite->_display_name.c_str());
+        MYCCLOG("_name=%s", pSprite->_name.c_str());
+        MYCCLOG("_display_name=%s", pSprite->_display_name.c_str());
         
-        CCLOG("KiiRanking::create ok");
+        MYCCLOG("KiiRanking::create ok");
         return pSprite;
     }
-    CCLOG("KiiRanking::create error");
+    MYCCLOG("KiiRanking::create error");
     //CC_SAFE_DELETE(pSprite);
     return NULL;
 }
 
 bool KiiRanking::init()
 {
-    CCLOG("KiiRanking::init");
+    MYCCLOG("KiiRanking::init");
     _pCKiiBucket = CKiiBucket::create();
     return true;
 }
 
 void KiiRanking::createApplicationScopeBucketTest()
 {
-    CCLOG("KiiRanking::createApplicationScopeBucketTest");
+    MYCCLOG("KiiRanking::createApplicationScopeBucketTest");
     //b_ranking03
     _pCKiiBucket->createApplicationScopeBucket("b_ranking03",	//03
                                                this, callback_selector(KiiRanking::callBack_createApplicationScopeBucketTest) );
@@ -69,46 +72,46 @@ void KiiRanking::createApplicationScopeBucketTest()
 
 void KiiRanking::callBack_createApplicationScopeBucketTest(const char *json)
 {
-    CCLOG("KiiRanking::callBack_createApplicationScopeBucketTest");
-    CCLOG("json %s ",json );
+    MYCCLOG("KiiRanking::callBack_createApplicationScopeBucketTest");
+    MYCCLOG("json %s ",json );
     
     queryALL();
 }
 
 void KiiRanking::object_refreshTest()
 {
-    CCLOG("KiiRanking::object_refreshTest -----");
+    MYCCLOG("KiiRanking::object_refreshTest -----");
     _pCKiiBucket->object_refresh(_uri,
                                  this, callback_selector(KiiRanking::callBack_object_refreshTest));
 }
 
 void KiiRanking::callBack_object_refreshTest(const char *json)
 {
-    CCLOG("KiiRanking::callBack_object_refreshTest");
-    CCLOG("json %s ",json );
+    MYCCLOG("KiiRanking::callBack_object_refreshTest");
+    MYCCLOG("json %s ",json );
 }
 
 //バケットを作成
 void KiiRanking::postMyScore(int hiscore){
-    CCLOG("KiiRanking::postMyScore ---");
-    CCLOG("hiscore = %d", hiscore );
+    MYCCLOG("KiiRanking::postMyScore ---");
+    MYCCLOG("hiscore = %d", hiscore );
     _hiscore = hiscore;	//クラス変数に保存する
     //_hiscore = 5678;
-    CCLOG("_hiscore = %d", _hiscore );
+    MYCCLOG("_hiscore = %d", _hiscore );
     //バケットを作成
     //b_ranking03
     _pCKiiBucket->createApplicationScopeBucket("b_ranking03",	//03
                                                this, callback_selector(KiiRanking::callBack_postMyScore) );
-    CCLOG("KiiRanking::postMyScore end ---");
+    MYCCLOG("KiiRanking::postMyScore end ---");
 }
 void KiiRanking::callBack_postMyScore(const char *json){
-    CCLOG("KiiRanking::callBack_queryMyScore");
-    CCLOG("json %s ",json );
+    MYCCLOG("KiiRanking::callBack_queryMyScore");
+    MYCCLOG("json %s ",json );
     
     //エラーを確認
     string err = check_error(json);
     if(err!=""){
-        CCLOG("err %s ",err.c_str() );
+        MYCCLOG("err %s ",err.c_str() );
         return;
     }
     
@@ -117,7 +120,7 @@ void KiiRanking::callBack_postMyScore(const char *json){
 
 //自分のスコアを検索
 void KiiRanking::queryMyScore(){
-    CCLOG("KiiRanking::queryMyScore ---");
+    MYCCLOG("KiiRanking::queryMyScore ---");
     
     //自分のスコアを検索
     //auto e1 = CKiiClause::equals("name","43f76824-e92b-4a8f-a34d-8fac92248250");
@@ -125,7 +128,7 @@ void KiiRanking::queryMyScore(){
     auto q = std::make_shared<CKiiQuery>(e1);	//new
 	string s = q->toString2();
 	q->sortByDesc("score");
-    CCLOG("s = %s", s.c_str() );
+    MYCCLOG("s = %s", s.c_str() );
     
     //set
     //picojson::object set_pairs;
@@ -133,20 +136,20 @@ void KiiRanking::queryMyScore(){
     _pCKiiBucket->query(q,
                         this, callback_selector(KiiRanking::callBack_queryMyScore));
     
-    CCLOG("KiiRanking::queryMyScore end ---");
+    MYCCLOG("KiiRanking::queryMyScore end ---");
 }
 void KiiRanking::callBack_queryMyScore(const char *json){
     char buff[256];
     std::string err;
     
 
-    CCLOG("KiiRanking::callBack_queryMyScore");
-    CCLOG("json %s ",json );
+    MYCCLOG("KiiRanking::callBack_queryMyScore");
+    MYCCLOG("json %s ",json );
     
     //エラーを確認
     string err1 = check_error(json);
     if(err1!=""){
-        CCLOG("err %s ",err1.c_str() );
+        MYCCLOG("err %s ",err1.c_str() );
         return;
     }
     
@@ -162,51 +165,51 @@ void KiiRanking::callBack_queryMyScore(const char *json){
         picojson::object& o1 = it->get<picojson::object>();
         
         name = o1["name"].get<std::string>();
-        CCLOG("name=%s",name.c_str());
+        MYCCLOG("name=%s",name.c_str());
         
         display_name = o1["display_name"].get<std::string>();
-        CCLOG("display_name=%s",display_name.c_str());
+        MYCCLOG("display_name=%s",display_name.c_str());
         
         //score = o1["score"].get<std::string>();
-        //CCLOG("score=%s",score.c_str());
+        //MYCCLOG("score=%s",score.c_str());
 
         dscore = o1["score"].get<double>();
-        CCLOG("score=%f",dscore);
+        MYCCLOG("score=%f",dscore);
         
         _uri_ = o1["_uri_"].get<std::string>();
-        CCLOG("_uri_=%s",_uri_.c_str());
+        MYCCLOG("_uri_=%s",_uri_.c_str());
 
         //sprintf(buff,"%d %s %s %s %s\n",
         //		index+1, name.c_str(), display_name.c_str(), score.c_str(), _uri_.c_str() );
-        //CCLOG("buff=%s",buff);
+        //MYCCLOG("buff=%s",buff);
         
         index++;
         break;	//１回でループを抜ける
     }
-    CCLOG("index = %d",index);
+    MYCCLOG("index = %d",index);
     //
-    //CCLOG("_uri_=%s",_uri_.c_str() );
+    //MYCCLOG("_uri_=%s",_uri_.c_str() );
     if(_uri_!=""){
-    	CCLOG("score ari");
+    	MYCCLOG("score ari");
     	_name = name;
     	//_display_name = display_name;	変更前に戻ってしまうのでここでは代入しない
     	_score = score;
     	_uri = _uri_;
-    	CCLOG("_uri=%s", _uri.c_str());
+    	MYCCLOG("_uri=%s", _uri.c_str());
     	updateMyScore(_uri, _hiscore);	//保存していた変数を使ってスコアを更新するupdate
     } else {
-    	CCLOG("score nasi");
+    	MYCCLOG("score nasi");
     	saveMyScore(_hiscore);	//新規作成なのでsave
     }
-    CCLOG("KiiRanking::callBack_queryMyScore end ---");
+    MYCCLOG("KiiRanking::callBack_queryMyScore end ---");
 }
 
 //スコアの更新
 void KiiRanking::updateMyScore(string uri, int hiscore){
-    CCLOG("KiiRanking::updateMyScore -----");
-    CCLOG("hiscore = %d", hiscore );
-	CCLOG("uri=%s", uri.c_str());
-	CCLOG("_display_name=%s", _display_name.c_str());
+    MYCCLOG("KiiRanking::updateMyScore -----");
+    MYCCLOG("hiscore = %d", hiscore );
+	MYCCLOG("uri=%s", uri.c_str());
+	MYCCLOG("_display_name=%s", _display_name.c_str());
     
     //set
     picojson::object set_pairs;
@@ -219,13 +222,13 @@ void KiiRanking::updateMyScore(string uri, int hiscore){
                                 this, callback_selector(KiiRanking::callBack_updateMyScore));
 }
 void KiiRanking::callBack_updateMyScore(const char *json){
-    CCLOG("KiiRanking::callBack_updateMyScore");
-    CCLOG("json %s ",json );
+    MYCCLOG("KiiRanking::callBack_updateMyScore");
+    MYCCLOG("json %s ",json );
     
     //エラーを確認
     string err1 = check_error(json);
     if(err1!=""){
-        CCLOG("err %s ",err1.c_str() );
+        MYCCLOG("err %s ",err1.c_str() );
         return;
     }
     
@@ -234,7 +237,7 @@ void KiiRanking::callBack_updateMyScore(const char *json){
 
 //スコアの新規作成
 void KiiRanking::saveMyScore(int hiscore){
-    CCLOG("KiiRanking::saveMyScore -----");
+    MYCCLOG("KiiRanking::saveMyScore -----");
     
     //set
     picojson::object set_pairs;
@@ -248,13 +251,13 @@ void KiiRanking::saveMyScore(int hiscore){
 void KiiRanking::callBack_saveMyScore(const char *json){
     std::string err;
     
-    CCLOG("KiiRanking::callBack_saveMyScore");
-    CCLOG("json %s ",json );
+    MYCCLOG("KiiRanking::callBack_saveMyScore");
+    MYCCLOG("json %s ",json );
     
     //エラーを確認
     string err1 = check_error(json);
     if(err1!=""){
-        CCLOG("err %s ",err1.c_str() );
+        MYCCLOG("err %s ",err1.c_str() );
         return;
     }
     
@@ -265,19 +268,19 @@ void KiiRanking::callBack_saveMyScore(const char *json){
     string uri = o["uri"].get<std::string>();
     if(uri!=""){
     	_uri = uri;
-    	CCLOG("_uri=%s ",_uri.c_str() );
+    	MYCCLOG("_uri=%s ",_uri.c_str() );
     } else {
-    	CCLOG("uri error");
+    	MYCCLOG("uri error");
     }
     object_refreshTest();
 }
 
 void KiiRanking::queryALL(){
-    CCLOG("KiiRanking::queryALL");
+    MYCCLOG("KiiRanking::queryALL");
 	auto q = std::make_shared<CKiiQuery>();	//new
 	q->sortByDesc("score");
 	string s = q->toString2();
-    CCLOG("s = %s", s.c_str() );
+    MYCCLOG("s = %s", s.c_str() );
     
     //set
     picojson::object set_pairs;
@@ -286,20 +289,20 @@ void KiiRanking::queryALL(){
     _pCKiiBucket->query(q,
                         this, callback_selector(KiiRanking::callBack_queryALL));
     
-    CCLOG("KiiRanking::queryALL end ---");
+    MYCCLOG("KiiRanking::queryALL end ---");
 }
 void KiiRanking::callBack_queryALL(const char *json){
     char buff[256];
     //char kii_label_buff[1024];
     std::string err;
     
-    CCLOG("KiiRanking::callBack_queryALL");
-    CCLOG("json %s ",json );
+    MYCCLOG("KiiRanking::callBack_queryALL");
+    MYCCLOG("json %s ",json );
     
     //エラーを確認
     string err1 = check_error(json);
     if(err1!=""){
-        CCLOG("err %s ",err1.c_str() );
+        MYCCLOG("err %s ",err1.c_str() );
         return;
     }
     
@@ -320,8 +323,8 @@ void KiiRanking::callBack_queryALL(const char *json){
         /***
         dscore = o1["score"].get<double>();
         iscore = (int)dscore;
-        CCLOG("dscore=%6.1f",dscore);
-        CCLOG("iscore=%06d",iscore);
+        MYCCLOG("dscore=%6.1f",dscore);
+        MYCCLOG("iscore=%06d",iscore);
          ***/
         
         //
@@ -336,34 +339,34 @@ void KiiRanking::callBack_queryALL(const char *json){
         map<std::string,std::string> json_map;
         //const picojson::value::object& obj = v.get<picojson::object>();
         for (picojson::value::object::const_iterator i = o1.begin(); i != o1.end(); ++i) {
-            CCLOG("v  %s %s", i->first.c_str(), i->second.to_str().c_str() );
+            MYCCLOG("v  %s %s", i->first.c_str(), i->second.to_str().c_str() );
             json_map.insert( make_pair(i->first,i->second.to_str() ) ); //insertする
         }
         
         c = json_map.count("score");
-        CCLOG("score c=%d",c);
+        MYCCLOG("score c=%d",c);
         if(c>0){
             //scoreあり
             
             //スコアの型判定とデコード double　が正しい
             b = o1["score"].is<double>();
-            CCLOG("score is double b=%d",b);
+            MYCCLOG("score is double b=%d",b);
             if(b){
                 dscore = o1["score"].get<double>();  //double
                 iscore = (int)dscore;
-                CCLOG("dscore=%f",dscore);
+                MYCCLOG("dscore=%f",dscore);
             }
             
             //スコアの型判定とデコード string こちらはエラー
             b = o1["score"].is<std::string>();
-            CCLOG("score is string b=%d",b);
+            MYCCLOG("score is string b=%d",b);
             if(b){
                 sscore = o1["score"].get<std::string>(); //string
                 iscore = -1; //エラー時
-                CCLOG("sscore=%s",sscore.c_str() );
+                MYCCLOG("sscore=%s",sscore.c_str() );
             }
         } else {
-            CCLOG("score nai");
+            MYCCLOG("score nai");
             iscore = -1; //エラー時
         }
         //
@@ -373,7 +376,7 @@ void KiiRanking::callBack_queryALL(const char *json){
         //sprintf(buff,"%d %s : %s \n", index+1, s1.c_str(), s2.c_str() );
         sprintf(buff,"%d %12s : %06d \n", index+1, s1.c_str(), iscore );
 
-        CCLOG("buff = %s",buff);
+        MYCCLOG("buff = %s",buff);
         if(index<7){
         	strcat(kii_label_buff, buff);//ランキング表示用文字列に追加する
         }
@@ -382,14 +385,14 @@ void KiiRanking::callBack_queryALL(const char *json){
         //    break;
         //}
     }
-    CCLOG("---");
-    CCLOG("kii_label_buff %s",kii_label_buff);
+    MYCCLOG("---");
+    MYCCLOG("kii_label_buff %s",kii_label_buff);
     //
 }
 
 string KiiRanking::check_error(const char *json){
-    CCLOG("KiiRanking::check_error");
-    CCLOG("json %s ",json );
+    MYCCLOG("KiiRanking::check_error");
+    MYCCLOG("json %s ",json );
           
     std::string err;
     picojson::value v;
@@ -409,7 +412,7 @@ string KiiRanking::check_error(const char *json){
     } else {
         _error_  ="";
     }
-    CCLOG("_error_=%s",_error_.c_str() );
+    MYCCLOG("_error_=%s",_error_.c_str() );
     
     return _error_;
     

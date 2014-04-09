@@ -8,6 +8,9 @@
 
 #include "KillIF.h"
 
+#define MYCCLOG(...)       do {} while (0)
+//#define MYCCLOG(format, ...)      cocos2d::log(format, ##__VA_ARGS__)
+
 #include <vector>
 
 using namespace std;
@@ -15,6 +18,7 @@ using namespace cocos2d;
 #include "picojson.h"
 
 extern void kiiRes(const char *json, int serviceID);
+
 
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
@@ -43,9 +47,9 @@ extern char kii_name[256];
 
 //Android/iPhone蜈ｱ騾壹Ν繝ｼ繝√Φ
 void rankingResponseCPP(const char *json){
-    CCLOG("rankingResponseCPP");
+    MYCCLOG("rankingResponseCPP");
     
-    //CCLOG("json = %s",json);
+    //MYCCLOG("json = %s",json);
     //json
     std::string err;
     
@@ -61,8 +65,8 @@ void rankingResponseCPP(const char *json){
         picojson::object& o1 = it->get<picojson::object>();
         std::string& s1 = o1["name"].get<std::string>();
         std::string& s2 = o1["score"].get<std::string>();
-        //CCLOG("s1 = %s",s1.c_str() );
-        //CCLOG("s2 = %s",s2.c_str() );
+        //MYCCLOG("s1 = %s",s1.c_str() );
+        //MYCCLOG("s2 = %s",s2.c_str() );
         
         vScore.push_back(ScoreData(s1,s2));
         sprintf(buff,"%s : %s \n", s1.c_str(), s2.c_str() );
@@ -72,21 +76,21 @@ void rankingResponseCPP(const char *json){
             break;
         }
     }
-    //CCLOG("kii_label_buff %s",kii_label_buff);	//蜃ｺ譚･荳翫′縺｣縺溯｡ｨ遉ｺ譁�ｭ怜�
+    //MYCCLOG("kii_label_buff %s",kii_label_buff);	//蜃ｺ譚･荳翫′縺｣縺溯｡ｨ遉ｺ譁�ｭ怜�
     
     int i;
     for(i=0; i<vScore.size(); i++){
-        //CCLOG("vScore  %d  %s %s", i, HelloWorld::vScore[i].name.c_str(),  HelloWorld::vScore[i].score.c_str());
+        //MYCCLOG("vScore  %d  %s %s", i, HelloWorld::vScore[i].name.c_str(),  HelloWorld::vScore[i].score.c_str());
     }
 }
 
 void setDisplayameCPP(const char *display_name){
-    CCLOG("setDisplayameCPP %s", display_name);
+    MYCCLOG("setDisplayameCPP %s", display_name);
     strcpy( kii_display_name, display_name );
 }
 
 void setNameCPP(const char *name){
-    CCLOG("setNameCPP %s", name);
+    MYCCLOG("setNameCPP %s", name);
     strcpy( kii_name, name );
 }
 
@@ -99,14 +103,14 @@ extern "C"
 
 	(JNIEnv* env, jobject thiz)
 	{
-	    CCLOG("Java_org_cocos2dx_cpp_CallCPP_nativeEnd");
+	    MYCCLOG("Java_org_cocos2dx_cpp_CallCPP_nativeEnd");
 		//CCDirector::sharedDirector()->end();
 	}
     
 	//JNIEXPORT void JNICALL Java_org_cocos2dx_simplegame_CallCPP_rankingResponse
 	JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_CallCPP_rankingResponse
 	(JNIEnv *env, jobject obj, jstring str1) {
-	    CCLOG("Java_org_cocos2dx_cpp_CallCPP_rankingResponse");
+	    MYCCLOG("Java_org_cocos2dx_cpp_CallCPP_rankingResponse");
         
 		const char *json = env->GetStringUTFChars(str1, 0);
         rankingResponseCPP(json);
@@ -115,7 +119,7 @@ extern "C"
 	//JNIEXPORT void JNICALL Java_org_cocos2dx_simplegame_CallCPP_setDisplayame
 	JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_CallCPP_setName
 	(JNIEnv *env, jobject obj, jstring str1) {
-	    CCLOG("Java_org_cocos2dx_cpp_CallCPP_setName");
+	    MYCCLOG("Java_org_cocos2dx_cpp_CallCPP_setName");
 
 		const char *name = env->GetStringUTFChars(str1, 0);
 		setNameCPP(name);
@@ -124,7 +128,7 @@ extern "C"
 	//JNIEXPORT void JNICALL Java_org_cocos2dx_simplegame_CallCPP_setDisplayame
 	JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_CallCPP_setDisplayame
 	(JNIEnv *env, jobject obj, jstring str1) {
-	    CCLOG("Java_org_cocos2dx_cpp_CallCPP_setDisplayame");
+	    MYCCLOG("Java_org_cocos2dx_cpp_CallCPP_setDisplayame");
 
 		const char *display_name = env->GetStringUTFChars(str1, 0);
 		setDisplayameCPP(display_name);
@@ -133,21 +137,21 @@ extern "C"
 	//JNIEXPORT void JNICALL Java_org_cocos2dx_simplegame_CallCPP_setDisplayame
 	JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_CallCPP_setDisplayame2
 	(JNIEnv *env, jobject obj, jstring str1, jint serviceID) {
-	    CCLOG("Java_org_cocos2dx_cpp_CallCPP_setDisplayame2");
+	    MYCCLOG("Java_org_cocos2dx_cpp_CallCPP_setDisplayame2");
 
 		const char *str2 = env->GetStringUTFChars(str1, 0);
-		CCLOG("str2 %s",str2);
-		CCLOG("serviceID %d",serviceID);
+		MYCCLOG("str2 %s",str2);
+		MYCCLOG("serviceID %d",serviceID);
 		kiiRes(str2, serviceID);
 		//setDisplayameCPP(display_name);
 	}
 
 	JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_CallCPP_CallCPP_kiiRes3
 	(JNIEnv *env, jobject obj, jstring str1) {
-	    CCLOG("Java_org_cocos2dx_cpp_CallCPP_CallCPP_kiiRes3");
+	    MYCCLOG("Java_org_cocos2dx_cpp_CallCPP_CallCPP_kiiRes3");
 
 		const char *str2 = env->GetStringUTFChars(str1, 0);
-	    CCLOG("str1 %s", str2);
+	    MYCCLOG("str1 %s", str2);
 
 		//const char *display_name = env->GetStringUTFChars(str1, 0);
 		//setDisplayameCPP(display_name);
@@ -155,21 +159,21 @@ extern "C"
 
 	JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_CallCPP_CallCPP_kiiRes2
 	(JNIEnv *env, jobject obj, jstring str1) {
-	    CCLOG("Java_org_cocos2dx_cpp_CallCPP_CallCPP_kiiRes2");
+	    MYCCLOG("Java_org_cocos2dx_cpp_CallCPP_CallCPP_kiiRes2");
         
 		const char *str2 = env->GetStringUTFChars(str1, 0);
-	    //CCLOG("str1 %s", str2);
+	    //MYCCLOG("str1 %s", str2);
 
-	    //CCLOG("serviceID %d", jstring str1);
+	    //MYCCLOG("serviceID %d", jstring str1);
 		//kiiRes(json, serviceID);
 	}
 
 	JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_CallCPP_CallCPP_kiiRes
 	(JNIEnv *env, jobject obj, jstring str1, jint serviceID) {
-	    CCLOG("Java_org_cocos2dx_cpp_CallCPP_CallCPP_kiiRes");
+	    MYCCLOG("Java_org_cocos2dx_cpp_CallCPP_CallCPP_kiiRes");
 
 		const char *json = env->GetStringUTFChars(str1, 0);
-	    //CCLOG("serviceID %d", serviceID);
+	    //MYCCLOG("serviceID %d", serviceID);
 		kiiRes(json, serviceID);
 	}
 }
@@ -179,32 +183,32 @@ extern "C"
 //iPhone
 void iPhone_nativeEnd()
 {
-    CCLOG("iPhone_nativeEnd");
+    MYCCLOG("iPhone_nativeEnd");
     CCDirector::sharedDirector()->end();
 }
 
 void iPhone_rankingResponse(const char *json){
-    CCLOG("iPhone_rankingResponse");
-    //CCLOG("json = %s",json);
+    MYCCLOG("iPhone_rankingResponse");
+    //MYCCLOG("json = %s",json);
     
     rankingResponseCPP(json);
 }
 
 void iPhone_setDisplayame(const char *name){
-    CCLOG("iPhone_setDisplayame");
-    //CCLOG("name = %s",name);
+    MYCCLOG("iPhone_setDisplayame");
+    //MYCCLOG("name = %s",name);
     
     setDisplayameCPP(name);
 }
 
 void iPhone_setDisplayame2(const char *str1, int serviceID){
-    CCLOG("iPhone_setDisplayame");
+    MYCCLOG("iPhone_setDisplayame");
     kiiRes(str1, serviceID);
 }
 
 void iPhone_setName(const char *name){
-    CCLOG("iPhone_setDisplayame");
-    //CCLOG("name = %s",name);
+    MYCCLOG("iPhone_setDisplayame");
+    //MYCCLOG("name = %s",name);
     
     setNameCPP(name);
 }
@@ -216,7 +220,7 @@ void iPhone_setName(const char *name){
 //call Java
 
 void jni_test(){
-    CCLOG("Jni_test");
+    MYCCLOG("Jni_test");
     JniMethodInfo methodInfo;
     
     if (JniHelper::getStaticMethodInfo(methodInfo
@@ -230,7 +234,7 @@ void jni_test(){
 }
 
 void jni_ranking_query_all(){
-    //CCLOG("Jni_ranking_query_all Android");
+    //MYCCLOG("Jni_ranking_query_all Android");
     JniMethodInfo methodInfo;
     
     if (JniHelper::getStaticMethodInfo(methodInfo
@@ -244,7 +248,7 @@ void jni_ranking_query_all(){
 }
 
 void jni_ranking_post(const char *name, int score){
-    //CCLOG("jni_ranking_post Android %s %d", name, score);
+    //MYCCLOG("jni_ranking_post Android %s %d", name, score);
     JniMethodInfo methodInfo;
 
     if (JniHelper::getStaticMethodInfo(methodInfo
@@ -261,7 +265,7 @@ void jni_ranking_post(const char *name, int score){
 }
 
 void jni_save_display_name(const char *name){
-    //CCLOG("jni_save_display_name Android %s", name);
+    //MYCCLOG("jni_save_display_name Android %s", name);
     JniMethodInfo methodInfo;
 
     if (JniHelper::getStaticMethodInfo(methodInfo
@@ -283,7 +287,7 @@ void jni_save_display_name(const char *name){
  * main.cppへ引っ越し
  *
 void jni_kiiReq(const char *json, int serviceID){
-    CCLOG("jni_kiiReq Android %s %d", json, serviceID);
+    MYCCLOG("jni_kiiReq Android %s %d", json, serviceID);
     JniMethodInfo methodInfo;
 
     if (JniHelper::getStaticMethodInfo(methodInfo
@@ -323,13 +327,13 @@ public static void ranking_post(java.lang.String, int);
 //iPhone
 //call objective-c
 void jni_test(){
-    CCLOG("Jni_test iPhone");
+    MYCCLOG("Jni_test iPhone");
 }
 
 //extern void ranking_query_all2();
 
 void jni_ranking_query_all(){
-    //CCLOG("Jni_ranking_query_all iPhone");
+    //MYCCLOG("Jni_ranking_query_all iPhone");
     //ranking_query_all2();
     //KRanking::ranking_query_all();
     CallFromCpp::ranking_query_all();
@@ -338,7 +342,7 @@ void jni_ranking_query_all(){
 }
 
 void jni_ranking_post(const char *name, int score){
-    //CCLOG("jni_ranking_post iPhone");
+    //MYCCLOG("jni_ranking_post iPhone");
     //ranking_query_all2();
     //KRanking::ranking_query_all();
     CallFromCpp::ranking_post(name, score);
@@ -351,7 +355,7 @@ void jni_save_display_name(const char *name){
 }
 
 void jni_kiiReq(const char *json, int serviceID){
-    //CCLOG("jni_kiiReq iPhone %s %d", json, serviceID);
+    //MYCCLOG("jni_kiiReq iPhone %s %d", json, serviceID);
     CallFromCpp::kiiReq(json, serviceID);
 }
 

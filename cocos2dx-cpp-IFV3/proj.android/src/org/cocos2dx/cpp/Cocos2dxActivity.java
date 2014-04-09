@@ -7,7 +7,7 @@ import com.kii.cloud.storage.Kii.Site;
 import android.app.NativeActivity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
+//import android.util.Log;
 
 public class Cocos2dxActivity extends NativeActivity{
 

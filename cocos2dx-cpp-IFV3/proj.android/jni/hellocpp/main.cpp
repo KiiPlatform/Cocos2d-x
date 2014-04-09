@@ -6,6 +6,8 @@
 #include <android/log.h>
 #include <android_native_app_glue.h>
 
+#define MYCCLOG(...)       do {} while (0)
+//#define MYCCLOG(format, ...)      cocos2d::log(format, ##__VA_ARGS__)
 
 #define  LOG_TAG    "main"
 #define  LOGD(...)  __android_log_print(ANDROID_LOG_DEBUG,LOG_TAG,__VA_ARGS__)
@@ -25,21 +27,21 @@ void cocos_android_app_init (struct android_app* app) {
     AppDelegate *pAppDelegate = new AppDelegate();
     g_state = app;
 
-    LOGD("cocos_android_app_init2");
+    MYCCLOG("cocos_android_app_init2");
     //jniTest(app);
-    LOGD("cocos_android_app_init3");
+    MYCCLOG("cocos_android_app_init3");
 
     //jniTest(g_state);
 
-    LOGD("cocos_android_app_init4");
+    MYCCLOG("cocos_android_app_init4");
 }
 
 void callJava(){
-    LOGD("callJava %08x %08x",(unsigned int)g_env, (unsigned int)g_thiz );
+	MYCCLOG("callJava %08x %08x",(unsigned int)g_env, (unsigned int)g_thiz );
 	jclass test = (g_env)->GetObjectClass(g_thiz);
-    LOGD("callJav2");
+	MYCCLOG("callJav2");
 	jmethodID methodj = (g_env)->GetMethodID(test, "TestPreference", "()V");
-    LOGD("callJava3");
+	MYCCLOG("callJava3");
 }
 
 void jni_kiiReq(const char *json, int serviceID){
@@ -47,7 +49,7 @@ void jni_kiiReq(const char *json, int serviceID){
 
 	//jniTest(g_state);
 
-	LOGD("jni_kiiReq2");
+	MYCCLOG("jni_kiiReq2");
 
 	android_app* state = g_state;
 	JNIEnv* env;
@@ -56,14 +58,14 @@ void jni_kiiReq(const char *json, int serviceID){
 
 	(vm)->AttachCurrentThread(&env, NULL);
 	jobject thiz = state->activity->clazz;
-	LOGD("jni_kiiReq3");
+	MYCCLOG("jni_kiiReq3");
 	jclass test = (env)->GetObjectClass(thiz);
 	jmethodID methodj = (env)->GetMethodID(test, "kiiReq", "(Ljava/lang/String;I)V");
-	LOGD("jni_kiiReq4");
+	MYCCLOG("jni_kiiReq4");
 	jstring stringArg1 = env->NewStringUTF(json);
-	LOGD("jni_kiiReq5");
+	MYCCLOG("jni_kiiReq5");
 	(env)->CallVoidMethod(thiz, methodj, stringArg1, serviceID);
-	LOGD("jni_kiiReq6");
+	MYCCLOG("jni_kiiReq6");
 /***
     JniMethodInfo methodInfo;
 
@@ -83,7 +85,7 @@ void jni_kiiReq(const char *json, int serviceID){
 
 void jniTest(struct android_app* state)
 {
-    LOGD("jniTest");
+	MYCCLOG("jniTest");
 	JNIEnv* env;
 	JavaVM* vm = state->activity->vm;
 
@@ -96,25 +98,25 @@ void jniTest(struct android_app* state)
 	g_thiz = thiz;
     //LOGD("jniTes2 %08x %08x",(unsigned int)g_env, (unsigned int)g_thiz );
 
-    LOGD("jniTes2");
+	MYCCLOG("jniTes2");
 	jstring stringArg1 = env->NewStringUTF("hoge");
 
 	jclass test = (env)->GetObjectClass(thiz);
 	jmethodID methodj = (env)->GetMethodID(test, "TestPreference", "()V");
 
-    LOGD("jniTes3");
+	MYCCLOG("jniTes3");
 
 	(env)->CallVoidMethod(thiz, methodj);
-    LOGD("jniTest4");
+	MYCCLOG("jniTest4");
 	//(env)->CallVoidMethod(thiz, methodj);
 
 	//(vm)->DetachCurrentThread();
 
-    LOGD("jniTest5");
+	MYCCLOG("jniTest5");
 
     //
     //callJava();
-    LOGD("jniTest6");
+	MYCCLOG("jniTest6");
 
 	/***
 	 * //以下追記
