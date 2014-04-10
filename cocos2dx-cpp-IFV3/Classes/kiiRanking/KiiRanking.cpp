@@ -6,19 +6,16 @@
 //
 //
 
-#include "kiiRanking.h"
-
-/*
- * CKiiApiTest.cpp
- *
- *  Created on: 2014/02/10
- *      Author: guest
- */
-
 #include "KiiRanking.h"
 
+//ログ出力
+//#define DEBUG_kiiRanking
+#ifndef DEBUG_kiiRanking
 #define MYCCLOG(...)       do {} while (0)
-//#define MYCCLOG(format, ...)      cocos2d::log(format, ##__VA_ARGS__)
+#else
+#define MYCCLOG(format, ...)      cocos2d::log(format, ##__VA_ARGS__)
+#endif
+//--
 
 //実体をここに置く
 char kii_label_buff[1024];

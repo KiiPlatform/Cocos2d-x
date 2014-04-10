@@ -8,8 +8,14 @@
 
 #include "KillIF.h"
 
+//ログ出力
+//#define DEBUG_KillIF
+#ifndef DEBUG_KillIF
 #define MYCCLOG(...)       do {} while (0)
-//#define MYCCLOG(format, ...)      cocos2d::log(format, ##__VA_ARGS__)
+#else
+#define MYCCLOG(format, ...)      cocos2d::log(format, ##__VA_ARGS__)
+#endif
+//--
 
 #include <vector>
 

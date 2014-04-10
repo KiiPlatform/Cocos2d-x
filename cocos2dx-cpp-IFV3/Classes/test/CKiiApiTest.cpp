@@ -7,6 +7,15 @@
 
 #include "CKiiApiTest.h"
 
+//ログ出力
+#define DEBUG_CKiiApiTest
+#ifndef DEBUG_kiiRanking
+#define MYCCLOG(...)       do {} while (0)
+#else
+#define MYCCLOG(format, ...)      cocos2d::log(format, ##__VA_ARGS__)
+#endif
+//--
+
 extern char kii_label_buff[1024];
 extern char kii_name[256];
 extern char kii_display_name[256];
@@ -22,7 +31,7 @@ CKiiApiTest::~CKiiApiTest() {
 
 CKiiApiTest* CKiiApiTest::create()
 {
-	CCLOG("CKiiApiTest::create");
+	MYCCLOG("CKiiApiTest::create");
 	CKiiApiTest *pSprite = new CKiiApiTest();
     if (pSprite && pSprite->init())
     {
@@ -31,27 +40,27 @@ CKiiApiTest* CKiiApiTest::create()
         pSprite->_name = kii_name;
         pSprite->_display_name = kii_display_name;
 
-        CCLOG("_name=%s", pSprite->_name.c_str());
-        CCLOG("_display_name=%s", pSprite->_display_name.c_str());
+        MYCCLOG("_name=%s", pSprite->_name.c_str());
+        MYCCLOG("_display_name=%s", pSprite->_display_name.c_str());
 
-        CCLOG("CKiiApiTest::create ok");
+        MYCCLOG("CKiiApiTest::create ok");
         return pSprite;
     }
-    CCLOG("CKiiApiTest::create error");
+    MYCCLOG("CKiiApiTest::create error");
     //CC_SAFE_DELETE(pSprite);
     return NULL;
 }
 
 bool CKiiApiTest::init()
 {
-    CCLOG("CKiiApiTest::init");
+    MYCCLOG("CKiiApiTest::init");
     _pCKiiBucket = CKiiBucket::create();
     return true;
 }
 
 void CKiiApiTest::createApplicationScopeBucketTest()
 {
-    CCLOG("CKiiApiTest::createApplicationScopeBucketTest");
+    MYCCLOG("CKiiApiTest::createApplicationScopeBucketTest");
     //b_ranking03
     _pCKiiBucket->createApplicationScopeBucket("b_ranking03",	//03
     		this, callback_selector(CKiiApiTest::callBack_createApplicationScopeBucketTest) );
@@ -59,15 +68,15 @@ void CKiiApiTest::createApplicationScopeBucketTest()
 
 void CKiiApiTest::callBack_createApplicationScopeBucketTest(const char *json)
 {
-    CCLOG("CKiiApiTest::callBack_createApplicationScopeBucketTest");
-    CCLOG("json %s ",json );
+    MYCCLOG("CKiiApiTest::callBack_createApplicationScopeBucketTest");
+    MYCCLOG("json %s ",json );
 
     clause4_Test();
 }
 
 void CKiiApiTest::object_saveTest()
 {
-    CCLOG("CKiiApiTest::object_saveTest -----");
+    MYCCLOG("CKiiApiTest::object_saveTest -----");
 
     //set
     picojson::object set_pairs;
@@ -80,7 +89,7 @@ void CKiiApiTest::object_saveTest()
 }
 void CKiiApiTest::callBack_object_saveTest(const char *json)
 {
-    CCLOG("CKiiApiTest::callBack_object_saveTest");
+    MYCCLOG("CKiiApiTest::callBack_object_saveTest");
 
     //json objctとして処理する
     std::string err;
@@ -90,27 +99,27 @@ void CKiiApiTest::callBack_object_saveTest(const char *json)
     std::string& uri = o["uri"].get<std::string>();
 
     _uri = uri;
-    CCLOG("_uri %s ",_uri.c_str() );
+    MYCCLOG("_uri %s ",_uri.c_str() );
 
     //object_refreshTest();	//for test
 }
 
 void CKiiApiTest::object_refreshTest()
 {
-    CCLOG("CKiiApiTest::object_refreshTest -----");
+    MYCCLOG("CKiiApiTest::object_refreshTest -----");
     _pCKiiBucket->object_refresh(_uri,
     		this, callback_selector(CKiiApiTest::callBack_object_refreshTest));
 }
 
 void CKiiApiTest::callBack_object_refreshTest(const char *json)
 {
-    CCLOG("CKiiApiTest::callBack_object_refreshTest");
-    CCLOG("json %s ",json );
+    MYCCLOG("CKiiApiTest::callBack_object_refreshTest");
+    MYCCLOG("json %s ",json );
 }
 
 void CKiiApiTest::object_updateTest()
 {
-    CCLOG("CKiiApiTest::object_updateTest -----");
+    MYCCLOG("CKiiApiTest::object_updateTest -----");
     //set
      picojson::object set_pairs;
      set_pairs.insert( make_pair("set_score", picojson::value("999") ) );
@@ -123,18 +132,18 @@ void CKiiApiTest::object_updateTest()
 
 void CKiiApiTest::callBack_object_updateTest(const char *json)
 {
-    CCLOG("CKiiApiTest::callBack_object_updateTest");
+    MYCCLOG("CKiiApiTest::callBack_object_updateTest");
     object_refreshTest();	//for test
 }
 
 void CKiiApiTest::clause4_Test(){
-    CCLOG("CKiiApiTest::clause4_Test");
+    MYCCLOG("CKiiApiTest::clause4_Test");
     //auto e1 = CKiiClause::equals("name","43f76824-e92b-4a8f-a34d-8fac92248250");
 	//auto q = std::make_shared<CKiiQuery>(e1);	//new
 	auto q = std::make_shared<CKiiQuery>();	//new
 	q->sortByDesc("score");
 	string s = q->toString2();
-    CCLOG("s = %s", s.c_str() );
+    MYCCLOG("s = %s", s.c_str() );
 
     //set
     picojson::object set_pairs;
@@ -143,15 +152,15 @@ void CKiiApiTest::clause4_Test(){
     _pCKiiBucket->query(q,
     		this, callback_selector(CKiiApiTest::callBack_clause4_Test));
 
-    CCLOG("CKiiApiTest::clause4_Test end ---");
+    MYCCLOG("CKiiApiTest::clause4_Test end ---");
 }
 void CKiiApiTest::callBack_clause4_Test(const char *json){
     char buff[256];
     //char kii_label_buff[1024];
     std::string err;
 
-    CCLOG("CKiiApiTest::callBack_clause4_Test");
-    CCLOG("json %s ",json );
+    MYCCLOG("CKiiApiTest::callBack_clause4_Test");
+    MYCCLOG("json %s ",json );
     //
     picojson::value v;
     picojson::parse(v, json, json + strlen(json), &err);
@@ -163,10 +172,10 @@ void CKiiApiTest::callBack_clause4_Test(const char *json){
         picojson::object& o1 = it->get<picojson::object>();
         std::string& s1 = o1["display_name"].get<std::string>();
         std::string& s2 = o1["score"].get<std::string>();
-        //CCLOG("s1 = %s",s1.c_str() );
-        //CCLOG("s2 = %s",s2.c_str() );
+        //MYCCLOG("s1 = %s",s1.c_str() );
+        //MYCCLOG("s2 = %s",s2.c_str() );
         sprintf(buff,"%d %s : %s \n", index+1, s1.c_str(), s2.c_str() );
-        CCLOG("buff = %s",buff);
+        MYCCLOG("buff = %s",buff);
         if(index<7){
         	strcat(kii_label_buff, buff);
         }
@@ -175,13 +184,13 @@ void CKiiApiTest::callBack_clause4_Test(const char *json){
         //    break;
         //}
     }
-    CCLOG("---");
-    CCLOG("kii_label_buff %s",kii_label_buff);
+    MYCCLOG("---");
+    MYCCLOG("kii_label_buff %s",kii_label_buff);
     //
 }
 
 void CKiiApiTest::clause3_Test(){
-    CCLOG("CKiiApiTest::clause3_Test");
+    MYCCLOG("CKiiApiTest::clause3_Test");
 #if 1
     /***
 	CKiiClause* e1 = CKiiClause::equals("name","43f76824-e92b-4a8f-a34d-8fac92248250");	//43f7
@@ -211,7 +220,7 @@ void CKiiApiTest::clause3_Test(){
 	q->sortByDesc("score");
 	string s = q->toString2();
 
-    CCLOG("s = %s", s.c_str() );
+    MYCCLOG("s = %s", s.c_str() );
 
     //set
     //picojson::object set_pairs;
@@ -220,16 +229,16 @@ void CKiiApiTest::clause3_Test(){
     _pCKiiBucket->query(q,
     		this, callback_selector(CKiiApiTest::callBack_clause3_Test));
 
-    CCLOG("CKiiApiTest::clause3_Test end ---");
+    MYCCLOG("CKiiApiTest::clause3_Test end ---");
 #endif
 }
 void CKiiApiTest::callBack_clause3_Test(const char *json){
-    CCLOG("CKiiApiTest::callBack_clause3_Test");
-    CCLOG("json %s ",json );
+    MYCCLOG("CKiiApiTest::callBack_clause3_Test");
+    MYCCLOG("json %s ",json );
 }
 
 void CKiiApiTest::clause2_Test(){
-    CCLOG("CKiiApiTest::clause2_Test");
+    MYCCLOG("CKiiApiTest::clause2_Test");
 
     auto e1 = CKiiClause::lessThanOrEqual("key1",1);
     auto e2 = CKiiClause::lessThanOrEqual("key2",2.222);
@@ -241,31 +250,31 @@ void CKiiApiTest::clause2_Test(){
 	//CKiiQuery* q = new CKiiQuery(or4);
 	//string s = q->toString();
 
-    //CCLOG("s = %s", s.c_str() );
+    //MYCCLOG("s = %s", s.c_str() );
 
 }
 
 //バケットを作成
 void CKiiApiTest::postMyScore(int hiscore){
-    CCLOG("KiiRanking::postMyScore ---");
-    CCLOG("hiscore = %d", hiscore );
+    MYCCLOG("KiiRanking::postMyScore ---");
+    MYCCLOG("hiscore = %d", hiscore );
     //_hiscore = hiscore;	//クラス変数に保存する
     //_hiscore = 5678;
-    //CCLOG("_hiscore = %d", _hiscore );
+    //MYCCLOG("_hiscore = %d", _hiscore );
     //バケットを作成
     //b_ranking03
     _pCKiiBucket->createApplicationScopeBucket("b_ranking03",	//03
                                                this, callback_selector(CKiiApiTest::callBack_postMyScore) );
-    CCLOG("KiiRanking::postMyScore end ---");
+    MYCCLOG("KiiRanking::postMyScore end ---");
 }
 void CKiiApiTest::callBack_postMyScore(const char *json){
-    CCLOG("CKiiApiTest::callBack_queryMyScore");
-    CCLOG("json %s ",json );
+    MYCCLOG("CKiiApiTest::callBack_queryMyScore");
+    MYCCLOG("json %s ",json );
     clause1_Test();
 }
 
 void CKiiApiTest::clause1_Test(){
-    CCLOG("CKiiApiTest::clause1_Test");
+    MYCCLOG("CKiiApiTest::clause1_Test");
 
 /***
     int val1 = 1;
@@ -288,10 +297,10 @@ void CKiiApiTest::clause1_Test(){
 	auto e4 = CKiiClause::lessThanOrEqual("score",1111);
     
 	/***
-    CCLOG("e1=%08x",(unsigned int)e1);
-    CCLOG("e2=%08x",(unsigned int)e2);
-    CCLOG("e3=%08x",(unsigned int)e3);
-    CCLOG("e4=%08x",(unsigned int)e4);
+    MYCCLOG("e1=%08x",(unsigned int)e1);
+    MYCCLOG("e2=%08x",(unsigned int)e2);
+    MYCCLOG("e3=%08x",(unsigned int)e3);
+    MYCCLOG("e4=%08x",(unsigned int)e4);
     ***/
 
 	auto or4 = CKiiClause::_and(3,e1.get(),e2.get(),e3.get(),e4.get(),NULL);
@@ -303,13 +312,13 @@ void CKiiApiTest::clause1_Test(){
     _pCKiiBucket->query(q,
                         this, callback_selector(CKiiApiTest::callBack_clause1_Test));
     
-    CCLOG("CKiiApiTest::clause1_Test end ---");
+    MYCCLOG("CKiiApiTest::clause1_Test end ---");
 }
 void CKiiApiTest::callBack_clause1_Test(const char *json){
     //char buff[256];
     //std::string err;
     
-    CCLOG("KiiRanking::callBack_queryMyScore");
-    CCLOG("json %s ",json );
+    MYCCLOG("KiiRanking::callBack_queryMyScore");
+    MYCCLOG("json %s ",json );
 }
 

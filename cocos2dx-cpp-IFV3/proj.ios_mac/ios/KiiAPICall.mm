@@ -10,9 +10,14 @@
 #import <KiiSDK/Kii.h>
 
 
-
+//ログ出力
+//#define DEBUG_KiiAPICall
+#ifndef DEBUG_kiiRanking
 #define MYNSLog( m, args... )
-//#define MYNSLog( m, args... ) NSLog( m, ##args )
+#else
+#define MYNSLog( m, args... ) NSLog( m, ##args )
+#endif
+//--
 
 
 @implementation KiiAPICall

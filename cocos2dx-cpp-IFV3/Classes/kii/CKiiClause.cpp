@@ -7,8 +7,14 @@
 
 #include "CKiiClause.h"
 
+//ログ出力
+//#define DEBUG_CKiiClause
+#ifndef DEBUG_CKiiClause
 #define MYCCLOG(...)       do {} while (0)
-//#define MYCCLOG(format, ...)      cocos2d::log(format, ##__VA_ARGS__)
+#else
+#define MYCCLOG(format, ...)      cocos2d::log(format, ##__VA_ARGS__)
+#endif
+//--
 
 CKiiClause::CKiiClause() {
 	// TODO Auto-generated constructor stub

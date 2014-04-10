@@ -10,8 +10,14 @@
 #import "KRanking_objc.h"
 #import "KiiIF.h"
 
+//ログ出力
+//#define DEBUG_CallFromCPP
+#ifndef DEBUG_CallFromCPP
 #define MYNSLog( m, args... )
-//#define MYNSLog( m, args... ) NSLog( m, ##args )
+#else
+#define MYNSLog( m, args... ) NSLog( m, ##args )
+#endif
+//--
 
 void CallFromCpp::ranking_query_all(){
     MYNSLog(@"CallFromCpp::ranking_query_all");

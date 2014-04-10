@@ -7,8 +7,14 @@
 
 #include "CKiiBucket.h"
 
+//ログ出力
+//#define DEBUG_CKiiBucket
+#ifndef DEBUG_CKiiBucket
 #define MYCCLOG(...)       do {} while (0)
-//#define MYCCLOG(format, ...)      cocos2d::log(format, ##__VA_ARGS__)
+#else
+#define MYCCLOG(format, ...)      cocos2d::log(format, ##__VA_ARGS__)
+#endif
+//--
 
 extern void kiiReq2( picojson::object set_pairs
 		, KBase* target, SEL_callbackHandler selector ); //kiiリクエストを実行

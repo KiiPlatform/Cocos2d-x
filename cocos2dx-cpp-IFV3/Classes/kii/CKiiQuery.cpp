@@ -7,8 +7,14 @@
 
 #include "CKiiQuery.h"
 
+//ログ出力
+//#define DEBUG_CKiiQuery
+#ifndef DEBUG_CKiiQuery
 #define MYCCLOG(...)       do {} while (0)
-//#define MYCCLOG(format, ...)      cocos2d::log(format, ##__VA_ARGS__)
+#else
+#define MYCCLOG(format, ...)      cocos2d::log(format, ##__VA_ARGS__)
+#endif
+//--
 
 //コンストラクタ
 

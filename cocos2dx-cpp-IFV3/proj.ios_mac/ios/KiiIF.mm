@@ -10,8 +10,14 @@
 #import "KiiIF.h"
 #include "CallCPP.h"
 
+//ログ出力
+//#define DEBUG_KiiIF
+#ifndef DEBUG_KiiIF
 #define MYNSLog( m, args... )
-//#define MYNSLog( m, args... ) NSLog( m, ##args )
+#else
+#define MYNSLog( m, args... ) NSLog( m, ##args )
+#endif
+//--
 
 @implementation KiiIF
 

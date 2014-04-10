@@ -10,8 +10,14 @@
 #include "picojson.h"
 #include "kii/KBase.h"
 
+//ログ出力
+//#define DEBUG_KiiCPP
+#ifndef DEBUG_KiiCPP
 #define MYCCLOG(...)       do {} while (0)
-//#define MYCCLOG(format, ...)      cocos2d::log(format, ##__VA_ARGS__)
+#else
+#define MYCCLOG(format, ...)      cocos2d::log(format, ##__VA_ARGS__)
+#endif
+//--
 
 #define callback_selector(_SELECTOR) (SEL_callbackHandler)(&_SELECTOR)
 typedef void (KBase::*SEL_callbackHandler)(const char *json);
