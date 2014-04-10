@@ -32,12 +32,6 @@ CKiiBucket::~CKiiBucket() {
 	MYCCLOG("CKiiBucket::~CKiiBucket");
 }
 
-/**
- * @brief
- *
- * @param
- * @return
- */
 
 /**
  * @brief メモリー確保する
@@ -52,14 +46,9 @@ CKiiBucket* CKiiBucket::create(){
     if (pCKiiBucket && pCKiiBucket->init())
     {
         MYCCLOG("CKiiBucket::create ok");
-        //pCKiiBucket->autorelease();
-        //pCKiiBucket->retain();	//ないとCKiiBucket::~CKiiBucketが呼ばれる
-        //_backet_key=NULL;
-
         return pCKiiBucket;
     }
     MYCCLOG("CKiiBucket::create error");
-    //CC_SAFE_DELETE(pCKiiBucket);
     return NULL;
 }
 
@@ -101,7 +90,7 @@ void CKiiBucket::callback(const char *json, KBase* target, SEL_callbackHandler s
 void CKiiBucket::createApplicationScopeBucket(string backet_key
 		, KBase* target, SEL_callbackHandler selector)
 {
-	//MYCCLOG("CKiiBucket::createApplicationScopeBucket %s", backet_key.c_str() );
+	MYCCLOG("CKiiBucket::createApplicationScopeBucket %s", backet_key.c_str() );
 
 	target_createApplicationScopeBucket = target;
 	selector_createApplicationScopeBucket = selector;
@@ -112,7 +101,7 @@ void CKiiBucket::createApplicationScopeBucket(string backet_key
     kiiReq( params, this, callback_selector(CKiiBucket::callBack_createApplicationScopeBucket) );
 }
 void CKiiBucket::callBack_createApplicationScopeBucket(const char *json){
-    //MYCCLOG("CKiiBucket::callBack_createApplicationScopeBucket %s",json);
+    MYCCLOG("CKiiBucket::callBack_createApplicationScopeBucket %s",json);
 
     //json objctとして処理する
     std::string err;
@@ -122,8 +111,6 @@ void CKiiBucket::callBack_createApplicationScopeBucket(const char *json){
     std::string& backet_key = o["backet_key"].get<std::string>();
 
     _backet_key = backet_key;
-    //char *backet_key = backet_key.c_str();
-    //MYCCLOG("_backet_key=%s ",_backet_key.c_str() );
 
     callback(json, target_createApplicationScopeBucket,selector_createApplicationScopeBucket);
 }
@@ -161,8 +148,6 @@ void CKiiBucket::callBack_createGroupScopeBucket(const char *json){
     std::string& backet_key = o["backet_key"].get<std::string>();
 
     _backet_key = backet_key;
-    //char *backet_key = backet_key.c_str();
-    //MYCCLOG("_backet_key=%s ",_backet_key.c_str() );
 
     callback(json, target_createApplicationScopeBucket,selector_createApplicationScopeBucket);
 }
@@ -178,7 +163,7 @@ void CKiiBucket::callBack_createGroupScopeBucket(const char *json){
 void CKiiBucket::createUserScopeBucket(string backet_key
 		, KObject* target, SEL_callbackHandler selector)
 {
-	//MYCCLOG("CKiiBucket::createApplicationScopeBucket %s", backet_key.c_str() );
+	MYCCLOG("CKiiBucket::createApplicationScopeBucket %s", backet_key.c_str() );
 
 	target_createApplicationScopeBucket = target;
 	selector_createApplicationScopeBucket = selector;
@@ -189,7 +174,7 @@ void CKiiBucket::createUserScopeBucket(string backet_key
     kiiReq( params, this, callback_selector(CKiiBucket::callBack_createApplicationScopeBucket) );
 }
 void CKiiBucket::callBack_createUserScopeBucket(const char *json){
-    //MYCCLOG("CKiiBucket::callBack_createApplicationScopeBucket %s",json);
+    MYCCLOG("CKiiBucket::callBack_createApplicationScopeBucket %s",json);
 
     //json objctとして処理する
     std::string err;
@@ -217,7 +202,7 @@ void CKiiBucket::callBack_createUserScopeBucket(const char *json){
 void CKiiBucket::object_save(picojson::object key_value_pairs
 		, KBase* target, SEL_callbackHandler selector)
 {
-	//MYCCLOG("CKiiBucket::object_save");
+	MYCCLOG("CKiiBucket::object_save");
 	target_object_save = target;
 	selector_object_save = selector;
 	key_value_pairs.insert( make_pair("cmd", picojson::value("object_save") ) );	//object_save
@@ -255,7 +240,7 @@ void CKiiBucket::callBack_object_save(const char *json){
 void CKiiBucket::object_refresh(string uri
 		, KBase* target, SEL_callbackHandler selector)
 {
-	//MYCCLOG("CKiiBucket::object_refresh");
+	MYCCLOG("CKiiBucket::object_refresh");
 
 	target_object_refresh = target;
 	selector_object_refresh = selector;
@@ -266,7 +251,7 @@ void CKiiBucket::object_refresh(string uri
     kiiReq( params, this, callback_selector(CKiiBucket::callBack_object_refresh) );
 }
 void CKiiBucket::callBack_object_refresh(const char *json){
-	//MYCCLOG("CKiiBucket::callBack_object_refresh");
+	MYCCLOG("CKiiBucket::callBack_object_refresh");
     callback(json, target_object_refresh,selector_object_refresh);
 }
 
@@ -283,8 +268,8 @@ void CKiiBucket::callBack_object_refresh(const char *json){
 void CKiiBucket::object_update(string uri, picojson::object key_value_pairs
 		, KBase* target, SEL_callbackHandler selector)
 {
-	//MYCCLOG("CKiiBucket::object_update");
-	//MYCCLOG("uri=%s", uri.c_str());
+	MYCCLOG("CKiiBucket::object_update");
+	MYCCLOG("uri=%s", uri.c_str());
 
 	target_object_save = target;
 	selector_object_save = selector;
@@ -293,7 +278,7 @@ void CKiiBucket::object_update(string uri, picojson::object key_value_pairs
 
     kiiReq2( key_value_pairs, this, callback_selector(CKiiBucket::callBack_object_save) );
 
-	//MYCCLOG("CKiiBucket::object_update end");
+	MYCCLOG("CKiiBucket::object_update end");
 }
 
 #if 0
@@ -338,7 +323,7 @@ void CKiiBucket::callBack_query(const char *json){
  */
 void CKiiBucket::query( std::shared_ptr<CKiiQuery>& query
 		, KBase* target, SEL_callbackHandler selector){
-	//MYCCLOG("CKiiBucket::query -----");
+	MYCCLOG("CKiiBucket::query -----");
 	if(_backet_key==""){
 		MYCCLOG("_backet_key NULL error");
 		return;
@@ -356,12 +341,12 @@ void CKiiBucket::query( std::shared_ptr<CKiiQuery>& query
 
     kiiReq2( key_value_pairs, this, callback_selector(CKiiBucket::callBack_query) );
 
-	//MYCCLOG("CKiiBucket::query end");
+	MYCCLOG("CKiiBucket::query end");
 }
 void CKiiBucket::callBack_query(const char *json){
-	//MYCCLOG("CKiiBucket::callBack_query");
+	MYCCLOG("CKiiBucket::callBack_query");
     callback(json, target_object_query2,selector_object_query2);
-	//MYCCLOG("CKiiBucket::callBack_query end");
+	MYCCLOG("CKiiBucket::callBack_query end");
 }
 
 

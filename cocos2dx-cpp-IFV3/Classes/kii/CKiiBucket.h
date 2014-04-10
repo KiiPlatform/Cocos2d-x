@@ -18,17 +18,11 @@
 using namespace std;
 using namespace cocos2d;
 
-/***
- #define callback_selector(_SELECTOR) (SEL_callbackHandler)(&_SELECTOR)
- typedef void (cocos2d::CCObject::*SEL_callbackHandler)(const char *json);
- ***/
-
 #define callback_selector(_SELECTOR) (SEL_callbackHandler)(&_SELECTOR)
 typedef void (KBase::*SEL_callbackHandler)(const char *json);
 
 //Kii
 
-//class CKiiBucket : public CCObject
 class CKiiBucket : public KBase
 {
 public:
@@ -93,14 +87,6 @@ public:
     void callBack_query(     const char *json);
     KBase* target_object_query2;
     SEL_callbackHandler selector_object_query2;
-    
-    /***
-     void query(picojson::object key_value_pairs
-     , KObject* target, SEL_callbackHandler selector);
-     void callBack_query(     const char *json);
-     KObject* target_object_query;
-     SEL_callbackHandler selector_object_query;
-     ***/
     
 };
 

@@ -47,22 +47,6 @@ std::shared_ptr<CKiiClause> CKiiClause::equals(const string& key, int value){
 	return clause;
 }
 
-/***
-std::shared_ptr<CKiiClause> CKiiClause::equals2(const string& key, int value){
-    MYCCLOG("CKiiClause::equals int %s %d ",key.c_str(), value);
-
-	//CKiiClause *clause = new CKiiClause();
-    std::shared_ptr<CKiiClause> clause = std::make_shared<CKiiClause>();
-
-	picojson::object json;
-	json.insert( make_pair("type", picojson::value("eq") ) );
-	json.insert( make_pair("field", picojson::value(key) ) );
-	json.insert( make_pair("value", picojson::value( (double)value) ) );
-	clause->_json = json;
-	return clause;
-}
-***/
-
 //double
 /**
  * @brief equals フィールド値が、指定の値に等しい場合にマッチ。
@@ -83,21 +67,6 @@ std::shared_ptr<CKiiClause> CKiiClause::equals(const string& key, double value){
 	clause->_json = json;
 	return clause;
 }
-
-#if 0
-//bool
-CKiiClause* CKiiClause::equals(string key, bool value){
-    //MYCCLOG("CKiiClause::equals bool");
-
-	CKiiClause *clause = new CKiiClause();
-	picojson::object json;
-	json.insert( make_pair("type", picojson::value("eq") ) );
-	json.insert( make_pair("field", picojson::value(key) ) );
-	json.insert( make_pair("value", picojson::value(value) ) );
-	clause->_json = json;
-	return clause;
-}
-#endif
 
 //string
 /**

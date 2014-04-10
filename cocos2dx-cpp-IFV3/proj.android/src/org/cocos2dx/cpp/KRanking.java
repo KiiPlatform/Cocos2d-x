@@ -63,7 +63,6 @@ public class KRanking {
 	
 	/***
 	 * ranking_query_all
-	 * �����L���f�[�^���擾����
 	 */
 	public void ranking_query_all(){
 		MYLog.v(TAG, "ranking_query_all");
@@ -76,7 +75,6 @@ public class KRanking {
 	}
 	
 	/***
-	 * �X�R�A���|�X�g����A�n�C�X�R�A�Ȃ�X�V�����
 	 * @param name
 	 * @param score
 	 */
@@ -87,14 +85,12 @@ public class KRanking {
 	
 	/***
 	 * ranking_query_all
-	 * �����L���f�[�^���擾����c++�֓n���Ac++�̓����L���O��\������
 	 * @param bucket
 	 */
 	private void ranking_query_all(KiiBucket bucket){
 		MYLog.v(TAG, "ranking_query_all " + bucket);
 		KiiQuery query = new KiiQuery();
 		query.sortByDesc(Field.SCORE);
-        // call KiiCloud API �R�[���o�b�N�Ń��X�|���X�����炤
 		bucket.query( new KiiQueryCallBack<KiiObject>() {
 			@Override
 			public void onQueryCompleted(int arg0, KiiQueryResult<KiiObject> result, Exception e) {
@@ -132,21 +128,20 @@ public class KRanking {
 			  	}
 				MYLog.v(TAG, "jArray " + jArray);
 				String s = jArray.toString();
-				CallCPP.rankingResponse(s);	//C++���Ăяo��
+				CallCPP.rankingResponse(s);
 			}
         }, query);	
 	}
 	
 	/***
 	 * ranking_query
-	 * �v���C���ʂ��|�X�g���邽�߂ɂ܂��A�����L���O���擾���ăn�C�X�R�A�Ȃ�save����
 	 * @param bucket
 	 * @param name
 	 * @param score
 	 */
 	private void ranking_query(KiiBucket bucket, final String name, final int score){
 		MYLog.v(TAG, "ranking_query " + name);
-		KiiQuery query = new KiiQuery( KiiClause.equals(Field.NAME, m_username) );	//m_username���g��
+		KiiQuery query = new KiiQuery( KiiClause.equals(Field.NAME, m_username) );
 		query.sortByDesc(Field.SCORE);
 		
         // call KiiCloud API
@@ -167,20 +162,20 @@ public class KRanking {
 					MYLog.v(TAG, "ranking_query " + name2 +" "+ score2+ " "+ score3 );
 					if(score3 > myScore){
 						myScore = score3;
-						uri = obj.toUri();	//�n�C�X�R�A��uri��ۑ�
+						uri = obj.toUri();
 						MYLog.v(TAG, "myScore " + myScore);
 					}
 			  	}
 				MYLog.v(TAG, "myScore " + myScore);
 				MYLog.v(TAG, "uri " + uri);
-				if(score>myScore){	//size��0�̏ꍇmyScore��0�̂܂܂Ȃ̂�score��0���傫���Ɛ^�ɂȂ�
+				if(score>myScore){
 				//if(true){
 					MYLog.v(TAG, "hiscore");					
 					if(uri!=null){
-						ranking_save(uri, name, score);	//uri���g���čX�V save
+						ranking_save(uri, name, score);
 					} else {
 						MYLog.v(TAG, "uri null");
-						ranking_save(null, name, score);//uri��null�Ȃ̂ŐV�K�쐬 save
+						ranking_save(null, name, score);
 					}
 				} else{
 					MYLog.v(TAG, "not hiscore");					
@@ -191,8 +186,6 @@ public class KRanking {
 	
 	/***
 	 * ranking_save
-	 * �����̃n�C�X�R�A��object���X�V�Auri���g�p
-	 * uri��null�Ȃ�V�K�쐬
 	 * @param name
 	 * @param score
 	 */
@@ -201,11 +194,11 @@ public class KRanking {
 		
 		KiiObject object;
 		if(uri==null){
-			MYLog.v(TAG, "�V�K�쐬");
-			object = m_appRankingBucket.object();	//�V�K�쐬�͂���������
+			MYLog.v(TAG, "新規");
+			object = m_appRankingBucket.object();
 		} else {
-			MYLog.v(TAG, "�X�V");
-			object = KiiObject.createByUri(uri);	//�n�C�X�R�A��object���X�V����uri���g�p���ē���
+			MYLog.v(TAG, "更新");
+			object = KiiObject.createByUri(uri);
 		}
         object.set(Field.NAME, m_username);
         object.set(Field.DISPLAYNAME, m_displayName);
@@ -217,7 +210,7 @@ public class KRanking {
 			public void onSaveCompleted(int token, KiiObject object, Exception e) {
 				MYLog.v(TAG, "ranking_save onSaveCompleted " + token + " " + object +" " + e);
 				Uri uri = object.toUri();
-				ranking_refresh(uri);	//�ǂݏo���Ċm�F
+				ranking_refresh(uri);
 			}
         });
 	}
@@ -306,8 +299,8 @@ public class KRanking {
 		    	if(m_displayName==null){
 		    		m_displayName = "PlayerName";
 		    	}
-		    	CallCPP.setName(m_username);	//C++���Ăяo��
-		    	CallCPP.setDisplayame(m_displayName);	//C++���Ăяo��
+		    	CallCPP.setName(m_username);
+		    	CallCPP.setDisplayame(m_displayName);
 			}
 		}, token);
 	}
@@ -370,10 +363,10 @@ public class KRanking {
                 MYLog.v(TAG, "m_username " + m_username);
                 Pref.setStoredAccessToken(m_simpleGame.getApplicationContext(), token2);
                 Pref.setUSERNAME(m_simpleGame.getApplicationContext(), m_username);
-                Pref.setPASSWORD(m_simpleGame.getApplicationContext(), "1234");	//1234�Œ�
+                Pref.setPASSWORD(m_simpleGame.getApplicationContext(), "1234");
                 
                 displayNameUpdate("PlayerName");
-		    	CallCPP.setName(m_username);	//C++���Ăяo��
+		    	CallCPP.setName(m_username);
         	}
         }, password);
 	}

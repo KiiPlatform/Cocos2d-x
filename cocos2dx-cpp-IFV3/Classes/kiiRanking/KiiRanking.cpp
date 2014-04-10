@@ -36,8 +36,6 @@ KiiRanking* KiiRanking::create()
 	KiiRanking *pSprite = new KiiRanking();
     if (pSprite && pSprite->init())
     {
-        //pSprite->autorelease();
-        //pSprite->retain();	//※ 後に追加した部分 ※　ないとKiiSample::~KiiSampleが呼ばれる
         pSprite->_name = kii_name;
         pSprite->_display_name = kii_display_name;
         
@@ -48,7 +46,6 @@ KiiRanking* KiiRanking::create()
         return pSprite;
     }
     MYCCLOG("KiiRanking::create error");
-    //CC_SAFE_DELETE(pSprite);
     return NULL;
 }
 

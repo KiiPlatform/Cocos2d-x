@@ -137,16 +137,7 @@ public class KiiAPICall {
 		}
 		MYLog.v(TAG, "s_query " + s_query);
 		KiiBucket bucket = Kii.bucket(backet_key);	//B_RANKING
-
-		//KiiQuery query = null;
-		KiiQuery query = new KiiQuery(s_query);
-		
-		//JavaでつくったQuery、for test
-		//KiiQuery query = new KiiQuery( KiiClause.equals(Field.NAME, "63533edf-d796-4dec-b341-feb61d07ced3") );
-		//query.sortByDesc(Field.SCORE);
-		//
-		//KiiQuery query = new KiiQuery();
-		
+		KiiQuery query = new KiiQuery(s_query);		
 		//queryを実行
 		bucket.query( new KiiQueryCallBack<KiiObject>() {
 			@Override
@@ -214,11 +205,9 @@ public class KiiAPICall {
 		for (String key : m_json_map.keySet()) {
 			if (key.startsWith("set")) {
 				MYLog.v(TAG, "key " + key);
-				//String val = m_json_map.get(key);
 				Object val = m_json_map.get(key);
 
 				MYLog.v(TAG, "val " + val);
-				//String[] strAry = key.split("_");
 				String[] strAry = key.split("set_");
 				MYLog.v(TAG, "strAry.length " + strAry.length );
 				MYLog.v(TAG, "strAry " + strAry[0] + " "+ strAry[1]);
@@ -298,8 +287,6 @@ public class KiiAPICall {
 			        while (it.hasNext()) {
 			        	String key = it.next();
 			        	MYLog.v(TAG, "key " + key );
-			        	//String val = object.getString(key);	//String
-			        	//Object val = object.get(key);	//Object
 			        	Object val = object.getObject(key);	//getObjectを新設した
 			        	MYLog.v(TAG, "val " + val );
 			        	try {
@@ -324,8 +311,6 @@ public class KiiAPICall {
 		// TODO Auto-generated method stub
 		MYLog.v(TAG, "run_object_update");
 		
-		//String backet_key = m_json_map.get("backet_key");
-		//KiiObject object = Kii.bucket(backet_key).object();
 		String s_uri = (String) m_json_map.get("uri");
 		Uri uri = Uri.parse(s_uri);
 		MYLog.v(TAG, "uri = " + uri);
@@ -439,52 +424,4 @@ public class KiiAPICall {
 		}
 		return json;
 	}
-
-/***
-	//saveAllFields
-	public void run_object_saveAllFields() {
-		Log.v(TAG, "run_object_saveAllFields");
-		
-		String s_uri = (String) m_json_map.get("uri");
-		Uri objUri = Uri.parse(s_uri);
-		KiiObject object = KiiObject.createByUri(objUri);
-
-		//setを取り出して実行する
-		for (String key : m_json_map.keySet()) {
-			if (key.startsWith("set")) {
-				Log.v(TAG, "key " + key);
-				String val = m_json_map.get(key);
-				Log.v(TAG, "val " + val);
-				String[] strAry = key.split("_");
-				Log.v(TAG, "strAry.length " + strAry.length );
-				Log.v(TAG, "strAry " + strAry[0] + " "+ strAry[1]);
-				Log.v(TAG, "set " + strAry[1] +","+ val);
-				object.set(strAry[1], val);	//setを実行
-			}
-		}
-
-        // call KiiCloud API
-        object.saveAllFields( new KiiObjectCallBack() {
-			@Override
-			public void onSaveCompleted(int token, KiiObject object, Exception e) {
-				Log.v(TAG, "run_object_saveAllFields onSaveCompleted " + token + " " + object +" " + e);
-				Uri uri = object.toUri();
-				Log.v(TAG, "uri " + uri );
-				//jsonを作成する
-				JSONObject json_obj = new JSONObject();
-				String json = null;
-				try {
-					json_obj.put("uri", uri);
-					json = json_obj.toString();
-				} catch (JSONException e1) {
-					// TODO Auto-generated catch block
-					Log.v(TAG, "createApplicationScopeBucket e " + e1);
-					e1.printStackTrace();
-				}
-				m_listener.onCompleted(json);
-			}
-        },true);	
-	}
-***/
-
 }

@@ -233,7 +233,7 @@ void HelloWorld::spriteMoveFinished(Node* sender)
         //スコア文字列
         //sprintf(buff,"HISCORE: %05d\n  SCORE: %05d",_hiScore, _score);
         saveHIScore(_score);
-        sprintf(buff,"HISCORE: %05d\n  SCORE: %05d",_hiScore, _score);
+        sprintf(buff,"RESULT\nHISCORE: %05d\n  SCORE: %05d",_hiScore, _score);
         gameOverScene->getLayer()->getLabel()->setString(buff);
         
 		Director::getInstance()->replaceScene(gameOverScene);

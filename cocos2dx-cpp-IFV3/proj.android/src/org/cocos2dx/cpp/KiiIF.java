@@ -31,25 +31,13 @@ public class KiiIF {
 		// TODO Auto-generated method stub
 		try {
 			JSONObject rootObject = new JSONObject(json);
-			//JSONObject queryObject  = rootObject.getJSONObject("query");
-			//Log.v(TAG, "queryObject =" + queryObject);
 			 Iterator<String> it = rootObject.keys();
 			 int i = 0;
-			 //HashMap<String,String>   json_map = new HashMap<String,String>();
 			 HashMap<String,Object>   json_map = new HashMap<String,Object>();	//Objectに変更
-
 			 while (it.hasNext()) {
 				 i++;
 				 String key =it.next();
-				 //Object val = null;
-				 //Object val_str = rootObject.getString(key);
-
-				 ///***
 				 Object val_obj = rootObject.get(key);
-				 //Object val_obj = rootObject.optString(key);	//OKになる
-
-				 //Log.v(TAG, i+" "+ key +" "+val_obj);
-				 //json_map.put(key, val_obj);
 				 //型判定
 				 if (val_obj instanceof String){
 					 MYLog.v(TAG, "instanceof String" + val_obj);
@@ -68,48 +56,18 @@ public class KiiIF {
 					 //エラー
 					 MYLog.v(TAG, "instanceof Err" + val_obj);
 				 }
-				 //***/
-				 
-				 /***
-				 Object val_str = rootObject.optString(key);
-				 if(val_str!=null){ Log.v(TAG, "val_str"); }
-				 Object val_int = rootObject.optInt(key,9999);
-				 if(val_int!=null){ Log.v(TAG, "val_int"); }
-				 Object val_dou = rootObject.optDouble(key,9999.9999f);
-				 if(val_dou!=null){ Log.v(TAG, "val_dou"); }
-
-				 if(val_int!=null){
-					 Log.v(TAG, i + " key " + key+ ",Int "+val_int);
-					 json_map.put(key, val_str);					 
-				 } else if(val_dou!=null){
-					 Log.v(TAG, i + " key " + key+ ",Double "+val_dou);
-					 json_map.put(key, val_int);					 
-				 } else if(val_str!=null){
-					 Log.v(TAG, i + " key " + key+ ",String "+val_str);
-					 json_map.put(key, val_dou);					 
-				 } else {
-					 Log.v(TAG, i + " key " + key+ ",null");
-					 json_map.put(key, null);					 
-				 }
-				 ***/
-
 			 } 
 			 
 			String cmd = rootObject.getString("cmd");
 	        Class c = null;
 			try {
-				//c = Class.forName("com.hoge.myapp.KiiIF");
 				c = Class.forName("org.cocos2dx.cpp.KiiIF");
-
 			} catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 	        Method method = null;
 	        try {
-				//method = c.getMethod("staticMethod", null);
-				//method = c.getMethod(cmd, null);	//引数なし
-				//method = c.getMethod(cmd, new Class[]{ int.class, });	//引数１つ
 				method = c.getMethod(cmd, new Class[]{ int.class, HashMap.class });	//メソッドを作成、引数２つ
 				MYLog.v(TAG, "method " + method); 
 			} catch (SecurityException e) {
@@ -119,12 +77,7 @@ public class KiiIF {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-	        //me.invoke(sample, new Object[]{a,b,c,map});
-	        //Object[] args   = new Object[]{ new Integer( 2 ), new Integer( 3 ) };
 	        try {
-				//method.invoke(null, serviceID, json_map);
-				//method.invoke(null, null);	//引数なし
-	        	//method.invoke(null, serviceID);	//引数１つ
 	        	Object[] args   = new Object[]{  Integer.valueOf(serviceID), json_map };
 	        	MYLog.v(TAG, "args " + args[0] +" "+ args[1]); 
 	        	method.invoke(null, args);	//メソッドを実行
@@ -168,11 +121,7 @@ public class KiiIF {
 		try {
 			json_obj.put("backet_key", backet_key);
 			String s = json_obj.toString();
-			//CallCPP.kiires(serviceID, s);	
 			CallCPP.setDisplayame2(s, serviceID);	//C++へ　-----
-			//CallCPP.nativeEnd();
-			//CallCPP.kiires3("hoge");
-			//CallCPP.setDisplayame("hogehoge");
 		} catch (JSONException e1) {
 			// TODO Auto-generated catch block
 			MYLog.v(TAG, "createApplicationScopeBucket e " + e1);
@@ -232,7 +181,6 @@ public class KiiIF {
 			}
 		};
 		KiiAPICall kapi = new KiiAPICall(json_map, l);
-		//kapi.run_object_saveAllFields();	//object
     }    
         
     public static void bucket_query(final int serviceID, HashMap<String,Object> json_map) {
@@ -252,11 +200,4 @@ public class KiiIF {
 		MYLog.v(TAG, "display_name_update");
     }
     
-	/***
-	private class KiiServie{
-		public KiiServie(){
-			
-		}
-	}
-	***/
 }

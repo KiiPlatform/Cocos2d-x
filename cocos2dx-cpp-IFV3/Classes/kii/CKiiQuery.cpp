@@ -25,7 +25,7 @@
  */
 CKiiQuery::CKiiQuery() {
 	// TODO Auto-generated constructor stub
-    //CCLOG("CKiiQuery::CKiiQuery");
+    MYCCLOG("CKiiQuery::CKiiQuery");
 
 	picojson::object json1;
 	json1.insert( make_pair("type", picojson::value("all") ) );
@@ -38,7 +38,7 @@ CKiiQuery::CKiiQuery() {
  * @param clause KiiClauseインスタンス
  */
 CKiiQuery::CKiiQuery(CKiiClause *clause) {
-    //CCLOG("CKiiQuery::CKiiQuery　*clause");
+    MYCCLOG("CKiiQuery::CKiiQuery　*clause");
 	if(clause==NULL){
 		_json.insert( make_pair("type", picojson::value("all") ) );
 	} else {
@@ -53,7 +53,7 @@ CKiiQuery::CKiiQuery(CKiiClause *clause) {
  * @param std::shared_ptr<CKiiClause>
  */
 CKiiQuery::CKiiQuery(std::shared_ptr<CKiiClause>& clause) {
-    //CCLOG("CKiiQuery::CKiiQuery　&clause");
+    MYCCLOG("CKiiQuery::CKiiQuery　&clause");
 
 	if(clause==NULL){
 		_json.insert( make_pair("type", picojson::value("all") ) );
@@ -132,7 +132,7 @@ string CKiiQuery::toString(){
 	picojson::object json;
 	json = toJson();
     string str = picojson::value(json).serialize();
-    //CCLOG("CKiiQuery::toString str %s",str.c_str());
+    MYCCLOG("CKiiQuery::toString str %s",str.c_str());
 
     return str;
 }
@@ -141,7 +141,7 @@ string CKiiQuery::toString2(){
 	picojson::object json;
 	json = _json;
     string str = picojson::value(json).serialize();
-    //CCLOG("CKiiQuery::toString2 str %s",str.c_str());
+    MYCCLOG("CKiiQuery::toString2 str %s",str.c_str());
 
     return str;
 }

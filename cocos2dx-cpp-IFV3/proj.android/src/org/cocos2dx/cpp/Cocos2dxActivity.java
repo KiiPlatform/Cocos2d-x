@@ -15,7 +15,6 @@ public class Cocos2dxActivity extends NativeActivity{
 	KiiBucket m_appRankingBucket = null;
 	String m_username = null;
 	KRanking m_kRanking = null;
-	
 
     static {
         System.loadLibrary("cocos2dcpp");
@@ -29,9 +28,7 @@ public class Cocos2dxActivity extends NativeActivity{
     	MYLog.v(TAG, "onCreate1");		
 		Global.activity = this;
 		
-		//CallCPP.nativeEnd();
-
-    	MYLog.v(TAG, "onCreate2");		
+	    MYLog.v(TAG, "onCreate2");		
 
 	    //initialize
         initKiiSDK();
@@ -92,7 +89,6 @@ public class Cocos2dxActivity extends NativeActivity{
 		if(m_kRanking!=null){
 			m_kRanking.ranking_query_all();
 		}
-		//ranking_query_all(m_appRankingBucket);
 	}
 	
 	public void ranking_post(String name, int score){
@@ -101,7 +97,6 @@ public class Cocos2dxActivity extends NativeActivity{
 		if(m_kRanking!=null){
 			m_kRanking.ranking_post(name, score);
 		}
-		//ranking_query(bucket, name, score);
 	}
 		
 	 /**
@@ -117,14 +112,6 @@ public class Cocos2dxActivity extends NativeActivity{
                 Site.US            // Put your site as you've specified upon creating the app on the dev portal
                 );
     }
-    //
-	
-	//
-	/***
-	static {
-		System.loadLibrary("native-activity");
-	}
-	***/
 	
 	private static final String FILE_NAME = "PreferenceSampleFIle";
 
@@ -139,5 +126,4 @@ public class Cocos2dxActivity extends NativeActivity{
 	public void TestPreference2() {
 		MYLog.v(TAG, "TestPreference2");
 	}	
-	//
 }

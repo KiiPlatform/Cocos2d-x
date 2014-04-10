@@ -22,11 +22,7 @@ public:
 	picojson::object _json;
 
 	//equals
-/***
-	static CKiiClause* equals(string key, int value);
-	static CKiiClause* equals(string key, double value);
-	static CKiiClause* equals(string key, string value);
-***/
+
 	static std::shared_ptr<CKiiClause> equals(const string& key, int value);
 	//static std::shared_ptr<CKiiClause> equals2(const string& key, int value);
 	static std::shared_ptr<CKiiClause> equals(const string& key, double value);

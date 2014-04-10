@@ -232,11 +232,12 @@ void StartLayer::bt_nameCallback(Object* sender)
 {
 	CCLOG("StartLayer::bt_nameCallback");
     
-    //xx _pname ->display();    //これが本当
+    _pname ->display();    //これが本当
     
+    //test
     //jniTest(g_state); //for debug
 	//_pCKiiApiTest->postMyScore(1234);   //for debug
-    picojson_test();
+    //picojson_test();	//for debug
     
 }
 
