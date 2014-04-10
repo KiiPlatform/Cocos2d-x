@@ -26,7 +26,7 @@ public class KiiIF {
 	}
 
 	private static void decodeJson(int serviceID, String json) {
-		Log.v(TAG, "decodeJson " + json );	
+		MYLog.v(TAG, "decodeJson " + json );	
 		
 		// TODO Auto-generated method stub
 		try {
@@ -52,21 +52,21 @@ public class KiiIF {
 				 //json_map.put(key, val_obj);
 				 //型判定
 				 if (val_obj instanceof String){
-					 Log.v(TAG, "instanceof String" + val_obj);
+					 MYLog.v(TAG, "instanceof String" + val_obj);
 					 json_map.put(key, val_obj);
 				 } else if(val_obj instanceof Integer){
-					 Log.v(TAG, "instanceof Integer" + val_obj);
+					 MYLog.v(TAG, "instanceof Integer" + val_obj);
 					 json_map.put(key, val_obj);
 				 } else if(val_obj instanceof Double){
-					 Log.v(TAG, "instanceof Double" + val_obj);
+					 MYLog.v(TAG, "instanceof Double" + val_obj);
 					 json_map.put(key, val_obj);
 				 } else if(val_obj instanceof JSONObject){
-					 Log.v(TAG, "instanceof JSONObject" + val_obj);
+					 MYLog.v(TAG, "instanceof JSONObject" + val_obj);
 					 Object val_str = rootObject.optString(key);	//OKになる
 					 json_map.put(key, val_str);	//Stringにする
 				 } else {
 					 //エラー
-					 Log.v(TAG, "instanceof Err" + val_obj);
+					 MYLog.v(TAG, "instanceof Err" + val_obj);
 				 }
 				 //***/
 				 
@@ -111,7 +111,7 @@ public class KiiIF {
 				//method = c.getMethod(cmd, null);	//引数なし
 				//method = c.getMethod(cmd, new Class[]{ int.class, });	//引数１つ
 				method = c.getMethod(cmd, new Class[]{ int.class, HashMap.class });	//メソッドを作成、引数２つ
-				Log.v(TAG, "method " + method); 
+				MYLog.v(TAG, "method " + method); 
 			} catch (SecurityException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -126,42 +126,42 @@ public class KiiIF {
 				//method.invoke(null, null);	//引数なし
 	        	//method.invoke(null, serviceID);	//引数１つ
 	        	Object[] args   = new Object[]{  Integer.valueOf(serviceID), json_map };
-	        	Log.v(TAG, "args " + args[0] +" "+ args[1]); 
+	        	MYLog.v(TAG, "args " + args[0] +" "+ args[1]); 
 	        	method.invoke(null, args);	//メソッドを実行
 			} catch (IllegalArgumentException e) {
 				// TODO Auto-generated catch block
-				Log.v(TAG, "e1 " + e); 
+				MYLog.v(TAG, "e1 " + e); 
 				e.printStackTrace();
 			} catch (IllegalAccessException e) {
 				// TODO Auto-generated catch block
-				Log.v(TAG, "e2 " + e); 
+				MYLog.v(TAG, "e2 " + e); 
 				e.printStackTrace();
 			} catch (InvocationTargetException e) {
 				// TODO Auto-generated catch block
-				Log.v(TAG, "e3 " + e); 
+				MYLog.v(TAG, "e3 " + e); 
 				e.printStackTrace();
 			}
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
-			Log.v(TAG, "e4 " + e); 
+			MYLog.v(TAG, "e4 " + e); 
 			e.printStackTrace();
 		}
 	}
 
 	public static void createApplicationScopeBucket() {
-		Log.v(TAG, "createApplicationScopeBucket1");
+		MYLog.v(TAG, "createApplicationScopeBucket1");
 	}
 
 	public static void createApplicationScopeBucket(int serviceID) {
-		Log.v(TAG, "createApplicationScopeBucket2 " + serviceID);
+		MYLog.v(TAG, "createApplicationScopeBucket2 " + serviceID);
 	}
 			
     public static void createApplicationScopeBucket( int serviceID, HashMap<String,String> json_map) {
-		Log.v(TAG, "createApplicationScopeBucket3 " + serviceID +" "+ json_map);
+		MYLog.v(TAG, "createApplicationScopeBucket3 " + serviceID +" "+ json_map);
 		String backet_key = json_map.get("backet_key");
 		KiiBucket b = Kii.bucket(backet_key);	//bucketを作成する
 		bucket_map.put(backet_key, b);
-		Log.v(TAG, "backet_key " + backet_key);
+		MYLog.v(TAG, "backet_key " + backet_key);
 		
 		//jsonを作成する
 		JSONObject json_obj = new JSONObject();
@@ -175,18 +175,18 @@ public class KiiIF {
 			//CallCPP.setDisplayame("hogehoge");
 		} catch (JSONException e1) {
 			// TODO Auto-generated catch block
-			Log.v(TAG, "createApplicationScopeBucket e " + e1);
+			MYLog.v(TAG, "createApplicationScopeBucket e " + e1);
 			e1.printStackTrace();
 		}
     }
 	
     //save
     public static void object_save(final int serviceID, HashMap<String,Object> json_map) {
-		Log.v(TAG, "object_save");
+		MYLog.v(TAG, "object_save");
 		KiiListenerInterface l = new KiiListenerInterface(){
 			@Override
 			public void onCompleted(String json) {
-				Log.v(TAG, "object_save onCompleted " + serviceID + " " + json);
+				MYLog.v(TAG, "object_save onCompleted " + serviceID + " " + json);
 				CallCPP.setDisplayame2(json, serviceID);//C++へ -----
 			}
 		};
@@ -196,11 +196,11 @@ public class KiiIF {
 
     //refresh
     public static void object_refresh(final int serviceID, HashMap<String,Object> json_map) {
-		Log.v(TAG, "object_refresh");
+		MYLog.v(TAG, "object_refresh");
 		KiiListenerInterface l = new KiiListenerInterface(){
 			@Override
 			public void onCompleted(String json) {
-				Log.v(TAG, "object_refresh onCompleted " + serviceID + " " + json);
+				MYLog.v(TAG, "object_refresh onCompleted " + serviceID + " " + json);
 				CallCPP.setDisplayame2(json, serviceID);//C++へ -----
 			}
 		};
@@ -210,11 +210,11 @@ public class KiiIF {
 
     //update
     public static void object_update(final int serviceID, HashMap<String,Object> json_map) {
-		Log.v(TAG, "object_update");
+		MYLog.v(TAG, "object_update");
 		KiiListenerInterface l = new KiiListenerInterface(){
 			@Override
 			public void onCompleted(String json) {
-				Log.v(TAG, "object_update onCompleted " + serviceID + " " + json);
+				MYLog.v(TAG, "object_update onCompleted " + serviceID + " " + json);
 				CallCPP.setDisplayame2(json, serviceID);//C++へ -----
 			}
 		};
@@ -223,11 +223,11 @@ public class KiiIF {
     }
     
     public static void object_saveAllFields(final int serviceID, HashMap<String,Object> json_map) {
-		Log.v(TAG, "object_saveAllFields");
+		MYLog.v(TAG, "object_saveAllFields");
 		KiiListenerInterface l = new KiiListenerInterface(){
 			@Override
 			public void onCompleted(String json) {
-				Log.v(TAG, "object_saveAllFields onCompleted " + serviceID + " " + json);
+				MYLog.v(TAG, "object_saveAllFields onCompleted " + serviceID + " " + json);
 				CallCPP.setDisplayame2(json, serviceID);//C++へ -----
 			}
 		};
@@ -236,11 +236,11 @@ public class KiiIF {
     }    
         
     public static void bucket_query(final int serviceID, HashMap<String,Object> json_map) {
-		Log.v(TAG, "bucket_query");
+		MYLog.v(TAG, "bucket_query");
 		KiiListenerInterface l = new KiiListenerInterface(){
 			@Override
 			public void onCompleted(String json) {
-				Log.v(TAG, "bucket_query onCompleted " + serviceID + " " + json);
+				MYLog.v(TAG, "bucket_query onCompleted " + serviceID + " " + json);
 				CallCPP.setDisplayame2(json, serviceID);//C++へ -----
 			}
 		};
@@ -249,7 +249,7 @@ public class KiiIF {
     }
 
     public static void display_name_update(int serviceID, HashMap<String,String> Object) {
-		Log.v(TAG, "display_name_update");
+		MYLog.v(TAG, "display_name_update");
     }
     
 	/***

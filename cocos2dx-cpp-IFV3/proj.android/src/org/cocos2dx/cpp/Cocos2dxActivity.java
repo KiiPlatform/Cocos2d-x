@@ -26,12 +26,12 @@ public class Cocos2dxActivity extends NativeActivity{
 		
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-    	Log.v(TAG, "onCreate1");		
+    	MYLog.v(TAG, "onCreate1");		
 		Global.activity = this;
 		
 		//CallCPP.nativeEnd();
 
-    	Log.v(TAG, "onCreate2");		
+    	MYLog.v(TAG, "onCreate2");		
 
 	    //initialize
         initKiiSDK();
@@ -40,10 +40,10 @@ public class Cocos2dxActivity extends NativeActivity{
         // check access token
         String token = Pref.getStoredAccessToken(getApplicationContext());
         if (token == null || token.length() == 0) {
-        	Log.v(TAG, "token null");
+        	MYLog.v(TAG, "token null");
         	m_kRanking.regist();
         } else {
-        	Log.v(TAG, "login proc start");  
+        	MYLog.v(TAG, "login proc start");  
             m_kRanking.login(token);	//ASYNC
             //m_kRanking.loginWithTokenSYNC(token);	//SYNC
         }
@@ -71,7 +71,7 @@ public class Cocos2dxActivity extends NativeActivity{
 	//CallFromCPP
 	//static なし
 	public void kiiReq(String json, int serviceID){
-		Log.v(TAG, "reqKii " + json + "  " + serviceID);	
+		MYLog.v(TAG, "reqKii " + json + "  " + serviceID);	
 		KiiIF.kiiReq(serviceID, json);
 	}
 	
@@ -81,14 +81,14 @@ public class Cocos2dxActivity extends NativeActivity{
      * @param name
      */
     public void displayNameUpdate(String name){
-		Log.v(TAG, "displayNameUpdate");
+		MYLog.v(TAG, "displayNameUpdate");
 		if(m_kRanking!=null){
 			m_kRanking.displayNameUpdate(name);
 		}    	
     }
     
 	public void ranking_query_all(){
-		Log.v(TAG, "ranking_query_all");
+		MYLog.v(TAG, "ranking_query_all");
 		if(m_kRanking!=null){
 			m_kRanking.ranking_query_all();
 		}
@@ -96,7 +96,7 @@ public class Cocos2dxActivity extends NativeActivity{
 	}
 	
 	public void ranking_post(String name, int score){
-		Log.v(TAG, "ranking_post " + name +" "+ score);
+		MYLog.v(TAG, "ranking_post " + name +" "+ score);
 		
 		if(m_kRanking!=null){
 			m_kRanking.ranking_post(name, score);
@@ -109,7 +109,7 @@ public class Cocos2dxActivity extends NativeActivity{
      * Please change APP_ID/APP_KEY to your application
      */
     private void initKiiSDK() {
-		Log.v(TAG, "initKiiSDK");
+		MYLog.v(TAG, "initKiiSDK");
 		
         Kii.initialize(
                 Constants.APP_ID,  // Put your App ID
@@ -129,7 +129,7 @@ public class Cocos2dxActivity extends NativeActivity{
 	private static final String FILE_NAME = "PreferenceSampleFIle";
 
 	public void TestPreference() {
-		Log.v(TAG, "TestPreference");
+		MYLog.v(TAG, "TestPreference");
 		SharedPreferences preference = getSharedPreferences(FILE_NAME, MODE_PRIVATE);
 		SharedPreferences.Editor editor = preference.edit();
 		editor.putString("DAT", "abc");
@@ -137,7 +137,7 @@ public class Cocos2dxActivity extends NativeActivity{
 	}	
 	
 	public void TestPreference2() {
-		Log.v(TAG, "TestPreference2");
+		MYLog.v(TAG, "TestPreference2");
 	}	
 	//
 }

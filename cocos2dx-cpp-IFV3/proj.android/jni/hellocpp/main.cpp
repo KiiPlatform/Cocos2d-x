@@ -6,8 +6,14 @@
 #include <android/log.h>
 #include <android_native_app_glue.h>
 
+//ログ出力
+//#define DEBUG_main
+#ifndef DEBUG_main
 #define MYCCLOG(...)       do {} while (0)
-//#define MYCCLOG(format, ...)      cocos2d::log(format, ##__VA_ARGS__)
+#else
+#define MYCCLOG(format, ...)      cocos2d::log(format, ##__VA_ARGS__)
+#endif
+//--
 
 #define  LOG_TAG    "main"
 #define  LOGD(...)  __android_log_print(ANDROID_LOG_DEBUG,LOG_TAG,__VA_ARGS__)
@@ -20,7 +26,6 @@ JNIEnv* g_env;
 JavaVM* g_vm;
 jobject g_thiz;
 struct android_app* g_state;
-
 
 void cocos_android_app_init (struct android_app* app) {
     LOGD("cocos_android_app_init");
@@ -45,7 +50,7 @@ void callJava(){
 }
 
 void jni_kiiReq(const char *json, int serviceID){
-	LOGD("jni_kiiReq Android %s %d", json, serviceID);
+	MYCCLOG("jni_kiiReq Android %s %d", json, serviceID);
 
 	//jniTest(g_state);
 

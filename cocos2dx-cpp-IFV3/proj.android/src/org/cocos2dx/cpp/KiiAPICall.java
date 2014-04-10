@@ -40,7 +40,7 @@ public class KiiAPICall {
 	//private int m_serviceID;
 	
 	public KiiAPICall(HashMap<String,Object> json_map, final KiiListenerInterface listener){
-		Log.v(TAG, "KiiAPICall " + json_map);
+		MYLog.v(TAG, "KiiAPICall " + json_map);
 		//m_serviceID = serviceID;
 		m_listener = listener;
 		m_json_map = json_map;
@@ -48,13 +48,13 @@ public class KiiAPICall {
 	
 	//query
 	public void run_query(){
-		Log.v(TAG, "run_query");
+		MYLog.v(TAG, "run_query");
 		String backet_key = (String) m_json_map.get("backet_key");
 		String error;
 		//bucket
 		if(backet_key==null){
 			error = "backet_key";
-			Log.v(TAG, "error " + error);
+			MYLog.v(TAG, "error " + error);
 			return;
 		}
 		KiiBucket bucket = Kii.bucket(backet_key);	//B_RANKING
@@ -79,11 +79,11 @@ public class KiiAPICall {
 		bucket.query( new KiiQueryCallBack<KiiObject>() {
 			@Override
 			public void onQueryCompleted(int arg0, KiiQueryResult<KiiObject> result, Exception e) {
-				Log.v(TAG, "run_query onQueryCompleted " + e);
+				MYLog.v(TAG, "run_query onQueryCompleted " + e);
 				if(e!=null){
 					List<KiiObject> objLists = result.getResult();
 					int size = objLists.size();
-					Log.v(TAG, "size " + size);
+					MYLog.v(TAG, "size " + size);
 					JSONArray jArray = new JSONArray();
 					int i = 0;
 					for (KiiObject obj : objLists) {
@@ -91,14 +91,14 @@ public class KiiAPICall {
 						String name2 = obj.getString(Field.NAME, "null_name");
 						String dname = obj.getString(Field.DISPLAYNAME, "null_name");
 						String score2 = obj.getString(Field.SCORE,"0");
-						Log.v(TAG, "onQueryCompleted " + i+ " " +name2 +" "+ dname + " "+ score2 );
+						MYLog.v(TAG, "onQueryCompleted " + i+ " " +name2 +" "+ dname + " "+ score2 );
 						JSONObject nJArray = new JSONObject();
 						//keyのloop
 						
 						//
 						jArray.put(nJArray);
 				  	}
-					Log.v(TAG, "jArray " + jArray);
+					MYLog.v(TAG, "jArray " + jArray);
 					String s = jArray.toString();
 					//リスナーを実行する
 					m_listener.onCompleted(s);
@@ -113,29 +113,29 @@ public class KiiAPICall {
 
 	//query
 	public void run_query2(){
-		Log.v(TAG, "run_query2");
+		MYLog.v(TAG, "run_query2");
 		
 		String error;
 		//bucket
 		String backet_key = (String) m_json_map.get("backet_key");
-		Log.v(TAG, "run_query2 backet_key="+backet_key);
+		MYLog.v(TAG, "run_query2 backet_key="+backet_key);
 
 		if(backet_key==null){
 			error = "backet_key";
-			Log.v(TAG, "error " + error);
+			MYLog.v(TAG, "error " + error);
 			return;
 		}
 		
 		//query
 		String s_query = (String) m_json_map.get("query");
-		Log.v(TAG, "run_query2 s_query="+s_query);
+		MYLog.v(TAG, "run_query2 s_query="+s_query);
 
 		if(s_query==null){
 			error = "query";
-			Log.v(TAG, "error " + error);
+			MYLog.v(TAG, "error " + error);
 			return;
 		}
-		Log.v(TAG, "s_query " + s_query);
+		MYLog.v(TAG, "s_query " + s_query);
 		KiiBucket bucket = Kii.bucket(backet_key);	//B_RANKING
 
 		//KiiQuery query = null;
@@ -152,16 +152,16 @@ public class KiiAPICall {
 			@Override
 			public void onQueryCompleted(int arg0, KiiQueryResult<KiiObject> result, Exception e) {
 
-				Log.v(TAG, "run_query2 onQueryCompleted " + e);
+				MYLog.v(TAG, "run_query2 onQueryCompleted " + e);
 				if(e==null){
 					List<KiiObject> objLists = result.getResult();
 					int size = objLists.size();
-					Log.v(TAG, "size " + size);
-					Log.v(TAG, "objLists " + objLists);
+					MYLog.v(TAG, "size " + size);
+					MYLog.v(TAG, "objLists " + objLists);
 					JSONArray jArray = new JSONArray();	//レスポンスするすべてのjsonを入れる
 					for (KiiObject obj : objLists) {
 						Uri uri = obj.toUri();
-						Log.v(TAG, "uri=" + uri );
+						MYLog.v(TAG, "uri=" + uri );
 						
 						//nJArrayの作成
 						HashSet<String> keyset = obj.keySet();//objectのkeyを取得
@@ -170,10 +170,10 @@ public class KiiAPICall {
 						//keyのvalを集めて１行分のjsonを作成する
 						while (it.hasNext()) {
 				        	String key = it.next();
-				        	Log.v(TAG, "key " + key );
+				        	MYLog.v(TAG, "key " + key );
 				        	//String val = obj.getString(key);	Stringはやめ
 				        	Object val = obj.getObject(key);	//getObjectを新設した
-				        	Log.v(TAG, "val " + val );
+				        	MYLog.v(TAG, "val " + val );
 				        	try {
 				        		nJArray.put(key, val);		//すべてkeyについてputする
 							} catch (JSONException e1) {
@@ -189,7 +189,7 @@ public class KiiAPICall {
 						}
 						jArray.put(nJArray);	//作成した１行をputする
 				  	}
-					Log.v(TAG, "jArray " + jArray);
+					MYLog.v(TAG, "jArray " + jArray);
 					String s = jArray.toString();
 					//リスナーを実行する
 					m_listener.onCompleted(s);
@@ -205,7 +205,7 @@ public class KiiAPICall {
 
 	//save
 	public void run_object_save() {
-		Log.v(TAG, "run_object_save");
+		MYLog.v(TAG, "run_object_save");
 		
 		String backet_key = (String) m_json_map.get("backet_key");
 		KiiObject object = Kii.bucket(backet_key).object();
@@ -213,29 +213,29 @@ public class KiiAPICall {
 		//setを取り出して実行する
 		for (String key : m_json_map.keySet()) {
 			if (key.startsWith("set")) {
-				Log.v(TAG, "key " + key);
+				MYLog.v(TAG, "key " + key);
 				//String val = m_json_map.get(key);
 				Object val = m_json_map.get(key);
 
-				Log.v(TAG, "val " + val);
+				MYLog.v(TAG, "val " + val);
 				//String[] strAry = key.split("_");
 				String[] strAry = key.split("set_");
-				Log.v(TAG, "strAry.length " + strAry.length );
-				Log.v(TAG, "strAry " + strAry[0] + " "+ strAry[1]);
-				Log.v(TAG, "set " + strAry[1] +","+ val);
+				MYLog.v(TAG, "strAry.length " + strAry.length );
+				MYLog.v(TAG, "strAry " + strAry[0] + " "+ strAry[1]);
+				MYLog.v(TAG, "set " + strAry[1] +","+ val);
 				
 				//型判定してsetする
 				if (val instanceof String){
-					Log.v(TAG, "instanceof String");
+					MYLog.v(TAG, "instanceof String");
 					String val2 = (String)val;
 					object.set(strAry[1], val2);	//setを実行
 				} else if(val instanceof Integer){
-					Log.v(TAG, "instanceof Integer");
+					MYLog.v(TAG, "instanceof Integer");
 					Integer val2 = (Integer)val;
 					object.set(strAry[1], val2);	//setを実行
 										
 				} else if(val instanceof Double){
-					Log.v(TAG, "instanceof Double");
+					MYLog.v(TAG, "instanceof Double");
 					Double val2 = (Double)val;
 					object.set(strAry[1], val2);	//setを実行
 				} else {
@@ -250,9 +250,9 @@ public class KiiAPICall {
 			public void onSaveCompleted(int token, KiiObject object, Exception e) {
 				String json;
 				if(e==null){
-					Log.v(TAG, "run_object onSaveCompleted " + token + " " + object +" " + e);
+					MYLog.v(TAG, "run_object onSaveCompleted " + token + " " + object +" " + e);
 					Uri uri = object.toUri();
-					Log.v(TAG, "uri " + uri );
+					MYLog.v(TAG, "uri " + uri );
 					//jsonを作成する
 					JSONObject json_obj = new JSONObject();
 					json = null;
@@ -261,7 +261,7 @@ public class KiiAPICall {
 						json = json_obj.toString();
 					} catch (JSONException e1) {
 						// TODO Auto-generated catch block
-						Log.v(TAG, "onSaveCompleted e " + e1);
+						MYLog.v(TAG, "onSaveCompleted e " + e1);
 						e1.printStackTrace();
 					}
 					m_listener.onCompleted(json);
@@ -276,14 +276,14 @@ public class KiiAPICall {
 	
 	//refresh
 	public void run_object_refresh() {
-		Log.v(TAG, "run_object_refresh");
+		MYLog.v(TAG, "run_object_refresh");
 		
 		String s_uri = (String) m_json_map.get("uri");
 		Uri uri = Uri.parse(s_uri);
-		Log.v(TAG, "uri = " + uri);
+		MYLog.v(TAG, "uri = " + uri);
         KiiObject object2 = KiiObject.createByUri(uri);
         HashSet<String> keyset = object2.keySet();
-        Log.v(TAG, "keyset = " + keyset);
+        MYLog.v(TAG, "keyset = " + keyset);
         
         // call KiiCloud API
         object2.refresh( new KiiObjectCallBack() {
@@ -291,17 +291,17 @@ public class KiiAPICall {
 			public void onRefreshCompleted(int token, KiiObject object, Exception e) {
 				String json;
 				if(e==null){
-					Log.v(TAG, "refresh_ranking onRefreshCompleted " + token + " " + object +" " + e);
+					MYLog.v(TAG, "refresh_ranking onRefreshCompleted " + token + " " + object +" " + e);
 					HashSet<String> keyset = object.keySet();//objectのkeyを取得
 			        Iterator<String> it = keyset.iterator();
 					JSONObject json_obj = new JSONObject();
 			        while (it.hasNext()) {
 			        	String key = it.next();
-			        	Log.v(TAG, "key " + key );
+			        	MYLog.v(TAG, "key " + key );
 			        	//String val = object.getString(key);	//String
 			        	//Object val = object.get(key);	//Object
 			        	Object val = object.getObject(key);	//getObjectを新設した
-			        	Log.v(TAG, "val " + val );
+			        	MYLog.v(TAG, "val " + val );
 			        	try {
 							json_obj.put(key, val);	//valをObjectにした
 						} catch (JSONException e1) {
@@ -322,17 +322,17 @@ public class KiiAPICall {
 	//update
 	public void run_object_update() {
 		// TODO Auto-generated method stub
-		Log.v(TAG, "run_object_update");
+		MYLog.v(TAG, "run_object_update");
 		
 		//String backet_key = m_json_map.get("backet_key");
 		//KiiObject object = Kii.bucket(backet_key).object();
 		String s_uri = (String) m_json_map.get("uri");
 		Uri uri = Uri.parse(s_uri);
-		Log.v(TAG, "uri = " + uri);
+		MYLog.v(TAG, "uri = " + uri);
         KiiObject object = KiiObject.createByUri(uri);
         
         //refresh
-        Log.v(TAG, "run_object_update refresh1");
+        MYLog.v(TAG, "run_object_update refresh1");
         try {
 			object.refresh();	//refresh
 		} catch (BadRequestException e2) {
@@ -357,35 +357,35 @@ public class KiiAPICall {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
 		}
-        Log.v(TAG, "run_object_update refresh2");
+        MYLog.v(TAG, "run_object_update refresh2");
         //
 		
 		//setを取り出して実行する
 		for (String key : m_json_map.keySet()) {
 			if (key.startsWith("set")) {
-				Log.v(TAG, "key " + key);
+				MYLog.v(TAG, "key " + key);
 				Object val = m_json_map.get(key);	//Objectにする
-				Log.v(TAG, "val " + val);
+				MYLog.v(TAG, "val " + val);
 				//String[] strAry = key.split("_");
 				String[] strAry = key.split("set_");
-				Log.v(TAG, "strAry.length " + strAry.length );
-				Log.v(TAG, "strAry[0] " + strAry[0] );
-				Log.v(TAG, "strAry[1] " + strAry[1] );
-				Log.v(TAG, "set " + strAry[1] +","+ val);
+				MYLog.v(TAG, "strAry.length " + strAry.length );
+				MYLog.v(TAG, "strAry[0] " + strAry[0] );
+				MYLog.v(TAG, "strAry[1] " + strAry[1] );
+				MYLog.v(TAG, "set " + strAry[1] +","+ val);
 				//object.set(strAry[1], val);	//setを実行
 				
 				//型判定してsetする
 				if (val instanceof String){
-					Log.v(TAG, "instanceof String");
+					MYLog.v(TAG, "instanceof String");
 					String val2 = (String)val;
 					object.set(strAry[1], val2);	//setを実行
 				} else if(val instanceof Integer){
-					Log.v(TAG, "instanceof Integer");
+					MYLog.v(TAG, "instanceof Integer");
 					Integer val2 = (Integer)val;
 					object.set(strAry[1], val2);	//setを実行
 										
 				} else if(val instanceof Double){
-					Log.v(TAG, "instanceof Double");
+					MYLog.v(TAG, "instanceof Double");
 					Double val2 = (Double)val;
 					object.set(strAry[1], val2);	//setを実行
 				} else {
@@ -394,17 +394,17 @@ public class KiiAPICall {
 				
 			}
 		}
-		Log.v(TAG, "object="+object);
+		MYLog.v(TAG, "object="+object);
         // call KiiCloud API
-		Log.v(TAG, "run_object_update object.save");
+		MYLog.v(TAG, "run_object_update object.save");
         object.save( new KiiObjectCallBack() {
 			@Override
 			public void onSaveCompleted(int token, KiiObject object, Exception e) {
 				String json = null;
 				if(e==null){
-					Log.v(TAG, "run_object_update onSaveCompleted " + token + " " + object +" " + e);
+					MYLog.v(TAG, "run_object_update onSaveCompleted " + token + " " + object +" " + e);
 					Uri uri = object.toUri();
-					Log.v(TAG, "uri " + uri );
+					MYLog.v(TAG, "uri " + uri );
 					//jsonを作成する
 					JSONObject json_obj = new JSONObject();
 					json = null;
@@ -413,7 +413,7 @@ public class KiiAPICall {
 						json = json_obj.toString();
 					} catch (JSONException e1) {
 						// TODO Auto-generated catch block
-						Log.v(TAG, "onSaveCompleted e " + e1);
+						MYLog.v(TAG, "onSaveCompleted e " + e1);
 						e1.printStackTrace();
 					}
 					m_listener.onCompleted(json);
@@ -434,7 +434,7 @@ public class KiiAPICall {
 			json = json_obj.toString();
 		} catch (JSONException e1) {
 			// TODO Auto-generated catch block
-			Log.v(TAG, "onSaveCompleted e " + e1);
+			MYLog.v(TAG, "onSaveCompleted e " + e1);
 			e1.printStackTrace();
 		}
 		return json;
