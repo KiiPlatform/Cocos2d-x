@@ -5,6 +5,8 @@
  *      Author: guest
  */
 
+
+
 #ifndef CKIIBUCKET_H_
 #define CKIIBUCKET_H_
 
@@ -23,17 +25,26 @@ typedef void (KBase::*SEL_callbackHandler)(const char *json);
 
 //Kii
 
+/**
+* @brief Bucketを作成と、各種の実行
+* 実行結果はコールバックで通知される
+*/
 class CKiiBucket : public KBase
 {
 public:
+
+
 	CKiiBucket();
 	virtual ~CKiiBucket();
     
+	/**
+	*	createでインスタンスを作る
+	*/
 	static CKiiBucket* create();
     bool init();
     
-    string _backet_key;
-    string _uri;
+    string _backet_key; //!< @brief バケットを作るときの文字列
+    string _uri; //!< @brief 識別するためのuri
     
     void callback(const char *json, KBase* target, SEL_callbackHandler selector);
     
@@ -41,8 +52,8 @@ public:
     void createApplicationScopeBucket(string backet_key
                                       , KBase* target, SEL_callbackHandler selector);
     void callBack_createApplicationScopeBucket(const char *json);
-    KBase* target_createApplicationScopeBucket;
-    SEL_callbackHandler selector_createApplicationScopeBucket;
+    KBase* target_createApplicationScopeBucket; //!< @brief コールバックのクラス
+    SEL_callbackHandler selector_createApplicationScopeBucket; //!< @brief コールバックのメソッド
     
 #if 0
     //

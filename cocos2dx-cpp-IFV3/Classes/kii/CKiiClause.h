@@ -14,12 +14,16 @@
 using namespace std;
 using namespace cocos2d;
 
+/**
+* @brief 各種条件のClauseを作成する、作成したClauseはstd::shared_ptrで返るのでdeleteの必要はない
+* Clauseの作成はstaticメソッドを使う
+*/
 class CKiiClause {
 public:
 	CKiiClause();
 	virtual ~CKiiClause();
 
-	picojson::object _json;
+	picojson::object _json; //!< @brief 条件文をjson形式で保持する
 
 	//equals
 

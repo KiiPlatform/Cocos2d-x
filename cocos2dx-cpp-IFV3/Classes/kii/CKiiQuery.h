@@ -13,6 +13,10 @@
 #include "CKiiClause.h"
 #include "picojson.h"
 
+/**
+*　@brief Queryを作成する、_jsonに保存
+* Bucketと組み合わせて使用
+*/
 class CKiiQuery {
 public:
 	CKiiQuery();
@@ -31,7 +35,7 @@ public:
 	string toString2();
 
 	//変数
-	picojson::object _json;
+	picojson::object _json; //!< @brief 条件文をjson形式で保持する
 	string nextPaginationKey;
 	int _mLimit;
 
