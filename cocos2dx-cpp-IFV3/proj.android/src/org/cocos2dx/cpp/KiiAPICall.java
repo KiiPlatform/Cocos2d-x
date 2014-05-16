@@ -137,7 +137,7 @@ public class KiiAPICall {
 		}
 		MYLog.v(TAG, "s_query " + s_query);
 		KiiBucket bucket = Kii.bucket(backet_key);	//B_RANKING
-		KiiQuery query = new KiiQuery(s_query);		
+		KiiQuery query = KiiQuery.create(s_query);
 		//queryを実行
 		bucket.query( new KiiQueryCallBack<KiiObject>() {
 			@Override

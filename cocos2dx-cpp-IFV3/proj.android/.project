@@ -44,22 +44,22 @@
 		<link>
 			<name>Classes</name>
 			<type>2</type>
-			<location>/Users/guest/Documents/cocos2d-x/cocos2d-x-2.2.2/projects/MyApp/cocos2dx-cpp-IFV3/Classes</location>
+			<locationURI>PARENT-1-PROJECT_LOC/Classes</locationURI>
 		</link>
 		<link>
-			<name>cocos2dx</name>
+			<name>cocos2d</name>
 			<type>2</type>
-			<location>/Users/guest/Documents/cocos2d-x/cocos2d-x-3.0beta2/projects/cocos2dx-cpp-IFV3/cocos2d</location>
-		</link>
-		<link>
-			<name>extensions</name>
-			<type>2</type>
-			<locationURI>COCOS2DX/extensions</locationURI>
-		</link>
-		<link>
-			<name>scripting</name>
-			<type>2</type>
-			<locationURI>COCOS2DX/scripting</locationURI>
+			<locationURI>PARENT-1-PROJECT_LOC/cocos2d</locationURI>
 		</link>
 	</linkedResources>
+	<variableList>
+		<variable>
+			<name>COCOS2DX</name>
+			<value>$%7BPARENT-1-PROJECT_LOC%7D/cocos2d</value>
+		</variable>
+		<variable>
+			<name>NDK_ROOT</name>
+			<value>file:/Users/satoshi/android-ndk-r9c</value>
+		</variable>
+	</variableList>
 </projectDescription>
