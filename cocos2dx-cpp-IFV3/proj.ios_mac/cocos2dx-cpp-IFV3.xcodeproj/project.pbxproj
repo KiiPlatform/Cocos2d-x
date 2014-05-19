@@ -62,6 +62,9 @@
 		50EF629917ECD46A001EB2F8 /* Icon-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 50EF629517ECD46A001EB2F8 /* Icon-100.png */; };
 		50EF62A217ECD613001EB2F8 /* Icon-29.png in Resources */ = {isa = PBXBuildFile; fileRef = 50EF62A017ECD613001EB2F8 /* Icon-29.png */; };
 		50EF62A317ECD613001EB2F8 /* Icon-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 50EF62A117ECD613001EB2F8 /* Icon-50.png */; };
+		7417763D19299BA30000C78B /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7417763C19299BA30000C78B /* libsqlite3.dylib */; };
+		7417763F19299BBC0000C78B /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7417763E19299BBC0000C78B /* ImageIO.framework */; };
+		7417764119299BD20000C78B /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7417764019299BD20000C78B /* Security.framework */; };
 		AC1E32EA18D8310800D12B79 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC1E32E918D8310800D12B79 /* OpenGLES.framework */; };
 		AC2AE59218D160ED008F77F9 /* CallFromCPP.mm in Sources */ = {isa = PBXBuildFile; fileRef = AC2AE59118D160ED008F77F9 /* CallFromCPP.mm */; };
 		AC2AE59B18D16153008F77F9 /* KRanking_objc.mm in Sources */ = {isa = PBXBuildFile; fileRef = AC2AE59A18D16153008F77F9 /* KRanking_objc.mm */; };
@@ -331,6 +334,9 @@
 		50EF629517ECD46A001EB2F8 /* Icon-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-100.png"; sourceTree = "<group>"; };
 		50EF62A017ECD613001EB2F8 /* Icon-29.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-29.png"; sourceTree = "<group>"; };
 		50EF62A117ECD613001EB2F8 /* Icon-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-50.png"; sourceTree = "<group>"; };
+		7417763C19299BA30000C78B /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/usr/lib/libsqlite3.dylib; sourceTree = DEVELOPER_DIR; };
+		7417763E19299BBC0000C78B /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/System/Library/Frameworks/ImageIO.framework; sourceTree = DEVELOPER_DIR; };
+		7417764019299BD20000C78B /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/System/Library/Frameworks/Security.framework; sourceTree = DEVELOPER_DIR; };
 		AC1E32E918D8310800D12B79 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/System/Library/Frameworks/OpenGLES.framework; sourceTree = DEVELOPER_DIR; };
 		AC2AE59018D160ED008F77F9 /* CallFromCPP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CallFromCPP.h; path = ios/CallFromCPP.h; sourceTree = SOURCE_ROOT; };
 		AC2AE59118D160ED008F77F9 /* CallFromCPP.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = CallFromCPP.mm; path = ios/CallFromCPP.mm; sourceTree = SOURCE_ROOT; };
@@ -392,7 +398,6 @@
 		ACE3049718D3088D008FEC1E /* CKiiApiTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKiiApiTest.h; sourceTree = "<group>"; };
 		ACE3049918D308A4008FEC1E /* KBase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = KBase.cpp; sourceTree = "<group>"; };
 		ACE3049A18D308A4008FEC1E /* KBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KBase.h; sourceTree = "<group>"; };
-		ACF3B63118D6E137005F2269 /* CKiiBucket.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CKiiBucket.h; sourceTree = "<group>"; };
 		ACF3B63518D6E60C005F2269 /* KiiIF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KiiIF.h; path = ios/KiiIF.h; sourceTree = SOURCE_ROOT; };
 		ACF3B63618D6E60C005F2269 /* KiiIF.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = KiiIF.mm; path = ios/KiiIF.mm; sourceTree = SOURCE_ROOT; };
 		BF170DB012928DE900B8313A /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -409,6 +414,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7417764119299BD20000C78B /* Security.framework in Frameworks */,
+				7417763F19299BBC0000C78B /* ImageIO.framework in Frameworks */,
+				7417763D19299BA30000C78B /* libsqlite3.dylib in Frameworks */,
 				AC1E32EA18D8310800D12B79 /* OpenGLES.framework in Frameworks */,
 				AC2AE5A918D16609008F77F9 /* Social.framework in Frameworks */,
 				AC2AE5A718D165F0008F77F9 /* Accounts.framework in Frameworks */,
@@ -560,6 +568,9 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7417764019299BD20000C78B /* Security.framework */,
+				7417763E19299BBC0000C78B /* ImageIO.framework */,
+				7417763C19299BA30000C78B /* libsqlite3.dylib */,
 				AC1E32E918D8310800D12B79 /* OpenGLES.framework */,
 				AC2AE5A818D16609008F77F9 /* Social.framework */,
 				AC2AE5A618D165F0008F77F9 /* Accounts.framework */,
@@ -657,7 +668,6 @@
 				ACE3049A18D308A4008FEC1E /* KBase.h */,
 				AC5F16DD18BF16A800A03832 /* CKiiBucket.cpp */,
 				AC5F16DE18BF16A800A03832 /* CKiiBucket.h */,
-				ACF3B63118D6E137005F2269 /* CKiiBucket.h */,
 				AC5F16DF18BF16A800A03832 /* CKiiClause.cpp */,
 				AC5F16E018BF16A800A03832 /* CKiiClause.h */,
 				AC5F16E118BF16A800A03832 /* CKiiQuery.cpp */,
@@ -1083,9 +1093,7 @@
 				COMPRESS_PNG_FILES = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"/Users/guest/Documents/cocos2d-x/cocos2d-x-2.2.2/projects/MyApp/cocos2dx-cpp-IFV3/proj.ios_mac/ios",
-					"/Users/guest/Documents/sdk/kii/iOSStorageSDK-master/KiiSDK-Private-v2/dist",
-					"/Users/guest/Documents/cocos2d-x/cocos2d-x-2.2.2/projects/MyApp/cocos2dx-cpp-IFV3/proj.ios_mac",
+					"$(PROJECT_DIR)/**",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
@@ -1101,6 +1109,7 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../cocos2d/cocos/2d/platform/ios",
+					"$(SRCROOT)/../Classes/**",
 					"$(SRCROOT)/../cocos2d/cocos/2d/platform/ios/Simulation",
 				);
 				INFOPLIST_FILE = ios/Info.plist;
@@ -1108,7 +1117,7 @@
 				LIBRARY_SEARCH_PATHS = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				USER_HEADER_SEARCH_PATHS = "/Users/guest/Documents/cocos2d-x/cocos2d-x-2.2.2/projects/MyApp/cocos2dx-cpp-IFV3/Classes";
+				USER_HEADER_SEARCH_PATHS = "$(inherited)";
 			};
 			name = Debug;
 		};
@@ -1120,9 +1129,7 @@
 				COMPRESS_PNG_FILES = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"/Users/guest/Documents/cocos2d-x/cocos2d-x-2.2.2/projects/MyApp/cocos2dx-cpp-IFV3/proj.ios_mac/ios",
-					"/Users/guest/Documents/sdk/kii/iOSStorageSDK-master/KiiSDK-Private-v2/dist",
-					"/Users/guest/Documents/cocos2d-x/cocos2d-x-2.2.2/projects/MyApp/cocos2dx-cpp-IFV3/proj.ios_mac",
+					"$(PROJECT_DIR)/**",
 				);
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1136,6 +1143,7 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../cocos2d/cocos/2d/platform/ios",
+					"$(SRCROOT)/../Classes/**",
 					"$(SRCROOT)/../cocos2d/cocos/2d/platform/ios/Simulation",
 				);
 				INFOPLIST_FILE = ios/Info.plist;
@@ -1143,7 +1151,7 @@
 				LIBRARY_SEARCH_PATHS = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				USER_HEADER_SEARCH_PATHS = "/Users/guest/Documents/cocos2d-x/cocos2d-x-2.2.2/projects/MyApp/cocos2dx-cpp-IFV3/Classes";
+				USER_HEADER_SEARCH_PATHS = "$(inherited)";
 			};
 			name = Release;
 		};
