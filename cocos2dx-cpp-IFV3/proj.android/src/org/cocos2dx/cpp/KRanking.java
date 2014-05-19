@@ -97,13 +97,15 @@ public class KRanking {
             @Override
             public void onQueryCompleted(int arg0,
                     KiiQueryResult<KiiObject> result, Exception e) {
-                MYLog.v(TAG, "ranking_query_all onQueryCompleted " + e);
+                if (e != null) {
+                    MYLog.v(TAG, "ranking_query_all onQueryCompleted " + e);
+                    return;
+                }
                 List<KiiObject> objLists = result.getResult();
                 int size = objLists.size();
                 MYLog.v(TAG, "size " + size);
                 JSONArray jArray = new JSONArray();
                 for (KiiObject obj : objLists) {
-                    // Log.v(TAG, "obj "+ i +" " + obj);
                     String name2 = obj.getString(Field.NAME, "null_name");
                     String dname = obj
                             .getString(Field.DISPLAYNAME, "null_name");
@@ -126,7 +128,6 @@ public class KRanking {
                         e1.printStackTrace();
                     }
                     jArray.put(nJArray);
-
                 }
                 MYLog.v(TAG, "jArray " + jArray);
                 String s = jArray.toString();
@@ -308,8 +309,10 @@ public class KRanking {
         KiiUser.loginWithToken(new KiiUserCallBack() {
             @Override
             public void onLoginCompleted(int token, KiiUser user, Exception e) {
-                MYLog.v(TAG, "loginWithToken onLoginCompleted " + token + " "
-                        + user + " " + e);
+                if (e != null) {
+                    MYLog.v(TAG, "login failure: " + e.getMessage());
+                    return;
+                }
                 m_username = user.getUsername();
                 m_displayName = user.getDisplayname();
                 MYLog.v(TAG, "m_username " + m_username);
@@ -371,8 +374,10 @@ public class KRanking {
         user.register(new KiiUserCallBack() {
             @Override
             public void onRegisterCompleted(int token, KiiUser user, Exception e) {
-                MYLog.v(TAG, "onRegisterCompleted " + token + " " + user + " "
-                        + e);
+                if (e != null) {
+                    MYLog.v(TAG, "onRegisterCompleted error: " + e.getMessage());
+                    return;
+                }
 
                 // store access token
                 KiiUser user2 = KiiUser.getCurrentUser();

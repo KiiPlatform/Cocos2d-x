@@ -2,13 +2,10 @@ package org.cocos2dx.cpp;
 
 import com.kii.cloud.storage.Kii;
 import com.kii.cloud.storage.KiiBucket;
-import com.kii.cloud.storage.Kii.Site;
 
 import android.app.NativeActivity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-
-//import android.util.Log;
 
 public class Cocos2dxActivity extends NativeActivity {
 
@@ -104,7 +101,7 @@ public class Cocos2dxActivity extends NativeActivity {
 
         Kii.initialize(Constants.APP_ID, // Put your App ID
                 Constants.APP_KEY, // Put your App Key
-                Site.US // Put your site as you've specified upon creating the
+                Constants.APP_SITE // Put your site as you've specified upon creating the
                         // app on the dev portal
         );
     }

@@ -28,65 +28,47 @@ extern void kiiRes(const char *json, int serviceID);
 
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-//Android
 #include <jni.h>
-
 #include "platform/android/jni/JniHelper.h"
-//#define CLASS_NAME "org/cocos2dx/simplegame/CallFromCPP"
-//#define CLASS_NAME "com/hoge/myapp/CallFromCPP"
 #define CLASS_NAME "org/cocos2dx/cpp/CallFromCPP"
-
 #else
-//iPhone
 #include "CallFromCPP.h"
-//#include "KRanking.h"
 
 #endif
 
 
-std::vector<ScoreData> vScore;  //菫晏ｭ倥＠縺ｦ繧九□縺代�∵悴菴ｿ逕ｨ
+std::vector<ScoreData> vScore;
 
-extern char kii_label_buff[1024];  //縺薙�譁�ｭ怜�繧団ocos2d-x縺ｧ陦ｨ遉ｺ縺吶ｋ
+extern char kii_label_buff[1024];
 extern char kii_display_name[256];
 extern char kii_name[256];
 
 
-//Android/iPhone蜈ｱ騾壹Ν繝ｼ繝√Φ
 void rankingResponseCPP(const char *json){
     MYCCLOG("rankingResponseCPP");
     
-    //MYCCLOG("json = %s",json);
-    //json
     std::string err;
-    
+
     picojson::value v;
     picojson::parse(v, json, json + strlen(json), &err);
     picojson::array& a1 = v.get<picojson::array>();
     
     int index = 0;
-    strcpy(kii_label_buff, "");	//ﾃｨﾃ｢ﾃ､ﾋ凖｢ﾂｪ
+    strcpy(kii_label_buff, "");
     char buff[256];
-    vScore.clear();	//ﾃ丑ﾃ嘉､ﾃ陰
+    vScore.clear();
     for (picojson::array::iterator it = a1.begin(); it != a1.end(); it++) {
         picojson::object& o1 = it->get<picojson::object>();
         std::string& s1 = o1["name"].get<std::string>();
         std::string& s2 = o1["score"].get<std::string>();
-        //MYCCLOG("s1 = %s",s1.c_str() );
-        //MYCCLOG("s2 = %s",s2.c_str() );
         
         vScore.push_back(ScoreData(s1,s2));
         sprintf(buff,"%s : %s \n", s1.c_str(), s2.c_str() );
-        strcat(kii_label_buff, buff);//ﾃｭﾂｫﾃ｢ﾂ｡
+        strcat(kii_label_buff, buff);
         index++;
         if(index>=7){
             break;
         }
-    }
-    //MYCCLOG("kii_label_buff %s",kii_label_buff);	//蜃ｺ譚･荳翫′縺｣縺溯｡ｨ遉ｺ譁�ｭ怜�
-    
-    int i;
-    for(i=0; i<vScore.size(); i++){
-        //MYCCLOG("vScore  %d  %s %s", i, HelloWorld::vScore[i].name.c_str(),  HelloWorld::vScore[i].score.c_str());
     }
 }
 

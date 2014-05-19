@@ -287,54 +287,35 @@ void KiiRanking::queryALL(){
 }
 void KiiRanking::callBack_queryALL(const char *json){
     char buff[256];
-    //char kii_label_buff[1024];
     std::string err;
     
     MYCCLOG("KiiRanking::callBack_queryALL");
-    MYCCLOG("json %s ",json );
-    
-    //エラーを確認
+//    MYCCLOG("json %s ",json );
+
     string err1 = check_error(json);
     if(err1!=""){
         MYCCLOG("err %s ",err1.c_str() );
         return;
     }
-    
-    //
+
     picojson::value v;
     picojson::parse(v, json, json + strlen(json), &err);
     picojson::array& a1 = v.get<picojson::array>();
     
     int index = 0, iscore;
-    double dscore;
     strcpy(kii_label_buff, "");
     for (picojson::array::iterator it = a1.begin(); it != a1.end(); it++) {
         picojson::object& o1 = it->get<picojson::object>();
-        std::string& s1 = o1["display_name"].get<std::string>();    //display_nameの取り出し
-        //std::string& s2 = o1["score"].get<std::string>();
-        
-        //socre
-        /***
-        dscore = o1["score"].get<double>();
-        iscore = (int)dscore;
-        MYCCLOG("dscore=%6.1f",dscore);
-        MYCCLOG("iscore=%06d",iscore);
-         ***/
-        
-        //
-        //scoreの取り出し、エラー処理付き
-        //エラー処理を例として入れたもの、本来は必要ないが、サーバーから来るJSONの形式が変化した時にエラー判定出来る
+        std::string& s1 = o1["display_name"].get<std::string>();
         
         bool b;
         int c;
         double dscore = 0;
         string sscore;
-        //json_mapに全部入れる
         map<std::string,std::string> json_map;
-        //const picojson::value::object& obj = v.get<picojson::object>();
         for (picojson::value::object::const_iterator i = o1.begin(); i != o1.end(); ++i) {
             MYCCLOG("v  %s %s", i->first.c_str(), i->second.to_str().c_str() );
-            json_map.insert( make_pair(i->first,i->second.to_str() ) ); //insertする
+            json_map.insert( make_pair(i->first,i->second.to_str() ) );
         }
         
         c = json_map.count("score");
@@ -363,8 +344,6 @@ void KiiRanking::callBack_queryALL(const char *json){
             MYCCLOG("score nai");
             iscore = -1; //エラー時
         }
-        //
-        
         
         //表示文字列の作成
         //sprintf(buff,"%d %s : %s \n", index+1, s1.c_str(), s2.c_str() );
@@ -375,13 +354,9 @@ void KiiRanking::callBack_queryALL(const char *json){
         	strcat(kii_label_buff, buff);//ランキング表示用文字列に追加する
         }
         index++;
-        //if(index>=7){
-        //    break;
-        //}
     }
     MYCCLOG("---");
     MYCCLOG("kii_label_buff %s",kii_label_buff);
-    //
 }
 
 string KiiRanking::check_error(const char *json){
