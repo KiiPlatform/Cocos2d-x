@@ -20,15 +20,15 @@ public interface Field {
     public static final String TYPE = "type";
     public static final String AMOUNT = "amount";
     public static final String DISPLAYNAME = "display_name";
-    
+
     public static final String _CREATED = "_created";
-    
+
     public interface Type {
         public static final int INCOME = 1;
         public static final int EXPENSE = 2;
     }
-    
+
     public static final String B_RANKING = "b_ranking02";
     public static final String SCORE = "score";
-    
+
 }

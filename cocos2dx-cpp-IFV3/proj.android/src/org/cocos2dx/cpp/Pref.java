@@ -20,14 +20,14 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 
 /**
- * This class is a helper class for SharedPreferences operation 
+ * This class is a helper class for SharedPreferences operation
  */
 public class Pref {
     /**
      * Name of SharedPreferences
      */
     private static final String PREF_NAME = "settings";
-    
+
     /**
      * Keys of SharedPreferences entry
      */
@@ -45,11 +45,12 @@ public class Pref {
     /**
      * STORED_ACCESS_TOKEN
      */
-    
+
     /**
      * Save access token
+     * 
      * @param context
-     * @param token 
+     * @param token
      */
     public static void setStoredAccessToken(Context context, String token) {
         SharedPreferences pref = getSharedPreferences(context);
@@ -57,9 +58,10 @@ public class Pref {
         edit.putString(Key.STORED_ACCESS_TOKEN, token);
         edit.commit();
     }
-    
+
     /**
-     * Get access token 
+     * Get access token
+     * 
      * @param context
      * @return null if token is not stored in SharedPreferences
      */
@@ -68,15 +70,15 @@ public class Pref {
         return pref.getString(Key.STORED_ACCESS_TOKEN, null);
     }
 
-    
     /**
      * DISPLAY_NAME
      */
-    
+
     /**
      * setDisplayName
+     * 
      * @param context
-     * @param token 
+     * @param token
      */
     public static void setDisplayName(Context context, String display_name) {
         SharedPreferences pref = getSharedPreferences(context);
@@ -84,9 +86,10 @@ public class Pref {
         edit.putString(Key.DISPLAY_NAME, display_name);
         edit.commit();
     }
-    
+
     /**
-     * getDisplayName 
+     * getDisplayName
+     * 
      * @param context
      * @return null if token is not stored in SharedPreferences
      */
@@ -94,15 +97,16 @@ public class Pref {
         SharedPreferences pref = getSharedPreferences(context);
         return pref.getString(Key.DISPLAY_NAME, null);
     }
-    
+
     /**
      * UUID
      */
-    
+
     /**
      * setUUID
+     * 
      * @param context
-     * @param token 
+     * @param token
      */
     public static void setUUID(Context context, String uuid) {
         SharedPreferences pref = getSharedPreferences(context);
@@ -110,9 +114,10 @@ public class Pref {
         edit.putString(Key.UUID, uuid);
         edit.commit();
     }
-    
+
     /**
-     * getUUID 
+     * getUUID
+     * 
      * @param context
      * @return null if token is not stored in SharedPreferences
      */
@@ -120,15 +125,16 @@ public class Pref {
         SharedPreferences pref = getSharedPreferences(context);
         return pref.getString(Key.UUID, null);
     }
-    
+
     /**
      * USERNAME
      */
-    
+
     /**
      * setUSERNAME
+     * 
      * @param context
-     * @param token 
+     * @param token
      */
     public static void setUSERNAME(Context context, String uuid) {
         SharedPreferences pref = getSharedPreferences(context);
@@ -136,9 +142,10 @@ public class Pref {
         edit.putString(Key.USERNAME, uuid);
         edit.commit();
     }
-    
+
     /**
-     * getUSERNAME 
+     * getUSERNAME
+     * 
      * @param context
      * @return null if token is not stored in SharedPreferences
      */
@@ -146,15 +153,16 @@ public class Pref {
         SharedPreferences pref = getSharedPreferences(context);
         return pref.getString(Key.USERNAME, null);
     }
-    
+
     /**
      * PASSWORD
      */
-    
+
     /**
      * setPASSWORD
+     * 
      * @param context
-     * @param token 
+     * @param token
      */
     public static void setPASSWORD(Context context, String uuid) {
         SharedPreferences pref = getSharedPreferences(context);
@@ -162,9 +170,10 @@ public class Pref {
         edit.putString(Key.PASSWORD, uuid);
         edit.commit();
     }
-    
+
     /**
      * getPASSWORD
+     * 
      * @param context
      * @return null if token is not stored in SharedPreferences
      */
@@ -172,10 +181,10 @@ public class Pref {
         SharedPreferences pref = getSharedPreferences(context);
         return pref.getString(Key.PASSWORD, null);
     }
-    
+
     /**
      * @param context
-     * @return instance of SharedPreferences 
+     * @return instance of SharedPreferences
      */
     private static SharedPreferences getSharedPreferences(Context context) {
         return context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
