@@ -15,8 +15,9 @@
 // cocos2d application instance
 static AppDelegate s_sharedApplication;
 //kii
-static  NSString *APPID = @"ee573743";
-static  NSString *APPKEY = @"5eb7b8bc1b4e4c98e659431c69cef8d4";
+static NSString *kcsAPPID = @"551d82a9";
+static NSString *kcsAPPKEY = @"675bb7fbe71d562c5278ed999e61a800";
+static KiiSite kcsAPPSITE = kiiSiteJP;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {    
     
@@ -59,8 +60,8 @@ static  NSString *APPKEY = @"5eb7b8bc1b4e4c98e659431c69cef8d4";
     
     //kii 初期化
     //Statup Kii platform ... just one line to enable Kii Cloud integaration
-    [Kii beginWithID:APPID andKey:APPKEY andSite:kiiSiteUS];
-    
+    [Kii beginWithID:kcsAPPID andKey:kcsAPPKEY andSite:kcsAPPSITE];
+
     /***
      //kii Login 固定値を使用
      NSString* username = @"muku";
