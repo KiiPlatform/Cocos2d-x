@@ -12,18 +12,12 @@
 		1AC6FB21180E996B004C840B /* libcocos2dx Mac.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AC6FAF9180E9839004C840B /* libcocos2dx Mac.a */; };
 		1AC6FB22180E996B004C840B /* libcocos2dx-extensions Mac.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AC6FAFB180E9839004C840B /* libcocos2dx-extensions Mac.a */; };
 		1AC6FB23180E996B004C840B /* libCocosDenshion Mac.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AC6FB01180E9839004C840B /* libCocosDenshion Mac.a */; };
-		1AC6FB2E180E99EB004C840B /* libbox2d iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AC6FB0D180E9839004C840B /* libbox2d iOS.a */; };
-		1AC6FB2F180E99EB004C840B /* libchipmunk iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AC6FB0B180E9839004C840B /* libchipmunk iOS.a */; };
-		1AC6FB30180E99EB004C840B /* libcocos2dx iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AC6FB07180E9839004C840B /* libcocos2dx iOS.a */; };
-		1AC6FB31180E99EB004C840B /* libcocos2dx-extensions iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AC6FB09180E9839004C840B /* libcocos2dx-extensions iOS.a */; };
-		1AC6FB32180E99EB004C840B /* libCocosDenshion iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AC6FB0F180E9839004C840B /* libCocosDenshion iOS.a */; };
 		1AFAF8B716D35DE700DB1158 /* AppDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1AFAF8B316D35DE700DB1158 /* AppDelegate.cpp */; };
 		1AFAF8B816D35DE700DB1158 /* HelloWorldScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1AFAF8B516D35DE700DB1158 /* HelloWorldScene.cpp */; };
 		1AFAF8BC16D35E4900DB1158 /* CloseNormal.png in Resources */ = {isa = PBXBuildFile; fileRef = 1AFAF8B916D35E4900DB1158 /* CloseNormal.png */; };
 		1AFAF8BD16D35E4900DB1158 /* CloseSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 1AFAF8BA16D35E4900DB1158 /* CloseSelected.png */; };
 		1AFAF8BE16D35E4900DB1158 /* HelloWorld.png in Resources */ = {isa = PBXBuildFile; fileRef = 1AFAF8BB16D35E4900DB1158 /* HelloWorld.png */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
-		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765A40DF7441C002DB57D /* CoreGraphics.framework */; };
 		503AE0F817EB97AB00D1A890 /* Icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 503AE0F617EB97AB00D1A890 /* Icon.icns */; };
 		503AE10017EB989F00D1A890 /* AppController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 503AE0FB17EB989F00D1A890 /* AppController.mm */; };
@@ -65,14 +59,23 @@
 		7417763D19299BA30000C78B /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7417763C19299BA30000C78B /* libsqlite3.dylib */; };
 		7417763F19299BBC0000C78B /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7417763E19299BBC0000C78B /* ImageIO.framework */; };
 		7417764119299BD20000C78B /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7417764019299BD20000C78B /* Security.framework */; };
-		AC1E32EA18D8310800D12B79 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC1E32E918D8310800D12B79 /* OpenGLES.framework */; };
+		7417764319299EF90000C78B /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7417764219299EF90000C78B /* Accounts.framework */; };
+		7417764519299F000000C78B /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7417764419299F000000C78B /* MobileCoreServices.framework */; };
+		7417764719299F150000C78B /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7417764619299F150000C78B /* Social.framework */; };
+		7417764919299F260000C78B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7417764819299F260000C78B /* UIKit.framework */; };
+		7417764A19299F430000C78B /* libbox2d iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AC6FB0D180E9839004C840B /* libbox2d iOS.a */; };
+		7417764C19299F430000C78B /* libchipmunk iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AC6FB0B180E9839004C840B /* libchipmunk iOS.a */; };
+		7417764E19299F430000C78B /* libcocos2dx iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AC6FB07180E9839004C840B /* libcocos2dx iOS.a */; };
+		7417765019299F430000C78B /* libcocos2dx-extensions iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AC6FB09180E9839004C840B /* libcocos2dx-extensions iOS.a */; };
+		7417765219299F430000C78B /* libCocosDenshion iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AC6FB0F180E9839004C840B /* libCocosDenshion iOS.a */; };
+		7417765419299F430000C78B /* libjsbindings iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AC6FB11180E9839004C840B /* libjsbindings iOS.a */; };
+		7417765619299F430000C78B /* libluabindings iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AC6FB13180E9839004C840B /* libluabindings iOS.a */; settings = {ATTRIBUTES = (Required, ); }; };
+		7417765919299FEC0000C78B /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7417765819299FEC0000C78B /* OpenGLES.framework */; };
+		7417765B1929A0000000C78B /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7417765A1929A0000000C78B /* CoreMotion.framework */; };
 		AC2AE59218D160ED008F77F9 /* CallFromCPP.mm in Sources */ = {isa = PBXBuildFile; fileRef = AC2AE59118D160ED008F77F9 /* CallFromCPP.mm */; };
 		AC2AE59B18D16153008F77F9 /* KRanking_objc.mm in Sources */ = {isa = PBXBuildFile; fileRef = AC2AE59A18D16153008F77F9 /* KRanking_objc.mm */; };
 		AC2AE5A018D1639D008F77F9 /* KiiAppSingleton.m in Sources */ = {isa = PBXBuildFile; fileRef = AC2AE59F18D1639D008F77F9 /* KiiAppSingleton.m */; };
 		AC2AE5A318D16419008F77F9 /* CallCPP.mm in Sources */ = {isa = PBXBuildFile; fileRef = AC2AE5A118D16419008F77F9 /* CallCPP.mm */; };
-		AC2AE5A518D165BF008F77F9 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC2AE5A418D165BF008F77F9 /* MobileCoreServices.framework */; };
-		AC2AE5A718D165F0008F77F9 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC2AE5A618D165F0008F77F9 /* Accounts.framework */; };
-		AC2AE5A918D16609008F77F9 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC2AE5A818D16609008F77F9 /* Social.framework */; };
 		AC5F16C618BEDF8C00A03832 /* StartScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AC5F16C418BEDF8C00A03832 /* StartScene.cpp */; };
 		AC5F16D218BF073B00A03832 /* bt_name.png in Resources */ = {isa = PBXBuildFile; fileRef = AC5F16CD18BF073B00A03832 /* bt_name.png */; };
 		AC5F16D318BF073B00A03832 /* bt_ranking.png in Resources */ = {isa = PBXBuildFile; fileRef = AC5F16CE18BF073B00A03832 /* bt_ranking.png */; };
@@ -108,13 +111,11 @@
 		ACE3049818D3088D008FEC1E /* CKiiApiTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ACE3049618D3088D008FEC1E /* CKiiApiTest.cpp */; };
 		ACE3049B18D308A4008FEC1E /* KBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ACE3049918D308A4008FEC1E /* KBase.cpp */; };
 		ACF3B63718D6E60C005F2269 /* KiiIF.mm in Sources */ = {isa = PBXBuildFile; fileRef = ACF3B63618D6E60C005F2269 /* KiiIF.mm */; };
-		BF171245129291EC00B8313A /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB012928DE900B8313A /* OpenGLES.framework */; };
 		BF1712471292920000B8313A /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB412928DE900B8313A /* libz.dylib */; };
 		BF1C47F01293687400B63C5D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF1C47EA1293683800B63C5D /* QuartzCore.framework */; };
 		D44C620C132DFF330009C878 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D44C620B132DFF330009C878 /* OpenAL.framework */; };
 		D44C620E132DFF430009C878 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D44C620D132DFF430009C878 /* AVFoundation.framework */; };
 		D44C6210132DFF4E0009C878 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D44C620F132DFF4E0009C878 /* AudioToolbox.framework */; };
-		D6B0611B1803AB670077942B /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6B0611A1803AB670077942B /* CoreMotion.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -337,6 +338,12 @@
 		7417763C19299BA30000C78B /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/usr/lib/libsqlite3.dylib; sourceTree = DEVELOPER_DIR; };
 		7417763E19299BBC0000C78B /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/System/Library/Frameworks/ImageIO.framework; sourceTree = DEVELOPER_DIR; };
 		7417764019299BD20000C78B /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/System/Library/Frameworks/Security.framework; sourceTree = DEVELOPER_DIR; };
+		7417764219299EF90000C78B /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/System/Library/Frameworks/Accounts.framework; sourceTree = DEVELOPER_DIR; };
+		7417764419299F000000C78B /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/System/Library/Frameworks/MobileCoreServices.framework; sourceTree = DEVELOPER_DIR; };
+		7417764619299F150000C78B /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/System/Library/Frameworks/Social.framework; sourceTree = DEVELOPER_DIR; };
+		7417764819299F260000C78B /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
+		7417765819299FEC0000C78B /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/System/Library/Frameworks/OpenGLES.framework; sourceTree = DEVELOPER_DIR; };
+		7417765A1929A0000000C78B /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/System/Library/Frameworks/CoreMotion.framework; sourceTree = DEVELOPER_DIR; };
 		AC1E32E918D8310800D12B79 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/System/Library/Frameworks/OpenGLES.framework; sourceTree = DEVELOPER_DIR; };
 		AC2AE59018D160ED008F77F9 /* CallFromCPP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CallFromCPP.h; path = ios/CallFromCPP.h; sourceTree = SOURCE_ROOT; };
 		AC2AE59118D160ED008F77F9 /* CallFromCPP.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = CallFromCPP.mm; path = ios/CallFromCPP.mm; sourceTree = SOURCE_ROOT; };
@@ -414,23 +421,24 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7417765B1929A0000000C78B /* CoreMotion.framework in Frameworks */,
+				7417765919299FEC0000C78B /* OpenGLES.framework in Frameworks */,
+				7417764A19299F430000C78B /* libbox2d iOS.a in Frameworks */,
+				7417764C19299F430000C78B /* libchipmunk iOS.a in Frameworks */,
+				7417764E19299F430000C78B /* libcocos2dx iOS.a in Frameworks */,
+				7417765019299F430000C78B /* libcocos2dx-extensions iOS.a in Frameworks */,
+				7417765219299F430000C78B /* libCocosDenshion iOS.a in Frameworks */,
+				7417765419299F430000C78B /* libjsbindings iOS.a in Frameworks */,
+				7417765619299F430000C78B /* libluabindings iOS.a in Frameworks */,
+				7417764919299F260000C78B /* UIKit.framework in Frameworks */,
+				7417764719299F150000C78B /* Social.framework in Frameworks */,
+				7417764519299F000000C78B /* MobileCoreServices.framework in Frameworks */,
+				7417764319299EF90000C78B /* Accounts.framework in Frameworks */,
 				7417764119299BD20000C78B /* Security.framework in Frameworks */,
 				7417763F19299BBC0000C78B /* ImageIO.framework in Frameworks */,
 				7417763D19299BA30000C78B /* libsqlite3.dylib in Frameworks */,
-				AC1E32EA18D8310800D12B79 /* OpenGLES.framework in Frameworks */,
-				AC2AE5A918D16609008F77F9 /* Social.framework in Frameworks */,
-				AC2AE5A718D165F0008F77F9 /* Accounts.framework in Frameworks */,
-				AC2AE5A518D165BF008F77F9 /* MobileCoreServices.framework in Frameworks */,
-				1AC6FB2E180E99EB004C840B /* libbox2d iOS.a in Frameworks */,
-				1AC6FB2F180E99EB004C840B /* libchipmunk iOS.a in Frameworks */,
-				1AC6FB30180E99EB004C840B /* libcocos2dx iOS.a in Frameworks */,
-				1AC6FB31180E99EB004C840B /* libcocos2dx-extensions iOS.a in Frameworks */,
-				1AC6FB32180E99EB004C840B /* libCocosDenshion iOS.a in Frameworks */,
-				D6B0611B1803AB670077942B /* CoreMotion.framework in Frameworks */,
 				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
-				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
 				288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */,
-				BF171245129291EC00B8313A /* OpenGLES.framework in Frameworks */,
 				BF1712471292920000B8313A /* libz.dylib in Frameworks */,
 				BF1C47F01293687400B63C5D /* QuartzCore.framework in Frameworks */,
 				D44C620C132DFF330009C878 /* OpenAL.framework in Frameworks */,
@@ -568,6 +576,12 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7417765A1929A0000000C78B /* CoreMotion.framework */,
+				7417765819299FEC0000C78B /* OpenGLES.framework */,
+				7417764819299F260000C78B /* UIKit.framework */,
+				7417764619299F150000C78B /* Social.framework */,
+				7417764419299F000000C78B /* MobileCoreServices.framework */,
+				7417764219299EF90000C78B /* Accounts.framework */,
 				7417764019299BD20000C78B /* Security.framework */,
 				7417763E19299BBC0000C78B /* ImageIO.framework */,
 				7417763C19299BA30000C78B /* libsqlite3.dylib */,
