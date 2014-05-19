@@ -10,6 +10,10 @@ import org.json.JSONObject;
 
 //import android.util.Log;
 
+
+
+import android.util.SparseArray;
+
 import com.kii.cloud.storage.Kii;
 import com.kii.cloud.storage.KiiBucket;
 
@@ -17,7 +21,7 @@ public class KiiIF {
 	static final String TAG ="KiiIF";
 	
 	static HashMap<String,KiiBucket> bucket_map  = new HashMap<String,KiiBucket>();
-	static HashMap<Integer,String>   service_map = new HashMap<Integer,String>();	
+	static SparseArray<String> service_map = new SparseArray<String>();
 	
 	static int buket_key_counter = 0;
 	public static void kiiReq(int serviceID, String json){
@@ -31,12 +35,10 @@ public class KiiIF {
 		// TODO Auto-generated method stub
 		try {
 			JSONObject rootObject = new JSONObject(json);
-			 Iterator<String> it = rootObject.keys();
-			 int i = 0;
+			 Iterator<?> it = rootObject.keys();
 			 HashMap<String,Object>   json_map = new HashMap<String,Object>();	//Objectに変更
 			 while (it.hasNext()) {
-				 i++;
-				 String key =it.next();
+				 String key =(String) it.next();
 				 Object val_obj = rootObject.get(key);
 				 //型判定
 				 if (val_obj instanceof String){
@@ -59,7 +61,7 @@ public class KiiIF {
 			 } 
 			 
 			String cmd = rootObject.getString("cmd");
-	        Class c = null;
+	        Class<?> c = null;
 			try {
 				c = Class.forName("org.cocos2dx.cpp.KiiIF");
 			} catch (ClassNotFoundException e) {
@@ -173,14 +175,7 @@ public class KiiIF {
     
     public static void object_saveAllFields(final int serviceID, HashMap<String,Object> json_map) {
 		MYLog.v(TAG, "object_saveAllFields");
-		KiiListenerInterface l = new KiiListenerInterface(){
-			@Override
-			public void onCompleted(String json) {
-				MYLog.v(TAG, "object_saveAllFields onCompleted " + serviceID + " " + json);
-				CallCPP.setDisplayame2(json, serviceID);//C++へ -----
-			}
-		};
-		KiiAPICall kapi = new KiiAPICall(json_map, l);
+		// TODO: implement it.
     }    
         
     public static void bucket_query(final int serviceID, HashMap<String,Object> json_map) {

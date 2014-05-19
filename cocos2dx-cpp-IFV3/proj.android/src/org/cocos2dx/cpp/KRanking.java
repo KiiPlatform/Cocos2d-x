@@ -99,14 +99,11 @@ public class KRanking {
 				int size = objLists.size();
 				MYLog.v(TAG, "size " + size);
 				JSONArray jArray = new JSONArray();
-				int i = 0;
 				for (KiiObject obj : objLists) {
-					i++;
 					//Log.v(TAG, "obj "+ i +" " + obj);
 					String name2 = obj.getString(Field.NAME, "null_name");
 					String dname = obj.getString(Field.DISPLAYNAME, "null_name");
 					String score2 = obj.getString(Field.SCORE,"0");
-					int score3 = obj.getInt(Field.SCORE, 0);
 
 					MYLog.v(TAG, "ranking_query_all " + name2 +" "+ dname + " "+ score2 );
 					

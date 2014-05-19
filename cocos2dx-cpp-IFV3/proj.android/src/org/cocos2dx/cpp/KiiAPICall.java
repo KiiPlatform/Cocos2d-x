@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.UUID;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -17,11 +16,8 @@ import android.net.Uri;
 import com.kii.cloud.storage.Kii;
 import com.kii.cloud.storage.KiiBucket;
 import com.kii.cloud.storage.KiiObject;
-import com.kii.cloud.storage.KiiUser;
 import com.kii.cloud.storage.callback.KiiObjectCallBack;
 import com.kii.cloud.storage.callback.KiiQueryCallBack;
-import com.kii.cloud.storage.callback.KiiUserCallBack;
-import com.kii.cloud.storage.exception.app.AppException;
 import com.kii.cloud.storage.exception.app.BadRequestException;
 import com.kii.cloud.storage.exception.app.ConflictException;
 import com.kii.cloud.storage.exception.app.ForbiddenException;
@@ -34,7 +30,6 @@ import com.kii.cloud.storage.query.KiiQueryResult;
 
 public class KiiAPICall {
 	private final static String TAG ="KiiAPICall";
-	private KiiBucket mBucket;
 	private KiiListenerInterface m_listener;
 	private HashMap<String,Object> m_json_map;
 	//private int m_serviceID;
