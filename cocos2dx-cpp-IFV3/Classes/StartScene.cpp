@@ -231,14 +231,7 @@ extern struct android_app* g_state;
 void StartLayer::bt_nameCallback(Object* sender)
 {
 	CCLOG("StartLayer::bt_nameCallback");
-    
     _pname ->display();    //これが本当
-    
-    //test
-    //jniTest(g_state); //for debug
-	//_pCKiiApiTest->postMyScore(1234);   //for debug
-    //picojson_test();	//for debug
-    
 }
 
 StartLayer::~StartLayer()
