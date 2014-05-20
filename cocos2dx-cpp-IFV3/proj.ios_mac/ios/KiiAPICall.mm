@@ -602,20 +602,24 @@
     NSString *result;
     NSData *data = nil;
     NSError *error2 = nil;
-    NSDictionary *dic = [NSDictionary dictionaryWithObject:error forKey:@"_error_"];
+    
+    NSMutableDictionary *mdic = [[NSMutableDictionary alloc]init];
+    // TODO: set other useful information.
+    mdic[@"_error_"] = @{
+                         @"code" : [NSNumber numberWithInt:error.code]
+                         };
+
+    NSDictionary *dic = [NSDictionary dictionaryWithDictionary:mdic];
     if([NSJSONSerialization isValidJSONObject:dic]){
-        MYNSLog(@"true isValidJSONObject");
-        data = [NSJSONSerialization dataWithJSONObject:dic options:NSJSONReadingAllowFragments error:&error2];
-        //MYNSLog(@"%@",data);
-        //result
+        data = [NSJSONSerialization dataWithJSONObject:dic
+                                               options:NSJSONReadingAllowFragments
+                                                 error:&error2];
         result = [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]autorelease];
-        MYNSLog(@"result %@", result);
     } else {
-        result = nil;
-        MYNSLog(@"false isValidJSONObject");
+        // Won't reach here.
+        result = @"{\"_error_\" : \"Unexpected error.\"}";
     }
     return result;
-
 }
 
 

@@ -210,22 +210,22 @@ void CKiiBucket::object_save(picojson::object key_value_pairs
 	key_value_pairs.insert( make_pair("backet_key", picojson::value(_backet_key) ) );	//object_save
 
     kiiReq2( key_value_pairs, this, callback_selector(CKiiBucket::callBack_object_save) );
-
-	//MYCCLOG("CKiiBucket::object_save end");
 }
 
 void CKiiBucket::callBack_object_save(const char *json){
-
+    MYCCLOG("CKiiBucket::callBack_object_save");
     if (json != NULL) {
         std::string err;
         picojson::value v;
         picojson::parse(v, json, json + strlen(json), &err);
+        
         picojson::object& o = v.get<picojson::object>();
 
-        std::string& uri = o["uri"].get<std::string>();
-        _uri = uri;
+        if (!o["_error_"].is<picojson::object>()) {
+            std::string& uri = o["uri"].get<std::string>();
+            _uri = uri;
+        }
     }
-
     callback(json, target_object_save, selector_object_save);
 }
 
