@@ -90,7 +90,6 @@ void KiiRanking::postMyScore(int hiscore){
     MYCCLOG("KiiRanking::postMyScore ---");
     MYCCLOG("hiscore = %d", hiscore );
     _hiscore = hiscore;	//クラス変数に保存する
-    //_hiscore = 5678;
     MYCCLOG("_hiscore = %d", _hiscore );
     //バケットを作成
     //b_ranking03
@@ -244,10 +243,10 @@ void KiiRanking::saveMyScore(int hiscore){
 }
 void KiiRanking::callBack_saveMyScore(const char *json){
     std::string err;
-    
+
     MYCCLOG("KiiRanking::callBack_saveMyScore");
     MYCCLOG("json %s ",json );
-    
+
     //エラーを確認
     string err1 = check_error(json);
     if(err1!=""){
@@ -362,7 +361,11 @@ void KiiRanking::callBack_queryALL(const char *json){
 string KiiRanking::check_error(const char *json){
     MYCCLOG("KiiRanking::check_error");
     MYCCLOG("json %s ",json );
-          
+
+    if (json == NULL) {
+        return "json is null";
+    }
+
     std::string err;
     picojson::value v;
     picojson::parse(v, json, json + strlen(json), &err);

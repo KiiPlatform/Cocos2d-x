@@ -35,22 +35,16 @@
 
 -(void)kiiReq:(int)serviceID json:(const char *)json{
     MYNSLog(@"KiiIF kiiReq");
-    
-    NSString *s = [ [ NSString alloc ] initWithUTF8String:json ];
-    //[service_map setObject:s forKey:serviceID];
     [self decodeJson:serviceID json:json];
 }
 
 -(void)decodeJson:(int)serviceID json:(const char *)json{
     MYNSLog(@"KiiIF decodeJson %s",json); //%s
-    //MYNSLog(@"setUUID %@",uuid);
     
     NSString *s = [ [ NSString alloc ] initWithUTF8String:json ];
     NSData *data = [s dataUsingEncoding:NSUTF8StringEncoding];
-    //NSData *json; // JSONのデータが入っている
     NSError *error = nil;
     NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
-    //NSString *userID = [[dic objectForKey:@"user"] objectForKey:@"id"];
     MYNSLog(@"dic %@",dic);
     
     NSString *cmd_val = [dic objectForKey:@"cmd"];
@@ -107,10 +101,7 @@
 //1
 -(void)createApplicationScopeBucket:(int)serviceID json_map:(NSDictionary *)json_map{
     MYNSLog(@"KiiIF createApplicationScopeBucket %d, %@ ---",serviceID,json_map);
-    
-    //someWorker = [[someWorker alloc] init];
-    //[someWorker doSomeWorkWith:self selector:@selector(callbackFprWorkWithResult:error:)];
-    
+
     kiiAPICall = [[KiiAPICall alloc] init];
     kiiAPICall->_json_map = json_map;
     kiiAPICall->_serviceID = serviceID;
@@ -131,12 +122,10 @@
     if([NSJSONSerialization isValidJSONObject:dictonary]){
         MYNSLog(@"true isValidJSONObject");
         data = [NSJSONSerialization dataWithJSONObject:dictonary options:NSJSONReadingAllowFragments error:&error2];
-        //MYNSLog(@"%@",data);
         json_str = [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]autorelease];
         MYNSLog(@"json_str %@", json_str);
         
         CallCpp::setDisplayame2([json_str UTF8String], serviceID);
-        //CallCpp::rankingResponse( [json_str UTF8String] );  //C++を呼び出す
     } else {
         MYNSLog(@"false isValidJSONObject");
     }
