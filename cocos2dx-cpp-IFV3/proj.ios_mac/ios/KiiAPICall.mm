@@ -11,7 +11,7 @@
 
 
 //ログ出力
-//#define DEBUG_KiiAPICall
+#define DEBUG_kiiRanking
 #ifndef DEBUG_kiiRanking
 #define MYNSLog( m, args... )
 #else
@@ -46,12 +46,8 @@
     MYNSLog(@"KiiAPICall run_object_save");
     MYNSLog(@"_serviceID=%d", _serviceID);
     MYNSLog(@"_json_map=%@", _json_map);
-    
-    NSError *error   = nil;
-    NSString *result = nil;
-    
-    // 何らかの処理を行います。
-    // ここではコールバックに渡す内容のインスタンスを作成しているのみ。
+
+    __block NSString *result = nil;
 
     MYNSLog(@"新規作成");
     KiiObject *object;
@@ -73,40 +69,41 @@
             MYNSLog(@"set %@  %@",key2,val);
         }
     }
-    
-    //save
-    [object saveAllFieldsSynchronous:TRUE withError:&error];
-    if(error == nil) {
-        MYNSLog(@"ok");
-        
-        NSMutableDictionary *mdic = [NSMutableDictionary dictionary];
-        NSString *uri = object.objectURI;
-        [mdic setObject:uri forKey:@"uri"];
-        
-        //JSONにする
-        NSError *error2 = nil;
-        NSData *data = nil;
-        if([NSJSONSerialization isValidJSONObject:mdic]){
-            MYNSLog(@"true isValidJSONObject");
-            data = [NSJSONSerialization dataWithJSONObject:mdic options:NSJSONReadingAllowFragments error:&error2];
-            //result
-            result = [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]autorelease];
-            MYNSLog(@"result %@", result);
+
+    [object saveAllFields:TRUE withBlock:^(KiiObject *object, NSError *error) {
+        if(error == nil) {
+            MYNSLog(@"ok");
+            
+            NSMutableDictionary *mdic = [NSMutableDictionary dictionary];
+            NSString *uri = object.objectURI;
+            [mdic setObject:uri forKey:@"uri"];
+            
+            //JSONにする
+            NSError *error2 = nil;
+            NSData *data = nil;
+            if([NSJSONSerialization isValidJSONObject:mdic]){
+                MYNSLog(@"true isValidJSONObject");
+                data = [NSJSONSerialization dataWithJSONObject:mdic options:NSJSONReadingAllowFragments error:&error2];
+                //result
+                result = [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]autorelease];
+                MYNSLog(@"result %@", result);
+            } else {
+                result = nil;
+                MYNSLog(@"false isValidJSONObject");
+            }
+            
         } else {
-            result = nil;
-            MYNSLog(@"false isValidJSONObject");
+            MYNSLog(@"error %@", error);
+            result = [self makeErrorJsonString:error];
         }
         
-    } else {
-        MYNSLog(@"error %@", error);
-        result = [self makeErrorJsonString:error];
-    }
+        // コールバックが指定された場合には、それを呼び出す。
+        if (handler) {
+            MYNSLog(@"handler");
+            handler(result, error); //errorは使用しない
+        }
+    }];
 
-    // コールバックが指定された場合には、それを呼び出す。
-    if (handler) {
-        MYNSLog(@"handler");
-        handler(result, error); //errorは使用しない
-    }
 }
 
 -(void)run_object_refresh:(CallbackHandler)handler {
