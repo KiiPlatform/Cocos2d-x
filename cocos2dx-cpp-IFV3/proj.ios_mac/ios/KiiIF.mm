@@ -11,7 +11,7 @@
 #include "CallCPP.h"
 
 //ログ出力
-//#define DEBUG_KiiIF
+#define DEBUG_KiiIF
 #ifndef DEBUG_KiiIF
 #define MYNSLog( m, args... )
 #else
