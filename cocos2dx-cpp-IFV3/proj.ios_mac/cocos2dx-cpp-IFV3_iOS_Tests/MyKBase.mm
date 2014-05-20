@@ -12,21 +12,15 @@ MyKBase::MyKBase()
 {
 }
 
-const char* MyKBase::getCallbackJson()
+void MyKBase::setCompletionFunc(std::function<void (const char *)> completionFunc)
 {
-    while (true) {
-        sleep(1);
-        if (callbackJson != NULL)
-            return callbackJson;
-    }
-}
-
-void MyKBase::nullifyCallbackJson()
-{
-    callbackJson = NULL;
+    this->completionFunc = completionFunc;
 }
 
 void MyKBase::myCallback(const char *json)
 {
-    callbackJson = json;
+    if (this->completionFunc)
+    {
+        this->completionFunc(json);
+    }
 };

@@ -78,6 +78,7 @@
 		74F7DA1A192B1C850027FBBB /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 74F7DA18192B1C840027FBBB /* InfoPlist.strings */; };
 		74F7DA1C192B1C850027FBBB /* cocos2dx_cpp_IFV3_iOS_Tests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 74F7DA1B192B1C850027FBBB /* cocos2dx_cpp_IFV3_iOS_Tests.mm */; };
 		74F7DA25192B28350027FBBB /* MyKBase.mm in Sources */ = {isa = PBXBuildFile; fileRef = 74F7DA24192B28350027FBBB /* MyKBase.mm */; };
+		74F7DA27192B48070027FBBB /* LatchedExecuter.m in Sources */ = {isa = PBXBuildFile; fileRef = 74F7DA26192B48070027FBBB /* LatchedExecuter.m */; };
 		AC2AE59218D160ED008F77F9 /* CallFromCPP.mm in Sources */ = {isa = PBXBuildFile; fileRef = AC2AE59118D160ED008F77F9 /* CallFromCPP.mm */; };
 		AC2AE59B18D16153008F77F9 /* KRanking_objc.mm in Sources */ = {isa = PBXBuildFile; fileRef = AC2AE59A18D16153008F77F9 /* KRanking_objc.mm */; };
 		AC2AE5A018D1639D008F77F9 /* KiiAppSingleton.m in Sources */ = {isa = PBXBuildFile; fileRef = AC2AE59F18D1639D008F77F9 /* KiiAppSingleton.m */; };
@@ -365,6 +366,8 @@
 		74F7DA1D192B1C850027FBBB /* cocos2dx-cpp-IFV3_iOS_Tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "cocos2dx-cpp-IFV3_iOS_Tests-Prefix.pch"; sourceTree = "<group>"; };
 		74F7DA23192B279B0027FBBB /* MyKBase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyKBase.h; sourceTree = "<group>"; };
 		74F7DA24192B28350027FBBB /* MyKBase.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MyKBase.mm; sourceTree = "<group>"; };
+		74F7DA26192B48070027FBBB /* LatchedExecuter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LatchedExecuter.m; sourceTree = "<group>"; };
+		74F7DA28192B482C0027FBBB /* LatchedExecuter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LatchedExecuter.h; sourceTree = "<group>"; };
 		AC1E32E918D8310800D12B79 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/System/Library/Frameworks/OpenGLES.framework; sourceTree = DEVELOPER_DIR; };
 		AC2AE59018D160ED008F77F9 /* CallFromCPP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CallFromCPP.h; path = ios/CallFromCPP.h; sourceTree = SOURCE_ROOT; };
 		AC2AE59118D160ED008F77F9 /* CallFromCPP.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = CallFromCPP.mm; path = ios/CallFromCPP.mm; sourceTree = SOURCE_ROOT; };
@@ -690,6 +693,8 @@
 		74F7DA15192B1C840027FBBB /* cocos2dx-cpp-IFV3_iOS_Tests */ = {
 			isa = PBXGroup;
 			children = (
+				74F7DA28192B482C0027FBBB /* LatchedExecuter.h */,
+				74F7DA26192B48070027FBBB /* LatchedExecuter.m */,
 				74F7DA1B192B1C850027FBBB /* cocos2dx_cpp_IFV3_iOS_Tests.mm */,
 				74F7DA16192B1C840027FBBB /* Supporting Files */,
 				74F7DA23192B279B0027FBBB /* MyKBase.h */,
@@ -1134,6 +1139,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				74F7DA25192B28350027FBBB /* MyKBase.mm in Sources */,
+				74F7DA27192B48070027FBBB /* LatchedExecuter.m in Sources */,
 				74F7DA1C192B1C850027FBBB /* cocos2dx_cpp_IFV3_iOS_Tests.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

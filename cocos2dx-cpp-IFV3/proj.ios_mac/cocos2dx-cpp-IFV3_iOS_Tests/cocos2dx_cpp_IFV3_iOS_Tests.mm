@@ -10,6 +10,7 @@
 #import "CKiiBucket.h"
 #import "MyKBase.h"
 #import "picojson.h"
+#import "LatchedExecuter.h"
 
 @interface cocos2dx_cpp_IFV3_iOS_Tests : XCTestCase
 {
@@ -28,28 +29,39 @@
 
 - (void)tearDown
 {
-    base->nullifyCallbackJson();
     delete base;
     [super tearDown];
 }
 
 - (void)testExample
 {
+    LatchedExecuter *l = [[LatchedExecuter alloc]init];
     CKiiBucket *bkt = CKiiBucket::create();
-    bkt->createApplicationScopeBucket("myBucket", base, callback_selector(MyKBase::myCallback));
-
-    const char* cbJson = base->getCallbackJson();
-    NSLog(@"cbjson %s", cbJson);
-    XCTAssertTrue(cbJson != nil, @"json should not nil");
-
-    base->nullifyCallbackJson();
-    picojson::object myObj;
-    myObj.insert(make_pair("key", picojson::value("hoge")));
+    base->setCompletionFunc([&](const char *compJson)-> void {
+        NSLog(@"cbjson %s", compJson);
+        XCTAssertTrue(compJson != nil, @"json should not nil");
+        [l offTheLatch];
+    });
     
-    bkt->object_save(myObj, base, callback_selector(MyKBase::myCallback));
-    cbJson = base->getCallbackJson();
-    NSLog(@"cbjson %s", cbJson);
-    XCTAssertTrue(cbJson != nil, @"json should not nil");
+    [l execute:^{
+        bkt->createApplicationScopeBucket("myBucket", base, callback_selector(MyKBase::myCallback));
+    } withTimeOutSec:5];
+
+
+    l = [[LatchedExecuter alloc]init];
+    
+    base->setCompletionFunc([&](const char *compJson) -> void {
+        NSLog(@"cbjson %s", compJson);
+        XCTAssertTrue(compJson != nil, @"json should not nil");
+        [l offTheLatch];
+    });
+    [l execute:^{
+        picojson::object myObj;
+        myObj.insert(make_pair("key", picojson::value("hoge")));
+        bkt->object_save(myObj, base, callback_selector(MyKBase::myCallback));
+        [l offTheLatch];
+    } withTimeOutSec:5];
+
 }
 
 @end
