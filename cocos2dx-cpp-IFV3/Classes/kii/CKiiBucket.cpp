@@ -8,7 +8,7 @@
 #include "CKiiBucket.h"
 
 //ログ出力
-//#define DEBUG_CKiiBucket
+#define DEBUG_CKiiBucket
 #ifndef DEBUG_CKiiBucket
 #define MYCCLOG(...)       do {} while (0)
 #else
