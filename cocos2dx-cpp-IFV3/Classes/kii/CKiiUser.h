@@ -19,13 +19,15 @@ class CKiiUser : public KBase
 public:
     CKiiUser();
     ~CKiiUser();
-    void login(std::string* username,
-               std::string* password,
-               std::function<void (picojson::object result)> loginCallback);
+    void login(
+               const std::string& username,
+               const std::string& password,
+               const std::function<void (picojson::object result)> loginCallback);
 
-    void registerNewUser(std::string* username,
-                         std::string* password,
-                         std::function<void (picojson::object result)> registerCallback);
+    void registerNewUser(
+                         const std::string& username,
+                         const std::string& password,
+                         const std::function<void (picojson::object result)> registerCallback);
 
 private:
     // TODO: use shared_ptr.

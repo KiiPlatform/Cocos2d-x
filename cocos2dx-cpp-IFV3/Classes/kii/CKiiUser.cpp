@@ -19,17 +19,17 @@ CKiiUser::~CKiiUser()
 }
 
 void CKiiUser::login(
-                     std::string* username,
-                     std::string* password,
-                     std::function<void (picojson::object result)> loginCallback)
+                     const std::string& username,
+                     const std::string& password,
+                     const std::function<void (picojson::object result)> loginCallback)
 {
     bind->login(username, password, loginCallback);
 }
 
 void CKiiUser::registerNewUser(
-                               std::string* username,
-                               std::string* password,
-                               std::function<void (picojson::object result)> registerCallback)
+                               const std::string& username,
+                               const std::string& password,
+                               const std::function<void (picojson::object result)> registerCallback)
 {
     bind->registerNewUser(username, password, registerCallback);
 }

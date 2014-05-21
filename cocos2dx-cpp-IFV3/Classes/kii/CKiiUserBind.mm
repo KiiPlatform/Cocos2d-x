@@ -10,13 +10,13 @@
 #import <KiiSDK/Kii.h>
 
 void CKiiUserBind::login(
-                     std::string* username,
-                     std::string* password,
-                     std::function<void (picojson::object result)> loginCallback)
+                     const std::string& username,
+                     const std::string& password,
+                     const std::function<void (picojson::object result)> loginCallback)
 {
-    NSString *uname = [NSString stringWithUTF8String:username->c_str()];
-    NSString *upass = [NSString stringWithUTF8String:password->c_str()];
-    
+    NSString *uname = [NSString stringWithUTF8String:username.c_str()];
+    NSString *upass = [NSString stringWithUTF8String:password.c_str()];
+
     [KiiUser authenticate:uname withPassword:upass andBlock:^(KiiUser *user, NSError *error) {
         picojson::object retError;
         if (error != nil) {
@@ -32,13 +32,13 @@ void CKiiUserBind::login(
 }
 
 void CKiiUserBind::registerNewUser(
-                               std::string* username,
-                               std::string* password,
-                               std::function<void (picojson::object result)> registerCallback)
+                               const std::string& username,
+                               const std::string& password,
+                               const std::function<void (picojson::object result)> registerCallback)
 {
     NSLog(@"CKiiUserBind::registerNewUser");
-    NSString *uname = [NSString stringWithUTF8String:username->c_str()];
-    NSString *upass = [NSString stringWithUTF8String:password->c_str()];
+    NSString *uname = [NSString stringWithUTF8String:username.c_str()];
+    NSString *upass = [NSString stringWithUTF8String:password.c_str()];
     KiiUser *kuser = [KiiUser userWithUsername:uname andPassword:upass];
     [kuser performRegistrationWithBlock:^(KiiUser *user, NSError *error) {
         NSLog(@"CKiiUserBind::registerNewUser callback.");

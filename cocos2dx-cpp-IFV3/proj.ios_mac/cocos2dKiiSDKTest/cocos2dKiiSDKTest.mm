@@ -38,8 +38,9 @@ KiiSite APPSITE = kiiSiteJP;
     
     BOOL fin = [l execute:^{
         CKiiUser *cuser = new CKiiUser();
-        std::string *uname = new std::string("hoge");
-        std::string *upass = new std::string("1234");
+        NSString *uuid = [[[NSUUID alloc]init]UUIDString];
+        std::string uname = std::string([uuid cStringUsingEncoding:NSUTF8StringEncoding]);
+        std::string upass = std::string("1234");
         cuser->registerNewUser(uname, upass,
                                [&] (picojson::object error) {
                                    NSLog(@"reguser callback");
@@ -82,7 +83,6 @@ KiiSite APPSITE = kiiSiteJP;
         bkt->createApplicationScopeBucket("myBucket", base, callback_selector(MyKBase::myCallback));
     } withTimeOutSec:5];
     
-    
     XCTAssertNotNil([KiiUser currentUser], @"user should logged in");
     l = [[LatchedExecuter alloc]init];
     base->setCompletionFunc([&](const char *compJson) -> void {
@@ -94,7 +94,6 @@ KiiSite APPSITE = kiiSiteJP;
         picojson::object myObj;
         myObj.insert(make_pair("key", picojson::value("hoge")));
         bkt->object_save(myObj, base, callback_selector(MyKBase::myCallback));
-        [l offTheLatch];
     } withTimeOutSec:5];
 
 }
