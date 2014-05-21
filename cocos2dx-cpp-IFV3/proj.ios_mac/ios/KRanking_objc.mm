@@ -106,7 +106,7 @@
         NSLog(@"true isValidJSONObject");
         data = [NSJSONSerialization dataWithJSONObject:mArray options:NSJSONReadingAllowFragments error:&error2];
         //NSLog(@"%@",data);
-        json_str = [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]autorelease];
+        json_str = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
         //NSLog(@"json_str %@", json_str);
         
         CallCpp::rankingResponse( [json_str UTF8String] );  //C++を呼び出す

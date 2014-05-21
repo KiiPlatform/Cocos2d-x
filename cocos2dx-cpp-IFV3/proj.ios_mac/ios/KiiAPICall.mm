@@ -85,7 +85,7 @@
                 MYNSLog(@"true isValidJSONObject");
                 data = [NSJSONSerialization dataWithJSONObject:mdic options:NSJSONReadingAllowFragments error:&error2];
                 //result
-                result = [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]autorelease];
+                result = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
                 MYNSLog(@"result %@", result);
             } else {
                 result = nil;
@@ -137,7 +137,7 @@
             MYNSLog(@"true isValidJSONObject");
             data = [NSJSONSerialization dataWithJSONObject:mdic options:NSJSONReadingAllowFragments error:&error2];
             //result
-            result = [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]autorelease];
+            result = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
             MYNSLog(@"result %@", result);
         } else {
             result = nil;
@@ -216,7 +216,7 @@
             MYNSLog(@"true isValidJSONObject");
             data = [NSJSONSerialization dataWithJSONObject:mdic options:NSJSONReadingAllowFragments error:&error2];
             //result
-            result = [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]autorelease];
+            result = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
             MYNSLog(@"result %@", result);
         } else {
             result = nil;
@@ -554,7 +554,7 @@
         int size = [retResults count];
         for(int i=0;i<size; i++){
             KiiObject* obj=[retResults objectAtIndex:i];
-            NSMutableDictionary *dic = [obj dictionaryValue];
+            NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:[obj dictionaryValue]];
             //_uri_を追加
             NSString *uri = obj.objectURI;
             [dic setObject:uri forKey:@"_uri_"];
@@ -572,7 +572,7 @@
             data = [NSJSONSerialization dataWithJSONObject:jArray options:NSJSONReadingAllowFragments error:&error2];
             //MYNSLog(@"%@",data);
             //result
-            result = [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]autorelease];
+            result = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
             MYNSLog(@"result %@", result);
         
             //CallCpp::setDisplayame2([json_str UTF8String], serviceID);
@@ -614,7 +614,7 @@
         data = [NSJSONSerialization dataWithJSONObject:dic
                                                options:NSJSONReadingAllowFragments
                                                  error:&error2];
-        result = [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]autorelease];
+        result = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     } else {
         // Won't reach here.
         result = @"{\"_error_\" : \"Unexpected error.\"}";

@@ -122,7 +122,7 @@
     if([NSJSONSerialization isValidJSONObject:dictonary]){
         MYNSLog(@"true isValidJSONObject");
         data = [NSJSONSerialization dataWithJSONObject:dictonary options:NSJSONReadingAllowFragments error:&error2];
-        json_str = [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]autorelease];
+        json_str = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
         MYNSLog(@"json_str %@", json_str);
         
         CallCpp::setDisplayame2([json_str UTF8String], serviceID);

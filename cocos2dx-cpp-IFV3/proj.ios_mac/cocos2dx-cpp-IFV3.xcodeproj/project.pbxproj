@@ -72,6 +72,8 @@
 		7417765619299F430000C78B /* libluabindings iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AC6FB13180E9839004C840B /* libluabindings iOS.a */; settings = {ATTRIBUTES = (Required, ); }; };
 		7417765919299FEC0000C78B /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7417765819299FEC0000C78B /* OpenGLES.framework */; };
 		7417765B1929A0000000C78B /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7417765A1929A0000000C78B /* CoreMotion.framework */; };
+		749D661D192C8267009D88A4 /* CKiiUser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 749D661B192C8267009D88A4 /* CKiiUser.cpp */; };
+		749D6622192C8C68009D88A4 /* CKiiUserBind.mm in Sources */ = {isa = PBXBuildFile; fileRef = 749D6620192C8537009D88A4 /* CKiiUserBind.mm */; };
 		74F7DA12192B1C840027FBBB /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74177662192AFDA10000C78B /* XCTest.framework */; };
 		74F7DA13192B1C840027FBBB /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		74F7DA14192B1C840027FBBB /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7417764819299F260000C78B /* UIKit.framework */; };
@@ -79,6 +81,25 @@
 		74F7DA1C192B1C850027FBBB /* cocos2dx_cpp_IFV3_iOS_Tests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 74F7DA1B192B1C850027FBBB /* cocos2dx_cpp_IFV3_iOS_Tests.mm */; };
 		74F7DA25192B28350027FBBB /* MyKBase.mm in Sources */ = {isa = PBXBuildFile; fileRef = 74F7DA24192B28350027FBBB /* MyKBase.mm */; };
 		74F7DA27192B48070027FBBB /* LatchedExecuter.m in Sources */ = {isa = PBXBuildFile; fileRef = 74F7DA26192B48070027FBBB /* LatchedExecuter.m */; };
+		74F7DA29192C416A0027FBBB /* KiiSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC931DA118E2D8E1006A9087 /* KiiSDK.framework */; };
+		74F7DA2B192C44DD0027FBBB /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 74F7DA2A192C44DD0027FBBB /* libsqlite3.0.dylib */; };
+		74F7DA2C192C44E50027FBBB /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7417764219299EF90000C78B /* Accounts.framework */; };
+		74F7DA2D192C44F00027FBBB /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7417764619299F150000C78B /* Social.framework */; };
+		74F7DA2E192C44F80027FBBB /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7417763E19299BBC0000C78B /* ImageIO.framework */; };
+		74F7DA2F192C45210027FBBB /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7417764419299F000000C78B /* MobileCoreServices.framework */; };
+		74F7DA35192C5CC40027FBBB /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74177662192AFDA10000C78B /* XCTest.framework */; };
+		74F7DA36192C5CC50027FBBB /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
+		74F7DA37192C5CC50027FBBB /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7417764819299F260000C78B /* UIKit.framework */; };
+		74F7DA3D192C5CC50027FBBB /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 74F7DA3B192C5CC50027FBBB /* InfoPlist.strings */; };
+		74F7DA3F192C5CC50027FBBB /* cocos2dKiiSDKTest.mm in Sources */ = {isa = PBXBuildFile; fileRef = 74F7DA3E192C5CC50027FBBB /* cocos2dKiiSDKTest.mm */; };
+		74F7DA48192C5DA60027FBBB /* LatchedExecuter.m in Sources */ = {isa = PBXBuildFile; fileRef = 74F7DA45192C5DA60027FBBB /* LatchedExecuter.m */; };
+		74F7DA49192C5DA60027FBBB /* MyKBase.mm in Sources */ = {isa = PBXBuildFile; fileRef = 74F7DA47192C5DA60027FBBB /* MyKBase.mm */; };
+		74F7DA4A192C700A0027FBBB /* KiiSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC931DA118E2D8E1006A9087 /* KiiSDK.framework */; };
+		74F7DA4B192C70390027FBBB /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 74F7DA2A192C44DD0027FBBB /* libsqlite3.0.dylib */; };
+		74F7DA4C192C70450027FBBB /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7417764219299EF90000C78B /* Accounts.framework */; };
+		74F7DA4D192C704E0027FBBB /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7417764619299F150000C78B /* Social.framework */; };
+		74F7DA4E192C70630027FBBB /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7417764419299F000000C78B /* MobileCoreServices.framework */; };
+		74F7DA4F192C70800027FBBB /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7417763E19299BBC0000C78B /* ImageIO.framework */; };
 		AC2AE59218D160ED008F77F9 /* CallFromCPP.mm in Sources */ = {isa = PBXBuildFile; fileRef = AC2AE59118D160ED008F77F9 /* CallFromCPP.mm */; };
 		AC2AE59B18D16153008F77F9 /* KRanking_objc.mm in Sources */ = {isa = PBXBuildFile; fileRef = AC2AE59A18D16153008F77F9 /* KRanking_objc.mm */; };
 		AC2AE5A018D1639D008F77F9 /* KiiAppSingleton.m in Sources */ = {isa = PBXBuildFile; fileRef = AC2AE59F18D1639D008F77F9 /* KiiAppSingleton.m */; };
@@ -359,6 +380,10 @@
 		7417765819299FEC0000C78B /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/System/Library/Frameworks/OpenGLES.framework; sourceTree = DEVELOPER_DIR; };
 		7417765A1929A0000000C78B /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/System/Library/Frameworks/CoreMotion.framework; sourceTree = DEVELOPER_DIR; };
 		74177662192AFDA10000C78B /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		749D661B192C8267009D88A4 /* CKiiUser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CKiiUser.cpp; sourceTree = "<group>"; };
+		749D661C192C8267009D88A4 /* CKiiUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKiiUser.h; sourceTree = "<group>"; };
+		749D661F192C8537009D88A4 /* CKiiUserBind.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKiiUserBind.h; sourceTree = "<group>"; };
+		749D6620192C8537009D88A4 /* CKiiUserBind.mm */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = CKiiUserBind.mm; sourceTree = "<group>"; };
 		74F7DA11192B1C840027FBBB /* cocos2dx-cpp-IFV3_iOS_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "cocos2dx-cpp-IFV3_iOS_Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		74F7DA17192B1C840027FBBB /* cocos2dx-cpp-IFV3_iOS_Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "cocos2dx-cpp-IFV3_iOS_Tests-Info.plist"; sourceTree = "<group>"; };
 		74F7DA19192B1C850027FBBB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -368,6 +393,16 @@
 		74F7DA24192B28350027FBBB /* MyKBase.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MyKBase.mm; sourceTree = "<group>"; };
 		74F7DA26192B48070027FBBB /* LatchedExecuter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LatchedExecuter.m; sourceTree = "<group>"; };
 		74F7DA28192B482C0027FBBB /* LatchedExecuter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LatchedExecuter.h; sourceTree = "<group>"; };
+		74F7DA2A192C44DD0027FBBB /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/usr/lib/libsqlite3.0.dylib; sourceTree = DEVELOPER_DIR; };
+		74F7DA34192C5CC20027FBBB /* cocos2dKiiSDKTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = cocos2dKiiSDKTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		74F7DA3A192C5CC50027FBBB /* cocos2dKiiSDKTest-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "cocos2dKiiSDKTest-Info.plist"; sourceTree = "<group>"; };
+		74F7DA3C192C5CC50027FBBB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		74F7DA3E192C5CC50027FBBB /* cocos2dKiiSDKTest.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = cocos2dKiiSDKTest.mm; sourceTree = "<group>"; };
+		74F7DA40192C5CC50027FBBB /* cocos2dKiiSDKTest-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "cocos2dKiiSDKTest-Prefix.pch"; sourceTree = "<group>"; };
+		74F7DA44192C5DA60027FBBB /* LatchedExecuter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LatchedExecuter.h; sourceTree = "<group>"; };
+		74F7DA45192C5DA60027FBBB /* LatchedExecuter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LatchedExecuter.m; sourceTree = "<group>"; };
+		74F7DA46192C5DA60027FBBB /* MyKBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyKBase.h; sourceTree = "<group>"; };
+		74F7DA47192C5DA60027FBBB /* MyKBase.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MyKBase.mm; sourceTree = "<group>"; };
 		AC1E32E918D8310800D12B79 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/System/Library/Frameworks/OpenGLES.framework; sourceTree = DEVELOPER_DIR; };
 		AC2AE59018D160ED008F77F9 /* CallFromCPP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CallFromCPP.h; path = ios/CallFromCPP.h; sourceTree = SOURCE_ROOT; };
 		AC2AE59118D160ED008F77F9 /* CallFromCPP.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = CallFromCPP.mm; path = ios/CallFromCPP.mm; sourceTree = SOURCE_ROOT; };
@@ -499,9 +534,31 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				74F7DA2F192C45210027FBBB /* MobileCoreServices.framework in Frameworks */,
+				74F7DA2E192C44F80027FBBB /* ImageIO.framework in Frameworks */,
+				74F7DA2D192C44F00027FBBB /* Social.framework in Frameworks */,
+				74F7DA2C192C44E50027FBBB /* Accounts.framework in Frameworks */,
+				74F7DA2B192C44DD0027FBBB /* libsqlite3.0.dylib in Frameworks */,
+				74F7DA29192C416A0027FBBB /* KiiSDK.framework in Frameworks */,
 				74F7DA12192B1C840027FBBB /* XCTest.framework in Frameworks */,
 				74F7DA14192B1C840027FBBB /* UIKit.framework in Frameworks */,
 				74F7DA13192B1C840027FBBB /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		74F7DA31192C5CC20027FBBB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				74F7DA4F192C70800027FBBB /* ImageIO.framework in Frameworks */,
+				74F7DA4E192C70630027FBBB /* MobileCoreServices.framework in Frameworks */,
+				74F7DA4D192C704E0027FBBB /* Social.framework in Frameworks */,
+				74F7DA4C192C70450027FBBB /* Accounts.framework in Frameworks */,
+				74F7DA4B192C70390027FBBB /* libsqlite3.0.dylib in Frameworks */,
+				74F7DA4A192C700A0027FBBB /* KiiSDK.framework in Frameworks */,
+				74F7DA35192C5CC40027FBBB /* XCTest.framework in Frameworks */,
+				74F7DA37192C5CC50027FBBB /* UIKit.framework in Frameworks */,
+				74F7DA36192C5CC50027FBBB /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -568,6 +625,7 @@
 				1D6058910D05DD3D006BFB54 /* cocos2dx-cpp-IFV3 iOS.app */,
 				5087E76F17EB910900C73F5D /* cocos2dx-cpp-IFV3 Mac.app */,
 				74F7DA11192B1C840027FBBB /* cocos2dx-cpp-IFV3_iOS_Tests.xctest */,
+				74F7DA34192C5CC20027FBBB /* cocos2dKiiSDKTest.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -600,6 +658,7 @@
 				1AC6FAE5180E9839004C840B /* cocos2d_libs.xcodeproj */,
 				15AA9C4015B7EC450033D6C2 /* Classes */,
 				74F7DA15192B1C840027FBBB /* cocos2dx-cpp-IFV3_iOS_Tests */,
+				74F7DA38192C5CC50027FBBB /* cocos2dKiiSDKTest */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				080E96DDFE201D6D7F000001 /* ios */,
 				503AE10617EB990700D1A890 /* mac */,
@@ -612,6 +671,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				74F7DA2A192C44DD0027FBBB /* libsqlite3.0.dylib */,
 				7417765A1929A0000000C78B /* CoreMotion.framework */,
 				7417765819299FEC0000C78B /* OpenGLES.framework */,
 				7417764819299F260000C78B /* UIKit.framework */,
@@ -690,6 +750,15 @@
 			path = ios;
 			sourceTree = SOURCE_ROOT;
 		};
+		749D661E192C84FD009D88A4 /* kii_ios_bindings */ = {
+			isa = PBXGroup;
+			children = (
+				749D661F192C8537009D88A4 /* CKiiUserBind.h */,
+				749D6620192C8537009D88A4 /* CKiiUserBind.mm */,
+			);
+			name = kii_ios_bindings;
+			sourceTree = "<group>";
+		};
 		74F7DA15192B1C840027FBBB /* cocos2dx-cpp-IFV3_iOS_Tests */ = {
 			isa = PBXGroup;
 			children = (
@@ -709,6 +778,29 @@
 				74F7DA17192B1C840027FBBB /* cocos2dx-cpp-IFV3_iOS_Tests-Info.plist */,
 				74F7DA18192B1C840027FBBB /* InfoPlist.strings */,
 				74F7DA1D192B1C850027FBBB /* cocos2dx-cpp-IFV3_iOS_Tests-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		74F7DA38192C5CC50027FBBB /* cocos2dKiiSDKTest */ = {
+			isa = PBXGroup;
+			children = (
+				74F7DA44192C5DA60027FBBB /* LatchedExecuter.h */,
+				74F7DA45192C5DA60027FBBB /* LatchedExecuter.m */,
+				74F7DA46192C5DA60027FBBB /* MyKBase.h */,
+				74F7DA47192C5DA60027FBBB /* MyKBase.mm */,
+				74F7DA3E192C5CC50027FBBB /* cocos2dKiiSDKTest.mm */,
+				74F7DA39192C5CC50027FBBB /* Supporting Files */,
+			);
+			path = cocos2dKiiSDKTest;
+			sourceTree = "<group>";
+		};
+		74F7DA39192C5CC50027FBBB /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				74F7DA3A192C5CC50027FBBB /* cocos2dKiiSDKTest-Info.plist */,
+				74F7DA3B192C5CC50027FBBB /* InfoPlist.strings */,
+				74F7DA40192C5CC50027FBBB /* cocos2dKiiSDKTest-Prefix.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -738,6 +830,7 @@
 		AC5F16DA18BF16A700A03832 /* kii */ = {
 			isa = PBXGroup;
 			children = (
+				749D661E192C84FD009D88A4 /* kii_ios_bindings */,
 				ACE3049918D308A4008FEC1E /* KBase.cpp */,
 				ACE3049A18D308A4008FEC1E /* KBase.h */,
 				AC5F16DD18BF16A800A03832 /* CKiiBucket.cpp */,
@@ -746,6 +839,8 @@
 				AC5F16E018BF16A800A03832 /* CKiiClause.h */,
 				AC5F16E118BF16A800A03832 /* CKiiQuery.cpp */,
 				AC5F16E218BF16A800A03832 /* CKiiQuery.h */,
+				749D661B192C8267009D88A4 /* CKiiUser.cpp */,
+				749D661C192C8267009D88A4 /* CKiiUser.h */,
 			);
 			name = kii;
 			path = ../Classes/kii;
@@ -880,6 +975,23 @@
 			productReference = 74F7DA11192B1C840027FBBB /* cocos2dx-cpp-IFV3_iOS_Tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		74F7DA33192C5CC20027FBBB /* cocos2dKiiSDKTest */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 74F7DA41192C5CC60027FBBB /* Build configuration list for PBXNativeTarget "cocos2dKiiSDKTest" */;
+			buildPhases = (
+				74F7DA30192C5CC20027FBBB /* Sources */,
+				74F7DA31192C5CC20027FBBB /* Frameworks */,
+				74F7DA32192C5CC20027FBBB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = cocos2dKiiSDKTest;
+			productName = cocos2dKiiSDKTest;
+			productReference = 74F7DA34192C5CC20027FBBB /* cocos2dKiiSDKTest.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -920,6 +1032,7 @@
 				1D6058900D05DD3D006BFB54 /* cocos2dx-cpp-IFV3 iOS */,
 				5087E73D17EB910900C73F5D /* cocos2dx-cpp-IFV3 Mac */,
 				74F7DA10192B1C840027FBBB /* cocos2dx-cpp-IFV3_iOS_Tests */,
+				74F7DA33192C5CC20027FBBB /* cocos2dKiiSDKTest */,
 			);
 		};
 /* End PBXProject section */
@@ -1090,6 +1203,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		74F7DA32192C5CC20027FBBB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				74F7DA3D192C5CC50027FBBB /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -1098,6 +1219,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AC9691B218D826E2000EC9DD /* KiiRanking.cpp in Sources */,
+				749D661D192C8267009D88A4 /* CKiiUser.cpp in Sources */,
 				AC5F16C618BEDF8C00A03832 /* StartScene.cpp in Sources */,
 				AC2AE5A018D1639D008F77F9 /* KiiAppSingleton.m in Sources */,
 				AC5F16EF18BF16A800A03832 /* CKiiBucket.cpp in Sources */,
@@ -1117,6 +1239,7 @@
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
 				ACD4D11B18BDD7C9006776C3 /* GameOverScene.cpp in Sources */,
 				1AFAF8B816D35DE700DB1158 /* HelloWorldScene.cpp in Sources */,
+				749D6622192C8C68009D88A4 /* CKiiUserBind.mm in Sources */,
 				ACE3049818D3088D008FEC1E /* CKiiApiTest.cpp in Sources */,
 				ACE3048F18D30879008FEC1E /* KiiCPP.cpp in Sources */,
 				ACE3049B18D308A4008FEC1E /* KBase.cpp in Sources */,
@@ -1141,6 +1264,16 @@
 				74F7DA25192B28350027FBBB /* MyKBase.mm in Sources */,
 				74F7DA27192B48070027FBBB /* LatchedExecuter.m in Sources */,
 				74F7DA1C192B1C850027FBBB /* cocos2dx_cpp_IFV3_iOS_Tests.mm in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		74F7DA30192C5CC20027FBBB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				74F7DA49192C5DA60027FBBB /* MyKBase.mm in Sources */,
+				74F7DA48192C5DA60027FBBB /* LatchedExecuter.m in Sources */,
+				74F7DA3F192C5CC50027FBBB /* cocos2dKiiSDKTest.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1209,6 +1342,14 @@
 			isa = PBXVariantGroup;
 			children = (
 				74F7DA19192B1C850027FBBB /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		74F7DA3B192C5CC50027FBBB /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				74F7DA3C192C5CC50027FBBB /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -1362,6 +1503,7 @@
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(PROJECT_DIR)",
 				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -1426,6 +1568,7 @@
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(PROJECT_DIR)",
 				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1458,6 +1601,125 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
+		74F7DA42192C5CC60027FBBB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(PROJECT_DIR)",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "cocos2dKiiSDKTest/cocos2dKiiSDKTest-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				"GCC_PREPROCESSOR_DEFINITIONS[arch=*]" = (
+					UNITTESTING,
+					CC_TARGET_OS_IPHONE,
+					"DEBUG=1",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/../cocos2d",
+					"$(SRCROOT)/../cocos2d/cocos",
+					"$(SRCROOT)/../cocos2d/cocos/base",
+					"$(SRCROOT)/../cocos2d/cocos/physics",
+					"$(SRCROOT)/../cocos2d/cocos/math/kazmath/include",
+					"$(SRCROOT)/../cocos2d/cocos/2d",
+					"$(SRCROOT)/../cocos2d/cocos/gui",
+					"$(SRCROOT)/../cocos2d/cocos/network",
+					"$(SRCROOT)/../cocos2d/cocos/audio/include",
+					"$(SRCROOT)/../cocos2d/cocos/editor-support",
+					"$(SRCROOT)/../cocos2d/extensions",
+					"$(SRCROOT)/../cocos2d/external",
+					"$(SRCROOT)/../cocos2d/external/chipmunk/include/chipmunk",
+					"$(SRCROOT)/../cocos2d/cocos/2d/platform/ios",
+				);
+				INFOPLIST_FILE = "cocos2dKiiSDKTest/cocos2dKiiSDKTest-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		74F7DA43192C5CC60027FBBB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(PROJECT_DIR)",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "cocos2dKiiSDKTest/cocos2dKiiSDKTest-Prefix.pch";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/../cocos2d",
+					"$(SRCROOT)/../cocos2d/cocos",
+					"$(SRCROOT)/../cocos2d/cocos/base",
+					"$(SRCROOT)/../cocos2d/cocos/physics",
+					"$(SRCROOT)/../cocos2d/cocos/math/kazmath/include",
+					"$(SRCROOT)/../cocos2d/cocos/2d",
+					"$(SRCROOT)/../cocos2d/cocos/gui",
+					"$(SRCROOT)/../cocos2d/cocos/network",
+					"$(SRCROOT)/../cocos2d/cocos/audio/include",
+					"$(SRCROOT)/../cocos2d/cocos/editor-support",
+					"$(SRCROOT)/../cocos2d/extensions",
+					"$(SRCROOT)/../cocos2d/external",
+					"$(SRCROOT)/../cocos2d/external/chipmunk/include/chipmunk",
+					"$(SRCROOT)/../cocos2d/cocos/2d/platform/ios",
+				);
+				INFOPLIST_FILE = "cocos2dKiiSDKTest/cocos2dKiiSDKTest-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
 				WRAPPER_EXTENSION = xctest;
 			};
 			name = Release;
@@ -1549,6 +1811,16 @@
 				74F7DA22192B1C850027FBBB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		74F7DA41192C5CC60027FBBB /* Build configuration list for PBXNativeTarget "cocos2dKiiSDKTest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				74F7DA42192C5CC60027FBBB /* Debug */,
+				74F7DA43192C5CC60027FBBB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
 		};
 		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "cocos2dx-cpp-IFV3" */ = {
 			isa = XCConfigurationList;

@@ -60,7 +60,8 @@ static KiiSite kcsAPPSITE = kiiSiteJP;
     
     //kii 初期化
     //Statup Kii platform ... just one line to enable Kii Cloud integaration
-    [Kii beginWithID:kcsAPPID andKey:kcsAPPKEY andSite:kcsAPPSITE];
+//    [Kii beginWithID:kcsAPPID andKey:kcsAPPKEY andSite:kcsAPPSITE];
+    [Kii beginWithID:kcsAPPID andKey:kcsAPPKEY andCustomURL:@"http://api-jp.kii.com/api"];
 
     /***
      //kii Login 固定値を使用
@@ -69,16 +70,18 @@ static KiiSite kcsAPPSITE = kiiSiteJP;
      [KiiUser authenticate:username withPassword:password andDelegate:self andCallback:@selector(authProcessComplete:withError:)];
      //
      ***/
-    
-    if( [[KiiAppSingleton sharedInstance] checkUserToken ] ){
-        //login tokenあり
-        NSLog(@"AppController application login");
-        [[KRanking_objc sharedInstance] loginWithToken];
-    } else {
-        //regist tokenなし
-        NSLog(@"AppController application regist");
-        [[KRanking_objc sharedInstance] regist];
-    }
+
+#ifndef UNITTESTING
+//    if( [[KiiAppSingleton sharedInstance] checkUserToken ] ){
+//        //login tokenあり
+//        NSLog(@"AppController application login");
+//        [[KRanking_objc sharedInstance] loginWithToken];
+//    } else {
+//        //regist tokenなし
+//        NSLog(@"AppController application regist");
+//        [[KRanking_objc sharedInstance] regist];
+//    }
+#endif
 
     return YES;
 }

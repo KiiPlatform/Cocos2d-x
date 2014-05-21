@@ -16,9 +16,9 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "74F7DA10192B1C840027FBBB"
-               BuildableName = "cocos2dx-cpp-IFV3_iOS_Tests.xctest"
-               BlueprintName = "cocos2dx-cpp-IFV3_iOS_Tests"
+               BlueprintIdentifier = "74F7DA33192C5CC20027FBBB"
+               BuildableName = "cocos2dKiiSDKTest.xctest"
+               BlueprintName = "cocos2dKiiSDKTest"
                ReferencedContainer = "container:cocos2dx-cpp-IFV3.xcodeproj">
             </BuildableReference>
          </TestableReference>
