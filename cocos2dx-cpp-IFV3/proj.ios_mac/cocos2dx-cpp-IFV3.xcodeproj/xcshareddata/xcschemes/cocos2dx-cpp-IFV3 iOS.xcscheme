@@ -67,6 +67,16 @@
                ReferencedContainer = "container:cocos2dx-cpp-IFV3.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "74DF3820192DF734005D2E23"
+               BuildableName = "CKiiSDKTests.xctest"
+               BlueprintName = "CKiiSDKTests"
+               ReferencedContainer = "container:cocos2dx-cpp-IFV3.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
