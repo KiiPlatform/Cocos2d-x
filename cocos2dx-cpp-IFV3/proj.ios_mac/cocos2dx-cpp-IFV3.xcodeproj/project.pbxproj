@@ -79,7 +79,7 @@
 		74DF3824192DF734005D2E23 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7417764819299F260000C78B /* UIKit.framework */; };
 		74DF3827192DF734005D2E23 /* libCKiiSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 74DF3814192DF734005D2E23 /* libCKiiSDK.a */; };
 		74DF382D192DF734005D2E23 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 74DF382B192DF734005D2E23 /* InfoPlist.strings */; };
-		74DF382F192DF734005D2E23 /* CKiiSDKTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 74DF382E192DF734005D2E23 /* CKiiSDKTests.m */; };
+		74DF382F192DF734005D2E23 /* CKiiSDKTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 74DF382E192DF734005D2E23 /* CKiiSDKTests.mm */; };
 		74DF3838192DF80D005D2E23 /* CKiiBucket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74DF3836192DF80D005D2E23 /* CKiiBucket.cpp */; };
 		74DF383D192DF81D005D2E23 /* CKiiError.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74DF3839192DF81D005D2E23 /* CKiiError.cpp */; };
 		74DF383E192DF81D005D2E23 /* CKiiObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74DF383B192DF81D005D2E23 /* CKiiObject.cpp */; };
@@ -94,6 +94,7 @@
 		74DF385C192E082D005D2E23 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7417764619299F150000C78B /* Social.framework */; };
 		74DF385D192E0833005D2E23 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7417764219299EF90000C78B /* Accounts.framework */; };
 		74DF385E192E083A005D2E23 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7417764419299F000000C78B /* MobileCoreServices.framework */; };
+		74DF3864192EE86D005D2E23 /* LatchedExecuter.m in Sources */ = {isa = PBXBuildFile; fileRef = 74DF3863192EE86D005D2E23 /* LatchedExecuter.m */; };
 		AC2AE59218D160ED008F77F9 /* CallFromCPP.mm in Sources */ = {isa = PBXBuildFile; fileRef = AC2AE59118D160ED008F77F9 /* CallFromCPP.mm */; };
 		AC2AE59B18D16153008F77F9 /* KRanking_objc.mm in Sources */ = {isa = PBXBuildFile; fileRef = AC2AE59A18D16153008F77F9 /* KRanking_objc.mm */; };
 		AC2AE5A018D1639D008F77F9 /* KiiAppSingleton.m in Sources */ = {isa = PBXBuildFile; fileRef = AC2AE59F18D1639D008F77F9 /* KiiAppSingleton.m */; };
@@ -395,7 +396,7 @@
 		74DF3821192DF734005D2E23 /* CKiiSDKTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CKiiSDKTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		74DF382A192DF734005D2E23 /* CKiiSDKTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CKiiSDKTests-Info.plist"; sourceTree = "<group>"; };
 		74DF382C192DF734005D2E23 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		74DF382E192DF734005D2E23 /* CKiiSDKTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CKiiSDKTests.m; sourceTree = "<group>"; };
+		74DF382E192DF734005D2E23 /* CKiiSDKTests.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = CKiiSDKTests.mm; sourceTree = "<group>"; };
 		74DF3836192DF80D005D2E23 /* CKiiBucket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CKiiBucket.cpp; sourceTree = "<group>"; };
 		74DF3837192DF80D005D2E23 /* CKiiBucket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKiiBucket.h; sourceTree = "<group>"; };
 		74DF3839192DF81D005D2E23 /* CKiiError.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CKiiError.cpp; sourceTree = "<group>"; };
@@ -414,6 +415,8 @@
 		74DF3857192E05AA005D2E23 /* CKiiiOSBindings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKiiiOSBindings.h; sourceTree = "<group>"; };
 		74DF385F192E130B005D2E23 /* CKiiUser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CKiiUser.cpp; sourceTree = "<group>"; };
 		74DF3860192E130B005D2E23 /* CKiiUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKiiUser.h; sourceTree = "<group>"; };
+		74DF3862192EE86D005D2E23 /* LatchedExecuter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LatchedExecuter.h; sourceTree = "<group>"; };
+		74DF3863192EE86D005D2E23 /* LatchedExecuter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LatchedExecuter.m; sourceTree = "<group>"; };
 		74F7DA2A192C44DD0027FBBB /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/usr/lib/libsqlite3.0.dylib; sourceTree = DEVELOPER_DIR; };
 		AC1E32E918D8310800D12B79 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/System/Library/Frameworks/OpenGLES.framework; sourceTree = DEVELOPER_DIR; };
 		AC2AE59018D160ED008F77F9 /* CallFromCPP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CallFromCPP.h; path = ios/CallFromCPP.h; sourceTree = SOURCE_ROOT; };
@@ -798,7 +801,9 @@
 		74DF3828192DF734005D2E23 /* CKiiSDKTests */ = {
 			isa = PBXGroup;
 			children = (
-				74DF382E192DF734005D2E23 /* CKiiSDKTests.m */,
+				74DF3862192EE86D005D2E23 /* LatchedExecuter.h */,
+				74DF3863192EE86D005D2E23 /* LatchedExecuter.m */,
+				74DF382E192DF734005D2E23 /* CKiiSDKTests.mm */,
 				74DF3829192DF734005D2E23 /* Supporting Files */,
 			);
 			path = CKiiSDKTests;
@@ -1021,9 +1026,6 @@
 				TargetAttributes = {
 					1D6058900D05DD3D006BFB54 = {
 						DevelopmentTeam = MDDB52YB8L;
-					};
-					74DF3820192DF734005D2E23 = {
-						TestTargetID = 1D6058900D05DD3D006BFB54;
 					};
 				};
 			};
@@ -1286,7 +1288,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				74DF382F192DF734005D2E23 /* CKiiSDKTests.m in Sources */,
+				74DF3864192EE86D005D2E23 /* LatchedExecuter.m in Sources */,
+				74DF382F192DF734005D2E23 /* CKiiSDKTests.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1572,7 +1575,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/cocos2dx-cpp-IFV3 iOS.app/cocos2dx-cpp-IFV3 iOS";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -1607,7 +1609,6 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
-				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};
 			name = Debug;
@@ -1616,7 +1617,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/cocos2dx-cpp-IFV3 iOS.app/cocos2dx-cpp-IFV3 iOS";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -1647,7 +1647,6 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
-				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};
 			name = Release;

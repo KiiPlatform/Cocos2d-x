@@ -7,3 +7,8 @@
 //
 
 #include "CKiiBaseBindings.h"
+
+kiicloud::CKiiBaseBindings::~CKiiBaseBindings()
+{
+    
+};

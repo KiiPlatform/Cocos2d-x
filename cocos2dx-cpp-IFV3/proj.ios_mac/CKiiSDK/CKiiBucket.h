@@ -6,8 +6,8 @@
 //
 //
 
-#ifndef __cocos2dx_cpp_IFV3__CKiiBucket2__
-#define __cocos2dx_cpp_IFV3__CKiiBucket2__
+#ifndef __cocos2dx_cpp_IFV3__CKiiBucket__
+#define __cocos2dx_cpp_IFV3__CKiiBucket__
 
 #include <iostream>
 #include "KBase.h"
@@ -30,4 +30,4 @@ public:
 
 };
 }
-#endif /* defined(__cocos2dx_cpp_IFV3__CKiiBucket2__) */
+#endif /* defined(__cocos2dx_cpp_IFV3__CKiiBucket__) */

@@ -20,23 +20,24 @@ namespace kiicloud
 class CKiiBaseBindings
 {
 public:
+    virtual ~CKiiBaseBindings();
     virtual void login(
-                      const std::string& appId,
-                      const std::string& appKey,
-                      const CKiiSite& appSite,
-                      const std::string& username,
-                      const std::string& password,
-                      const picojson::object& data,
-                      const std::function<void (CKiiUser* auth, CKiiError* error)> loginCallback) = 0;
+                       const std::string& appId,
+                       const std::string& appKey,
+                       const CKiiSite& appSite,
+                       const std::string& username,
+                       const std::string& password,
+                       const picojson::object& data,
+                       const std::function<void (std::shared_ptr<CKiiUser> auth, std::shared_ptr<CKiiError> error)> loginCallback) = 0;
     
     virtual void registerNewUser(
-                                const std::string& appId,
-                                const std::string& appKey,
-                                const CKiiSite& appSite,
-                                const std::string& username,
-                                const std::string& password,
-                                const picojson::object& data,
-                                const std::function<void (CKiiUser* auth, CKiiError *error)> registerCallback) = 0;
+                                 const std::string& appId,
+                                 const std::string& appKey,
+                                 const CKiiSite& appSite,
+                                 const std::string& username,
+                                 const std::string& password,
+                                 const picojson::object& data,
+                                 const std::function<void (std::shared_ptr<CKiiUser> auth, std::shared_ptr<CKiiError> error)> loginCallback) = 0;
 };
 
 };

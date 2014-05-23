@@ -12,12 +12,17 @@
 #include <iostream>
 namespace kiicloud
 {
+
 class CKiiError
 {
 public:
     CKiiError(int httpErrorCode, std::string kiiErrorCode);
     int getHttpErrorCode();
     std::string* getKiiErrorCode();
+private:
+    int httpErrorCode;
+    std::string* kiiErrorCode;
 };
+
 }
 #endif /* defined(__cocos2dx_cpp_IFV3__CKiiError__) */

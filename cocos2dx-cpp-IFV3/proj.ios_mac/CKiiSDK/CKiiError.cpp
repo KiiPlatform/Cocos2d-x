@@ -7,3 +7,9 @@
 //
 
 #include "CKiiError.h"
+
+kiicloud::CKiiError::CKiiError(int httpErrorCode, std::string kiiErrorCode)
+{
+    this->httpErrorCode = httpErrorCode;
+    this->kiiErrorCode = &kiiErrorCode;
+}

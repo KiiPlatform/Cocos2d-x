@@ -32,6 +32,10 @@ NSString* convertString(std::string stdStr)
     return [NSString stringWithCString:stdStr.c_str() encoding:NSUTF8StringEncoding];
 }
 
+kiicloud::CKiiiOSBindings::CKiiiOSBindings()
+{
+};
+
 void kiicloud::CKiiiOSBindings::login(
                                       const std::string& appId,
                                       const std::string& appKey,
@@ -44,6 +48,7 @@ void kiicloud::CKiiiOSBindings::login(
     NSString * aid = convertString(appId);
     NSString * akey = convertString(appKey);
     [Kii beginWithID:aid andKey:akey andSite:convertSite(appSite)];
+    [Kii setLogLevel:3];
     
     NSString * uname = convertString(username);
     NSString * upass = convertString(password);
@@ -52,8 +57,8 @@ void kiicloud::CKiiiOSBindings::login(
     [KiiUser authenticate:uname withPassword:upass andBlock:^(KiiUser *user, NSError *error) {
         if (error != nil)
         {
-            // TOOD create CKiiError error propery.
-            std::shared_ptr<CKiiError> errP(new CKiiError(0, std::string("dummy error")));
+            NSString* sCode = error.userInfo[@"server_code"];
+            std::shared_ptr<CKiiError> errP(new CKiiError(0, [sCode cStringUsingEncoding:NSUTF8StringEncoding]));
             loginCallback(nullptr, errP);
             return;
         }
@@ -61,7 +66,6 @@ void kiicloud::CKiiiOSBindings::login(
         std::shared_ptr<CKiiUser> userP(new CKiiUser());
         loginCallback(userP, nullptr);
     }];
-
 }
 
 void kiicloud::CKiiiOSBindings::registerNewUser(
@@ -73,5 +77,26 @@ void kiicloud::CKiiiOSBindings::registerNewUser(
                                                 const picojson::object& data,
                                                 const std::function<void (std::shared_ptr<CKiiUser> auth, std::shared_ptr<CKiiError> error)> loginCallback)
 {
-    // TODO: implement it.
+    NSString * aid = convertString(appId);
+    NSString * akey = convertString(appKey);
+    [Kii beginWithID:aid andKey:akey andSite:convertSite(appSite)];
+    [Kii setLogLevel:3];
+
+    NSString * uname = convertString(username);
+    NSString * upass = convertString(password);
+    KiiUser *kuser = [KiiUser userWithUsername:uname andPassword:upass];
+
+    // TODO: parse data.
+    [kuser performRegistrationWithBlock:^(KiiUser *user, NSError *error) {
+        if (error != nil)
+        {
+            NSString* sCode = error.userInfo[@"server_code"];
+            std::shared_ptr<CKiiError> errP(new CKiiError(0, [sCode cStringUsingEncoding:NSUTF8StringEncoding]));
+            loginCallback(nullptr, errP);
+            return;
+        }
+        std::shared_ptr<CKiiUser> userP(new CKiiUser());
+        loginCallback(userP, nullptr);
+    }];
+    
 }

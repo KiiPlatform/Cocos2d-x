@@ -6,8 +6,8 @@
 //
 //
 
-#ifndef __cocos2dx_cpp_IFV3__CKiiQuery2__
-#define __cocos2dx_cpp_IFV3__CKiiQuery2__
+#ifndef __cocos2dx_cpp_IFV3__CKiiQuery__
+#define __cocos2dx_cpp_IFV3__CKiiQuery__
 
 #include <iostream>
 
@@ -18,4 +18,4 @@ class CKiiQuery
     
 };
 };
-#endif /* defined(__cocos2dx_cpp_IFV3__CKiiQuery2__) */
+#endif /* defined(__cocos2dx_cpp_IFV3__CKiiQuery__) */
