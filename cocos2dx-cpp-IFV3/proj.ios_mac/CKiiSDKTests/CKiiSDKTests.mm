@@ -48,9 +48,12 @@ const static CKiiSite appSite = cKiiSiteJP;
 
     NSString *uname = [[[NSUUID alloc]init]UUIDString];
     std::string username = [uname cStringUsingEncoding:NSUTF8StringEncoding];
+    
+    CKiiUserAsyncFactory *f = new CKiiUserAsyncFactory();
+    std::shared_ptr<CKiiUserAsyncFactory> p(f);
+
     [l execute:^{
         picojson::object *obj;
-        CKiiUserAsyncFactory *f = new CKiiUserAsyncFactory();
         f->registerNewUser(appId, appKey, appSite, username, "1234", *obj,
                            [& self, l] (std::shared_ptr<CKiiUser> user, std::shared_ptr<CKiiError> error) {
             XCTAssertTrue(user.get() != nullptr, @"user should be passed");
@@ -61,7 +64,6 @@ const static CKiiSite appSite = cKiiSiteJP;
 
     [l execute:^{
         picojson::object *obj;
-        CKiiUserAsyncFactory *f = new CKiiUserAsyncFactory();
         f->login(appId, appKey, appSite, username, "1234", *obj,
                  [& self, l] (std::shared_ptr<CKiiUser> user, std::shared_ptr<CKiiError> error) {
             XCTAssertTrue(user.get() != nullptr, @"user should be passed");
