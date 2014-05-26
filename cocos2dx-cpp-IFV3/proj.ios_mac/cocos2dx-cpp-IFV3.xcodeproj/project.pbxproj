@@ -73,6 +73,13 @@
 		7417765919299FEC0000C78B /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7417765819299FEC0000C78B /* OpenGLES.framework */; };
 		7417765B1929A0000000C78B /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7417765A1929A0000000C78B /* CoreMotion.framework */; };
 		749D6622192C8C68009D88A4 /* CKiiUserBind.mm in Sources */ = {isa = PBXBuildFile; fileRef = 749D6620192C8537009D88A4 /* CKiiUserBind.mm */; };
+		74BAC63D1932DA9E002D9F1D /* CKiiAuth.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 74DF384E192DFEF8005D2E23 /* CKiiAuth.h */; };
+		74BAC63E1932DA9E002D9F1D /* CKiiQuery.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 74DF3840192DF82D005D2E23 /* CKiiQuery.h */; };
+		74BAC63F1932DA9E002D9F1D /* CKiiUser.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 74DF3842192DF82D005D2E23 /* CKiiUser.h */; };
+		74BAC6401932DA9E002D9F1D /* CKiiError.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 74DF383A192DF81D005D2E23 /* CKiiError.h */; };
+		74BAC6411932DA9E002D9F1D /* CKiiObject.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 74DF383C192DF81D005D2E23 /* CKiiObject.h */; };
+		74BAC6421932DA9E002D9F1D /* CKiiBucket.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 74DF3837192DF80D005D2E23 /* CKiiBucket.h */; };
+		74BAC6451932DAF7002D9F1D /* CKiiUserAsyncFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74BAC6431932DAF7002D9F1D /* CKiiUserAsyncFactory.cpp */; };
 		74DF3815192DF734005D2E23 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		74DF3822192DF734005D2E23 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74177662192AFDA10000C78B /* XCTest.framework */; };
 		74DF3823192DF734005D2E23 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
@@ -326,6 +333,12 @@
 			dstPath = "include/$(PRODUCT_NAME)";
 			dstSubfolderSpec = 16;
 			files = (
+				74BAC63D1932DA9E002D9F1D /* CKiiAuth.h in CopyFiles */,
+				74BAC63E1932DA9E002D9F1D /* CKiiQuery.h in CopyFiles */,
+				74BAC63F1932DA9E002D9F1D /* CKiiUser.h in CopyFiles */,
+				74BAC6401932DA9E002D9F1D /* CKiiError.h in CopyFiles */,
+				74BAC6411932DA9E002D9F1D /* CKiiObject.h in CopyFiles */,
+				74BAC6421932DA9E002D9F1D /* CKiiBucket.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -389,6 +402,8 @@
 		74177662192AFDA10000C78B /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		749D661F192C8537009D88A4 /* CKiiUserBind.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKiiUserBind.h; sourceTree = "<group>"; };
 		749D6620192C8537009D88A4 /* CKiiUserBind.mm */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = CKiiUserBind.mm; sourceTree = "<group>"; };
+		74BAC6431932DAF7002D9F1D /* CKiiUserAsyncFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CKiiUserAsyncFactory.cpp; sourceTree = "<group>"; };
+		74BAC6441932DAF7002D9F1D /* CKiiUserAsyncFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKiiUserAsyncFactory.h; sourceTree = "<group>"; };
 		74DF37F8192CB703005D2E23 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/System/Library/Frameworks/CoreGraphics.framework; sourceTree = DEVELOPER_DIR; };
 		74DF37FA192CB72D005D2E23 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/usr/lib/libz.dylib; sourceTree = DEVELOPER_DIR; };
 		74DF3814192DF734005D2E23 /* libCKiiSDK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libCKiiSDK.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -773,6 +788,8 @@
 			isa = PBXGroup;
 			children = (
 				74DF3852192E041E005D2E23 /* CKiiBindings */,
+				74BAC6431932DAF7002D9F1D /* CKiiUserAsyncFactory.cpp */,
+				74BAC6441932DAF7002D9F1D /* CKiiUserAsyncFactory.h */,
 				74DF384D192DFEF8005D2E23 /* CKiiAuth.cpp */,
 				74DF384E192DFEF8005D2E23 /* CKiiAuth.h */,
 				74DF383F192DF82D005D2E23 /* CKiiQuery.cpp */,
@@ -1277,6 +1294,7 @@
 				74DF384F192DFEF8005D2E23 /* CKiiAuth.cpp in Sources */,
 				74DF3844192DF82D005D2E23 /* CKiiUser.cpp in Sources */,
 				74DF383E192DF81D005D2E23 /* CKiiObject.cpp in Sources */,
+				74BAC6451932DAF7002D9F1D /* CKiiUserAsyncFactory.cpp in Sources */,
 				74DF3855192E044E005D2E23 /* CKiiBaseBindings.cpp in Sources */,
 				74DF3858192E05AA005D2E23 /* CKiiiOSBindings.mm in Sources */,
 				74DF3838192DF80D005D2E23 /* CKiiBucket.cpp in Sources */,
@@ -1738,6 +1756,7 @@
 				74DF3832192DF735005D2E23 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
 		};
 		74DF3833192DF735005D2E23 /* Build configuration list for PBXNativeTarget "CKiiSDKTests" */ = {
 			isa = XCConfigurationList;
@@ -1746,6 +1765,7 @@
 				74DF3835192DF735005D2E23 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
 		};
 		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "cocos2dx-cpp-IFV3" */ = {
 			isa = XCConfigurationList;
