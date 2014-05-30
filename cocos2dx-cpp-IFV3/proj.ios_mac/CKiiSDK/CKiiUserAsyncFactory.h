@@ -49,7 +49,9 @@ public:
 
 private:
     CKiiBaseBindings *bind;
-    std::thread *myThread;
+    std::map<std::thread::id, std::thread*> threadPool;
+    std::map<int, std::thread::id> idMap;
+    int taskId;
 };
 
 } // namespace kiicloud

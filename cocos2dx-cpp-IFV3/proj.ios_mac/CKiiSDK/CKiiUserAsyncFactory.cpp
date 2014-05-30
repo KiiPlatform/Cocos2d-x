@@ -13,18 +13,18 @@
 
 kiicloud::CKiiUserAsyncFactory::CKiiUserAsyncFactory()
 {
-//    bind = new CKiiiOSBindings();
     bind = new CKiicURLBindings();
 }
 
-kiicloud::CKiiUserAsyncFactory::CKiiUserAsyncFactory(const CKiiUserAsyncFactory& lv) : bind(new CKiicURLBindings()), myThread(lv.myThread)
+kiicloud::CKiiUserAsyncFactory::CKiiUserAsyncFactory(const CKiiUserAsyncFactory& lv) : bind(new CKiicURLBindings())
 {
 }
 
-kiicloud::CKiiUserAsyncFactory::CKiiUserAsyncFactory(CKiiUserAsyncFactory&& lv) : bind (new CKiicURLBindings()), myThread (lv.myThread)
+kiicloud::CKiiUserAsyncFactory::CKiiUserAsyncFactory(CKiiUserAsyncFactory&& lv) : bind (new CKiicURLBindings())
 {
     lv.bind = nullptr;
-    lv.myThread = nullptr;
+    lv.idMap.clear();
+    lv.threadPool.clear();
 }
 
 kiicloud::CKiiUserAsyncFactory::~CKiiUserAsyncFactory()
@@ -41,15 +41,19 @@ void kiicloud::CKiiUserAsyncFactory::login(
                   const picojson::object& data,
                   const std::function<void (CKiiUser *authenticatedUser, CKiiError *error)> loginCallback)
 {
+    int i = ++taskId;
     std::thread *thd = new std::thread([=, &appId, &appKey, &username, &password, &data]() {
         bind->login(appId, appKey, appSite, username, password, data,
                     [=, &appId, &appKey, &username, &password, &data] (CKiiUser *aUser, CKiiError* e) {
                         loginCallback(aUser, e);
-                        myThread->detach();
-                        delete myThread;
+                        // TODO: make it thread safe.
+                        std::thread::id th_id = idMap[i];
+                        threadPool[th_id] -> detach();
+                        delete threadPool[th_id];
                     });
     });
-    myThread = thd;
+    idMap.insert(std::map<int, std::thread::id>::value_type(i, thd->get_id()));
+    threadPool.insert(std::map<std::thread::id, std::thread*>::value_type(thd->get_id(), thd));
 }
 
 void kiicloud::CKiiUserAsyncFactory::registerNewUser(
