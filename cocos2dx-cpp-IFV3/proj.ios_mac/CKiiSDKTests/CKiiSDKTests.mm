@@ -71,8 +71,9 @@ const static CKiiSite appSite = cKiiSiteJP;
                      // Expect failure since no user is registered yet.
                      std::shared_ptr<CKiiUser> uPtr(user);
                      std::shared_ptr<CKiiError> ePtr(error);
-                     XCTAssertTrue(user == nullptr, @"user should be passed");
+                     XCTAssertTrue(user == nullptr, @"user should be null");
                      XCTAssertTrue(error->getHttpErrorCode() == 400);
+                     XCTAssertEqual(error->getKiiErrorCode().compare("invalid_grant"), 0, "unexpected kii error code");
                      [l offTheLatch];
                  });
     } withTimeOutSec:5];
