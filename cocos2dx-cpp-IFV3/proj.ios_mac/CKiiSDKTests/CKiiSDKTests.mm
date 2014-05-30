@@ -66,10 +66,11 @@ const static CKiiSite appSite = cKiiSiteJP;
         picojson::object *obj;
         f->login(appId, appKey, appSite, username, "1234", *obj,
                  [& self, l] (std::shared_ptr<CKiiUser> user, std::shared_ptr<CKiiError> error) {
-            XCTAssertTrue(user.get() != nullptr, @"user should be passed");
-            XCTAssertTrue(error.get() == nullptr, @"error should be null");
-            [l offTheLatch];
-        });
+                     // Expect failure since no user is registered yet.
+                     XCTAssertTrue(user.get() == nullptr, @"user should be passed");
+                     XCTAssertTrue(error.get()->getHttpErrorCode() == 400);
+                     [l offTheLatch];
+                 });
     } withTimeOutSec:5];
 
 }

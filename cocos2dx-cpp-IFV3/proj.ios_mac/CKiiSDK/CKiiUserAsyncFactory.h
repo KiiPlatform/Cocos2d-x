@@ -10,6 +10,8 @@
 #define __cocos2dx_cpp_IFV3__CKiiUserAsyncFactory__
 
 #include <iostream>
+#include <thread>
+#include <set>
 #include "KBase.h"
 #include "picojson.h"
 #include "CKiiBaseBindings.h"
@@ -24,6 +26,8 @@ class CKiiUserAsyncFactory
 {
 public:
     CKiiUserAsyncFactory();
+    CKiiUserAsyncFactory(const CKiiUserAsyncFactory& lv);
+    CKiiUserAsyncFactory(CKiiUserAsyncFactory&& lv);
     ~CKiiUserAsyncFactory();
     void login(
                const std::string& appId,
@@ -45,6 +49,8 @@ public:
 
 private:
     CKiiBaseBindings *bind;
+//    std::set<std::thread*> threadPool;
+    std::thread *myThread;
 };
 
 } // namespace kiicloud

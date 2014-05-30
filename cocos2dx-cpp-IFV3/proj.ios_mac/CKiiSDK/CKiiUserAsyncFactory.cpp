@@ -8,15 +8,32 @@
 
 #include "CKiiUserAsyncFactory.h"
 #include "CKiiiOSBindings.h"
+#include "CKiicURLBindings.h"
+#include <thread>
 
 kiicloud::CKiiUserAsyncFactory::CKiiUserAsyncFactory()
 {
-    bind = new CKiiiOSBindings();
+//    bind = new CKiiiOSBindings();
+    bind = new CKiicURLBindings();
+}
+
+kiicloud::CKiiUserAsyncFactory::CKiiUserAsyncFactory(const CKiiUserAsyncFactory& lv) :  bind { new CKiicURLBindings() }
+{
+}
+
+kiicloud::CKiiUserAsyncFactory::CKiiUserAsyncFactory(CKiiUserAsyncFactory&& lv) : bind { new CKiicURLBindings() }
+{
+    lv.bind = nullptr;
 }
 
 kiicloud::CKiiUserAsyncFactory::~CKiiUserAsyncFactory()
 {
     delete bind;
+}
+
+void hoge(std::shared_ptr<kiicloud::CKiiUser> user, std::shared_ptr<kiicloud::CKiiError> error)
+{
+    
 }
 
 void kiicloud::CKiiUserAsyncFactory::login(
@@ -28,8 +45,15 @@ void kiicloud::CKiiUserAsyncFactory::login(
                   const picojson::object& data,
                   const std::function<void (std::shared_ptr<CKiiUser> authenticatedUser, std::shared_ptr<CKiiError> error)> loginCallback)
 {
-    bind->login(appId, appKey, appSite, username, password, data,
-                loginCallback);
+    std::thread *thd = new std::thread([&]() {
+        bind->login(appId, appKey, appSite, username, password, data,
+                    [&] (std::shared_ptr<CKiiUser> aUser, std::shared_ptr<CKiiError> error) {
+                        loginCallback(aUser, error);
+                        myThread->detach();
+                        delete myThread;
+                    });
+    });
+    myThread = thd;
 }
 
 void kiicloud::CKiiUserAsyncFactory::registerNewUser(
