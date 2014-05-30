@@ -10,19 +10,38 @@
 #include <sstream>
 #include "CKiiError.h"
 
+using kiicloud::CKiiError;
+
 kiicloud::CKiiError::~CKiiError()
+{
+    delete kiiErrorCode;
+}
+
+kiicloud::CKiiError::CKiiError()
+{
+    httpErrorCode = 0;
+    kiiErrorCode = new std::string("");
+}
+
+kiicloud::CKiiError::CKiiError(const CKiiError& lv) : kiiErrorCode {new std::string(*lv.kiiErrorCode) }
 {
 }
 
-kiicloud::CKiiError::CKiiError(int httpErrorCode, std::string kiiErrorCode)
+kiicloud::CKiiError::CKiiError(CKiiError&& lv) : kiiErrorCode { new std::string(*lv.kiiErrorCode) }
+{
+    lv.kiiErrorCode = nullptr;
+    lv.httpErrorCode = 0;
+}
+
+kiicloud::CKiiError::CKiiError(int httpErrorCode, const std::string& kiiErrorCode)
 {
     this->httpErrorCode = httpErrorCode;
-    this->kiiErrorCode = kiiErrorCode;
+    this->kiiErrorCode = new std::string(kiiErrorCode);
 }
 
 std::string kiicloud::CKiiError::getKiiErrorCode()
 {
-    return kiiErrorCode;
+    return *kiiErrorCode;
 }
 
 int kiicloud::CKiiError::getHttpErrorCode()
@@ -33,6 +52,6 @@ int kiicloud::CKiiError::getHttpErrorCode()
 std::string kiicloud::CKiiError::toString()
 {
     std::stringstream ss;
-    ss << "CKiiError(" << "httpErrorCode: " << httpErrorCode << ", kiiErrorCode: " << kiiErrorCode << ")";
+    ss << "CKiiError(" << "httpErrorCode: " << httpErrorCode << ", kiiErrorCode: " << *kiiErrorCode << ")";
     return ss.str();
 }

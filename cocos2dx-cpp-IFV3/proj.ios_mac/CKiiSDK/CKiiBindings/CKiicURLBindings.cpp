@@ -81,7 +81,7 @@ void kiicloud::CKiicURLBindings::login(
                                        const std::string& username,
                                        const std::string& password,
                                        const picojson::object& data,
-                                       const std::function<void (std::shared_ptr<CKiiUser> auth, std::shared_ptr<CKiiError> error)> loginCallback)
+                                       const std::function<void (CKiiUser *auth, CKiiError *error)> loginCallback)
 {
     std::string destUrl = getBaseUrl(appSite) + "/oauth2/token";
     
@@ -106,8 +106,6 @@ void kiicloud::CKiicURLBindings::login(
     CKiiLog::getInstance().get()->log("reqStr: " + reqStr);
     
     for (int i=0; i < 1; ++i) { // dummy loop
-        std::shared_ptr<CKiiUser> uPtr;
-        std::shared_ptr<CKiiError> ePtr;
         curl = curl_easy_init();
         if (curl)
         {
@@ -126,9 +124,9 @@ void kiicloud::CKiicURLBindings::login(
             
             if (res != CURLE_OK) {
                 // Connection error.
-                ePtr = std::shared_ptr<CKiiError>(new CKiiError(0, "CONNECTION_ERROR"));
-                CKiiLog::getInstance()->log("error: " + ePtr.get()->toString());
-                loginCallback(uPtr, ePtr);
+                CKiiError *er = new CKiiError(0, "CONNECTION_ERROR");
+                CKiiLog::getInstance()->log("error: " + er->toString());
+                loginCallback(nullptr, er);
                 break;
             }
             
@@ -137,15 +135,15 @@ void kiicloud::CKiicURLBindings::login(
             res = curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &respCode);
             
             if (res != CURLE_OK) {
-                ePtr = std::shared_ptr<CKiiError>(new CKiiError(0, "CONNECTION_ERROR"));
-                CKiiLog::getInstance()->log("error: " + ePtr.get()->toString());
-                loginCallback(uPtr, ePtr);
+                CKiiError *er = new CKiiError(0, "CONNECTION_ERROR");
+                CKiiLog::getInstance()->log("error: " + er->toString());
+                loginCallback(nullptr, er);
                 break;
             }
             
             if ((200 <= respCode) && (respCode < 300)) {
-                uPtr = std::shared_ptr<CKiiUser>(new CKiiUser());
-                loginCallback(uPtr, ePtr);
+                CKiiUser *user = new CKiiUser();
+                loginCallback(user, nullptr);
                 break;
             }
             
@@ -154,9 +152,9 @@ void kiicloud::CKiicURLBindings::login(
             picojson::parse(out, resp.c_str(), resp.c_str() + resp.length(), &parseError);
             if (parseError != "")
             {
-                ePtr = std::shared_ptr<CKiiError>(new CKiiError(respCode, "UNEXPECTED_ERROR"));
-                CKiiLog::getInstance()->log("error: " + ePtr.get()->toString());
-                loginCallback(uPtr, ePtr);
+                CKiiError *er = new CKiiError(0, "UNEXPECTED_ERROR");
+                CKiiLog::getInstance()->log("error: " + er->toString());
+                loginCallback(nullptr, er);
                 break;
             }
             
@@ -167,20 +165,20 @@ void kiicloud::CKiicURLBindings::login(
                 {
                     std::string sCode = code.get<std::string>();
                     CKiiLog::getInstance()->log("sCode: " + sCode);
-                    ePtr = std::shared_ptr<CKiiError>(new CKiiError(respCode, sCode));
-                    CKiiLog::getInstance()->log("error: " + ePtr.get()->toString());
-                    loginCallback(uPtr, ePtr);
+                    CKiiError *er = new CKiiError(respCode, sCode);
+                    CKiiLog::getInstance()->log("error: " + er->toString());
+                    loginCallback(nullptr, er);
                     break;
                 }
             }
-            ePtr = std::shared_ptr<CKiiError>(new CKiiError(respCode, "UNEXPECTED_ERROR"));
-            CKiiLog::getInstance()->log("error: " + ePtr.get()->toString());
-            loginCallback(uPtr, ePtr);
+            CKiiError *er = new CKiiError(respCode, "UNEXPECTED_ERROR");
+            CKiiLog::getInstance()->log("error: " + er->toString());
+            loginCallback(nullptr, er);
             break;
         } else {
-            ePtr = std::shared_ptr<CKiiError>(new CKiiError(0, "CANT_INITIATE_CONNECTION"));
-            CKiiLog::getInstance()->log("error: " + ePtr.get()->toString());
-            loginCallback(uPtr, ePtr);
+            CKiiError *er = new CKiiError(0, "CANT_INITIATE_CONNECTION");
+            CKiiLog::getInstance()->log("error: " + er->toString());
+            loginCallback(nullptr, er);
             break;
         }
     } // dummy loop.

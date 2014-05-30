@@ -29,7 +29,7 @@ public:
                const std::string& username,
                const std::string& password,
                const picojson::object& data,
-               const std::function<void (std::shared_ptr<CKiiUser> auth, std::shared_ptr<CKiiError> error)> loginCallback);
+               const std::function<void (CKiiUser *auth, CKiiError *error)> loginCallback);
     
     void registerNewUser(
                          const std::string& appId,

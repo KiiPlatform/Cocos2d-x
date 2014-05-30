@@ -52,23 +52,27 @@ const static CKiiSite appSite = cKiiSiteJP;
     CKiiUserAsyncFactory *f = new CKiiUserAsyncFactory();
     std::shared_ptr<CKiiUserAsyncFactory> p(f);
 
-    [l execute:^{
-        picojson::object *obj;
-        f->registerNewUser(appId, appKey, appSite, username, "1234", *obj,
-                           [& self, l] (std::shared_ptr<CKiiUser> user, std::shared_ptr<CKiiError> error) {
-            XCTAssertTrue(user.get() != nullptr, @"user should be passed");
-            XCTAssertTrue(error.get() == nullptr, @"error should be null");
-            [l offTheLatch];
-        });
-    } withTimeOutSec:5];
+//    [l execute:^{
+//        picojson::object *obj;
+//        f->registerNewUser(appId, appKey, appSite, username, "1234", *obj,
+//                           [& self, l] (std::shared_ptr<CKiiUser> user, std::shared_ptr<CKiiError> error) {
+//            XCTAssertTrue(user.get() != nullptr, @"user should be passed");
+//            XCTAssertTrue(error.get() == nullptr, @"error should be null");
+//            [l offTheLatch];
+//        });
+//    } withTimeOutSec:5];
 
     [l execute:^{
         picojson::object *obj;
-        f->login(appId, appKey, appSite, username, "1234", *obj,
-                 [& self, l] (std::shared_ptr<CKiiUser> user, std::shared_ptr<CKiiError> error) {
+        std::string *pass = new std::string("1234");
+        std::shared_ptr<std::string> passPtr(pass);
+        f->login(appId, appKey, appSite, username, *pass, *obj,
+                 [& self, l, pass] (CKiiUser *user, CKiiError *error) {
                      // Expect failure since no user is registered yet.
-                     XCTAssertTrue(user.get() == nullptr, @"user should be passed");
-                     XCTAssertTrue(error.get()->getHttpErrorCode() == 400);
+                     std::shared_ptr<CKiiUser> uPtr(user);
+                     std::shared_ptr<CKiiError> ePtr(error);
+                     XCTAssertTrue(user == nullptr, @"user should be passed");
+                     XCTAssertTrue(error->getHttpErrorCode() == 400);
                      [l offTheLatch];
                  });
     } withTimeOutSec:5];

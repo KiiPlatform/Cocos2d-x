@@ -16,14 +16,17 @@ namespace kiicloud
 class CKiiError
 {
 public:
-    CKiiError(int httpErrorCode, std::string kiiErrorCode);
+    CKiiError();
+    CKiiError(int httpErrorCode, const std::string &kiiErrorCode);
+    CKiiError(const CKiiError& lv);
+    CKiiError(CKiiError&& lv);
     ~CKiiError();
     int getHttpErrorCode();
     std::string getKiiErrorCode();
     std::string toString();
 private:
     int httpErrorCode;
-    std::string kiiErrorCode;
+    std::string* kiiErrorCode;
 };
 
 }

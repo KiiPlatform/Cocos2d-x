@@ -36,7 +36,7 @@ public:
                const std::string& username,
                const std::string& password,
                const picojson::object& data,
-               const std::function<void (std::shared_ptr<CKiiUser> authenticatedUser, std::shared_ptr<CKiiError> error)> loginCallback);
+               const std::function<void (CKiiUser *authenticatedUser, CKiiError *error)> loginCallback);
 
     void registerNewUser(
                          const std::string& appId,
@@ -49,7 +49,6 @@ public:
 
 private:
     CKiiBaseBindings *bind;
-//    std::set<std::thread*> threadPool;
     std::thread *myThread;
 };
 

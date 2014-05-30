@@ -921,9 +921,9 @@
 			children = (
 				74BAC6AA19346B16002D9F1D /* curl */,
 				74DF3853192E044E005D2E23 /* CKiiBaseBindings.cpp */,
+				74DF3854192E044E005D2E23 /* CKiiBaseBindings.h */,
 				74BAC6A1193466F2002D9F1D /* CKiicURLBindings.cpp */,
 				74BAC6A2193466F2002D9F1D /* CKiicURLBindings.h */,
-				74DF3854192E044E005D2E23 /* CKiiBaseBindings.h */,
 				74DF3856192E05AA005D2E23 /* CKiiiOSBindings.mm */,
 				74DF3857192E05AA005D2E23 /* CKiiiOSBindings.h */,
 			);
