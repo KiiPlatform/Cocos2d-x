@@ -69,9 +69,106 @@ void kiicloud::CKiicURLBindings::registerNewUser(
                      const std::string& username,
                      const std::string& password,
                      const picojson::object& data,
-                     const std::function<void (std::shared_ptr<CKiiUser> auth, std::shared_ptr<CKiiError> error)> registerCallback)
+                     const std::function<void (CKiiUser *authenticatedUser, CKiiError *error)> registerCallback)
 {
     // TODO: implement it.
+    std::string destUrl = getBaseUrl(appSite) + "/apps/" + appId + "/users";
+    CURL *curl = nullptr;
+    CURLcode res;
+    std::string respStr;
+    std::string recvHeaders;
+    
+    struct curl_slist *headers = NULL;
+    
+    headers = curl_slist_append(headers, ("x-kii-appid: " + appId).c_str());
+    headers = curl_slist_append(headers, ("x-kii-appkey: " + appKey).c_str());
+    headers = curl_slist_append(headers, "Content-Type: application/json");
+
+    picojson::object reqMap;
+    reqMap["loginName"] = picojson::value(username);
+    reqMap["password"] = picojson::value(password);
+    
+    picojson::value reqObj(reqMap);
+    std::string reqStr = reqObj.serialize();
+    std::shared_ptr<CKiiLog> ptr = CKiiLog::getInstance();
+    CKiiLog::getInstance().get()->log("reqStr: " + reqStr);
+
+    for (int i=0; i<1; ++i)
+    { // dummy loop
+        curl = curl_easy_init();
+        if (curl) {
+            curl_easy_setopt(curl, CURLOPT_URL, destUrl.c_str());
+            curl_easy_setopt(curl, CURLOPT_POSTFIELDS, reqStr.c_str());
+            curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+            curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, callbackWrite);
+            curl_easy_setopt(curl, CURLOPT_WRITEDATA, &respStr);
+            
+            curl_easy_setopt(curl, CURLOPT_HEADERFUNCTION, callbackWriteHeaders);
+            curl_easy_setopt(curl, CURLOPT_HEADERDATA, &recvHeaders);
+            res = curl_easy_perform(curl);
+            CKiiLog::getInstance()->log("response: " + respStr);
+            if (res != CURLE_OK) {
+                // Connection error.
+                CKiiError *er = new CKiiError(0, "CONNECTION_ERROR");
+                CKiiLog::getInstance()->log("error: " + er->toString());
+                registerCallback(nullptr, er);
+                break;
+            }
+            
+            // Check response code;
+            long respCode = 0;
+            res = curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &respCode);
+            
+            if (res != CURLE_OK) {
+                CKiiError *er = new CKiiError(0, "CONNECTION_ERROR");
+                CKiiLog::getInstance()->log("error: " + er->toString());
+                registerCallback(nullptr, er);
+                break;
+            }
+            
+            if ((200 <= respCode) && (respCode < 300)) {
+                CKiiUser *user = new CKiiUser();
+                registerCallback(user, nullptr);
+                break;
+            }
+            
+            picojson::value out;
+            std::string parseError = "";
+            picojson::parse(out, respStr.c_str(), respStr.c_str() + respStr.length(), &parseError);
+            if (parseError != "")
+            {
+                CKiiError *er = new CKiiError(0, "UNEXPECTED_ERROR");
+                CKiiLog::getInstance()->log("error: " + er->toString());
+                registerCallback(nullptr, er);
+                break;
+            }
+            
+            if (out.contains("errorCode"))
+            {
+                picojson::value code = out.get("errorCode");
+                if (code.is<std::string>())
+                {
+                    std::string sCode = code.get<std::string>();
+                    CKiiLog::getInstance()->log("sCode: " + sCode);
+                    CKiiError *er = new CKiiError(respCode, sCode);
+                    CKiiLog::getInstance()->log("error: " + er->toString());
+                    registerCallback(nullptr, er);
+                    break;
+                }
+            }
+            CKiiError *er = new CKiiError(respCode, "UNEXPECTED_ERROR");
+            CKiiLog::getInstance()->log("error: " + er->toString());
+            registerCallback(nullptr, er);
+            break;
+        } else {
+
+        }
+    } // dummy loop.
+    curl_slist_free_all(headers);
+    if (curl)
+    {
+        curl_easy_cleanup(curl);
+    }
 };
 
 void kiicloud::CKiicURLBindings::login(
@@ -87,7 +184,7 @@ void kiicloud::CKiicURLBindings::login(
     
     CURL *curl;
     CURLcode res;
-    std::string resp;
+    std::string respStr;
     std::string recvHeaders;
     
     struct curl_slist *headers = NULL;
@@ -102,7 +199,6 @@ void kiicloud::CKiicURLBindings::login(
 
     picojson::value reqObj(reqMap);
     std::string reqStr = reqObj.serialize();
-    std::shared_ptr<CKiiLog> ptr = CKiiLog::getInstance();
     CKiiLog::getInstance().get()->log("reqStr: " + reqStr);
     
     for (int i=0; i < 1; ++i) { // dummy loop
@@ -114,13 +210,13 @@ void kiicloud::CKiicURLBindings::login(
             curl_easy_setopt(curl, CURLOPT_POSTFIELDS, reqStr.c_str());
             curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
             curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, callbackWrite);
-            curl_easy_setopt(curl, CURLOPT_WRITEDATA, &resp);
+            curl_easy_setopt(curl, CURLOPT_WRITEDATA, &respStr);
             
             curl_easy_setopt(curl, CURLOPT_HEADERFUNCTION, callbackWriteHeaders);
             curl_easy_setopt(curl, CURLOPT_HEADERDATA, &recvHeaders);
             
             res = curl_easy_perform(curl);
-            CKiiLog::getInstance()->log("response: " + resp);
+            CKiiLog::getInstance()->log("response: " + respStr);
             
             if (res != CURLE_OK) {
                 // Connection error.
@@ -149,7 +245,7 @@ void kiicloud::CKiicURLBindings::login(
             
             picojson::value out;
             std::string parseError = "";
-            picojson::parse(out, resp.c_str(), resp.c_str() + resp.length(), &parseError);
+            picojson::parse(out, respStr.c_str(), respStr.c_str() + respStr.length(), &parseError);
             if (parseError != "")
             {
                 CKiiError *er = new CKiiError(0, "UNEXPECTED_ERROR");

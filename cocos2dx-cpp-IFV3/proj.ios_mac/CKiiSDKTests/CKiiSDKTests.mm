@@ -48,32 +48,32 @@ const static CKiiSite appSite = cKiiSiteJP;
 
     NSString *uname = [[[NSUUID alloc]init]UUIDString];
     std::string username = [uname cStringUsingEncoding:NSUTF8StringEncoding];
+    std::string pass("1234");
     
     CKiiUserAsyncFactory *f = new CKiiUserAsyncFactory();
     std::shared_ptr<CKiiUserAsyncFactory> p(f);
 
-//    [l execute:^{
-//        picojson::object *obj;
-//        f->registerNewUser(appId, appKey, appSite, username, "1234", *obj,
-//                           [& self, l] (std::shared_ptr<CKiiUser> user, std::shared_ptr<CKiiError> error) {
-//            XCTAssertTrue(user.get() != nullptr, @"user should be passed");
-//            XCTAssertTrue(error.get() == nullptr, @"error should be null");
-//            [l offTheLatch];
-//        });
-//    } withTimeOutSec:5];
+    [l execute:^{
+        picojson::object *obj;
+        f->registerNewUser(appId, appKey, appSite, username, pass, *obj,
+                           [& self, l] (CKiiUser *authenticatedUser, CKiiError *error) {
+                               std::shared_ptr<CKiiUser> uPtr(authenticatedUser);
+                               std::shared_ptr<CKiiError> ePtr(error);
+                               XCTAssertTrue(authenticatedUser != nullptr, @"user should be passed");
+                               XCTAssertTrue(error == nullptr, @"error should be null");
+                               [l offTheLatch];
+        });
+    } withTimeOutSec:5];
 
     [l execute:^{
         picojson::object *obj;
-        std::string *pass = new std::string("1234");
-        std::shared_ptr<std::string> passPtr(pass);
-        f->login(appId, appKey, appSite, username, *pass, *obj,
-                 [& self, l, pass] (CKiiUser *user, CKiiError *error) {
+        f->login(appId, appKey, appSite, username, pass, *obj,
+                 [& self, l] (CKiiUser *user, CKiiError *error) {
                      // Expect failure since no user is registered yet.
                      std::shared_ptr<CKiiUser> uPtr(user);
                      std::shared_ptr<CKiiError> ePtr(error);
-                     XCTAssertTrue(user == nullptr, @"user should be null");
-                     XCTAssertTrue(error->getHttpErrorCode() == 400);
-                     XCTAssertEqual(error->getKiiErrorCode().compare("invalid_grant"), 0, "unexpected kii error code");
+                     XCTAssertTrue(user != nullptr, @"user should be passed");
+                     XCTAssertTrue(error == nullptr, @"error should be null");
                      [l offTheLatch];
                  });
     } withTimeOutSec:5];

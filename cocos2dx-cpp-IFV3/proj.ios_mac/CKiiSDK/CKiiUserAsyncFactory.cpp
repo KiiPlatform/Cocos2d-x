@@ -63,7 +63,7 @@ void kiicloud::CKiiUserAsyncFactory::registerNewUser(
                                          const std::string& username,
                                          const std::string& password,
                                          const picojson::object& data,
-                                         const std::function<void (std::shared_ptr<CKiiUser> authenticatedUser, std::shared_ptr<CKiiError> error)> registerCallback)
+                                         const std::function<void (CKiiUser *authenticatedUser, CKiiError *error)> registerCallback)
 {
     bind->registerNewUser(appId, appKey, appSite, username, password, data, registerCallback);
 }
