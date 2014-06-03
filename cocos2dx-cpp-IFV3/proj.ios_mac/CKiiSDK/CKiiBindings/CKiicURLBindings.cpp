@@ -38,10 +38,17 @@ static size_t callbackWrite(char *ptr, size_t size, size_t nmemb, std::string *s
     return dataLen;
 }
 
-static size_t callbackWriteHeaders(char *ptr, size_t size, size_t nmemb, std::string *stream)
+static size_t callbackWriteHeaders(char *ptr, size_t size, size_t nmemb, std::map<std::string, std::string> *stream)
 {
     int dataLen = size * nmemb;
-    stream->append(ptr, dataLen);
+    std::string header(ptr, dataLen);
+
+    std::string::size_type idx = header.find(std::string(":"));
+    if (idx == std::string::npos)
+        return dataLen;
+
+    std::string key = header.substr(0, idx);
+    std::string val = header.substr(idx +1, header.length());
     return dataLen;
 }
 
@@ -62,73 +69,63 @@ kiicloud::CKiicURLBindings::~CKiicURLBindings()
     
 };
 
-void kiicloud::CKiicURLBindings::registerNewUser(
-                     const std::string& appId,
-                     const std::string& appKey,
-                     const CKiiSite& appSite,
-                     const std::string& username,
-                     const std::string& password,
-                     const picojson::object& data,
-                     const std::function<void (CKiiUser *authenticatedUser, CKiiError *error)> registerCallback)
+void kiicloud::CKiicURLBindings::request(const std::string& requestUrl,
+                                         const std::map<std::string, std::string>& requestHeaders,
+                                         const std::string& requestBody,
+                                         std::string** responseBody,
+                                         std::map<std::string, std::string>** responseHeaders,
+                                         kiicloud::CKiiError** error)
 {
-    // TODO: implement it.
-    std::string destUrl = getBaseUrl(appSite) + "/apps/" + appId + "/users";
+    kiicloud::CKiiLog::getInstance()->log("request url: " + requestUrl);
+    kiicloud::CKiiLog::getInstance()->log("request body: " + requestBody);
+
+    struct curl_slist *headers = NULL;
+    std::map<std::string, std::string>::const_iterator it = requestHeaders.begin();
+    for (; it!= requestHeaders.end(); ++it) {
+        std::string header = (*it).first + " : " + (*it).second;
+        kiicloud::CKiiLog::getInstance()->log("header: " + header);
+        headers =curl_slist_append(headers, header.c_str());
+    }
+
     CURL *curl = nullptr;
     CURLcode res;
     std::string respStr;
-    std::string recvHeaders;
-    
-    struct curl_slist *headers = NULL;
-    
-    headers = curl_slist_append(headers, ("x-kii-appid: " + appId).c_str());
-    headers = curl_slist_append(headers, ("x-kii-appkey: " + appKey).c_str());
-    headers = curl_slist_append(headers, "Content-Type: application/json");
-
-    picojson::object reqMap;
-    reqMap["loginName"] = picojson::value(username);
-    reqMap["password"] = picojson::value(password);
-    
-    picojson::value reqObj(reqMap);
-    std::string reqStr = reqObj.serialize();
-    std::shared_ptr<CKiiLog> ptr = CKiiLog::getInstance();
-    CKiiLog::getInstance().get()->log("reqStr: " + reqStr);
-
-    for (int i=0; i<1; ++i)
-    { // dummy loop
+    std::map<std::string, std::string> recvHeaders;
+    for (int i=0; i<1; ++i) {// dummy loop.
         curl = curl_easy_init();
         if (curl) {
-            curl_easy_setopt(curl, CURLOPT_URL, destUrl.c_str());
-            curl_easy_setopt(curl, CURLOPT_POSTFIELDS, reqStr.c_str());
+            curl_easy_setopt(curl, CURLOPT_URL, requestUrl.c_str());
+            curl_easy_setopt(curl, CURLOPT_POSTFIELDS, requestBody.c_str());
             curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
             curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, callbackWrite);
             curl_easy_setopt(curl, CURLOPT_WRITEDATA, &respStr);
-            
             curl_easy_setopt(curl, CURLOPT_HEADERFUNCTION, callbackWriteHeaders);
             curl_easy_setopt(curl, CURLOPT_HEADERDATA, &recvHeaders);
+
             res = curl_easy_perform(curl);
             CKiiLog::getInstance()->log("response: " + respStr);
+
             if (res != CURLE_OK) {
                 // Connection error.
-                CKiiError *er = new CKiiError(0, "CONNECTION_ERROR");
-                CKiiLog::getInstance()->log("error: " + er->toString());
-                registerCallback(nullptr, er);
+                *responseBody = nullptr;
+                *responseHeaders = nullptr;
+                *error = new CKiiError(0, "CONNECTION_ERROR");
                 break;
             }
+            *responseBody = new std::string(respStr);
+            *responseHeaders = new std::map<std::string, std::string>(recvHeaders);
             
             // Check response code;
             long respCode = 0;
             res = curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &respCode);
             
             if (res != CURLE_OK) {
-                CKiiError *er = new CKiiError(0, "CONNECTION_ERROR");
-                CKiiLog::getInstance()->log("error: " + er->toString());
-                registerCallback(nullptr, er);
+                *error = new CKiiError(0, "CONNECTION_ERROR");
                 break;
             }
             
             if ((200 <= respCode) && (respCode < 300)) {
-                CKiiUser *user = new CKiiUser();
-                registerCallback(user, nullptr);
+                *error = nullptr;
                 break;
             }
             
@@ -137,9 +134,7 @@ void kiicloud::CKiicURLBindings::registerNewUser(
             picojson::parse(out, respStr.c_str(), respStr.c_str() + respStr.length(), &parseError);
             if (parseError != "")
             {
-                CKiiError *er = new CKiiError(0, "UNEXPECTED_ERROR");
-                CKiiLog::getInstance()->log("error: " + er->toString());
-                registerCallback(nullptr, er);
+                *error = new CKiiError(0, "UNEXPECTED_ERROR");
                 break;
             }
             
@@ -149,26 +144,70 @@ void kiicloud::CKiicURLBindings::registerNewUser(
                 if (code.is<std::string>())
                 {
                     std::string sCode = code.get<std::string>();
-                    CKiiLog::getInstance()->log("sCode: " + sCode);
-                    CKiiError *er = new CKiiError(respCode, sCode);
-                    CKiiLog::getInstance()->log("error: " + er->toString());
-                    registerCallback(nullptr, er);
+                    *error = new CKiiError(respCode, sCode);
                     break;
                 }
             }
-            CKiiError *er = new CKiiError(respCode, "UNEXPECTED_ERROR");
-            CKiiLog::getInstance()->log("error: " + er->toString());
-            registerCallback(nullptr, er);
+            *error = new CKiiError(respCode, "UNEXPECTED_ERROR");
             break;
-        } else {
-
+        } else { // failed to init curl.
+            *responseBody = nullptr;
+            *responseHeaders = nullptr;
+            *error = new CKiiError(0, "CANT_INITIATE_CONNECTION");
+            break;
         }
-    } // dummy loop.
+    }// dummy loop.
+
+    if (*error)
+    {
+        kiicloud::CKiiLog::getInstance()->log("error: " + (*error)->toString());
+    }
+
     curl_slist_free_all(headers);
     if (curl)
     {
         curl_easy_cleanup(curl);
     }
+    return;
+}
+
+void kiicloud::CKiicURLBindings::registerNewUser(
+                     const std::string& appId,
+                     const std::string& appKey,
+                     const CKiiSite& appSite,
+                     const std::string& username,
+                     const std::string& password,
+                     const picojson::object& data,
+                     const std::function<void (CKiiUser *authenticatedUser, CKiiError *error)> registerCallback)
+{
+    std::string destUrl = getBaseUrl(appSite) + "/apps/" + appId + "/users";
+    std::map<std::string, std::string> mheaders;
+    mheaders["x-kii-appid"] = appId;
+    mheaders["x-kii-appkey"] = appKey;
+    mheaders["content-type"] = "application/json";
+
+    picojson::object reqMap;
+    reqMap["loginName"] = picojson::value(username);
+    reqMap["password"] = picojson::value(password);
+
+    picojson::value reqObj(reqMap);
+    std::string reqStr = reqObj.serialize();
+
+    std::string *respBody;
+    std::map<std::string, std::string> *respHeaders;
+    kiicloud::CKiiError *error;
+
+    this->request(destUrl, mheaders, reqStr, &respBody, &respHeaders, &error);
+    if (respBody)
+        delete respBody;
+    if (respHeaders)
+        delete respHeaders;
+    if (error) {
+        registerCallback(nullptr, error);
+        return;
+    }
+    registerCallback(new kiicloud::CKiiUser(), error);
+    return;
 };
 
 void kiicloud::CKiicURLBindings::login(
@@ -181,109 +220,33 @@ void kiicloud::CKiicURLBindings::login(
                                        const std::function<void (CKiiUser *auth, CKiiError *error)> loginCallback)
 {
     std::string destUrl = getBaseUrl(appSite) + "/oauth2/token";
-    
-    CURL *curl;
-    CURLcode res;
-    std::string respStr;
-    std::string recvHeaders;
-    
-    struct curl_slist *headers = NULL;
-    
-    headers = curl_slist_append(headers, ("x-kii-appid: " + appId).c_str());
-    headers = curl_slist_append(headers, ("x-kii-appkey: " + appKey).c_str());
-    headers = curl_slist_append(headers, "Content-Type: application/vnd.kii.OauthTokenRequest+json");
-    
+
+    std::map<std::string, std::string> mheaders;
+    mheaders["x-kii-appid"] = appId;
+    mheaders["x-kii-appkey"] = appKey;
+    mheaders["content-type"] = "application/vnd.kii.OauthTokenRequest+json";
+
     picojson::object reqMap;
     reqMap["username"] = picojson::value(username);
     reqMap["password"] = picojson::value(password);
 
     picojson::value reqObj(reqMap);
     std::string reqStr = reqObj.serialize();
-    CKiiLog::getInstance().get()->log("reqStr: " + reqStr);
-    
-    for (int i=0; i < 1; ++i) { // dummy loop
-        curl = curl_easy_init();
-        if (curl)
-        {
-            
-            curl_easy_setopt(curl, CURLOPT_URL, destUrl.c_str());
-            curl_easy_setopt(curl, CURLOPT_POSTFIELDS, reqStr.c_str());
-            curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
-            curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, callbackWrite);
-            curl_easy_setopt(curl, CURLOPT_WRITEDATA, &respStr);
-            
-            curl_easy_setopt(curl, CURLOPT_HEADERFUNCTION, callbackWriteHeaders);
-            curl_easy_setopt(curl, CURLOPT_HEADERDATA, &recvHeaders);
-            
-            res = curl_easy_perform(curl);
-            CKiiLog::getInstance()->log("response: " + respStr);
-            
-            if (res != CURLE_OK) {
-                // Connection error.
-                CKiiError *er = new CKiiError(0, "CONNECTION_ERROR");
-                CKiiLog::getInstance()->log("error: " + er->toString());
-                loginCallback(nullptr, er);
-                break;
-            }
-            
-            // Check response code;
-            long respCode = 0;
-            res = curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &respCode);
-            
-            if (res != CURLE_OK) {
-                CKiiError *er = new CKiiError(0, "CONNECTION_ERROR");
-                CKiiLog::getInstance()->log("error: " + er->toString());
-                loginCallback(nullptr, er);
-                break;
-            }
-            
-            if ((200 <= respCode) && (respCode < 300)) {
-                CKiiUser *user = new CKiiUser();
-                loginCallback(user, nullptr);
-                break;
-            }
-            
-            picojson::value out;
-            std::string parseError = "";
-            picojson::parse(out, respStr.c_str(), respStr.c_str() + respStr.length(), &parseError);
-            if (parseError != "")
-            {
-                CKiiError *er = new CKiiError(0, "UNEXPECTED_ERROR");
-                CKiiLog::getInstance()->log("error: " + er->toString());
-                loginCallback(nullptr, er);
-                break;
-            }
-            
-            if (out.contains("errorCode"))
-            {
-                picojson::value code = out.get("errorCode");
-                if (code.is<std::string>())
-                {
-                    std::string sCode = code.get<std::string>();
-                    CKiiLog::getInstance()->log("sCode: " + sCode);
-                    CKiiError *er = new CKiiError(respCode, sCode);
-                    CKiiLog::getInstance()->log("error: " + er->toString());
-                    loginCallback(nullptr, er);
-                    break;
-                }
-            }
-            CKiiError *er = new CKiiError(respCode, "UNEXPECTED_ERROR");
-            CKiiLog::getInstance()->log("error: " + er->toString());
-            loginCallback(nullptr, er);
-            break;
-        } else {
-            CKiiError *er = new CKiiError(0, "CANT_INITIATE_CONNECTION");
-            CKiiLog::getInstance()->log("error: " + er->toString());
-            loginCallback(nullptr, er);
-            break;
-        }
-    } // dummy loop.
 
-    curl_slist_free_all(headers);
-    if (curl)
-    {
-        curl_easy_cleanup(curl);
+    std::string *reqBody;
+    std::map<std::string, std::string> *reqHeader;
+    kiicloud::CKiiError *error;
+
+    this->request(destUrl, mheaders, reqStr, &reqBody, &reqHeader, &error);
+    if (reqBody)
+        delete reqBody;
+    if (reqHeader)
+        delete reqHeader;
+    if (error) {
+        loginCallback(nullptr, error);
+        return;
     }
+    loginCallback(new kiicloud::CKiiUser(), error);
 }
 
 

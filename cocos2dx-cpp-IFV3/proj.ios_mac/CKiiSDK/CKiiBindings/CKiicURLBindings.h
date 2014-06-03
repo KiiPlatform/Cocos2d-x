@@ -10,6 +10,7 @@
 #define __cocos2dx_cpp_IFV3__CKiicURLBindings__
 
 #include <iostream>
+#include <map>
 #include "CKiiBaseBindings.h"
 
 namespace kiicloud {
@@ -39,6 +40,14 @@ public:
                          const std::string& password,
                          const picojson::object& data,
                          const std::function<void (CKiiUser *authenticatedUser, CKiiError *error)> registerCallback);
+private:
+    void request(const std::string& requestUrl,
+                 const std::map<std::string, std::string>& requestHeaders,
+                 const std::string& requestBody,
+                 std::string** responseBody,
+                 std::map<std::string, std::string>** responseHeaders,
+                 kiicloud::CKiiError** error
+    );
 };
 
 }
