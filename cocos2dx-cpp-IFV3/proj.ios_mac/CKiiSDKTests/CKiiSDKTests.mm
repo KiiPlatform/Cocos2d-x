@@ -56,10 +56,16 @@ const static CKiiSite appSite = cKiiSiteJP;
     [l execute:^{
         picojson::object *obj;
         f->registerNewUser(appId, appKey, appSite, username, pass, *obj,
-                           [& self, l] (CKiiUser *authenticatedUser, CKiiError *error) {
+                           [& self, l, username] (CKiiUser *authenticatedUser, CKiiError *error) {
                                std::shared_ptr<CKiiUser> uPtr(authenticatedUser);
                                std::shared_ptr<CKiiError> ePtr(error);
                                XCTAssertTrue(authenticatedUser != nullptr, @"user should be passed");
+
+                               picojson::value kvs = authenticatedUser->getKeyValues();
+                               std::string _lname = kvs.get<picojson::object>()["loginName"].get<std::string>();
+                               NSString* _nslname = [NSString stringWithUTF8String:_lname.c_str()];
+                               NSString* nsusername = [NSString stringWithUTF8String:username.c_str()];
+                               XCTAssertTrue([[nsusername lowercaseString]isEqualToString:[_nslname lowercaseString]], @"username doesn't matches.");
                                XCTAssertTrue(error == nullptr, @"error should be null");
                                [l offTheLatch];
         });
@@ -68,11 +74,18 @@ const static CKiiSite appSite = cKiiSiteJP;
     [l execute:^{
         picojson::object *obj;
         f->login(appId, appKey, appSite, username, pass, *obj,
-                 [& self, l] (CKiiUser *user, CKiiError *error) {
+                 [& self, l, username] (CKiiUser *user, CKiiError *error) {
                      // Expect failure since no user is registered yet.
                      std::shared_ptr<CKiiUser> uPtr(user);
                      std::shared_ptr<CKiiError> ePtr(error);
                      XCTAssertTrue(user != nullptr, @"user should be passed");
+
+                     picojson::value kvs = user->getKeyValues();
+                     picojson::object obj = kvs.get<picojson::object>();
+                     picojson::value _idv = obj["id"];
+                     std::string _ids = _idv.get<std::string>();
+                     XCTAssertTrue(_ids.length() > 0, @"id should be provided.");
+
                      XCTAssertTrue(error == nullptr, @"error should be null");
                      [l offTheLatch];
                  });

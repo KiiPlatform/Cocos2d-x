@@ -198,15 +198,23 @@ void kiicloud::CKiicURLBindings::registerNewUser(
     kiicloud::CKiiError *error;
 
     this->request(destUrl, mheaders, reqStr, &respBody, &respHeaders, &error);
-    if (respBody)
-        delete respBody;
-    if (respHeaders)
-        delete respHeaders;
+    std::shared_ptr<std::string> bodyPtr(respBody);
+    std::shared_ptr<std::map<std::string, std::string>> headerPtr(respHeaders);
     if (error) {
         registerCallback(nullptr, error);
         return;
     }
-    registerCallback(new kiicloud::CKiiUser(), error);
+    
+    picojson::value v;
+    std::string err;
+    const char* cRespBody = respBody->c_str();
+    picojson::parse(v, cRespBody, cRespBody + strlen(cRespBody), &err);
+    if (!err.empty()) {
+        error = new CKiiError(0, err);
+        registerCallback(nullptr, error);
+        return;
+    }
+    registerCallback(new kiicloud::CKiiUser(v), error);
     return;
 };
 
@@ -233,20 +241,27 @@ void kiicloud::CKiicURLBindings::login(
     picojson::value reqObj(reqMap);
     std::string reqStr = reqObj.serialize();
 
-    std::string *reqBody;
-    std::map<std::string, std::string> *reqHeader;
+    std::string *respBody;
+    std::map<std::string, std::string> *respHeaders;
     kiicloud::CKiiError *error;
 
-    this->request(destUrl, mheaders, reqStr, &reqBody, &reqHeader, &error);
-    if (reqBody)
-        delete reqBody;
-    if (reqHeader)
-        delete reqHeader;
+    this->request(destUrl, mheaders, reqStr, &respBody, &respHeaders, &error);
+    std::shared_ptr<std::string> bodyPtr(respBody);
+    std::shared_ptr<std::map<std::string, std::string>> headerPtr(respHeaders);
     if (error) {
         loginCallback(nullptr, error);
         return;
     }
-    loginCallback(new kiicloud::CKiiUser(), error);
+    picojson::value v;
+    std::string err;
+    const char* cRespBody = respBody->c_str();
+    picojson::parse(v, cRespBody, cRespBody + strlen(cRespBody), &err);
+    if (!err.empty()) {
+        error = new CKiiError(0, err);
+        loginCallback(nullptr, error);
+        return;
+    }
+    loginCallback(new kiicloud::CKiiUser(v), error);
 }
 
 

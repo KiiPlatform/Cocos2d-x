@@ -11,16 +11,24 @@ using kiicloud::CKiiBucket;
 
 kiicloud::CKiiUser::CKiiUser()
 {
-    
-};
+}
+
+kiicloud::CKiiUser::CKiiUser(const picojson::value& keyValues)
+{
+    this->keyValues = keyValues;
+}
 
 kiicloud::CKiiUser::~CKiiUser()
 {
-    
-};
+}
 
 CKiiBucket* kiicloud::CKiiUser::appScopeBucket(const std::string& bucketName)
 {
     // TODO: implement it.
     return nullptr;
-};
+}
+
+picojson::value kiicloud::CKiiUser::getKeyValues()
+{
+    return keyValues;
+}

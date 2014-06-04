@@ -12,14 +12,21 @@
 #include <iostream>
 #include "CKiiAuth.h"
 #include "CKiiBucket.h"
+#include "picojson.h"
 
 namespace kiicloud {
 
 class CKiiUser : public CKiiAuth {
 public:
     CKiiUser();
+    explicit CKiiUser(const picojson::value& keyValues);
     ~CKiiUser();
     CKiiBucket* appScopeBucket(const std::string& bucketName);
+    // TODO: encapsulate picojson.
+    picojson::value getKeyValues();
+
+private:
+    picojson::value keyValues;
 };
 
 };

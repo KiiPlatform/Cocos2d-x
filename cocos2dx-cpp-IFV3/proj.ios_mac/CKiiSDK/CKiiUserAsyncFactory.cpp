@@ -9,6 +9,7 @@
 #include "CKiiUserAsyncFactory.h"
 #include "CKiiiOSBindings.h"
 #include "CKiicURLBindings.h"
+#include "CKiiLog.h"
 #include <thread>
 
 kiicloud::CKiiUserAsyncFactory::CKiiUserAsyncFactory()
@@ -23,7 +24,6 @@ kiicloud::CKiiUserAsyncFactory::CKiiUserAsyncFactory(const CKiiUserAsyncFactory&
 kiicloud::CKiiUserAsyncFactory::CKiiUserAsyncFactory(CKiiUserAsyncFactory&& lv) : bind (new CKiicURLBindings())
 {
     lv.bind = nullptr;
-    lv.idMap.clear();
     lv.threadPool.clear();
 }
 
@@ -41,19 +41,18 @@ void kiicloud::CKiiUserAsyncFactory::login(
                   const picojson::object& data,
                   const std::function<void (CKiiUser *authenticatedUser, CKiiError *error)> loginCallback)
 {
-    int i = ++taskId;
+    std::thread::id th_id;
     std::thread *thd = new std::thread([=, &appId, &appKey, &username, &password, &data]() {
         bind->login(appId, appKey, appSite, username, password, data,
                     [=, &appId, &appKey, &username, &password, &data] (CKiiUser *aUser, CKiiError* e) {
                         loginCallback(aUser, e);
                         // TODO: make it thread safe.
-                        std::thread::id th_id = idMap[i];
                         threadPool[th_id] -> detach();
                         delete threadPool[th_id];
                     });
     });
-    idMap.insert(std::map<int, std::thread::id>::value_type(i, thd->get_id()));
     threadPool.insert(std::map<std::thread::id, std::thread*>::value_type(thd->get_id(), thd));
+    th_id = thd->get_id();
 }
 
 void kiicloud::CKiiUserAsyncFactory::registerNewUser(
@@ -65,5 +64,17 @@ void kiicloud::CKiiUserAsyncFactory::registerNewUser(
                                          const picojson::object& data,
                                          const std::function<void (CKiiUser *authenticatedUser, CKiiError *error)> registerCallback)
 {
-    bind->registerNewUser(appId, appKey, appSite, username, password, data, registerCallback);
+    std::thread::id th_id;
+    std::thread *thd = new std::thread([=, &appId, &appKey, &username, &password, &data]() {
+        bind->registerNewUser(appId, appKey, appSite, username, password, data,
+                              [=, &appId, &appKey, &username, &password, &data] (CKiiUser *aUser, CKiiError* e) {
+                                  registerCallback(aUser, e);
+                                  // TODO: make it thread safe.
+                                  threadPool[th_id] -> detach();
+                                  delete threadPool[th_id];
+                              });
+    });
+    th_id = thd->get_id();
+    threadPool.insert(std::map<std::thread::id, std::thread*>::value_type(thd->get_id(), thd));
+
 }
