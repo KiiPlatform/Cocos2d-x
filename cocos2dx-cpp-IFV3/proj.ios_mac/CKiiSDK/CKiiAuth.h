@@ -13,23 +13,15 @@
 #include "picojson.h"
 #include "CKiiError.h"
 #include "CKiiBucket.h"
+#include "CKiiApp.h"
 
 namespace kiicloud {
-
-enum CKiiSite {
-    cKiiSiteJP,
-    cKiiSiteUS,
-    cKiiSiteCN,
-    cKiiSiteSG
-};
 
 class CKiiAuth
 {
 public:
     static void authenticateAsAppAdmin(
-                                       const std::string& appId,
-                                       const std::string& appKey,
-                                       const CKiiSite site,
+                                       const CKiiApp& app,
                                        picojson::object& credentials,
                                        std::function<void (CKiiAuth* kiiAC, CKiiError* error)> authCallback
                                        );

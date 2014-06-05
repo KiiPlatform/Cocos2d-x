@@ -11,6 +11,7 @@
 #import "CKiiUserAsyncFactory.h"
 #import "CKiiError.h"
 #import "CKiiAuth.h"
+#import "CKiiApp.h"
 #import "LatchedExecuter.h"
 
 using kiicloud::CKiiUser;
@@ -18,6 +19,7 @@ using kiicloud::CKiiUserAsyncFactory;
 using kiicloud::CKiiError;
 using kiicloud::CKiiSite;
 using kiicloud::cKiiSiteJP;
+using kiicloud::CKiiApp;
 
 
 @interface CKiiSDKTests : XCTestCase
@@ -55,8 +57,10 @@ const static CKiiSite appSite = cKiiSiteJP;
 
     [l execute:^{
         picojson::object *obj;
-        f->registerNewUser(appId, appKey, appSite, username, pass, *obj,
-                           [& self, l, username] (CKiiUser *authenticatedUser, CKiiError *error) {
+        CKiiApp *app = new CKiiApp(appId, appKey, appSite);
+        f->registerNewUser(*app, username, pass, *obj,
+                           [& self, l, username, app] (CKiiUser *authenticatedUser, CKiiError *error) {
+                               delete app;
                                std::shared_ptr<CKiiUser> uPtr(authenticatedUser);
                                std::shared_ptr<CKiiError> ePtr(error);
                                XCTAssertTrue(authenticatedUser != nullptr, @"user should be passed");
@@ -73,8 +77,10 @@ const static CKiiSite appSite = cKiiSiteJP;
 
     [l execute:^{
         picojson::object *obj;
-        f->login(appId, appKey, appSite, username, pass, *obj,
-                 [& self, l, username] (CKiiUser *user, CKiiError *error) {
+        CKiiApp *app = new CKiiApp(appId, appKey, appSite);
+        f->login(*app, username, pass, *obj,
+                 [& self, l, username, app] (CKiiUser *user, CKiiError *error) {
+                     delete app;
                      // Expect failure since no user is registered yet.
                      std::shared_ptr<CKiiUser> uPtr(user);
                      std::shared_ptr<CKiiError> ePtr(error);

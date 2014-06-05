@@ -32,18 +32,16 @@ kiicloud::CKiiUserAsyncFactory::~CKiiUserAsyncFactory()
 }
 
 void kiicloud::CKiiUserAsyncFactory::login(
-                  const std::string& appId,
-                  const std::string& appKey,
-                  const CKiiSite& appSite,
+                  const kiicloud::CKiiApp& app,
                   const std::string& username,
                   const std::string& password,
                   const picojson::object& data,
                   const std::function<void (CKiiUser *authenticatedUser, CKiiError *error)> loginCallback)
 {
     std::thread *th1 = new std::thread();
-    std::thread thd = std::thread([=, &appId, &appKey, &username, &password, &data]() {
-        bind->login(appId, appKey, appSite, username, password, data,
-                    [=, &appId, &appKey, &username, &password, &data] (CKiiUser *aUser, CKiiError* e) {
+    std::thread thd = std::thread([=, &app, &username, &password, &data]() {
+        bind->login(app.appId, app.appKey, app.appSite, username, password, data,
+                    [=, &app, &username, &password, &data] (CKiiUser *aUser, CKiiError* e) {
                         loginCallback(aUser, e);
                         th1->detach();
                         delete th1;
@@ -53,18 +51,16 @@ void kiicloud::CKiiUserAsyncFactory::login(
 }
 
 void kiicloud::CKiiUserAsyncFactory::registerNewUser(
-                                         const std::string& appId,
-                                         const std::string& appKey,
-                                         const CKiiSite& appSite,
+                                         const kiicloud::CKiiApp& app,
                                          const std::string& username,
                                          const std::string& password,
                                          const picojson::object& data,
                                          const std::function<void (CKiiUser *authenticatedUser, CKiiError *error)> registerCallback)
 {
     std::thread *th1 = new std::thread();
-    std::thread thd = std::thread([=, &appId, &appKey, &username, &password, &data]() {
-        bind->registerNewUser(appId, appKey, appSite, username, password, data,
-                              [=, &appId, &appKey, &username, &password, &data] (CKiiUser *aUser, CKiiError* e) {
+    std::thread thd = std::thread([=, &app, &username, &password, &data]() {
+        bind->registerNewUser(app.appId, app.appKey, app.appSite, username, password, data,
+                              [=, &app, &username, &password, &data] (CKiiUser *aUser, CKiiError* e) {
                                   registerCallback(aUser, e);
                                   th1->detach();
                                   delete th1;

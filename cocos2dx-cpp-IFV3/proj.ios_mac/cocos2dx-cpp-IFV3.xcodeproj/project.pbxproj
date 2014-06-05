@@ -417,6 +417,7 @@
 		74177662192AFDA10000C78B /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		749D661F192C8537009D88A4 /* CKiiUserBind.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKiiUserBind.h; sourceTree = "<group>"; };
 		749D6620192C8537009D88A4 /* CKiiUserBind.mm */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = CKiiUserBind.mm; sourceTree = "<group>"; };
+		74B28BA5194046DA0070034D /* CKiiApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKiiApp.h; sourceTree = "<group>"; };
 		74BAC6431932DAF7002D9F1D /* CKiiUserAsyncFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CKiiUserAsyncFactory.cpp; sourceTree = "<group>"; };
 		74BAC6441932DAF7002D9F1D /* CKiiUserAsyncFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKiiUserAsyncFactory.h; sourceTree = "<group>"; };
 		74BAC6A1193466F2002D9F1D /* CKiicURLBindings.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CKiicURLBindings.cpp; sourceTree = "<group>"; };
@@ -864,6 +865,7 @@
 			children = (
 				74DF3852192E041E005D2E23 /* CKiiBindings */,
 				74BAC6431932DAF7002D9F1D /* CKiiUserAsyncFactory.cpp */,
+				74B28BA5194046DA0070034D /* CKiiApp.h */,
 				74BAC6441932DAF7002D9F1D /* CKiiUserAsyncFactory.h */,
 				74DF384D192DFEF8005D2E23 /* CKiiAuth.cpp */,
 				74DF384E192DFEF8005D2E23 /* CKiiAuth.h */,
