@@ -12,12 +12,10 @@
 #include <iostream>
 #include <thread>
 #include <set>
-#include "KBase.h"
 #include "picojson.h"
 #include "CKiiBaseBindings.h"
 #include "CKiiAuth.h"
 #include "CKiiError.h"
-#include "CKiiBucket.h"
 
 namespace kiicloud
 {

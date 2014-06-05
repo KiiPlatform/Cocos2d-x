@@ -11,7 +11,6 @@
 
 #include <iostream>
 #include "CKiiAuth.h"
-#include "CKiiBucket.h"
 #include "picojson.h"
 
 namespace kiicloud {
@@ -21,7 +20,6 @@ public:
     CKiiUser();
     explicit CKiiUser(const picojson::value& keyValues);
     ~CKiiUser();
-    CKiiBucket* appScopeBucket(const std::string& bucketName);
     // TODO: encapsulate picojson.
     picojson::object getKeyValues();
 

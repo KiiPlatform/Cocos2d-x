@@ -7,7 +7,6 @@
 //
 
 #include "CKiiUser.h"
-using kiicloud::CKiiBucket;
 
 kiicloud::CKiiUser::CKiiUser()
 {
@@ -20,12 +19,6 @@ kiicloud::CKiiUser::CKiiUser(const picojson::value& keyValues)
 
 kiicloud::CKiiUser::~CKiiUser()
 {
-}
-
-CKiiBucket* kiicloud::CKiiUser::appScopeBucket(const std::string& bucketName)
-{
-    // TODO: implement it.
-    return nullptr;
 }
 
 picojson::object kiicloud::CKiiUser::getKeyValues()

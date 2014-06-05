@@ -1,8 +1,8 @@
 //
-//  CKiiAuth2.h
+//  CKiiAuth.h
 //  cocos2dx-cpp-IFV3
 //
-//  Created by 熊野 聡 on 2014/05/22.
+//  Created by 熊野 聡 on 2014/06/05.
 //
 //
 
@@ -10,29 +10,13 @@
 #define __cocos2dx_cpp_IFV3__CKiiAuth__
 
 #include <iostream>
-#include "picojson.h"
-#include "CKiiError.h"
-#include "CKiiBucket.h"
-#include "CKiiApp.h"
 
 namespace kiicloud {
 
 class CKiiAuth
 {
-public:
-    static void authenticateAsAppAdmin(
-                                       const CKiiApp& app,
-                                       picojson::object& credentials,
-                                       std::function<void (CKiiAuth* kiiAC, CKiiError* error)> authCallback
-                                       );
     
-    std::string* getAppId();
-    std::string* getAppKey();
-    CKiiSite getAppSite();
-    std::string* getAccessToken();
-    
-    CKiiBucket* appScopeBucket(const std::string& bucketName);
 };
 
-};
+}
 #endif /* defined(__cocos2dx_cpp_IFV3__CKiiAuth__) */

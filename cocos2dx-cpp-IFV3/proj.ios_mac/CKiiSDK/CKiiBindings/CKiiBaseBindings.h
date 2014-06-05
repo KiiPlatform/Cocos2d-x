@@ -10,7 +10,7 @@
 #define __cocos2dx_cpp_IFV3__CKiiBaseBindings__
 
 #include <iostream>
-#include "CKiiAuth.h"
+#include "CKiiApp.h"
 #include "CKiiUser.h"
 #include "CKiiError.h"
 
