@@ -65,8 +65,8 @@ const static CKiiSite appSite = cKiiSiteJP;
                                std::shared_ptr<CKiiError> ePtr(error);
                                XCTAssertTrue(authenticatedUser != nullptr, @"user should be passed");
 
-                               picojson::value kvs = authenticatedUser->getKeyValues();
-                               std::string _lname = kvs.get<picojson::object>()["loginName"].get<std::string>();
+                               picojson::object kvs = authenticatedUser->getKeyValues();
+                               std::string _lname = kvs["loginName"].get<std::string>();
                                NSString* _nslname = [NSString stringWithUTF8String:_lname.c_str()];
                                NSString* nsusername = [NSString stringWithUTF8String:username.c_str()];
                                XCTAssertTrue([[nsusername lowercaseString]isEqualToString:[_nslname lowercaseString]], @"username doesn't matches.");
@@ -86,12 +86,9 @@ const static CKiiSite appSite = cKiiSiteJP;
                      std::shared_ptr<CKiiError> ePtr(error);
                      XCTAssertTrue(user != nullptr, @"user should be passed");
 
-                     picojson::value kvs = user->getKeyValues();
-                     picojson::object obj = kvs.get<picojson::object>();
-                     picojson::value _idv = obj["id"];
-                     std::string _ids = _idv.get<std::string>();
-                     XCTAssertTrue(_ids.length() > 0, @"id should be provided.");
-
+                     picojson::object kvs = user->getKeyValues();
+                     std::string _id = kvs["id"].get<std::string>();
+                     XCTAssertTrue(_id.length() > 0, @"id should be provided.");
                      XCTAssertTrue(error == nullptr, @"error should be null");
                      [l offTheLatch];
                  });

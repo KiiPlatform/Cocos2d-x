@@ -23,10 +23,10 @@ public:
     ~CKiiUser();
     CKiiBucket* appScopeBucket(const std::string& bucketName);
     // TODO: encapsulate picojson.
-    picojson::value getKeyValues();
+    picojson::object getKeyValues();
 
 private:
-    picojson::value keyValues;
+    picojson::object keyValues;
 };
 
 };
