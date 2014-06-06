@@ -18,25 +18,36 @@
 
 namespace kiicloud{
 
-class NextQueryHandler {
+class QueryHandler {
 public:
-    void nextPage(const std::function<void (std::vector<kiicloud::CKiiObject> results, CKiiError *error)> queryCallback);
-
+    explicit QueryHandler(
+                          const CKiiApp &app,
+                          const std::string &scopeUri,
+                          const std::string &bucketName,
+                          const CKiiQuery &query,
+                          const std::string accessToken);
+    void nextPage(const std::function<void (std::vector<CKiiObject> results,
+                                            CKiiError *error)> queryCallback);
     bool hasNext();
+
+private:
+    CKiiApp app;
+    std::string scopeUri;
+    std::string bucketName;
+    CKiiQuery query;
+    std::string accessToken;
+    bool _hasNext;
 };
 
 class CKiiBucket
 {
 public:
-    static void query(
-                      const CKiiApp &app,
-                      const std::string &scopeUri,
-                      const std::string &bucketName,
-                      const CKiiQuery &query,
-                      const std::string accessToken,
-                      const std::function<void (std::vector<kiicloud::CKiiObject> results,
-                                                NextQueryHandler* nextHandler,
-                                                CKiiError *error)> queryCallback);
+    static QueryHandler* query(
+                               const CKiiApp &app,
+                               const std::string &scopeUri,
+                               const std::string &bucketName,
+                               const CKiiQuery &query,
+                               const std::string accessToken);
 };
 
 }

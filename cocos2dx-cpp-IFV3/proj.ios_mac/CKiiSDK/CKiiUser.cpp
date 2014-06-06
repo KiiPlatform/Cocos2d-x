@@ -48,6 +48,8 @@ void kiicloud::CKiiUser::login(
     std::thread thd = std::thread([=, &app, &username, &password, &data]() {
         _bind->login(app, username, password, data,
                     [=, &app, &username, &password, &data] (CKiiUser *aUser, CKiiError* e) {
+                        aUser->appId = app.appId;
+                        aUser->appSite = app.appSite;
                         loginCallback(aUser, e);
                         th1->detach();
                         delete th1;
@@ -67,6 +69,8 @@ void kiicloud::CKiiUser::registerNewUser(
     std::thread thd = std::thread([=, &app, &username, &password, &data]() {
         _bind->registerNewUser(app, username, password, data,
                               [=, &app, &username, &password, &data] (CKiiUser *aUser, CKiiError* e) {
+                                  aUser->appId = app.appId;
+                                  aUser->appSite = app.appSite;
                                   registerCallback(aUser, e);
                                   th1->detach();
                                   delete th1;
@@ -103,3 +107,8 @@ std::string kiicloud::CKiiUser::getAccessToken() const
     return this->accessToken;
 }
 
+std::string kiicloud::CKiiUser::getUri() const
+{
+    std::string baseUrl = kiicloud::getBaseUrl(this->appSite);
+    return baseUrl + "/users/" + this->userId;
+}

@@ -45,6 +45,7 @@ public:
         this->appKey = std::string(lv.appKey);
         this->appSite = lv.appSite;
     }
+
     CKiiApp(CKiiApp&& lv)
     {
         this->appId = std::string(lv.appId);
