@@ -46,7 +46,7 @@ void kiicloud::CKiiUser::login(
 {
     std::thread *th1 = new std::thread();
     std::thread thd = std::thread([=, &app, &username, &password, &data]() {
-        _bind->login(app.appId, app.appKey, app.appSite, username, password, data,
+        _bind->login(app, username, password, data,
                     [=, &app, &username, &password, &data] (CKiiUser *aUser, CKiiError* e) {
                         loginCallback(aUser, e);
                         th1->detach();
@@ -65,7 +65,7 @@ void kiicloud::CKiiUser::registerNewUser(
 {
     std::thread *th1 = new std::thread();
     std::thread thd = std::thread([=, &app, &username, &password, &data]() {
-        _bind->registerNewUser(app.appId, app.appKey, app.appSite, username, password, data,
+        _bind->registerNewUser(app, username, password, data,
                               [=, &app, &username, &password, &data] (CKiiUser *aUser, CKiiError* e) {
                                   registerCallback(aUser, e);
                                   th1->detach();

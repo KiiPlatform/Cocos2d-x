@@ -16,21 +16,6 @@ using kiicloud::CKiiSite;
 using kiicloud::CKiiUser;
 using kiicloud::CKiiError;
 
-static std::string getBaseUrl(const CKiiSite& appSite)
-{
-    switch(appSite)
-    {
-        case kiicloud::cKiiSiteCN:
-            return "https://api-cn2.kii.com/api";
-        case kiicloud::cKiiSiteJP:
-            return "https://api-jp.kii.com/api";
-        case kiicloud::cKiiSiteUS:
-            return "https://api.kii.com/api";
-        case kiicloud::cKiiSiteSG:
-            return "https://api-sg.kii.com/api";
-    }
-}
-
 static size_t callbackWrite(char *ptr, size_t size, size_t nmemb, std::string *stream)
 {
     int dataLen = size * nmemb;
@@ -176,18 +161,16 @@ void kiicloud::CKiicURLBindings::request(
 }
 
 void kiicloud::CKiicURLBindings::registerNewUser(
-                     const std::string& appId,
-                     const std::string& appKey,
-                     const CKiiSite& appSite,
+                                                 const CKiiApp& app,
                      const std::string& username,
                      const std::string& password,
                      const picojson::object& data,
                      const std::function<void (CKiiUser *authenticatedUser, CKiiError *error)> registerCallback)
 {
-    std::string destUrl = getBaseUrl(appSite) + "/apps/" + appId + "/users";
+    std::string destUrl = app.appUrl() + "/users";
     std::map<std::string, std::string> mheaders;
-    mheaders["x-kii-appid"] = appId;
-    mheaders["x-kii-appkey"] = appKey;
+    mheaders["x-kii-appid"] = app.appId;
+    mheaders["x-kii-appkey"] = app.appKey;
     mheaders["content-type"] = "application/json";
 
     picojson::object reqMap;
@@ -223,19 +206,17 @@ void kiicloud::CKiicURLBindings::registerNewUser(
 };
 
 void kiicloud::CKiicURLBindings::login(
-                                       const std::string& appId,
-                                       const std::string& appKey,
-                                       const CKiiSite& appSite,
+                                       const CKiiApp& app,
                                        const std::string& username,
                                        const std::string& password,
                                        const picojson::object& data,
                                        const std::function<void (CKiiUser *auth, CKiiError *error)> loginCallback)
 {
-    std::string destUrl = getBaseUrl(appSite) + "/oauth2/token";
+    std::string destUrl = getBaseUrl(app.appSite) + "/oauth2/token";
 
     std::map<std::string, std::string> mheaders;
-    mheaders["x-kii-appid"] = appId;
-    mheaders["x-kii-appkey"] = appKey;
+    mheaders["x-kii-appid"] = app.appId;
+    mheaders["x-kii-appkey"] = app.appKey;
     mheaders["content-type"] = "application/vnd.kii.OauthTokenRequest+json";
 
     picojson::object reqMap;

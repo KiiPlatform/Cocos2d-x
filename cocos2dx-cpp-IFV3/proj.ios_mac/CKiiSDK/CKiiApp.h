@@ -20,6 +20,21 @@ enum CKiiSite {
     cKiiSiteSG
 };
 
+static std::string getBaseUrl(const CKiiSite& appSite)
+{
+    switch(appSite)
+    {
+        case kiicloud::cKiiSiteCN:
+            return "https://api-cn2.kii.com/api";
+        case kiicloud::cKiiSiteJP:
+            return "https://api-jp.kii.com/api";
+        case kiicloud::cKiiSiteUS:
+            return "https://api.kii.com/api";
+        case kiicloud::cKiiSiteSG:
+            return "https://api-sg.kii.com/api";
+    }
+}
+
 struct CKiiApp
 {
 
@@ -39,6 +54,7 @@ public:
         this->appSite = lv.appSite;
         lv.appSite = cKiiSiteJP;
     }
+
     explicit CKiiApp(const std::string& appId, const std::string& appKey, const kiicloud::CKiiSite& appSite)
     {
         this->appId = std::string(appId);
@@ -46,7 +62,10 @@ public:
         this->appSite = appSite;
     }
 
-    std::string appUrl() const;
+    std::string appUrl() const {
+        std::string baseUrl = getBaseUrl(this->appSite);
+        return baseUrl + "/apps/" + this->appId;
+    }
 
     std::string appId;
     std::string appKey;

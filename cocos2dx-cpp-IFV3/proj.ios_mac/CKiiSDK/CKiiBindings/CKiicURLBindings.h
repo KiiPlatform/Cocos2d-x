@@ -30,18 +30,14 @@ public:
     CKiicURLBindings(CKiicURLBindings&& lv);
     ~CKiicURLBindings();
     void login(
-               const std::string& appId,
-               const std::string& appKey,
-               const CKiiSite& appSite,
+               const CKiiApp& app,
                const std::string& username,
                const std::string& password,
                const picojson::object& data,
                const std::function<void (CKiiUser *auth, CKiiError *error)> loginCallback);
     
     void registerNewUser(
-                         const std::string& appId,
-                         const std::string& appKey,
-                         const CKiiSite& appSite,
+                         const CKiiApp& app,
                          const std::string& username,
                          const std::string& password,
                          const picojson::object& data,
