@@ -41,7 +41,7 @@ public:
     
     virtual void refreshUser(const CKiiApp& app,
                              CKiiUser& user,
-                             std::function<void (CKiiUser *refreshedUser, CKiiError* error)> refreshCallback) = 0;
+                             std::function<void (picojson::value keyValues, CKiiError* error)> refreshCallback) = 0;
 };
 
 };

@@ -19,6 +19,12 @@ class CKiicURLBindings : public CKiiBaseBindings
 {
 
 public:
+    enum Method{
+        POST,
+        PUT,
+        GET,
+        DELETE,
+    };
     CKiicURLBindings();
     CKiicURLBindings(const CKiicURLBindings& lv);
     CKiicURLBindings(CKiicURLBindings&& lv);
@@ -43,10 +49,12 @@ public:
     
     void refreshUser(const kiicloud::CKiiApp& app,
                      kiicloud::CKiiUser& user,
-                     std::function<void (CKiiUser *refreshedUser, CKiiError* error)> refreshCallback);
+                     std::function<void (picojson::value keyValues, CKiiError* error)> refreshCallback);
 
 private:
-    void request(const std::string& requestUrl,
+    void request(
+                 const Method& method,
+                 const std::string& requestUrl,
                  const std::map<std::string, std::string>& requestHeaders,
                  const std::string& requestBody,
                  std::string** responseBody,

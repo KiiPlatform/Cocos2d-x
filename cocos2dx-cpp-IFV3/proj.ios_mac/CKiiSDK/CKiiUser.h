@@ -21,9 +21,9 @@ public:
     CKiiUser();
     explicit CKiiUser(const picojson::value& keyValues);
     ~CKiiUser();
-    picojson::object getKeyValues() const;
+    picojson::object getKeyValues();
     std::string getAccessToken() const;
-    std::string getUri() const;
+    std::string getId();
 
     static void login(
                       const CKiiApp& app,
@@ -45,6 +45,9 @@ public:
 
 private:
     picojson::object keyValues;
+    std::string appId;
+    std::string accessToken;
+    std::string userId;
 };
 
 };

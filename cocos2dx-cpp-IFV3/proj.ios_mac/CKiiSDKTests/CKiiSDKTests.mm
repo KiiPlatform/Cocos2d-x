@@ -19,9 +19,11 @@ using kiicloud::cKiiSiteJP;
 using kiicloud::CKiiApp;
 
 
-@interface CKiiSDKTests : XCTestCase
-
+@interface CKiiSDKTests : XCTestCase {
+    std::shared_ptr<CKiiUser> currUser;
+}
 @end
+
 
 @implementation CKiiSDKTests
 
@@ -40,6 +42,7 @@ using kiicloud::CKiiApp;
 const static std::string appId = std::string("551d82a9");
 const static std::string appKey = std::string("675bb7fbe71d562c5278ed999e61a800");
 const static CKiiSite appSite = cKiiSiteJP;
+static CKiiApp *app = new CKiiApp(appId, appKey, appSite);
 
 - (void)testExample
 {
@@ -52,10 +55,8 @@ const static CKiiSite appSite = cKiiSiteJP;
 
     [l execute:^{
         picojson::object *obj;
-        CKiiApp *app = new CKiiApp(appId, appKey, appSite);
         CKiiUser::registerNewUser(*app, username, pass, *obj,
-                           [& self, l, username, app] (CKiiUser *authenticatedUser, CKiiError *error) {
-                               delete app;
+                           [& self, l, username] (CKiiUser *authenticatedUser, CKiiError *error) {
                                std::shared_ptr<CKiiUser> uPtr(authenticatedUser);
                                std::shared_ptr<CKiiError> ePtr(error);
                                XCTAssertTrue(authenticatedUser != nullptr, @"user should be passed");
@@ -72,13 +73,11 @@ const static CKiiSite appSite = cKiiSiteJP;
 
     [l execute:^{
         picojson::object *obj;
-        CKiiApp *app = new CKiiApp(appId, appKey, appSite);
         CKiiUser::login(*app, username, pass, *obj,
-                 [& self, l, username, app] (CKiiUser *user, CKiiError *error) {
-                     delete app;
+                 [& self, l, username] (CKiiUser *user, CKiiError *error) {
                      // Expect failure since no user is registered yet.
-                     std::shared_ptr<CKiiUser> uPtr(user);
                      std::shared_ptr<CKiiError> ePtr(error);
+                     currUser = std::shared_ptr<CKiiUser>(user);
                      XCTAssertTrue(user != nullptr, @"user should be passed");
 
                      picojson::object kvs = user->getKeyValues();
@@ -89,6 +88,19 @@ const static CKiiSite appSite = cKiiSiteJP;
                  });
     } withTimeOutSec:5];
 
+    [l execute:^{
+        CKiiUser::refresh(*app, *currUser.get(), [&self, l, username] (CKiiUser *user, CKiiError *error) {
+            std::shared_ptr<CKiiError> ePtr(error);
+            XCTAssert(user != nullptr, @"user must be passed");
+            picojson::object kvs = user->getKeyValues();
+            std::string _lname = kvs["loginName"].get<std::string>();
+            NSString* _nslname = [NSString stringWithUTF8String:_lname.c_str()];
+            NSString* nsusername = [NSString stringWithUTF8String:username.c_str()];
+            XCTAssertTrue([[nsusername lowercaseString]isEqualToString:[_nslname lowercaseString]], @"username doesn't matches.");
+            XCTAssertTrue(error == nullptr);
+            [l offTheLatch];
+        });
+    } withTimeOutSec:5];
 }
 
 @end

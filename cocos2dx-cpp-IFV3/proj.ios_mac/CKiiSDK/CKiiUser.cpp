@@ -16,14 +16,23 @@ kiicloud::CKiiUser::CKiiUser()
 
 kiicloud::CKiiUser::CKiiUser(const picojson::value& keyValues)
 {
+    
     this->keyValues = keyValues.get<picojson::object>();
+    if (this->keyValues["access_token"].is<std::string>()) {
+        this->accessToken = this->keyValues["access_token"].get<std::string>();
+    }
+    if (this->keyValues["id"].is<std::string>()) {
+        this->userId = this->keyValues["id"].get<std::string>();
+    } else if (this->keyValues["userID"].is<std::string>()) {
+        this->userId = this->keyValues["userID"].get<std::string>();
+    }
 }
 
 kiicloud::CKiiUser::~CKiiUser()
 {
 }
 
-picojson::object kiicloud::CKiiUser::getKeyValues() const
+picojson::object kiicloud::CKiiUser::getKeyValues()
 {
     return keyValues;
 }
@@ -68,8 +77,29 @@ void kiicloud::CKiiUser::registerNewUser(
 
 void kiicloud::CKiiUser::refresh(const kiicloud::CKiiApp& app,
                                  kiicloud::CKiiUser& user,
-                                 const std::function<void (CKiiUser *refreshedUser, CKiiError *error)>)
+                                 const std::function<void (CKiiUser *refreshedUser, CKiiError *error)> refreshCallback)
 {
-    
-    
+    std::thread *th1 = new std::thread();
+    std::thread thd = std::thread([=, &app, &user]() {
+        _bind->refreshUser(app, user, [&] (picojson::value kvs, CKiiError *err) {
+            if (kvs.is<picojson::object>()) {
+                user.keyValues = kvs.get<picojson::object>();
+            }
+            refreshCallback(&user, err);
+            th1 -> detach();
+            delete th1;
+        });
+    });
+    th1->swap(thd);
 }
+
+std::string kiicloud::CKiiUser::getId()
+{
+    return this->userId;
+}
+
+std::string kiicloud::CKiiUser::getAccessToken() const
+{
+    return this->accessToken;
+}
+

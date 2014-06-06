@@ -69,7 +69,9 @@ kiicloud::CKiicURLBindings::~CKiicURLBindings()
     
 };
 
-void kiicloud::CKiicURLBindings::request(const std::string& requestUrl,
+void kiicloud::CKiicURLBindings::request(
+                                         const Method& method,
+                                         const std::string& requestUrl,
                                          const std::map<std::string, std::string>& requestHeaders,
                                          const std::string& requestBody,
                                          std::string** responseBody,
@@ -95,7 +97,9 @@ void kiicloud::CKiicURLBindings::request(const std::string& requestUrl,
         curl = curl_easy_init();
         if (curl) {
             curl_easy_setopt(curl, CURLOPT_URL, requestUrl.c_str());
-            curl_easy_setopt(curl, CURLOPT_POSTFIELDS, requestBody.c_str());
+            if (method == POST) {
+                curl_easy_setopt(curl, CURLOPT_POSTFIELDS, requestBody.c_str());
+            }
             curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
             curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, callbackWrite);
             curl_easy_setopt(curl, CURLOPT_WRITEDATA, &respStr);
@@ -197,7 +201,7 @@ void kiicloud::CKiicURLBindings::registerNewUser(
     std::map<std::string, std::string> *respHeaders;
     kiicloud::CKiiError *error;
 
-    this->request(destUrl, mheaders, reqStr, &respBody, &respHeaders, &error);
+    this->request(POST, destUrl, mheaders, reqStr, &respBody, &respHeaders, &error);
     std::shared_ptr<std::string> bodyPtr(respBody);
     std::shared_ptr<std::map<std::string, std::string>> headerPtr(respHeaders);
     if (error) {
@@ -245,7 +249,7 @@ void kiicloud::CKiicURLBindings::login(
     std::map<std::string, std::string> *respHeaders;
     kiicloud::CKiiError *error;
 
-    this->request(destUrl, mheaders, reqStr, &respBody, &respHeaders, &error);
+    this->request(POST, destUrl, mheaders, reqStr, &respBody, &respHeaders, &error);
     std::shared_ptr<std::string> bodyPtr(respBody);
     std::shared_ptr<std::map<std::string, std::string>> headerPtr(respHeaders);
     if (error) {
@@ -266,8 +270,36 @@ void kiicloud::CKiicURLBindings::login(
 
 void kiicloud::CKiicURLBindings::refreshUser(const kiicloud::CKiiApp &app,
                                              kiicloud::CKiiUser &user,
-                                             std::function<void (CKiiUser *refreshedUser, CKiiError *error)> refreshCallback)
+                                             std::function<void (picojson::value keyValues, CKiiError *error)> refreshCallback)
 {
-    // TODO: implement it.
+    picojson::value kvs;
+    if (user.getId().empty()) {
+        CKiiError * error = new CKiiError(0, "given user does not have ID");
+        refreshCallback(kvs, error);
+        return;
+    }
+    std::string destUrl = getBaseUrl(app.appSite) + "/apps/" + app.appId + "/users/" + user.getId();
+    std::map<std::string, std::string> mheaders;
+    mheaders["x-kii-appid"] = app.appId;
+    mheaders["x-kii-appkey"] = app.appKey;
+    mheaders["authorization"] = "Bearer " + user.getAccessToken();
+    
+    std::string *respBody;
+    std::map<std::string, std::string> *respHeaders;
+    kiicloud::CKiiError *error;
+    
+    this->request(GET, destUrl, mheaders, "", &respBody, &respHeaders, &error);
+    if (error) {
+        refreshCallback(kvs, error);
+        return;
+    }
+
+    std::string err;
+    const char* cRespBody = respBody->c_str();
+    picojson::parse(kvs, cRespBody, cRespBody + strlen(cRespBody), &err);
+    if (!err.empty()) {
+        error = new CKiiError(0, err);
+    }
+    refreshCallback(kvs, error);
 }
 
