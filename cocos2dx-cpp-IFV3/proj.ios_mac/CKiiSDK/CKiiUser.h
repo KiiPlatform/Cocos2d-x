@@ -10,18 +10,38 @@
 #define __cocos2dx_cpp_IFV3__CKiiUser__
 
 #include <iostream>
-#include "CKiiAuth.h"
+#include "CKiiApp.h"
+#include "CKiiError.h"
 #include "picojson.h"
 
 namespace kiicloud {
 
-class CKiiUser : public CKiiAuth {
+class CKiiUser {
 public:
     CKiiUser();
     explicit CKiiUser(const picojson::value& keyValues);
     ~CKiiUser();
-    // TODO: encapsulate picojson.
-    picojson::object getKeyValues();
+    picojson::object getKeyValues() const;
+    std::string getAccessToken() const;
+    std::string getUri() const;
+
+    static void login(
+                      const CKiiApp& app,
+                      const std::string& username,
+                      const std::string& password,
+                      const picojson::object& data,
+                      const std::function<void (CKiiUser *authenticatedUser, CKiiError *error)> loginCallback);
+
+    static void registerNewUser(
+                                const CKiiApp& app,
+                                const std::string& username,
+                                const std::string& password,
+                                const picojson::object& data,
+                                const std::function<void (CKiiUser *authenticatedUser, CKiiError *error)>);
+
+    static void refresh(const CKiiApp& app,
+                        kiicloud::CKiiUser& user,
+                        const std::function<void (CKiiUser *refreshedUser, CKiiError *error)>);
 
 private:
     picojson::object keyValues;

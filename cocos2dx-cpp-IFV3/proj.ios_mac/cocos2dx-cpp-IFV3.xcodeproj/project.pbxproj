@@ -9,10 +9,8 @@
 /* Begin PBXBuildFile section */
 		74132006193817B40002F9FB /* CKiiLogger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74132005193817B40002F9FB /* CKiiLogger.cpp */; };
 		7413200719381D850002F9FB /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 74DF37FA192CB72D005D2E23 /* libz.dylib */; };
-		74B28BBB194074840070034D /* CKiiAuth.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74B28BB9194074840070034D /* CKiiAuth.cpp */; };
 		74BAC63F1932DA9E002D9F1D /* CKiiUser.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 74DF3842192DF82D005D2E23 /* CKiiUser.h */; };
 		74BAC6401932DA9E002D9F1D /* CKiiError.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 74DF383A192DF81D005D2E23 /* CKiiError.h */; };
-		74BAC6451932DAF7002D9F1D /* CKiiUserAsyncFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74BAC6431932DAF7002D9F1D /* CKiiUserAsyncFactory.cpp */; };
 		74BAC6461932DC37002D9F1D /* KiiSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC931DA118E2D8E1006A9087 /* KiiSDK.framework */; };
 		74BAC647193315A4002D9F1D /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7417763C19299BA30000C78B /* libsqlite3.dylib */; };
 		74BAC648193315AC002D9F1D /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7417763E19299BBC0000C78B /* ImageIO.framework */; };
@@ -90,10 +88,7 @@
 		74177662192AFDA10000C78B /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		74B28BA5194046DA0070034D /* CKiiApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKiiApp.h; sourceTree = "<group>"; };
 		74B28BB8194072CE0070034D /* picojson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = picojson.h; sourceTree = "<group>"; };
-		74B28BB9194074840070034D /* CKiiAuth.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CKiiAuth.cpp; sourceTree = "<group>"; };
-		74B28BBA194074840070034D /* CKiiAuth.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKiiAuth.h; sourceTree = "<group>"; };
-		74BAC6431932DAF7002D9F1D /* CKiiUserAsyncFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CKiiUserAsyncFactory.cpp; sourceTree = "<group>"; };
-		74BAC6441932DAF7002D9F1D /* CKiiUserAsyncFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKiiUserAsyncFactory.h; sourceTree = "<group>"; };
+		74B28BBF194168BF0070034D /* _CKiiGlobal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = _CKiiGlobal.h; sourceTree = "<group>"; };
 		74BAC6A1193466F2002D9F1D /* CKiicURLBindings.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CKiicURLBindings.cpp; sourceTree = "<group>"; };
 		74BAC6A2193466F2002D9F1D /* CKiicURLBindings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKiicURLBindings.h; sourceTree = "<group>"; };
 		74BAC6AC19346B16002D9F1D /* curl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = curl.h; sourceTree = "<group>"; };
@@ -287,9 +282,7 @@
 			isa = PBXGroup;
 			children = (
 				74DF3852192E041E005D2E23 /* CKiiBindings */,
-				74BAC6431932DAF7002D9F1D /* CKiiUserAsyncFactory.cpp */,
 				74B28BA5194046DA0070034D /* CKiiApp.h */,
-				74BAC6441932DAF7002D9F1D /* CKiiUserAsyncFactory.h */,
 				74DF3841192DF82D005D2E23 /* CKiiUser.cpp */,
 				74DF3842192DF82D005D2E23 /* CKiiUser.h */,
 				74DF3839192DF81D005D2E23 /* CKiiError.cpp */,
@@ -301,8 +294,7 @@
 				74BAC6BF19347AC5002D9F1D /* CKiiLog.h */,
 				74BAC6BB193477DC002D9F1D /* CKiiiOSLogger.mm */,
 				74BAC6BC193477DC002D9F1D /* CKiiiOSLogger.h */,
-				74B28BB9194074840070034D /* CKiiAuth.cpp */,
-				74B28BBA194074840070034D /* CKiiAuth.h */,
+				74B28BBF194168BF0070034D /* _CKiiGlobal.h */,
 			);
 			path = CKiiSDK;
 			sourceTree = "<group>";
@@ -438,10 +430,8 @@
 				74DF383D192DF81D005D2E23 /* CKiiError.cpp in Sources */,
 				74132006193817B40002F9FB /* CKiiLogger.cpp in Sources */,
 				74DF3844192DF82D005D2E23 /* CKiiUser.cpp in Sources */,
-				74BAC6451932DAF7002D9F1D /* CKiiUserAsyncFactory.cpp in Sources */,
 				74BAC6A3193466F2002D9F1D /* CKiicURLBindings.cpp in Sources */,
 				74DF3855192E044E005D2E23 /* CKiiBaseBindings.cpp in Sources */,
-				74B28BBB194074840070034D /* CKiiAuth.cpp in Sources */,
 				74BAC6BD193477DC002D9F1D /* CKiiiOSLogger.mm in Sources */,
 				74BAC6C019347AC5002D9F1D /* CKiiLog.cpp in Sources */,
 			);
