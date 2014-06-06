@@ -18,12 +18,12 @@ namespace kiicloud {
 
 class CKiiUser {
 public:
-    CKiiUser();
+    explicit CKiiUser();
     explicit CKiiUser(const picojson::value& keyValues);
     ~CKiiUser();
-    picojson::object getKeyValues();
+    picojson::object getKeyValues() const;
     std::string getAccessToken() const;
-    std::string getId();
+    std::string getId() const;
 
     static void login(
                       const CKiiApp& app,

@@ -32,7 +32,7 @@ kiicloud::CKiiUser::~CKiiUser()
 {
 }
 
-picojson::object kiicloud::CKiiUser::getKeyValues()
+picojson::object kiicloud::CKiiUser::getKeyValues() const
 {
     return keyValues;
 }
@@ -93,7 +93,7 @@ void kiicloud::CKiiUser::refresh(const kiicloud::CKiiApp& app,
     th1->swap(thd);
 }
 
-std::string kiicloud::CKiiUser::getId()
+std::string kiicloud::CKiiUser::getId() const
 {
     return this->userId;
 }

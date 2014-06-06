@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		74132006193817B40002F9FB /* CKiiLogger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74132005193817B40002F9FB /* CKiiLogger.cpp */; };
 		7413200719381D850002F9FB /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 74DF37FA192CB72D005D2E23 /* libz.dylib */; };
+		74B28BC219419FE20070034D /* CKiiObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74B28BC019419FE20070034D /* CKiiObject.cpp */; };
+		74B28BC51941A01B0070034D /* CKiiBucket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74B28BC31941A01B0070034D /* CKiiBucket.cpp */; };
+		74B28BC81941A12C0070034D /* CKiiQuery.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74B28BC61941A12C0070034D /* CKiiQuery.cpp */; };
 		74BAC63F1932DA9E002D9F1D /* CKiiUser.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 74DF3842192DF82D005D2E23 /* CKiiUser.h */; };
 		74BAC6401932DA9E002D9F1D /* CKiiError.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 74DF383A192DF81D005D2E23 /* CKiiError.h */; };
 		74BAC6461932DC37002D9F1D /* KiiSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC931DA118E2D8E1006A9087 /* KiiSDK.framework */; };
@@ -89,6 +92,12 @@
 		74B28BA5194046DA0070034D /* CKiiApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKiiApp.h; sourceTree = "<group>"; };
 		74B28BB8194072CE0070034D /* picojson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = picojson.h; sourceTree = "<group>"; };
 		74B28BBF194168BF0070034D /* _CKiiGlobal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = _CKiiGlobal.h; sourceTree = "<group>"; };
+		74B28BC019419FE20070034D /* CKiiObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CKiiObject.cpp; sourceTree = "<group>"; };
+		74B28BC119419FE20070034D /* CKiiObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKiiObject.h; sourceTree = "<group>"; };
+		74B28BC31941A01B0070034D /* CKiiBucket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CKiiBucket.cpp; sourceTree = "<group>"; };
+		74B28BC41941A01B0070034D /* CKiiBucket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKiiBucket.h; sourceTree = "<group>"; };
+		74B28BC61941A12C0070034D /* CKiiQuery.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CKiiQuery.cpp; sourceTree = "<group>"; };
+		74B28BC71941A12C0070034D /* CKiiQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKiiQuery.h; sourceTree = "<group>"; };
 		74BAC6A1193466F2002D9F1D /* CKiicURLBindings.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CKiicURLBindings.cpp; sourceTree = "<group>"; };
 		74BAC6A2193466F2002D9F1D /* CKiicURLBindings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKiicURLBindings.h; sourceTree = "<group>"; };
 		74BAC6AC19346B16002D9F1D /* curl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = curl.h; sourceTree = "<group>"; };
@@ -295,6 +304,12 @@
 				74BAC6BB193477DC002D9F1D /* CKiiiOSLogger.mm */,
 				74BAC6BC193477DC002D9F1D /* CKiiiOSLogger.h */,
 				74B28BBF194168BF0070034D /* _CKiiGlobal.h */,
+				74B28BC019419FE20070034D /* CKiiObject.cpp */,
+				74B28BC31941A01B0070034D /* CKiiBucket.cpp */,
+				74B28BC41941A01B0070034D /* CKiiBucket.h */,
+				74B28BC61941A12C0070034D /* CKiiQuery.cpp */,
+				74B28BC71941A12C0070034D /* CKiiQuery.h */,
+				74B28BC119419FE20070034D /* CKiiObject.h */,
 			);
 			path = CKiiSDK;
 			sourceTree = "<group>";
@@ -427,12 +442,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				74B28BC51941A01B0070034D /* CKiiBucket.cpp in Sources */,
 				74DF383D192DF81D005D2E23 /* CKiiError.cpp in Sources */,
 				74132006193817B40002F9FB /* CKiiLogger.cpp in Sources */,
 				74DF3844192DF82D005D2E23 /* CKiiUser.cpp in Sources */,
+				74B28BC81941A12C0070034D /* CKiiQuery.cpp in Sources */,
 				74BAC6A3193466F2002D9F1D /* CKiicURLBindings.cpp in Sources */,
 				74DF3855192E044E005D2E23 /* CKiiBaseBindings.cpp in Sources */,
 				74BAC6BD193477DC002D9F1D /* CKiiiOSLogger.mm in Sources */,
+				74B28BC219419FE20070034D /* CKiiObject.cpp in Sources */,
 				74BAC6C019347AC5002D9F1D /* CKiiLog.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

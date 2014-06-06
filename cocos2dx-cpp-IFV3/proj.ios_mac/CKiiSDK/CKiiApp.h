@@ -45,6 +45,9 @@ public:
         this->appKey = std::string(appKey);
         this->appSite = appSite;
     }
+
+    std::string appUrl() const;
+
     std::string appId;
     std::string appKey;
     kiicloud::CKiiSite appSite;
