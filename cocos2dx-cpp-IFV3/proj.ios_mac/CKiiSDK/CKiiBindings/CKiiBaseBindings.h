@@ -38,6 +38,10 @@ public:
                                  const std::string& password,
                                  const picojson::object& data,
                                  const std::function<void (CKiiUser *authenticatedUser, CKiiError *error)> loginCallback) = 0;
+    
+    virtual void refreshUser(const CKiiApp& app,
+                             CKiiUser& user,
+                             std::function<void (CKiiUser *refreshedUser, CKiiError* error)> refreshCallback) = 0;
 };
 
 };

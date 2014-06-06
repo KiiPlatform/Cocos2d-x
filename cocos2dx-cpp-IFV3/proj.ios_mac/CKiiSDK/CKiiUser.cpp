@@ -65,3 +65,11 @@ void kiicloud::CKiiUser::registerNewUser(
     });
     th1->swap(thd);
 }
+
+void kiicloud::CKiiUser::refresh(const kiicloud::CKiiApp& app,
+                                 kiicloud::CKiiUser& user,
+                                 const std::function<void (CKiiUser *refreshedUser, CKiiError *error)>)
+{
+    
+    
+}

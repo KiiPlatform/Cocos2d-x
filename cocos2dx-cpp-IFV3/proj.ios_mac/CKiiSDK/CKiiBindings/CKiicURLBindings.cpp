@@ -264,4 +264,10 @@ void kiicloud::CKiicURLBindings::login(
     loginCallback(new kiicloud::CKiiUser(v), error);
 }
 
+void kiicloud::CKiicURLBindings::refreshUser(const kiicloud::CKiiApp &app,
+                                             kiicloud::CKiiUser &user,
+                                             std::function<void (CKiiUser *refreshedUser, CKiiError *error)> refreshCallback)
+{
+    // TODO: implement it.
+}
 

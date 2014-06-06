@@ -40,6 +40,11 @@ public:
                          const std::string& password,
                          const picojson::object& data,
                          const std::function<void (CKiiUser *authenticatedUser, CKiiError *error)> registerCallback);
+    
+    void refreshUser(const kiicloud::CKiiApp& app,
+                     kiicloud::CKiiUser& user,
+                     std::function<void (CKiiUser *refreshedUser, CKiiError* error)> refreshCallback);
+
 private:
     void request(const std::string& requestUrl,
                  const std::map<std::string, std::string>& requestHeaders,
