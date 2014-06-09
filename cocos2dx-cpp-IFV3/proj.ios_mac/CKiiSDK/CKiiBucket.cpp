@@ -40,19 +40,36 @@ void kiicloud::QueryHandler::nextPage(const std::function<void (std::vector<CKii
                                                            CKiiError *error)> queryCallback)
 {
     std::thread * th1 = new std::thread();
-    std::thread thd([=, &queryCallback, &th1]() {
+    std::thread thd([=]() {
         _bind->queryBucket(this->app,
                            this->scopeUri,
                            this->bucketName,
                            this->query,
                            this->accessToken,
-                           [=, &queryCallback, &th1] (picojson::value jresult, CKiiError* error)
+                           [=, &queryCallback] (picojson::value jresult, CKiiError* error)
         {
-            // TODO: implement.
+            std::vector<CKiiObject> res;
+            if (error != nullptr) {
+                queryCallback(res, error);
+                return;
+            }
+            std::vector<CKiiObject> callbackResult;
+            picojson::object resObj = jresult.get<picojson::object>();
+            picojson::array objs = resObj["results"].get<picojson::array>();
+            std::vector<picojson::value>::iterator itr = objs.begin();
+            while (itr != objs.end())
+            {
+                picojson::object aObj = (*itr).get<picojson::object>();
+                CKiiObject kobj = CKiiObject(aObj);
+                callbackResult.push_back(kobj);
+                ++itr;
+            }
+            queryCallback(callbackResult, error);
+            th1->detach();
+            delete th1;
         });
     });
     th1->swap(thd);
-    // TODO: implement it.
 }
 
 bool kiicloud::QueryHandler::hasNext()

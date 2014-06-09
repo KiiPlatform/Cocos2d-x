@@ -304,12 +304,12 @@
 				74BAC6BB193477DC002D9F1D /* CKiiiOSLogger.mm */,
 				74BAC6BC193477DC002D9F1D /* CKiiiOSLogger.h */,
 				74B28BBF194168BF0070034D /* _CKiiGlobal.h */,
+				74B28BC119419FE20070034D /* CKiiObject.h */,
 				74B28BC019419FE20070034D /* CKiiObject.cpp */,
-				74B28BC31941A01B0070034D /* CKiiBucket.cpp */,
 				74B28BC41941A01B0070034D /* CKiiBucket.h */,
+				74B28BC31941A01B0070034D /* CKiiBucket.cpp */,
 				74B28BC61941A12C0070034D /* CKiiQuery.cpp */,
 				74B28BC71941A12C0070034D /* CKiiQuery.h */,
-				74B28BC119419FE20070034D /* CKiiObject.h */,
 			);
 			path = CKiiSDK;
 			sourceTree = "<group>";

@@ -10,11 +10,29 @@
 #define __cocos2dx_cpp_IFV3__CKiiObject__
 
 #include <iostream>
+#include "picojson.h"
 
 namespace kiicloud {
 class CKiiObject
 {
-    
+public:
+    CKiiObject(picojson::object values);
+    CKiiObject(const CKiiObject& lv);
+    CKiiObject(CKiiObject&& lv);
+
+    std::string getId() const;
+    std::string getOwnerUserId() const;
+    std::string getVersion() const;
+    long long getModified() const;
+    long long getCreated() const;
+
+private:
+    picojson::object _values;
+    std::string _id;
+    std::string _ownerUserId;
+    long long _modified;
+    long long _created;
+    std::string _version;
 };
 
 }

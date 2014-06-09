@@ -117,6 +117,20 @@ static CKiiApp *app = new CKiiApp(appId, appKey, appSite);
         std::string accessToken;
         kiicloud::QueryHandler *qh = kiicloud::CKiiBucket::query(*app, *appUrl, std::string("myBucket"), q, accessToken);
         qh->nextPage([=, &l] (std::vector<kiicloud::CKiiObject> results, kiicloud::CKiiError *error) {
+            XCTAssertEqual(6, results.size(), @"size is different");
+            std::vector<kiicloud::CKiiObject>::iterator itr = results.begin();
+            while (itr != results.end())
+            {
+                XCTAssertFalse((*itr).getId().empty());
+                XCTAssertFalse((*itr).getVersion().empty());
+                XCTAssertFalse((*itr).getOwnerUserId().empty());
+                NSLog(@"_created : %lld", (*itr).getCreated());
+                NSLog(@"_modified : %lld", (*itr).getModified());
+                XCTAssertTrue((*itr).getCreated() > 0);
+                XCTAssertTrue((*itr).getModified() > 0);
+                XCTAssertTrue(error == nullptr);
+                ++itr;
+            }
             // TODO: confirm result.
             [l offTheLatch];
         });
