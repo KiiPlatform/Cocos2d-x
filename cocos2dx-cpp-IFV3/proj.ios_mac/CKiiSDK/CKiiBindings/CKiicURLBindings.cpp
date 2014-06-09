@@ -284,3 +284,37 @@ void kiicloud::CKiicURLBindings::refreshUser(const kiicloud::CKiiApp &app,
     refreshCallback(kvs, error);
 }
 
+void kiicloud::CKiicURLBindings::queryBucket(const CKiiApp& app,
+                                             const std::string& scopeUri,
+                                             const std::string& bucketName,
+                                             const CKiiQuery& query,
+                                             const std::string& accessToken,
+                                             const std::function<void (picojson::value result,
+                                                                 CKiiError* error)> queryCallback)
+{
+    std::string destUrl = scopeUri + "/buckets/" + bucketName + "/query";
+    std::map<std::string, std::string> mheaders;
+    mheaders["x-kii-appid"] = app.appId;
+    mheaders["x-kii-appkey"] = app.appKey;
+    if (!accessToken.empty())
+        mheaders["authorization"] = "Bearer " + accessToken;
+
+    std::string *respBody;
+    std::map<std::string, std::string> *respHeaders;
+    kiicloud::CKiiError *error;
+
+    picojson::value jresult;
+    this->request(POST, destUrl, mheaders, "", &respBody, &respHeaders, &error);
+    if (error) {
+        queryCallback(jresult, error);
+        return;
+    }
+
+    std::string err;
+    const char* cRespBody = respBody->c_str();
+    picojson::parse(jresult, cRespBody, cRespBody + strlen(cRespBody), &err);
+    if (!err.empty()) {
+        error = new CKiiError(0, err);
+    }
+    queryCallback(jresult, error);
+}

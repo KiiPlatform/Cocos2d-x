@@ -47,6 +47,14 @@ public:
                      kiicloud::CKiiUser& user,
                      std::function<void (picojson::value keyValues, CKiiError* error)> refreshCallback);
 
+    void queryBucket(const CKiiApp& app,
+                     const std::string& scopeUri,
+                     const std::string& bucketName,
+                     const CKiiQuery& query,
+                     const std::string& accessToken,
+                     const std::function<void (picojson::value result,
+                                         CKiiError* error)> queryCallback);
+
 private:
     void request(
                  const Method& method,

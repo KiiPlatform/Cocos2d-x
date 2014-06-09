@@ -8,6 +8,7 @@
 
 #include "CKiiBucket.h"
 #include "_CKiiGlobal.h"
+#include <thread>
 
 kiicloud::QueryHandler* kiicloud::CKiiBucket::query(
                                  const CKiiApp &app,
@@ -38,6 +39,19 @@ _hasNext (true)
 void kiicloud::QueryHandler::nextPage(const std::function<void (std::vector<CKiiObject> results,
                                                            CKiiError *error)> queryCallback)
 {
+    std::thread * th1 = new std::thread();
+    std::thread thd([=, &queryCallback, &th1]() {
+        _bind->queryBucket(this->app,
+                           this->scopeUri,
+                           this->bucketName,
+                           this->query,
+                           this->accessToken,
+                           [=, &queryCallback, &th1] (picojson::value jresult, CKiiError* error)
+        {
+            // TODO: implement.
+        });
+    });
+    th1->swap(thd);
     // TODO: implement it.
 }
 

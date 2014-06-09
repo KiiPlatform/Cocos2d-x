@@ -13,6 +13,7 @@
 #include "CKiiApp.h"
 #include "CKiiUser.h"
 #include "CKiiError.h"
+#include "CKiiQuery.h"
 
 namespace kiicloud
 {
@@ -38,6 +39,14 @@ public:
     virtual void refreshUser(const CKiiApp& app,
                              CKiiUser& user,
                              std::function<void (picojson::value keyValues, CKiiError* error)> refreshCallback) = 0;
+
+    virtual void queryBucket(const CKiiApp& app,
+                             const std::string& scopeUri,
+                             const std::string& bucketName,
+                             const CKiiQuery& query,
+                             const std::string& accessToken,
+                             std::function<void (picojson::value result,
+                                                 CKiiError* error)> queryCallback) = 0;
 };
 
 };
