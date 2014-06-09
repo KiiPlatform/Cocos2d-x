@@ -17,8 +17,8 @@ kiicloud::QueryHandler* kiicloud::CKiiBucket::query(
                                  const CKiiQuery &query,
                                  const std::string accessToken)
 {
-    // TODO: implement it.
-    return nullptr;
+    QueryHandler* qh = new QueryHandler(app, scopeUri, bucketName, query, accessToken);
+    return qh;
 }
 
 kiicloud::QueryHandler::QueryHandler(

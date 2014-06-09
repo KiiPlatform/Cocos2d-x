@@ -10,11 +10,17 @@
 #define __cocos2dx_cpp_IFV3__CKiiQuery__
 
 #include <iostream>
+#include "picojson.h"
+
 namespace kiicloud {
 
 class CKiiQuery
 {
-    
+public:
+    CKiiQuery();
+    std::string toString() const;
+private:
+    picojson::object jsonQuery;
 };
 
 }

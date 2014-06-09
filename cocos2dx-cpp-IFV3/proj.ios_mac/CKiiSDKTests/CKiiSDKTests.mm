@@ -7,9 +7,13 @@
 //
 
 #import <XCTest/XCTest.h>
+#import <vector>
 #import "CKiiUser.h"
 #import "CKiiError.h"
 #import "CKiiApp.h"
+#import "CKiiBucket.h"
+#import "CKiiQuery.h"
+#import "CKiiObject.h"
 #import "LatchedExecuter.h"
 
 using kiicloud::CKiiUser;
@@ -44,7 +48,7 @@ const static std::string appKey = std::string("675bb7fbe71d562c5278ed999e61a800"
 const static CKiiSite appSite = cKiiSiteJP;
 static CKiiApp *app = new CKiiApp(appId, appKey, appSite);
 
-- (void)testExample
+- (void)testCKiiUser
 {
     LatchedExecuter *l = [[LatchedExecuter alloc]init];
 
@@ -98,6 +102,22 @@ static CKiiApp *app = new CKiiApp(appId, appKey, appSite);
             NSString* nsusername = [NSString stringWithUTF8String:username.c_str()];
             XCTAssertTrue([[nsusername lowercaseString]isEqualToString:[_nslname lowercaseString]], @"username doesn't matches.");
             XCTAssertTrue(error == nullptr);
+            [l offTheLatch];
+        });
+    } withTimeOutSec:5];
+}
+
+- (void) testBucketQuery
+{
+    LatchedExecuter *l = [[LatchedExecuter alloc]init];
+    __block std::string *appUrl = new std::string(app->appUrl());
+    [l execute:^{
+        NSLog(@"appURl %s", appUrl->c_str());
+        kiicloud::CKiiQuery q;
+        std::string accessToken;
+        kiicloud::QueryHandler *qh = kiicloud::CKiiBucket::query(*app, *appUrl, std::string("myBucket"), q, accessToken);
+        qh->nextPage([=, &l] (std::vector<kiicloud::CKiiObject> results, kiicloud::CKiiError *error) {
+            // TODO: confirm result.
             [l offTheLatch];
         });
     } withTimeOutSec:5];

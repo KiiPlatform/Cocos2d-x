@@ -11,6 +11,7 @@
 #include "picojson.h"
 #include "CKiiLogger.h"
 #include "CKiiLog.h"
+#include "CKiiQuery.h"
 
 using kiicloud::CKiiSite;
 using kiicloud::CKiiUser;
@@ -296,6 +297,7 @@ void kiicloud::CKiicURLBindings::queryBucket(const CKiiApp& app,
     std::map<std::string, std::string> mheaders;
     mheaders["x-kii-appid"] = app.appId;
     mheaders["x-kii-appkey"] = app.appKey;
+    mheaders["content-type"] = "application/vnd.kii.QueryRequest+json";
     if (!accessToken.empty())
         mheaders["authorization"] = "Bearer " + accessToken;
 
@@ -304,7 +306,7 @@ void kiicloud::CKiicURLBindings::queryBucket(const CKiiApp& app,
     kiicloud::CKiiError *error;
 
     picojson::value jresult;
-    this->request(POST, destUrl, mheaders, "", &respBody, &respHeaders, &error);
+    this->request(POST, destUrl, mheaders, query.toString(), &respBody, &respHeaders, &error);
     if (error) {
         queryCallback(jresult, error);
         return;
