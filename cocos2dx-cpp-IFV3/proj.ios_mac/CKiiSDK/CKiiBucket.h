@@ -18,9 +18,9 @@
 
 namespace kiicloud{
 
-class QueryHandler {
+class CKiiQueryHandler {
 public:
-    explicit QueryHandler(
+    explicit CKiiQueryHandler(
                           const CKiiApp &app,
                           const std::string &scopeUri,
                           const std::string &bucketName,
@@ -42,7 +42,7 @@ private:
 class CKiiBucket
 {
 public:
-    static QueryHandler* query(
+    static CKiiQueryHandler* query(
                                const CKiiApp &app,
                                const std::string &scopeUri,
                                const std::string &bucketName,

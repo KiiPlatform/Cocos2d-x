@@ -10,18 +10,18 @@
 #include "_CKiiGlobal.h"
 #include <thread>
 
-kiicloud::QueryHandler* kiicloud::CKiiBucket::query(
+kiicloud::CKiiQueryHandler* kiicloud::CKiiBucket::query(
                                  const CKiiApp &app,
                                  const std::string &scopeUri,
                                  const std::string &bucketName,
                                  const CKiiQuery &query,
                                  const std::string accessToken)
 {
-    QueryHandler* qh = new QueryHandler(app, scopeUri, bucketName, query, accessToken);
+    CKiiQueryHandler* qh = new CKiiQueryHandler(app, scopeUri, bucketName, query, accessToken);
     return qh;
 }
 
-kiicloud::QueryHandler::QueryHandler(
+kiicloud::CKiiQueryHandler::CKiiQueryHandler(
                        const CKiiApp &app,
                        const std::string &scopeUri,
                        const std::string &bucketName,
@@ -36,7 +36,7 @@ _hasNext (true)
 {
 }
 
-void kiicloud::QueryHandler::nextPage(const std::function<void (std::vector<CKiiObject> results,
+void kiicloud::CKiiQueryHandler::nextPage(const std::function<void (std::vector<CKiiObject> results,
                                                            CKiiError *error)> queryCallback)
 {
     std::thread * th1 = new std::thread();
@@ -72,7 +72,7 @@ void kiicloud::QueryHandler::nextPage(const std::function<void (std::vector<CKii
     th1->swap(thd);
 }
 
-bool kiicloud::QueryHandler::hasNext()
+bool kiicloud::CKiiQueryHandler::hasNext()
 {
     // TODO: implement it.
     return false;
