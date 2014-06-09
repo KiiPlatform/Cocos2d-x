@@ -36,6 +36,31 @@ _hasNext (true)
 {
 }
 
+kiicloud::CKiiQueryHandler::CKiiQueryHandler(const CKiiQueryHandler& lv)
+:app (CKiiApp(lv.app.appId, lv.app.appKey, lv.app.appSite)),
+scopeUri(lv.scopeUri),
+bucketName(lv.bucketName),
+query(lv.query),
+accessToken(lv.accessToken),
+_hasNext(lv._hasNext)
+{
+}
+
+kiicloud::CKiiQueryHandler::CKiiQueryHandler(CKiiQueryHandler&& lv)
+:app (CKiiApp(lv.app.appId, lv.app.appKey, lv.app.appSite)),
+scopeUri(lv.scopeUri),
+bucketName(lv.bucketName),
+query(lv.query),
+accessToken(lv.accessToken),
+_hasNext(lv._hasNext)
+{
+    lv.scopeUri = "";
+    lv.bucketName = "";
+    lv.query = CKiiQuery();
+    lv.accessToken = "";
+    lv._hasNext = false;
+}
+
 void kiicloud::CKiiQueryHandler::nextPage(const std::function<void (std::vector<CKiiObject> results,
                                                            CKiiError *error)> queryCallback)
 {
@@ -55,6 +80,16 @@ void kiicloud::CKiiQueryHandler::nextPage(const std::function<void (std::vector<
             }
             std::vector<CKiiObject> callbackResult;
             picojson::object resObj = jresult.get<picojson::object>();
+            // parse next.
+            this->_hasNext = false;
+            if (resObj["nextPaginationKey"].is<std::string>()) {
+                std::string nPKey = resObj["nextPaginationKey"].get<std::string>();
+                if (!nPKey.empty()) {
+                    this->_hasNext = true;
+                    this->query = CKiiQuery(query, nPKey);
+                }
+            }
+
             picojson::array objs = resObj["results"].get<picojson::array>();
             std::vector<picojson::value>::iterator itr = objs.begin();
             while (itr != objs.end())
@@ -74,6 +109,5 @@ void kiicloud::CKiiQueryHandler::nextPage(const std::function<void (std::vector<
 
 bool kiicloud::CKiiQueryHandler::hasNext()
 {
-    // TODO: implement it.
-    return false;
+    return this->_hasNext;
 }

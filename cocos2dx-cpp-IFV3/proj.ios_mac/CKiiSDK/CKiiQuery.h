@@ -17,7 +17,8 @@ namespace kiicloud {
 class CKiiQuery
 {
 public:
-    CKiiQuery();
+    explicit CKiiQuery(const int bestEffortLimit = 0);
+    explicit CKiiQuery(const CKiiQuery &query, const std::string &paginationKey);
     std::string toString() const;
 private:
     picojson::object jsonQuery;

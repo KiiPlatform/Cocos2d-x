@@ -26,6 +26,8 @@ public:
                           const std::string &bucketName,
                           const CKiiQuery &query,
                           const std::string accessToken);
+    CKiiQueryHandler(const CKiiQueryHandler& lv);
+    CKiiQueryHandler(CKiiQueryHandler&& lv);
     void nextPage(const std::function<void (std::vector<CKiiObject> results,
                                             CKiiError *error)> queryCallback);
     bool hasNext();

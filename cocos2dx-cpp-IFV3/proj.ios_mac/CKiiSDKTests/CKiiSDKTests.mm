@@ -129,10 +129,49 @@ static CKiiApp *app = new CKiiApp(appId, appKey, appSite);
                 XCTAssertTrue(error == nullptr);
                 ++itr;
             }
-            // TODO: confirm result.
             [l offTheLatch];
         });
     } withTimeOutSec:5];
 }
 
+- (void) testBucketQueryWithLimit
+{
+    LatchedExecuter *l = [[LatchedExecuter alloc]init];
+    [l execute:^{
+        int *count = new int(0);
+        kiicloud::CKiiQuery q(1);
+        std::string accessToken;
+        kiicloud::CKiiQueryHandler *qh = kiicloud::CKiiBucket::query(*app, app->appUrl(), std::string("myBucket"), q, accessToken);
+
+        std::function<void (std::vector<kiicloud::CKiiObject> results, kiicloud::CKiiError *error)> *cb1 = new std::function<void (std::vector<kiicloud::CKiiObject>, kiicloud::CKiiError*)>();
+
+        std::function<void (std::vector<kiicloud::CKiiObject> results, kiicloud::CKiiError *error)> cb = [=, &l] (std::vector<kiicloud::CKiiObject> results, kiicloud::CKiiError *error) {
+            std::vector<kiicloud::CKiiObject>::iterator itr = results.begin();
+            while (itr != results.end())
+            {
+                ++(*count);
+                XCTAssertFalse((*itr).getId().empty());
+                XCTAssertFalse((*itr).getVersion().empty());
+                XCTAssertFalse((*itr).getOwnerUserId().empty());
+                NSLog(@"_created : %lld", (*itr).getCreated());
+                NSLog(@"_modified : %lld", (*itr).getModified());
+                XCTAssertTrue((*itr).getCreated() > 0);
+                XCTAssertTrue((*itr).getModified() > 0);
+                XCTAssertTrue(error == nullptr);
+                ++itr;
+            }
+            if (qh->hasNext()) {
+                qh->nextPage(*cb1);
+            } else {
+                XCTAssertTrue(*count == 6, @"count is different : %d", *count);
+                delete qh;
+                delete cb1;
+                delete count;
+                [l offTheLatch];
+            }
+        };
+        qh->nextPage(cb);
+        cb1->swap(cb);
+    } withTimeOutSec:5];
+}
 @end

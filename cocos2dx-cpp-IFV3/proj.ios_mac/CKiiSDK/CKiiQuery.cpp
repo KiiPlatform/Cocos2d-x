@@ -8,7 +8,7 @@
 
 #include "CKiiQuery.h"
 
-kiicloud::CKiiQuery::CKiiQuery()
+kiicloud::CKiiQuery::CKiiQuery(const int bestEffortLimit)
 {
     static const std::string aq = std::string("{\"bucketQuery\": { \"clause\": { \"type\" : \"all\"}}}");
     picojson::value v;
@@ -19,6 +19,16 @@ kiicloud::CKiiQuery::CKiiQuery()
         abort();
     }
     this->jsonQuery = v.get<picojson::object>();
+    if (bestEffortLimit > 0) {
+        this->jsonQuery["bestEffortLimit"] = picojson::value((double)bestEffortLimit);
+    }
+}
+
+kiicloud::CKiiQuery::CKiiQuery(const CKiiQuery &query, const std::string &paginationKey)
+:jsonQuery(query.jsonQuery)
+{
+    picojson::value pvPKey(paginationKey);
+    this->jsonQuery["paginationKey"] = pvPKey;
 }
 
 std::string kiicloud::CKiiQuery::toString() const
