@@ -110,12 +110,10 @@ static CKiiApp *app = new CKiiApp(appId, appKey, appSite);
 - (void) testBucketQuery
 {
     LatchedExecuter *l = [[LatchedExecuter alloc]init];
-    __block std::string *appUrl = new std::string(app->appUrl());
     [l execute:^{
-        NSLog(@"appURl %s", appUrl->c_str());
         kiicloud::CKiiQuery q;
         std::string accessToken;
-        kiicloud::QueryHandler *qh = kiicloud::CKiiBucket::query(*app, *appUrl, std::string("myBucket"), q, accessToken);
+        kiicloud::QueryHandler *qh = kiicloud::CKiiBucket::query(*app, app->appUrl(), std::string("myBucket"), q, accessToken);
         qh->nextPage([=, &l] (std::vector<kiicloud::CKiiObject> results, kiicloud::CKiiError *error) {
             XCTAssertEqual(6, results.size(), @"size is different");
             std::vector<kiicloud::CKiiObject>::iterator itr = results.begin();
