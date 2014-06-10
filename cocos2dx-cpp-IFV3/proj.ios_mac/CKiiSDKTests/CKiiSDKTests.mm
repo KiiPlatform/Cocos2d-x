@@ -15,6 +15,7 @@
 #import "CKiiQuery.h"
 #import "CKiiObject.h"
 #import "LatchedExecuter.h"
+#import "CKiiSDKTestGlobal.h"
 
 using kiicloud::CKiiUser;
 using kiicloud::CKiiError;
@@ -43,11 +44,6 @@ using kiicloud::CKiiApp;
     [super tearDown];
 }
 
-const static std::string appId = std::string("551d82a9");
-const static std::string appKey = std::string("675bb7fbe71d562c5278ed999e61a800");
-const static CKiiSite appSite = cKiiSiteJP;
-static CKiiApp *app = new CKiiApp(appId, appKey, appSite);
-
 - (void)testCKiiUser
 {
     LatchedExecuter *l = [[LatchedExecuter alloc]init];
@@ -59,7 +55,7 @@ static CKiiApp *app = new CKiiApp(appId, appKey, appSite);
 
     [l execute:^{
         picojson::object *obj;
-        CKiiUser::registerNewUser(*app, username, pass, *obj,
+        CKiiUser::registerNewUser(app, username, pass, *obj,
                            [& self, l, username] (CKiiUser *authenticatedUser, CKiiError *error) {
                                std::shared_ptr<CKiiUser> uPtr(authenticatedUser);
                                std::shared_ptr<CKiiError> ePtr(error);
@@ -77,7 +73,7 @@ static CKiiApp *app = new CKiiApp(appId, appKey, appSite);
 
     [l execute:^{
         picojson::object *obj;
-        CKiiUser::login(*app, username, pass, *obj,
+        CKiiUser::login(app, username, pass, *obj,
                  [& self, l, username] (CKiiUser *user, CKiiError *error) {
                      // Expect failure since no user is registered yet.
                      std::shared_ptr<CKiiError> ePtr(error);
@@ -93,7 +89,7 @@ static CKiiApp *app = new CKiiApp(appId, appKey, appSite);
     } withTimeOutSec:5];
 
     [l execute:^{
-        CKiiUser::refresh(*app, *currUser.get(), [&self, l, username] (CKiiUser *user, CKiiError *error) {
+        CKiiUser::refresh(app, *currUser.get(), [&self, l, username] (CKiiUser *user, CKiiError *error) {
             std::shared_ptr<CKiiError> ePtr(error);
             XCTAssert(user != nullptr, @"user must be passed");
             picojson::object kvs = user->getKeyValues();
@@ -113,7 +109,7 @@ static CKiiApp *app = new CKiiApp(appId, appKey, appSite);
     [l execute:^{
         kiicloud::CKiiQuery q;
         std::string accessToken;
-        kiicloud::CKiiQueryHandler *qh = kiicloud::CKiiBucket::query(*app, app->appUrl(), std::string("myBucket"), q, accessToken);
+        kiicloud::CKiiQueryHandler *qh = kiicloud::CKiiBucket::query(app, app.appUrl(), std::string("myBucket"), q, accessToken);
         qh->nextPage([=, &l] (std::vector<kiicloud::CKiiObject> results, kiicloud::CKiiError *error) {
             XCTAssertEqual(6, results.size(), @"size is different");
             std::vector<kiicloud::CKiiObject>::iterator itr = results.begin();
@@ -139,9 +135,9 @@ static CKiiApp *app = new CKiiApp(appId, appKey, appSite);
     LatchedExecuter *l = [[LatchedExecuter alloc]init];
     [l execute:^{
         int *count = new int(0);
-        kiicloud::CKiiQuery q(1);
+        kiicloud::CKiiQuery q(kiicloud::CKiiClause(),1);
         std::string accessToken;
-        kiicloud::CKiiQueryHandler *qh = kiicloud::CKiiBucket::query(*app, app->appUrl(), std::string("myBucket"), q, accessToken);
+        kiicloud::CKiiQueryHandler *qh = kiicloud::CKiiBucket::query(app, app.appUrl(), std::string("myBucket"), q, accessToken);
 
         std::function<void (std::vector<kiicloud::CKiiObject> results, kiicloud::CKiiError *error)> *cb1 = new std::function<void (std::vector<kiicloud::CKiiObject>, kiicloud::CKiiError*)>();
 

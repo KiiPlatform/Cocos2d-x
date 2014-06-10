@@ -8,6 +8,13 @@
 
 #include "CKiiClause.h"
 
+kiicloud::CKiiClause::CKiiClause()
+{
+    picojson::object cls;
+    cls.insert(std::pair<std::string, picojson::value>("type", picojson::value("all")));
+    this->clause = cls;
+}
+
 kiicloud::CKiiClause::CKiiClause(const CKiiClause& lv)
 :clause(lv.clause)
 {

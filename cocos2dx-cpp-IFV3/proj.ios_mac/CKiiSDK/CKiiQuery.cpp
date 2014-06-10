@@ -8,17 +8,19 @@
 
 #include "CKiiQuery.h"
 
-kiicloud::CKiiQuery::CKiiQuery(const int bestEffortLimit)
+kiicloud::CKiiQuery::CKiiQuery(const CKiiClause& clause, const int bestEffortLimit)
 {
-    static const std::string aq = std::string("{\"bucketQuery\": { \"clause\": { \"type\" : \"all\"}}}");
+    std::string qs = clause.toString();
     picojson::value v;
     std::string err;
-    picojson::parse(v, aq.c_str(), aq.c_str() + strlen(aq.c_str()), &err);
-    if (!err.empty())
-    {
-        abort();
-    }
-    this->jsonQuery = v.get<picojson::object>();
+    picojson::parse(v, qs.c_str(), qs.c_str()+strlen(qs.c_str()), &err);
+
+    picojson::object jsq;
+    picojson::object innerBq;
+    innerBq.insert(std::pair<std::string, picojson::value>("clause", v));
+    jsq.insert(std::pair<std::string, picojson::value>("bucketQuery", picojson::value(innerBq)));
+
+    this->jsonQuery = jsq;
     if (bestEffortLimit > 0) {
         this->jsonQuery["bestEffortLimit"] = picojson::value((double)bestEffortLimit);
     }
@@ -29,6 +31,22 @@ kiicloud::CKiiQuery::CKiiQuery(const CKiiQuery &query, const std::string &pagina
 {
     picojson::value pvPKey(paginationKey);
     this->jsonQuery["paginationKey"] = pvPKey;
+}
+
+void::kiicloud::CKiiQuery::sortByASC(const std::string &sortKey)
+{
+    picojson::object innerBq = this->jsonQuery["bucketQuery"].get<picojson::object>();
+    innerBq.insert(std::pair<std::string, picojson::value>("orderBy", picojson::value(sortKey)));
+    innerBq.insert(std::pair<std::string, picojson::value>("descending", picojson::value(false)));
+    this->jsonQuery["bucketQuery"] = picojson::value(innerBq);
+}
+
+void::kiicloud::CKiiQuery::sortByDSC(const std::string &sortKey)
+{
+    picojson::object innerBq = this->jsonQuery["bucketQuery"].get<picojson::object>();
+    innerBq.insert(std::pair<std::string, picojson::value>("orderBy", picojson::value(sortKey)));
+    innerBq.insert(std::pair<std::string, picojson::value>("descending", picojson::value(true)));
+    this->jsonQuery["bucketQuery"] = picojson::value(innerBq);
 }
 
 std::string kiicloud::CKiiQuery::toString() const

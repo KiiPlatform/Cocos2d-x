@@ -101,6 +101,7 @@
 		74B28BC71941A12C0070034D /* CKiiQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKiiQuery.h; sourceTree = "<group>"; };
 		74B28BC91946B11D0070034D /* CKiiClause.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CKiiClause.cpp; sourceTree = "<group>"; };
 		74B28BCA1946B11D0070034D /* CKiiClause.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKiiClause.h; sourceTree = "<group>"; };
+		74B28BCC19470E430070034D /* CKiiSDKTestGlobal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKiiSDKTestGlobal.h; sourceTree = "<group>"; };
 		74BAC6A1193466F2002D9F1D /* CKiicURLBindings.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CKiicURLBindings.cpp; sourceTree = "<group>"; };
 		74BAC6A2193466F2002D9F1D /* CKiicURLBindings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKiicURLBindings.h; sourceTree = "<group>"; };
 		74BAC6AC19346B16002D9F1D /* curl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = curl.h; sourceTree = "<group>"; };
@@ -334,6 +335,7 @@
 				74DF3863192EE86D005D2E23 /* LatchedExecuter.m */,
 				74DF382E192DF734005D2E23 /* CKiiSDKTests.mm */,
 				74DF3829192DF734005D2E23 /* Supporting Files */,
+				74B28BCC19470E430070034D /* CKiiSDKTestGlobal.h */,
 			);
 			path = CKiiSDKTests;
 			sourceTree = "<group>";

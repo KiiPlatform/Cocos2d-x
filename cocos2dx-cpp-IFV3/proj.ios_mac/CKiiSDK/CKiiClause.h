@@ -18,6 +18,7 @@ namespace kiicloud {
 class CKiiClause {
 
 public:
+    CKiiClause();
     CKiiClause(const CKiiClause&);
     CKiiClause(CKiiClause&&);
     CKiiClause(const picojson::object& clause);

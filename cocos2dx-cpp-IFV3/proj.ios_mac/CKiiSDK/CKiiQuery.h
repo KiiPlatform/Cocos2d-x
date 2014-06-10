@@ -11,14 +11,17 @@
 
 #include <iostream>
 #include "picojson.h"
+#include "CKiiClause.h"
 
 namespace kiicloud {
 
 class CKiiQuery
 {
 public:
-    explicit CKiiQuery(const int bestEffortLimit = 0);
+    explicit CKiiQuery(const CKiiClause& clause = CKiiClause(), const int bestEffortLimit = 0);
     explicit CKiiQuery(const CKiiQuery &query, const std::string &paginationKey);
+    void sortByASC(const std::string& sortKey);
+    void sortByDSC(const std::string& sortKey);
     std::string toString() const;
 private:
     picojson::object jsonQuery;
