@@ -95,15 +95,7 @@ public:
         return CKiiClause(cls);
     }
 
-    template<typename T>
-    static CKiiClause startsWith(const std::string& key, const std::string& prefix)
-    {
-        picojson::object cls;
-        cls.insert(std::pair<std::string, picojson::value>("type", picojson::value("prefix")));
-        cls.insert(std::pair<std::string, picojson::value>("field", picojson::value(key)));
-        cls.insert(std::pair<std::string, picojson::value>("prefix", picojson::value(prefix)));
-        return CKiiClause(cls);
-    }
+    static CKiiClause startsWith(const std::string& key, const std::string& prefix);
 
     static CKiiClause orClause(const std::vector<CKiiClause> &clauses);
     static CKiiClause andClause(const std::vector<CKiiClause> &clauses);

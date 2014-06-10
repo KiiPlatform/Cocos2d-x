@@ -109,7 +109,17 @@ using kiicloud::CKiiQuery;
     // TODO: do more testing. right now, Human see the log.
 }
 
+- (void) testQueryStartsWith
+{
+    CKiiClause c = CKiiClause::startsWith("key", "prefix");
+    NSLog(@"clause: %s" ,c.toString().c_str());
 
+    CKiiQuery q = CKiiQuery(c);
+    std::string sq = q.toString();
+    NSLog(@"query: %s" ,sq.c_str());
+
+    // TODO: do more testing. right now, Human see the log.
+}
 
 
 @end
