@@ -24,25 +24,86 @@ public:
     CKiiClause(const picojson::object& clause);
 
     template<typename T>
-    static CKiiClause equals(const std::string& key, const T& value);
+    static CKiiClause equals(const std::string& key, const T& value)
+    {
+        picojson::object cls;
+        cls.insert(std::pair<std::string, picojson::value>("type", picojson::value("eq")));
+        cls.insert(std::pair<std::string, picojson::value>("field", picojson::value(key)));
+        cls.insert(std::pair<std::string, picojson::value>("value", picojson::value(value)));
+        return CKiiClause(cls);
+    }
 
     template<typename T>
-    static CKiiClause greaterThan(const std::string& key, const T& value);
+    static CKiiClause greaterThan(const std::string& key, const T& value)
+    {
+        picojson::object cls;
+        cls.insert(std::pair<std::string, picojson::value>("type", picojson::value("range")));
+        cls.insert(std::pair<std::string, picojson::value>("field", picojson::value(key)));
+        cls.insert(std::pair<std::string, picojson::value>("lowerLimit", picojson::value(value)));
+        cls.insert(std::pair<std::string, picojson::value>("lowerIncluded", picojson::value(false)));
+        return CKiiClause(cls);
+    }
 
     template<typename T>
-    static CKiiClause greaterThanOrEqual(const std::string& key, const T& value);
+    static CKiiClause greaterThanOrEqual(const std::string& key, const T& value)
+    {
+        picojson::object cls;
+        cls.insert(std::pair<std::string, picojson::value>("type", picojson::value("range")));
+        cls.insert(std::pair<std::string, picojson::value>("field", picojson::value(key)));
+        cls.insert(std::pair<std::string, picojson::value>("lowerLimit", picojson::value(value)));
+        cls.insert(std::pair<std::string, picojson::value>("lowerIncluded", picojson::value(true)));
+        return CKiiClause(cls);
+    }
 
     template<typename T>
-    static CKiiClause lessThan(const std::string& key, const T& value);
+    static CKiiClause lessThan(const std::string& key, const T& value)
+    {
+        picojson::object cls;
+        cls.insert(std::pair<std::string, picojson::value>("type", picojson::value("range")));
+        cls.insert(std::pair<std::string, picojson::value>("field", picojson::value(key)));
+        cls.insert(std::pair<std::string, picojson::value>("upperLimit", picojson::value(value)));
+        cls.insert(std::pair<std::string, picojson::value>("upperIncluded", picojson::value(false)));
+        return CKiiClause(cls);
+    }
+
 
     template<typename T>
-    static CKiiClause lessThanOrEqual(const std::string& key, const T& value);
+    static CKiiClause lessThanOrEqual(const std::string& key, const T& value)
+    {
+        picojson::object cls;
+        cls.insert(std::pair<std::string, picojson::value>("type", picojson::value("range")));
+        cls.insert(std::pair<std::string, picojson::value>("field", picojson::value(key)));
+        cls.insert(std::pair<std::string, picojson::value>("upperLimit", picojson::value(value)));
+        cls.insert(std::pair<std::string, picojson::value>("upperIncluded", picojson::value(true)));
+        return CKiiClause(cls);
+    }
 
     template<typename T>
-    static CKiiClause inClause(const std::string& key, const std::vector<T>& values);
+    static CKiiClause inClause(const std::string& key, const std::vector<T>& values)
+    {
+        picojson::array jsarray;
+        typename std::vector<T>::iterator itr = values.begin();
+        while (itr != values.end())
+        {
+            jsarray.push_back(picojson::value((*itr)));
+            ++itr;
+        }
+        picojson::object cls;
+        cls.insert(std::pair<std::string, picojson::value>("type", picojson::value("in")));
+        cls.insert(std::pair<std::string, picojson::value>("field", picojson::value(key)));
+        cls.insert(std::pair<std::string, picojson::value>("values", picojson::value(jsarray)));
+        return CKiiClause(cls);
+    }
 
     template<typename T>
-    static CKiiClause startsWith(const std::string& key, const std::string& prefix);
+    static CKiiClause startsWith(const std::string& key, const std::string& prefix)
+    {
+        picojson::object cls;
+        cls.insert(std::pair<std::string, picojson::value>("type", picojson::value("prefix")));
+        cls.insert(std::pair<std::string, picojson::value>("field", picojson::value(key)));
+        cls.insert(std::pair<std::string, picojson::value>("prefix", picojson::value(prefix)));
+        return CKiiClause(cls);
+    }
 
     static CKiiClause orClause(const std::vector<CKiiClause> &clauses);
     static CKiiClause andClause(const std::vector<CKiiClause> &clauses);
