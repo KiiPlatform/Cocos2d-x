@@ -36,7 +36,7 @@ kiicloud::CKiiClause kiicloud::CKiiClause::orClause(const std::vector<CKiiClause
     picojson::object cls;
     picojson::array jsarray;
     
-    std::vector<const kiicloud::CKiiClause>::iterator itr = clauses.begin();
+    std::vector<const kiicloud::CKiiClause>::const_iterator itr = clauses.begin();
     while (itr != clauses.end())
     {
         jsarray.push_back(picojson::value((*itr).clause));
@@ -52,7 +52,7 @@ kiicloud::CKiiClause kiicloud::CKiiClause::andClause(const std::vector<CKiiClaus
     picojson::object cls;
     picojson::array jsarray;
     
-    std::vector<const kiicloud::CKiiClause>::iterator itr = clauses.begin();
+    std::vector<const kiicloud::CKiiClause>::const_iterator itr = clauses.begin();
     while (itr != clauses.end())
     {
         jsarray.push_back(picojson::value((*itr).clause));

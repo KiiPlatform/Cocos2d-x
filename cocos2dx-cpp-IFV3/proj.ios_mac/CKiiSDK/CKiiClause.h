@@ -82,7 +82,7 @@ public:
     static CKiiClause inClause(const std::string& key, const std::vector<T>& values)
     {
         picojson::array jsarray;
-        typename std::vector<T>::iterator itr = values.begin();
+        typename std::vector<T>::const_iterator itr = values.begin();
         while (itr != values.end())
         {
             jsarray.push_back(picojson::value((*itr)));
