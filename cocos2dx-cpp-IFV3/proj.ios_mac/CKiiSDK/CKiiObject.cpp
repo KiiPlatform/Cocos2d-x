@@ -71,3 +71,8 @@ long long kiicloud::CKiiObject::getCreated() const
 {
     return _created;
 }
+
+picojson::object kiicloud::CKiiObject::getValues() const
+{
+    return _values;
+}

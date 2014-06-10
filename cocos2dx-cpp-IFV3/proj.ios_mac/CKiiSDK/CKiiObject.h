@@ -25,6 +25,7 @@ public:
     std::string getVersion() const;
     long long getModified() const;
     long long getCreated() const;
+    picojson::object getValues() const;
 
 private:
     picojson::object _values;
