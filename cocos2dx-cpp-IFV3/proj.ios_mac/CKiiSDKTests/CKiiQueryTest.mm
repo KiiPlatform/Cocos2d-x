@@ -121,5 +121,91 @@ using kiicloud::CKiiQuery;
     // TODO: do more testing. right now, Human see the log.
 }
 
+- (void) testOr
+{
+    kiicloud::CKiiClause c1 = kiicloud::CKiiClause::startsWith("key", "pr1");
+    std::vector<std::string> vals;
+    vals.push_back("v1");
+    vals.push_back("v2");
+    kiicloud::CKiiClause c2 = kiicloud::CKiiClause::inClause("key", vals);
+    
+    std::vector<kiicloud::CKiiClause> cls;
+    cls.push_back(c1);
+    cls.push_back(c2);
+    kiicloud::CKiiClause c3 = kiicloud::CKiiClause::orClause(cls);
+    
+    kiicloud::CKiiQuery q = kiicloud::CKiiQuery(c3);
+    NSLog(@"query :%s", q.toString().c_str());
+    
+    // TODO: do more testing. right now, Human see the log.
+}
 
+- (void) testAnd
+{
+    kiicloud::CKiiClause c1 = kiicloud::CKiiClause::startsWith("key", "pr1");
+    std::vector<std::string> vals;
+    vals.push_back("v1");
+    vals.push_back("v2");
+    kiicloud::CKiiClause c2 = kiicloud::CKiiClause::inClause("key", vals);
+    
+    std::vector<kiicloud::CKiiClause> cls;
+    cls.push_back(c1);
+    cls.push_back(c2);
+    kiicloud::CKiiClause c3 = kiicloud::CKiiClause::andClause(cls);
+    
+    kiicloud::CKiiQuery q = kiicloud::CKiiQuery(c3);
+    NSLog(@"query :%s", q.toString().c_str());
+    
+    // TODO: do more testing. right now, Human see the log.
+}
+
+- (void) testNotOperator
+{
+    kiicloud::CKiiClause c1 = kiicloud::CKiiClause::startsWith("key", "pr1");
+    kiicloud::CKiiClause c2 = not c1;
+    
+    kiicloud::CKiiQuery q1 = kiicloud::CKiiQuery(c1);
+    kiicloud::CKiiQuery q2 = kiicloud::CKiiQuery(c2);
+    
+    NSLog(@"query1 :%s", q1.toString().c_str());
+    NSLog(@"query2 :%s", q2.toString().c_str());
+}
+
+- (void) testOrOperator
+{
+    kiicloud::CKiiClause c1 = kiicloud::CKiiClause::startsWith("key", "pr1");
+    std::vector<std::string> vals;
+    vals.push_back("v1");
+    vals.push_back("v2");
+    kiicloud::CKiiClause c2 = kiicloud::CKiiClause::inClause("key", vals);
+    
+    std::vector<kiicloud::CKiiClause> cls;
+    cls.push_back(c1);
+    cls.push_back(c2);
+    kiicloud::CKiiClause c3 = c1 or c2;
+    
+    kiicloud::CKiiQuery q = kiicloud::CKiiQuery(c3);
+    NSLog(@"query :%s", q.toString().c_str());
+    
+    // TODO: do more testing. right now, Human see the log.
+}
+
+- (void) testAndOperator
+{
+    kiicloud::CKiiClause c1 = kiicloud::CKiiClause::startsWith("key", "pr1");
+    std::vector<std::string> vals;
+    vals.push_back("v1");
+    vals.push_back("v2");
+    kiicloud::CKiiClause c2 = kiicloud::CKiiClause::inClause("key", vals);
+    
+    std::vector<kiicloud::CKiiClause> cls;
+    cls.push_back(c1);
+    cls.push_back(c2);
+    kiicloud::CKiiClause c3 = c1 and c2;
+    
+    kiicloud::CKiiQuery q = kiicloud::CKiiQuery(c3);
+    NSLog(@"query :%s", q.toString().c_str());
+    
+    // TODO: do more testing. right now, Human see the log.
+}
 @end

@@ -50,6 +50,7 @@ kiicloud::CKiiClause kiicloud::CKiiClause::orClause(const std::vector<CKiiClause
     while (itr != clauses.end())
     {
         jsarray.push_back(picojson::value((*itr).clause));
+        ++itr;
     }
 
     cls.insert(std::pair<std::string, picojson::value>("type", picojson::value("or")));
@@ -66,6 +67,7 @@ kiicloud::CKiiClause kiicloud::CKiiClause::andClause(const std::vector<CKiiClaus
     while (itr != clauses.end())
     {
         jsarray.push_back(picojson::value((*itr).clause));
+        ++itr;
     }
     
     cls.insert(std::pair<std::string, picojson::value>("type", picojson::value("and")));
