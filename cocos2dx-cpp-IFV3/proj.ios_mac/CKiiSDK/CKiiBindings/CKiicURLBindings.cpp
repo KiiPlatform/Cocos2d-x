@@ -211,7 +211,7 @@ void kiicloud::CKiicURLBindings::login(
                                        const std::string& username,
                                        const std::string& password,
                                        const picojson::object& data,
-                                       const std::function<void (CKiiUser *auth, CKiiError *error)> loginCallback)
+                                       std::function<void (CKiiUser *auth, CKiiError *error)> loginCallback)
 {
     std::string destUrl = getBaseUrl(app.appSite) + "/oauth2/token";
 
@@ -319,4 +319,40 @@ void kiicloud::CKiicURLBindings::queryBucket(const CKiiApp& app,
         error = new CKiiError(0, err);
     }
     queryCallback(jresult, error);
+}
+
+void kiicloud::CKiicURLBindings::saveNewObject(const CKiiApp& app,
+                                               const std::string &scopeUri,
+                                               const std::string &bucketName,
+                                               const picojson::object values,
+                                               const std::string &accessToken,
+                                               const std::function<void (picojson::value, CKiiError *)> saveCallback)
+{
+    std::string destUrl = scopeUri + "/buckets/" + bucketName + "/objects";
+    std::map<std::string, std::string> mheaders;
+    mheaders["x-kii-appid"] = app.appId;
+    mheaders["x-kii-appkey"] = app.appKey;
+    mheaders["content-type"] = "application/json";
+    if (!accessToken.empty())
+        mheaders["authorization"] = "Bearer " + accessToken;
+
+    picojson::value reqBodyJson = picojson::value(values);
+    std::string *respBody;
+    std::map<std::string, std::string> *respHeaders;
+    kiicloud::CKiiError *error;
+    
+    picojson::value jresult;
+    this->request(POST, destUrl, mheaders, reqBodyJson.serialize(), &respBody, &respHeaders, &error);
+    if (error) {
+        saveCallback(jresult, error);
+        return;
+    }
+    
+    std::string err;
+    const char* cRespBody = respBody->c_str();
+    picojson::parse(jresult, cRespBody, cRespBody + strlen(cRespBody), &err);
+    if (!err.empty()) {
+        error = new CKiiError(0, err);
+    }
+    saveCallback(jresult, error);
 }

@@ -11,6 +11,8 @@
 
 #include <iostream>
 #include "picojson.h"
+#include "CKiiError.h"
+#include "CKiiApp.h"
 
 namespace kiicloud {
 class CKiiObject
@@ -26,6 +28,13 @@ public:
     long long getModified() const;
     long long getCreated() const;
     picojson::object getValues() const;
+
+    static void saveNewObject(const CKiiApp &app,
+                              const std::string &scopeUri,
+                              const std::string &bucketName,
+                              const picojson::object values,
+                              const std::string &accessToken,
+                              const std::function<void (CKiiObject *newObject, CKiiError *error)> saveCallback);
 
 private:
     picojson::object _values;

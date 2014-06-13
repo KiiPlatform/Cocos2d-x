@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		74132006193817B40002F9FB /* CKiiLogger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74132005193817B40002F9FB /* CKiiLogger.cpp */; };
 		7413200719381D850002F9FB /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 74DF37FA192CB72D005D2E23 /* libz.dylib */; };
+		745BEB13194AE623003A5D2D /* CKiiObjectTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 745BEB12194AE623003A5D2D /* CKiiObjectTests.mm */; };
 		74B28BC219419FE20070034D /* CKiiObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74B28BC019419FE20070034D /* CKiiObject.cpp */; };
 		74B28BC51941A01B0070034D /* CKiiBucket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74B28BC31941A01B0070034D /* CKiiBucket.cpp */; };
 		74B28BC81941A12C0070034D /* CKiiQuery.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74B28BC61941A12C0070034D /* CKiiQuery.cpp */; };
@@ -107,6 +108,7 @@
 		7417765819299FEC0000C78B /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/System/Library/Frameworks/OpenGLES.framework; sourceTree = DEVELOPER_DIR; };
 		7417765A1929A0000000C78B /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/System/Library/Frameworks/CoreMotion.framework; sourceTree = DEVELOPER_DIR; };
 		74177662192AFDA10000C78B /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		745BEB12194AE623003A5D2D /* CKiiObjectTests.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CKiiObjectTests.mm; sourceTree = "<group>"; };
 		74B28BA5194046DA0070034D /* CKiiApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKiiApp.h; sourceTree = "<group>"; };
 		74B28BB8194072CE0070034D /* picojson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = picojson.h; sourceTree = "<group>"; };
 		74B28BBF194168BF0070034D /* _CKiiGlobal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = _CKiiGlobal.h; sourceTree = "<group>"; };
@@ -355,6 +357,7 @@
 				74B28BCD194710F20070034D /* CKiiQueryTest.mm */,
 				74DF3829192DF734005D2E23 /* Supporting Files */,
 				74B28BCC19470E430070034D /* CKiiSDKTestGlobal.h */,
+				745BEB12194AE623003A5D2D /* CKiiObjectTests.mm */,
 			);
 			path = CKiiSDKTests;
 			sourceTree = "<group>";
@@ -488,6 +491,7 @@
 			files = (
 				74B28BCE194710F20070034D /* CKiiQueryTest.mm in Sources */,
 				74DF3864192EE86D005D2E23 /* LatchedExecuter.m in Sources */,
+				745BEB13194AE623003A5D2D /* CKiiObjectTests.mm in Sources */,
 				74DF382F192DF734005D2E23 /* CKiiSDKTests.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

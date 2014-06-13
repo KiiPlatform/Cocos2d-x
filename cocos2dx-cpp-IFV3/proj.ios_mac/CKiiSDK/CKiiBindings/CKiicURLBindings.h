@@ -54,6 +54,13 @@ public:
                      const std::string& accessToken,
                      const std::function<void (picojson::value result,
                                          CKiiError* error)> queryCallback);
+    
+    void saveNewObject(const CKiiApp& app,
+                       const std::string &scopeUri,
+                       const std::string &bucketName,
+                       const picojson::object values,
+                       const std::string& accessToken,
+                       const std::function<void (picojson::value, CKiiError *error)> saveCallback);
 
 private:
     void request(

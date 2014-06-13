@@ -69,8 +69,11 @@ void kiicloud::CKiiUser::registerNewUser(
     std::thread thd = std::thread([=, &app, &username, &password, &data]() {
         _bind->registerNewUser(app, username, password, data,
                               [=, &app, &username, &password, &data] (CKiiUser *aUser, CKiiError* e) {
-                                  aUser->appId = app.appId;
-                                  aUser->appSite = app.appSite;
+                                  if (aUser != nullptr)
+                                  {
+                                      aUser->appId = app.appId;
+                                      aUser->appSite = app.appSite;
+                                  }
                                   registerCallback(aUser, e);
                                   th1->detach();
                                   delete th1;

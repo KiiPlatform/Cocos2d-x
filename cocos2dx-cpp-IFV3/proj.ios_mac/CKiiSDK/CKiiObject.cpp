@@ -7,18 +7,33 @@
 //
 
 #include "CKiiObject.h"
-#include <cmath>
+#include "_CKiiGlobal.h"
+#include <thread>
 
 kiicloud::CKiiObject::CKiiObject(picojson::object values)
 :_values(values)
 {
     // Parse contents.
-    this->_id = values["_id"].get<std::string>();
-    this->_version = values["_version"].get<std::string>();
-    this->_ownerUserId = values["_owner"].get<std::string>();
+    if (values["_id"].is<std::string>())
+        this->_id = values["_id"].get<std::string>();
+    if (values["objectID"].is<std::string>())
+        this->_id = values["objectID"].get<std::string>();
 
-    this->_created = values["_created"].get<double>();
-    this->_modified = values["_modified"].get<double>();
+    if (values["_version"].is<std::string>())
+        this->_version = values["_version"].get<std::string>();
+
+    if (values["_owner"].is<std::string>())
+        this->_ownerUserId = values["_owner"].get<std::string>();
+
+    if (values["_created"].is<double>())
+        this->_created = values["_created"].get<double>();
+    if (values["createdAt"].is<double>())
+        this->_created = values["createdAt"].get<double>();
+
+    if (values["_modified"].is<double>())
+        this->_modified = values["_modified"].get<double>();
+    if (values["modifiedAt"].is<double>())
+        this->_created = values["modifiedAt"].get<double>();
 }
 
 kiicloud::CKiiObject::CKiiObject(const CKiiObject& lv)
@@ -75,4 +90,28 @@ long long kiicloud::CKiiObject::getCreated() const
 picojson::object kiicloud::CKiiObject::getValues() const
 {
     return _values;
+}
+
+void kiicloud::CKiiObject::saveNewObject(const CKiiApp &app,
+                                         const std::string &scopeUri,
+                                         const std::string &bucketName,
+                                         const picojson::object values,
+                                         const std::string &accessToken,
+                                         const std::function<void (CKiiObject *, CKiiError *)> saveCallback)
+{
+    std::thread *th1 = new std::thread();
+    std::thread th = std::thread([=]() {
+        _bind->saveNewObject(app, scopeUri, bucketName, values, accessToken,
+                             [=](picojson::value objValue, CKiiError* error)
+                             {
+                                 CKiiObject *obj = nullptr;
+                                 if (error == nullptr) {
+                                     obj = new CKiiObject(objValue.get<picojson::object>());
+                                 }
+                                 th1->detach();
+                                 delete th1;
+                                 saveCallback(obj, error);
+                             });
+    });
+    th1->swap(th);
 }
