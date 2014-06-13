@@ -11,9 +11,17 @@
 #import <vector>
 #import "CKiiClause.h"
 #import "CKiiQuery.h"
+#import "CKiiBucket.h"
+#import "CKiiSDKTestGlobal.h"
+#import "CKiiError.h"
+#import "CKiiObject.h"
 
 using kiicloud::CKiiClause;
 using kiicloud::CKiiQuery;
+using kiicloud::CKiiQueryHandler;
+using kiicloud::CKiiBucket;
+using kiicloud::CKiiObject;
+using kiicloud::CKiiError;
 
 @interface CKiiQueryTest : XCTestCase
 
@@ -36,13 +44,20 @@ using kiicloud::CKiiQuery;
 - (void)testQueryEquals
 {
 
-    CKiiClause c = CKiiClause::equals(std::string("key"), (double)0);
-    NSLog(@"clause: %s" ,c.toString().c_str());
+    CKiiClause c = CKiiClause::equals(std::string("key1"), (double)0);
  
     CKiiQuery q = CKiiQuery(c);
     std::string sq = q.toString();
     NSLog(@"query: %s" ,sq.c_str());
-    
+
+    LatchedExecuter *l = [[LatchedExecuter alloc]init];
+    [l execute:^{
+        CKiiQueryHandler *qh = CKiiBucket::query(app, app.appUrl(), std::string("bk1"), q, std::string(""));
+        qh->nextPage([l] (std::vector<CKiiObject> vres, CKiiError* error) {
+            std::shared_ptr<CKiiError> ePtr(error);
+            [l offTheLatch];
+        });
+    } withTimeOutSec:5];
     // TODO: do more testing. right now, Human see the log.
 }
 
