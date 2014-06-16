@@ -14,11 +14,13 @@
 #include "picojson.h"
 #include "CKiiError.h"
 #include "CKiiApp.h"
+
 using kiicloud::ErrorPtr;
 
 namespace kiicloud {
 class CKiiObject;
 typedef std::shared_ptr<kiicloud::CKiiObject> ObjPtr;
+typedef std::future<std::pair<ObjPtr, ErrorPtr>> ObjFuture;
 
 class CKiiObject
 {
@@ -34,12 +36,19 @@ public:
     long long getCreated() const;
     picojson::object getValues() const;
 
-    static std::future<std::pair<ObjPtr, ErrorPtr>>saveNewObject(
-                                                                 const CKiiApp &app,
-                                                                 const std::string &scopeUri,
-                                                                 const std::string &bucketName,
-                                                                 const picojson::object values,
-                                                                 const std::string &accessToken);
+    static ObjFuture saveNewObject(
+                                   const CKiiApp &app,
+                                   const std::string &scopeUri,
+                                   const std::string &bucketName,
+                                   const picojson::object &values,
+                                   const std::string &accessToken);
+
+    static ErrorFuture patchObject(const CKiiApp &app,
+                                   CKiiObject& targetObject,
+                                   const picojson::object &patch,
+                                   const std::string &accessToken,
+                                   bool forceUpdate = true,
+                                   bool replaceExistingValuesWithPatch = false);
 
 private:
     picojson::object _values;

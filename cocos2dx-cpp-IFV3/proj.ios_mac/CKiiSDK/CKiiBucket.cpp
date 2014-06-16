@@ -11,6 +11,7 @@
 #include <thread>
 
 using kiicloud::ObjectsAndError;
+using kiicloud::QueryFuture;
 
 kiicloud::CKiiQueryHandler* kiicloud::CKiiBucket::query(
                                  const CKiiApp &app,
@@ -63,7 +64,7 @@ _hasNext(lv._hasNext)
     lv._hasNext = false;
 }
 
-std::future<ObjectsAndError> kiicloud::CKiiQueryHandler::nextPage()
+QueryFuture kiicloud::CKiiQueryHandler::nextPage()
 {
     std::promise<ObjectsAndError> *prm = new std::promise<ObjectsAndError>();
     std::thread th1 = std::thread([=](){

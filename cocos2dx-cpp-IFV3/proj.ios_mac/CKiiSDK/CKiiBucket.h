@@ -19,6 +19,7 @@
 namespace kiicloud{
 
 typedef std::pair<std::vector<CKiiObject>, ErrorPtr> ObjectsAndError;
+typedef std::future<ObjectsAndError> QueryFuture;
 
 class CKiiQueryHandler {
 public:
@@ -31,7 +32,7 @@ public:
     CKiiQueryHandler(const CKiiQueryHandler& lv);
     CKiiQueryHandler(CKiiQueryHandler&& lv);
 
-    std::future<ObjectsAndError> nextPage();
+    QueryFuture nextPage();
     bool hasNext();
 
 private:

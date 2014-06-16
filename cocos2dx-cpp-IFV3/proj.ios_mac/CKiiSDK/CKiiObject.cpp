@@ -12,6 +12,7 @@
 
 using kiicloud::ObjPtr;
 using kiicloud::ErrorPtr;
+using kiicloud::ObjFuture;
 
 kiicloud::CKiiObject::CKiiObject(picojson::object values)
 :_values(values)
@@ -95,13 +96,12 @@ picojson::object kiicloud::CKiiObject::getValues() const
     return _values;
 }
 
-std::future<std::pair<ObjPtr, ErrorPtr>>
-kiicloud::CKiiObject::saveNewObject(
-                                    const kiicloud::CKiiApp &app,
-                                    const std::string &scopeUri,
-                                    const std::string &bucketName,
-                                    const picojson::object values,
-                                    const std::string &accessToken)
+ObjFuture kiicloud::CKiiObject::saveNewObject(
+                                              const kiicloud::CKiiApp &app,
+                                              const std::string &scopeUri,
+                                              const std::string &bucketName,
+                                              const picojson::object &values,
+                                              const std::string &accessToken)
 {
     auto *p = new std::promise<std::pair<ObjPtr, ErrorPtr>>;
     std::thread th = std::thread([=]() {

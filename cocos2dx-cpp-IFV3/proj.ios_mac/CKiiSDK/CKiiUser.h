@@ -16,6 +16,7 @@
 #include "picojson.h"
 
 using kiicloud::ErrorPtr;
+using kiicloud::ErrorFuture;
 
 namespace kiicloud {
 class CKiiUser;
@@ -42,7 +43,7 @@ public:
                                       const std::string& username,
                                       const std::string& password);
 
-    static std::future<ErrorPtr> refresh(const kiicloud::CKiiApp& app,
+    static ErrorFuture refresh(const kiicloud::CKiiApp& app,
                               kiicloud::CKiiUser& user);
 
 private:

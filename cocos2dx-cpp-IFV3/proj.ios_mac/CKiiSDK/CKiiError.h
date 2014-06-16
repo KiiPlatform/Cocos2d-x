@@ -10,11 +10,14 @@
 #define __cocos2dx_cpp_IFV3__CKiiError__
 
 #include <iostream>
+#include <future>
+
 namespace kiicloud
 {
 
 class CKiiError;
 typedef std::shared_ptr<CKiiError> ErrorPtr;
+typedef std::future<ErrorPtr> ErrorFuture;
 
 class CKiiError
 {

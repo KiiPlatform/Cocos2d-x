@@ -12,6 +12,7 @@
 
 using kiicloud::UserPtr;
 using kiicloud::ErrorPtr;
+using kiicloud::ErrorFuture;
 using kiicloud::UserFuture;
 using kiicloud::UserAndError;
 
@@ -83,7 +84,7 @@ UserFuture kiicloud::CKiiUser::registerNewUser(const kiicloud::CKiiApp &app,
     return prm->get_future();
 }
 
-std::future<ErrorPtr> kiicloud::CKiiUser::refresh(const kiicloud::CKiiApp &app,
+ErrorFuture kiicloud::CKiiUser::refresh(const kiicloud::CKiiApp &app,
                                        kiicloud::CKiiUser& user)
 {
     auto *prm = new std::promise<ErrorPtr>();
