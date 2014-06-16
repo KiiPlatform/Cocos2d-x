@@ -10,13 +10,18 @@
 #define __cocos2dx_cpp_IFV3__CKiiUser__
 
 #include <iostream>
+#include <future>
 #include "CKiiApp.h"
 #include "CKiiError.h"
 #include "picojson.h"
 
+using kiicloud::ErrorPtr;
+
 namespace kiicloud {
 class CKiiUser;
 typedef std::shared_ptr<CKiiUser> UserPtr;
+typedef std::pair<UserPtr, ErrorPtr> UserAndError;
+typedef std::future<UserAndError> UserFuture;
 
 class CKiiUser {
 public:
@@ -28,23 +33,17 @@ public:
     std::string getId() const;
     std::string getUri() const;
 
-    static void login(
-                      const CKiiApp& app,
-                      const std::string& username,
-                      const std::string& password,
-                      const picojson::object& data,
-                      const std::function<void (CKiiUser *authenticatedUser, CKiiError *error)> loginCallback);
+    static UserFuture login(
+                            const CKiiApp& app,
+                            const std::string& username,
+                            const std::string& password);
 
-    static void registerNewUser(
-                                const CKiiApp& app,
-                                const std::string& username,
-                                const std::string& password,
-                                const picojson::object& data,
-                                const std::function<void (CKiiUser *authenticatedUser, CKiiError *error)>);
+    static UserFuture registerNewUser(const CKiiApp& app,
+                                      const std::string& username,
+                                      const std::string& password);
 
-    static void refresh(const kiicloud::CKiiApp& app,
-                        kiicloud::CKiiUser& user,
-                        const std::function<void (CKiiUser *refreshedUser, CKiiError *error)>);
+    static std::future<ErrorPtr> refresh(const kiicloud::CKiiApp& app,
+                              kiicloud::CKiiUser& user);
 
 private:
     picojson::object keyValues;

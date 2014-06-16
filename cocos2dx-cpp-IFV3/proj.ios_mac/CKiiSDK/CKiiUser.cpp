@@ -10,6 +10,11 @@
 #include "_CKiiGlobal.h"
 #include <thread>
 
+using kiicloud::UserPtr;
+using kiicloud::ErrorPtr;
+using kiicloud::UserFuture;
+using kiicloud::UserAndError;
+
 kiicloud::CKiiUser::CKiiUser()
 {
 }
@@ -37,67 +42,62 @@ picojson::object kiicloud::CKiiUser::getKeyValues() const
     return keyValues;
 }
 
-void kiicloud::CKiiUser::login(
-                               const CKiiApp& app,
-                               const std::string& username,
-                               const std::string& password,
-                               const picojson::object& data,
-                               const std::function<void (CKiiUser *authenticatedUser, CKiiError *error)> loginCallback)
+UserFuture kiicloud::CKiiUser::login(
+                                     const CKiiApp& app,
+                                     const std::string& username,
+                                     const std::string& password)
 {
-    std::thread *th1 = new std::thread();
-    std::thread thd = std::thread([=, &app, &username, &password, &data]() {
+    auto *prm = new std::promise<UserAndError>();
+    std::thread th1 = std::thread([=]() {
+        picojson::object data;
         _bind->login(app, username, password, data,
-                    [=, &app, &username, &password, &data] (CKiiUser *aUser, CKiiError* e) {
-                        aUser->appId = app.appId;
-                        aUser->appSite = app.appSite;
-                        loginCallback(aUser, e);
-                        th1->detach();
-                        delete th1;
-                    });
+                     [=, &app, &username, &password, &data] (CKiiUser *aUser, CKiiError* e) {
+                         aUser->appId = app.appId;
+                         aUser->appSite = app.appSite;
+                         auto pair = UserAndError(UserPtr(aUser), ErrorPtr(e));
+                         prm->set_value(pair);
+                         delete prm;
+                     });
     });
-    th1->swap(thd);
+    th1.detach();
+    return prm->get_future();
 }
 
-void kiicloud::CKiiUser::registerNewUser(
-                                         const kiicloud::CKiiApp& app,
-                                         const std::string& username,
-                                         const std::string& password,
-                                         const picojson::object& data,
-                                         const std::function<void (CKiiUser *authenticatedUser, CKiiError *error)> registerCallback)
+UserFuture kiicloud::CKiiUser::registerNewUser(const kiicloud::CKiiApp &app,
+                                               const std::string &username,
+                                               const std::string &password)
 {
-    std::thread *th1 = new std::thread();
-    std::thread thd = std::thread([=, &app, &username, &password, &data]() {
+    auto *prm = new std::promise<UserAndError>();
+    std::thread th1 = std::thread([=]() {
+        picojson::object data;
         _bind->registerNewUser(app, username, password, data,
-                              [=, &app, &username, &password, &data] (CKiiUser *aUser, CKiiError* e) {
-                                  if (aUser != nullptr)
-                                  {
-                                      aUser->appId = app.appId;
-                                      aUser->appSite = app.appSite;
-                                  }
-                                  registerCallback(aUser, e);
-                                  th1->detach();
-                                  delete th1;
-                              });
+                     [=, &app, &username, &password, &data] (CKiiUser *aUser, CKiiError* e) {
+                         aUser->appId = app.appId;
+                         aUser->appSite = app.appSite;
+                         auto pair = UserAndError(UserPtr(aUser), ErrorPtr(e));
+                         prm->set_value(pair);
+                         delete prm;
+                     });
     });
-    th1->swap(thd);
+    th1.detach();
+    return prm->get_future();
 }
 
-void kiicloud::CKiiUser::refresh(const kiicloud::CKiiApp& app,
-                                 kiicloud::CKiiUser& user,
-                                 const std::function<void (CKiiUser *refreshedUser, CKiiError *error)> refreshCallback)
+std::future<ErrorPtr> kiicloud::CKiiUser::refresh(const kiicloud::CKiiApp &app,
+                                       kiicloud::CKiiUser& user)
 {
-    std::thread *th1 = new std::thread();
-    std::thread thd = std::thread([=, &app, &user]() {
-        _bind->refreshUser(app, user, [&] (picojson::value kvs, CKiiError *err) {
+    auto *prm = new std::promise<ErrorPtr>();
+    std::thread th1 = std::thread([=, &app, &user]() {
+        _bind->refreshUser(app, user, [=, &app, &user] (picojson::value kvs, CKiiError *err) {
             if (kvs.is<picojson::object>()) {
                 user.keyValues = kvs.get<picojson::object>();
             }
-            refreshCallback(&user, err);
-            th1 -> detach();
-            delete th1;
+            prm->set_value(ErrorPtr(err));
+            delete prm;
         });
     });
-    th1->swap(thd);
+    th1.detach();
+    return prm->get_future();
 }
 
 std::string kiicloud::CKiiUser::getId() const

@@ -20,6 +20,7 @@ using std::future;
 using std::pair;
 using kiicloud::ObjPtr;
 using kiicloud::ErrorPtr;
+using kiicloud::UserAndError;
 
 @interface CKiiObjectTests : XCTestCase
 
@@ -43,35 +44,30 @@ static std::shared_ptr<kiicloud::CKiiUser> currentUser;
 
 - (void) testCreateByUser
 {
-    LatchedExecuter *l = [[LatchedExecuter alloc]init];
     
     NSUUID *uuid = [[NSUUID alloc]init];
     NSString *ust = [uuid UUIDString];
     std::string *uname = new std::string([ust cStringUsingEncoding:NSUTF8StringEncoding]);
     std::string *password = new std::string("1234");
+
+    std::shared_ptr<std::string> namePtr(uname);
+    std::shared_ptr<std::string> passPtr(password);
+    auto regFut = kiicloud::CKiiUser::registerNewUser(app,
+                                                      *uname,
+                                                      *password);
+    UserAndError pair = regFut.get();
+    CKiiUser* user = pair.first.get();
+    CKiiError* error = pair.second.get();
+    XCTAssertTrue(user != nullptr, @"user should be given");
+    XCTAssertTrue(error == nullptr, @"no error should be given");
     
-    [l execute:^{
-        kiicloud::CKiiUser::registerNewUser(app,
-                                            *uname,
-                                            *password,
-                                            picojson::object(),
-                                            [self, l, &uname, &password] (kiicloud::CKiiUser *user, kiicloud::CKiiError *error)
-                                            {
-                                                currentUser = std::shared_ptr<kiicloud::CKiiUser>(user);
-                                                XCTAssertTrue(error == nullptr, @"error should be null");
-                                                kiicloud::CKiiUser::login(app,
-                                                                          *uname,
-                                                                          *password, picojson::object(),
-                                                                          [self, l, &uname, &password] (kiicloud::CKiiUser* user, kiicloud::CKiiError *error)
-                                                                          {
-                                                                              currentUser = std::shared_ptr<kiicloud::CKiiUser>(user);
-                                                                              XCTAssertTrue(error == nullptr, @"error should be null");
-                                                                              delete uname;
-                                                                              delete password;
-                                                                              [l offTheLatch];
-                                                                          });
-                                            });
-    } withTimeOutSec:5];
+    auto loginFut = kiicloud::CKiiUser::login(app, *uname, *password);
+    pair = loginFut.get();
+    user = pair.first.get();
+    error = pair.second.get();
+    XCTAssertTrue(user != nullptr, @"user should be given");
+    XCTAssertTrue(error == nullptr, @"no error should be given");
+    currentUser = pair.first;
 
     picojson::object vals;
     vals["key1"] = picojson::value("val1");

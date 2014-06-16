@@ -14,27 +14,25 @@ using kiicloud::CKiiError;
 
 kiicloud::CKiiError::~CKiiError()
 {
-    delete kiiErrorCode;
 }
 
 kiicloud::CKiiError::CKiiError()
 {
     httpErrorCode = 0;
-    kiiErrorCode = new std::string("");
+    kiiErrorCode = std::string("");
 }
 
 kiicloud::CKiiError::CKiiError(const CKiiError& rhs)
 {
     httpErrorCode = rhs.httpErrorCode;
-    kiiErrorCode = new std::string(*rhs.kiiErrorCode);
+    kiiErrorCode = std::string(rhs.kiiErrorCode);
 }
 
 kiicloud::CKiiError::CKiiError(CKiiError&& rhs)
 {
     httpErrorCode = rhs.httpErrorCode;
-    kiiErrorCode = new std::string(*rhs.kiiErrorCode);
+    kiiErrorCode = std::string(rhs.kiiErrorCode);
     
-    delete rhs.kiiErrorCode;
     rhs.kiiErrorCode = nullptr;
     rhs.httpErrorCode = 0;
 }
@@ -42,12 +40,12 @@ kiicloud::CKiiError::CKiiError(CKiiError&& rhs)
 kiicloud::CKiiError::CKiiError(int httpErrorCode, const std::string& kiiErrorCode)
 {
     this->httpErrorCode = httpErrorCode;
-    this->kiiErrorCode = new std::string(kiiErrorCode);
+    this->kiiErrorCode = std::string(kiiErrorCode);
 }
 
 std::string kiicloud::CKiiError::getKiiErrorCode()
 {
-    return *kiiErrorCode;
+    return kiiErrorCode;
 }
 
 int kiicloud::CKiiError::getHttpErrorCode()
@@ -58,6 +56,6 @@ int kiicloud::CKiiError::getHttpErrorCode()
 std::string kiicloud::CKiiError::toString()
 {
     std::stringstream ss;
-    ss << "CKiiError(" << "httpErrorCode: " << httpErrorCode << ", kiiErrorCode: " << *kiiErrorCode << ")";
+    ss << "CKiiError(" << "httpErrorCode: " << httpErrorCode << ", kiiErrorCode: " << kiiErrorCode << ")";
     return ss.str();
 }

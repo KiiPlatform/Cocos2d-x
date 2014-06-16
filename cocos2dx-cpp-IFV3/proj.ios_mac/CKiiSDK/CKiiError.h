@@ -23,13 +23,14 @@ public:
     explicit CKiiError(int httpErrorCode, const std::string &kiiErrorCode);
     explicit CKiiError(const CKiiError& lv);
     explicit CKiiError(CKiiError&& lv);
+
     ~CKiiError();
     int getHttpErrorCode();
     std::string getKiiErrorCode();
     std::string toString();
 private:
     int httpErrorCode;
-    std::string* kiiErrorCode;
+    std::string kiiErrorCode;
 };
 
 }

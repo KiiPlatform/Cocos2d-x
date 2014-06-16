@@ -22,6 +22,7 @@ using kiicloud::CKiiError;
 using kiicloud::CKiiSite;
 using kiicloud::cKiiSiteJP;
 using kiicloud::CKiiApp;
+using kiicloud::UserAndError;
 
 
 @interface CKiiSDKTests : XCTestCase {
@@ -46,61 +47,53 @@ using kiicloud::CKiiApp;
 
 - (void)testCKiiUser
 {
-    LatchedExecuter *l = [[LatchedExecuter alloc]init];
 
     NSString *uname = [[[NSUUID alloc]init]UUIDString];
     std::string username = [uname cStringUsingEncoding:NSUTF8StringEncoding];
     std::string pass("1234");
+
+    // Register
+    auto regFut = kiicloud::CKiiUser::registerNewUser(app, username, pass);
+    UserAndError pair = regFut.get();
+    kiicloud::CKiiUser *authenticatedUser = pair.first.get();
+    kiicloud::CKiiError *error =pair.second.get();
+    XCTAssertTrue(authenticatedUser != nullptr, @"user should be passed");
     
+    picojson::object kvs = authenticatedUser->getKeyValues();
+    std::string _lname = kvs["loginName"].get<std::string>();
+    NSString* _nslname = [NSString stringWithUTF8String:_lname.c_str()];
+    NSString* nsusername = [NSString stringWithUTF8String:username.c_str()];
+    XCTAssertTrue([[nsusername lowercaseString]isEqualToString:[_nslname lowercaseString]], @"username doesn't matches.");
+    XCTAssertTrue(error == nullptr, @"error should be null");
 
-    [l execute:^{
-        picojson::object *obj;
-        CKiiUser::registerNewUser(app, username, pass, *obj,
-                           [& self, l, username] (CKiiUser *authenticatedUser, CKiiError *error) {
-                               std::shared_ptr<CKiiUser> uPtr(authenticatedUser);
-                               std::shared_ptr<CKiiError> ePtr(error);
-                               XCTAssertTrue(authenticatedUser != nullptr, @"user should be passed");
+    // Login
+    auto loginFut = kiicloud::CKiiUser::login(app, username, pass);
+    pair = loginFut.get();
+    authenticatedUser = pair.first.get();
+    error =pair.second.get();
 
-                               picojson::object kvs = authenticatedUser->getKeyValues();
-                               std::string _lname = kvs["loginName"].get<std::string>();
-                               NSString* _nslname = [NSString stringWithUTF8String:_lname.c_str()];
-                               NSString* nsusername = [NSString stringWithUTF8String:username.c_str()];
-                               XCTAssertTrue([[nsusername lowercaseString]isEqualToString:[_nslname lowercaseString]], @"username doesn't matches.");
-                               XCTAssertTrue(error == nullptr, @"error should be null");
-                               [l offTheLatch];
-        });
-    } withTimeOutSec:5];
+    XCTAssertTrue(authenticatedUser != nullptr, @"user should be passed");
+    
+    kvs = authenticatedUser->getKeyValues();
+    std::string _id = kvs["id"].get<std::string>();
+    XCTAssertTrue(_id.length() > 0, @"id should be provided.");
 
-    [l execute:^{
-        picojson::object *obj;
-        CKiiUser::login(app, username, pass, *obj,
-                 [& self, l, username] (CKiiUser *user, CKiiError *error) {
-                     // Expect failure since no user is registered yet.
-                     std::shared_ptr<CKiiError> ePtr(error);
-                     currUser = std::shared_ptr<CKiiUser>(user);
-                     XCTAssertTrue(user != nullptr, @"user should be passed");
+    XCTAssertTrue(error == nullptr, @"error should be null");
 
-                     picojson::object kvs = user->getKeyValues();
-                     std::string _id = kvs["id"].get<std::string>();
-                     XCTAssertTrue(_id.length() > 0, @"id should be provided.");
-                     XCTAssertTrue(error == nullptr, @"error should be null");
-                     [l offTheLatch];
-                 });
-    } withTimeOutSec:5];
+    // Refresh
+    auto refFut = kiicloud::CKiiUser::refresh(app, *authenticatedUser);
+    kiicloud::ErrorPtr e = refFut.get();
+    authenticatedUser = pair.first.get();
+    error = pair.second.get();
 
-    [l execute:^{
-        CKiiUser::refresh(app, *currUser.get(), [&self, l, username] (CKiiUser *user, CKiiError *error) {
-            std::shared_ptr<CKiiError> ePtr(error);
-            XCTAssert(user != nullptr, @"user must be passed");
-            picojson::object kvs = user->getKeyValues();
-            std::string _lname = kvs["loginName"].get<std::string>();
-            NSString* _nslname = [NSString stringWithUTF8String:_lname.c_str()];
-            NSString* nsusername = [NSString stringWithUTF8String:username.c_str()];
-            XCTAssertTrue([[nsusername lowercaseString]isEqualToString:[_nslname lowercaseString]], @"username doesn't matches.");
-            XCTAssertTrue(error == nullptr);
-            [l offTheLatch];
-        });
-    } withTimeOutSec:5];
+    XCTAssert(authenticatedUser != nullptr, @"user must be passed");
+    kvs = authenticatedUser->getKeyValues();
+    _lname = kvs["loginName"].get<std::string>();
+    _nslname = [NSString stringWithUTF8String:_lname.c_str()];
+    nsusername = [NSString stringWithUTF8String:username.c_str()];
+    XCTAssertTrue([[nsusername lowercaseString]isEqualToString:[_nslname lowercaseString]], @"username doesn't matches.");
+    XCTAssertTrue(error == nullptr);
+
 }
 
 - (void) testBucketQuery
