@@ -18,6 +18,8 @@
 
 namespace kiicloud{
 
+typedef std::pair<std::vector<CKiiObject>, ErrorPtr> ObjectsAndError;
+
 class CKiiQueryHandler {
 public:
     explicit CKiiQueryHandler(
@@ -28,8 +30,8 @@ public:
                           const std::string accessToken);
     CKiiQueryHandler(const CKiiQueryHandler& lv);
     CKiiQueryHandler(CKiiQueryHandler&& lv);
-    void nextPage(const std::function<void (std::vector<CKiiObject> results,
-                                            CKiiError *error)> queryCallback);
+
+    std::future<ObjectsAndError> nextPage();
     bool hasNext();
 
 private:

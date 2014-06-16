@@ -10,6 +10,8 @@
 #include "_CKiiGlobal.h"
 #include <thread>
 
+using kiicloud::ObjectsAndError;
+
 kiicloud::CKiiQueryHandler* kiicloud::CKiiBucket::query(
                                  const CKiiApp &app,
                                  const std::string &scopeUri,
@@ -61,50 +63,53 @@ _hasNext(lv._hasNext)
     lv._hasNext = false;
 }
 
-void kiicloud::CKiiQueryHandler::nextPage(const std::function<void (std::vector<CKiiObject> results,
-                                                           CKiiError *error)> queryCallback)
+std::future<ObjectsAndError> kiicloud::CKiiQueryHandler::nextPage()
 {
-    std::thread * th1 = new std::thread();
-    std::thread thd([=]() {
+    std::promise<ObjectsAndError> *prm = new std::promise<ObjectsAndError>();
+    std::thread th1 = std::thread([=](){
         _bind->queryBucket(this->app,
                            this->scopeUri,
                            this->bucketName,
                            this->query,
                            this->accessToken,
-                           [=, &queryCallback] (picojson::value jresult, CKiiError* error)
-        {
-            std::vector<CKiiObject> res;
-            if (error != nullptr) {
-                queryCallback(res, error);
-                return;
-            }
-            std::vector<CKiiObject> callbackResult;
-            picojson::object resObj = jresult.get<picojson::object>();
-            // parse next.
-            this->_hasNext = false;
-            if (resObj["nextPaginationKey"].is<std::string>()) {
-                std::string nPKey = resObj["nextPaginationKey"].get<std::string>();
-                if (!nPKey.empty()) {
-                    this->_hasNext = true;
-                    this->query = CKiiQuery(query, nPKey);
-                }
-            }
-
-            picojson::array objs = resObj["results"].get<picojson::array>();
-            std::vector<picojson::value>::iterator itr = objs.begin();
-            while (itr != objs.end())
-            {
-                picojson::object aObj = (*itr).get<picojson::object>();
-                CKiiObject kobj = CKiiObject(aObj);
-                callbackResult.push_back(kobj);
-                ++itr;
-            }
-            queryCallback(callbackResult, error);
-            th1->detach();
-            delete th1;
-        });
+                           [=] (picojson::value jresult, CKiiError* error)
+                           {
+                               ObjectsAndError pair;
+                               for (int i=0; i < 1; ++i) { // dummy loop
+                                   std::vector<CKiiObject> objects;
+                                   if (error != nullptr) {
+                                       pair = ObjectsAndError(objects, ErrorPtr(error));
+                                       break;
+                                   }
+                                   picojson::object resObj = jresult.get<picojson::object>();
+                                   // parse next.
+                                   this->_hasNext = false;
+                                   if (resObj["nextPaginationKey"].is<std::string>()) {
+                                       std::string nPKey = resObj["nextPaginationKey"].get<std::string>();
+                                       if (!nPKey.empty()) {
+                                           this->_hasNext = true;
+                                           this->query = CKiiQuery(query, nPKey);
+                                       }
+                                   }
+                                   
+                                   picojson::array objs = resObj["results"].get<picojson::array>();
+                                   std::vector<picojson::value>::iterator itr = objs.begin();
+                                   while (itr != objs.end())
+                                   {
+                                       picojson::object aObj = (*itr).get<picojson::object>();
+                                       CKiiObject kobj = CKiiObject(aObj);
+                                       objects.push_back(kobj);
+                                       ++itr;
+                                   }
+                                   pair = ObjectsAndError(objects, ErrorPtr(error));
+                                   break;
+                               }
+                               prm->set_value(pair);
+                               delete  prm;
+                           });
     });
-    th1->swap(thd);
+    th1.detach();
+    return prm->get_future();
 }
 
 bool kiicloud::CKiiQueryHandler::hasNext()

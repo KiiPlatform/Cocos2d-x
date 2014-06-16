@@ -22,6 +22,7 @@ using kiicloud::CKiiQueryHandler;
 using kiicloud::CKiiBucket;
 using kiicloud::CKiiObject;
 using kiicloud::CKiiError;
+using kiicloud::ObjectsAndError;
 
 @interface CKiiQueryTest : XCTestCase
 
@@ -50,14 +51,10 @@ using kiicloud::CKiiError;
     std::string sq = q.toString();
     NSLog(@"query: %s" ,sq.c_str());
 
-    LatchedExecuter *l = [[LatchedExecuter alloc]init];
-    [l execute:^{
-        CKiiQueryHandler *qh = CKiiBucket::query(app, app.appUrl(), std::string("bk1"), q, std::string(""));
-        qh->nextPage([l] (std::vector<CKiiObject> vres, CKiiError* error) {
-            std::shared_ptr<CKiiError> ePtr(error);
-            [l offTheLatch];
-        });
-    } withTimeOutSec:5];
+
+
+    CKiiQueryHandler *qh = CKiiBucket::query(app, app.appUrl(), std::string("bk1"), q, std::string(""));
+    std::future<ObjectsAndError> fut = qh->nextPage();
     // TODO: do more testing. right now, Human see the log.
 }
 

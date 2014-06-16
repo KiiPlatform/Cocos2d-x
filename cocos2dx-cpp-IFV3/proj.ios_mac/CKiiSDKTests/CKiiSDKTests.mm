@@ -98,69 +98,63 @@ using kiicloud::UserAndError;
 
 - (void) testBucketQuery
 {
-    LatchedExecuter *l = [[LatchedExecuter alloc]init];
-    [l execute:^{
-        kiicloud::CKiiQuery q;
-        std::string accessToken;
-        kiicloud::CKiiQueryHandler *qh = kiicloud::CKiiBucket::query(app, app.appUrl(), std::string("myBucket"), q, accessToken);
-        qh->nextPage([=, &l] (std::vector<kiicloud::CKiiObject> results, kiicloud::CKiiError *error) {
-            XCTAssertEqual(6, results.size(), @"size is different");
-            std::vector<kiicloud::CKiiObject>::iterator itr = results.begin();
-            while (itr != results.end())
-            {
-                XCTAssertFalse((*itr).getId().empty());
-                XCTAssertFalse((*itr).getVersion().empty());
-                XCTAssertFalse((*itr).getOwnerUserId().empty());
-                NSLog(@"_created : %lld", (*itr).getCreated());
-                NSLog(@"_modified : %lld", (*itr).getModified());
-                XCTAssertTrue((*itr).getCreated() > 0);
-                XCTAssertTrue((*itr).getModified() > 0);
-                XCTAssertTrue(error == nullptr);
-                ++itr;
-            }
-            [l offTheLatch];
-        });
-    } withTimeOutSec:5];
+    kiicloud::CKiiQuery q;
+    std::string accessToken;
+    kiicloud::CKiiQueryHandler *qh = kiicloud::CKiiBucket::query(app, app.appUrl(), std::string("myBucket"), q, accessToken);
+    auto queryFut = qh->nextPage();
+    auto resPair = queryFut.get();
+    std::vector<kiicloud::CKiiObject> results = resPair.first;
+    
+    kiicloud::CKiiError* error =resPair.second.get();
+    XCTAssertTrue(error == nullptr, @"error should not be given.");
+    
+    std::vector<kiicloud::CKiiObject>::iterator itr = results.begin();
+    while (itr != results.end())
+    {
+        XCTAssertFalse((*itr).getId().empty());
+        XCTAssertFalse((*itr).getVersion().empty());
+        XCTAssertFalse((*itr).getOwnerUserId().empty());
+        NSLog(@"_created : %lld", (*itr).getCreated());
+        NSLog(@"_modified : %lld", (*itr).getModified());
+        XCTAssertTrue((*itr).getCreated() > 0);
+        XCTAssertTrue((*itr).getModified() > 0);
+        XCTAssertTrue(error == nullptr);
+        ++itr;
+    }
 }
 
 - (void) testBucketQueryWithLimit
 {
-    LatchedExecuter *l = [[LatchedExecuter alloc]init];
-    [l execute:^{
-        int *count = new int(0);
-        kiicloud::CKiiQuery q(kiicloud::CKiiClause(),1);
-        std::string accessToken;
-        kiicloud::CKiiQueryHandler *qh = kiicloud::CKiiBucket::query(app, app.appUrl(), std::string("myBucket"), q, accessToken);
 
-        std::function<void (std::vector<kiicloud::CKiiObject> results, kiicloud::CKiiError *error)> *cb1 = new std::function<void (std::vector<kiicloud::CKiiObject>, kiicloud::CKiiError*)>();
+    int count = 0;
+    kiicloud::CKiiQuery q(kiicloud::CKiiClause(),1);
+    std::string accessToken;
+    kiicloud::CKiiQueryHandler *qh = kiicloud::CKiiBucket::query(app, app.appUrl(), std::string("myBucket"), q, accessToken);
+    
+    while (qh->hasNext()) {
+        auto queryFut = qh->nextPage();
+        auto resultsAndError = queryFut.get();
 
-        std::function<void (std::vector<kiicloud::CKiiObject> results, kiicloud::CKiiError *error)> cb = [=, &l] (std::vector<kiicloud::CKiiObject> results, kiicloud::CKiiError *error) {
-            std::vector<kiicloud::CKiiObject>::iterator itr = results.begin();
-            while (itr != results.end())
-            {
-                ++(*count);
-                XCTAssertFalse((*itr).getId().empty());
-                XCTAssertFalse((*itr).getVersion().empty());
-                XCTAssertFalse((*itr).getOwnerUserId().empty());
-                NSLog(@"_created : %lld", (*itr).getCreated());
-                NSLog(@"_modified : %lld", (*itr).getModified());
-                XCTAssertTrue((*itr).getCreated() > 0);
-                XCTAssertTrue((*itr).getModified() > 0);
-                XCTAssertTrue(error == nullptr);
-                ++itr;
-            }
-            if (qh->hasNext()) {
-                qh->nextPage(*cb1);
-            } else {
-                XCTAssertTrue(*count == 6, @"count is different : %d", *count);
-                delete qh;
-                delete cb1;
-                delete count;
-                [l offTheLatch];
-            }
-        };
-        qh->nextPage(cb);
-        cb1->swap(cb);
-    } withTimeOutSec:5];
+        auto error = resultsAndError.second.get();
+        XCTAssertTrue(error == nullptr);
+        auto results = resultsAndError.first;
+        std::vector<kiicloud::CKiiObject>::iterator itr = results.begin();
+        
+        while (itr != results.end())
+        {
+            ++count;
+            XCTAssertFalse((*itr).getId().empty());
+            XCTAssertFalse((*itr).getVersion().empty());
+            XCTAssertFalse((*itr).getOwnerUserId().empty());
+            NSLog(@"_created : %lld", (*itr).getCreated());
+            NSLog(@"_modified : %lld", (*itr).getModified());
+            XCTAssertTrue((*itr).getCreated() > 0);
+            XCTAssertTrue((*itr).getModified() > 0);
+            XCTAssertTrue(error == nullptr);
+            ++itr;
+        }
+    }
+    XCTAssertTrue(count == 6, @"count is different : %d", count);
+
 }
 @end
