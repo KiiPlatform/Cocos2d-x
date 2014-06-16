@@ -15,6 +15,8 @@
 #include "picojson.h"
 
 namespace kiicloud {
+class CKiiUser;
+typedef std::shared_ptr<CKiiUser> UserPtr;
 
 class CKiiUser {
 public:

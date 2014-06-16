@@ -10,6 +10,9 @@
 #include "_CKiiGlobal.h"
 #include <thread>
 
+using kiicloud::ObjPtr;
+using kiicloud::ErrorPtr;
+
 kiicloud::CKiiObject::CKiiObject(picojson::object values)
 :_values(values)
 {
@@ -92,14 +95,15 @@ picojson::object kiicloud::CKiiObject::getValues() const
     return _values;
 }
 
-void kiicloud::CKiiObject::saveNewObject(const CKiiApp &app,
-                                         const std::string &scopeUri,
-                                         const std::string &bucketName,
-                                         const picojson::object values,
-                                         const std::string &accessToken,
-                                         const std::function<void (CKiiObject *, CKiiError *)> saveCallback)
+std::future<std::pair<ObjPtr, ErrorPtr>>
+kiicloud::CKiiObject::saveNewObject(
+                                    const kiicloud::CKiiApp &app,
+                                    const std::string &scopeUri,
+                                    const std::string &bucketName,
+                                    const picojson::object values,
+                                    const std::string &accessToken)
 {
-    std::thread *th1 = new std::thread();
+    auto *p = new std::promise<std::pair<ObjPtr, ErrorPtr>>;
     std::thread th = std::thread([=]() {
         _bind->saveNewObject(app, scopeUri, bucketName, values, accessToken,
                              [=](picojson::value objValue, CKiiError* error)
@@ -108,10 +112,11 @@ void kiicloud::CKiiObject::saveNewObject(const CKiiApp &app,
                                  if (error == nullptr) {
                                      obj = new CKiiObject(objValue.get<picojson::object>());
                                  }
-                                 th1->detach();
-                                 delete th1;
-                                 saveCallback(obj, error);
+                                 std::pair<ObjPtr, ErrorPtr> pr((ObjPtr(obj)), ErrorPtr(error));
+                                 p->set_value(pr);
+                                 delete p;
                              });
     });
-    th1->swap(th);
+    th.detach();
+    return p->get_future();
 }

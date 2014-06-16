@@ -13,6 +13,9 @@
 namespace kiicloud
 {
 
+class CKiiError;
+typedef std::shared_ptr<CKiiError> ErrorPtr;
+
 class CKiiError
 {
 public:

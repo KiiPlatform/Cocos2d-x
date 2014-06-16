@@ -16,6 +16,10 @@
 using kiicloud::CKiiObject;
 using kiicloud::CKiiError;
 using kiicloud::CKiiUser;
+using std::future;
+using std::pair;
+using kiicloud::ObjPtr;
+using kiicloud::ErrorPtr;
 
 @interface CKiiObjectTests : XCTestCase
 
@@ -37,60 +41,53 @@ using kiicloud::CKiiUser;
 
 static std::shared_ptr<kiicloud::CKiiUser> currentUser;
 
-- (void)testCreateByUser
+- (void) testCreateByUser
 {
     LatchedExecuter *l = [[LatchedExecuter alloc]init];
-
+    
     NSUUID *uuid = [[NSUUID alloc]init];
     NSString *ust = [uuid UUIDString];
     std::string *uname = new std::string([ust cStringUsingEncoding:NSUTF8StringEncoding]);
     std::string *password = new std::string("1234");
-
+    
     [l execute:^{
         kiicloud::CKiiUser::registerNewUser(app,
                                             *uname,
                                             *password,
                                             picojson::object(),
                                             [self, l, &uname, &password] (kiicloud::CKiiUser *user, kiicloud::CKiiError *error)
-        {
-            currentUser = std::shared_ptr<kiicloud::CKiiUser>(user);
-            XCTAssertTrue(error == nullptr, @"error should be null");
-            kiicloud::CKiiUser::login(app,
-                                      *uname,
-                                      *password, picojson::object(),
-                                      [self, l, &uname, &password] (kiicloud::CKiiUser* user, kiicloud::CKiiError *error)
-            {
-                currentUser = std::shared_ptr<kiicloud::CKiiUser>(user);
-                XCTAssertTrue(error == nullptr, @"error should be null");
-                delete uname;
-                delete password;
-                [l offTheLatch];
-            });
-        });
+                                            {
+                                                currentUser = std::shared_ptr<kiicloud::CKiiUser>(user);
+                                                XCTAssertTrue(error == nullptr, @"error should be null");
+                                                kiicloud::CKiiUser::login(app,
+                                                                          *uname,
+                                                                          *password, picojson::object(),
+                                                                          [self, l, &uname, &password] (kiicloud::CKiiUser* user, kiicloud::CKiiError *error)
+                                                                          {
+                                                                              currentUser = std::shared_ptr<kiicloud::CKiiUser>(user);
+                                                                              XCTAssertTrue(error == nullptr, @"error should be null");
+                                                                              delete uname;
+                                                                              delete password;
+                                                                              [l offTheLatch];
+                                                                          });
+                                            });
     } withTimeOutSec:5];
 
-    l = [[LatchedExecuter alloc]init];
-    
     picojson::object vals;
     vals["key1"] = picojson::value("val1");
+    auto ft = CKiiObject::saveNewObject(app, app.appUrl(),
+                                        std::string("bk1"),
+                                        vals,
+                                        currentUser->getAccessToken());
+    auto res = ft.get();
 
-    l = [[LatchedExecuter alloc]init];
-    [l execute:^{
-        CKiiObject::saveNewObject(app,
-                                  app.appUrl(),
-                                  std::string("bk1"),
-                                  vals,
-                                  currentUser->getAccessToken(),
-                                  [l, self] (kiicloud::CKiiObject* newObj, kiicloud::CKiiError *error)
-                                  {
-                                      std::shared_ptr<CKiiObject> oPtr(newObj);
-                                      XCTAssertTrue(error == nullptr, @"expect no error");
-                                      XCTAssertFalse(newObj->getId().empty(), @"id must be given");
-                                      XCTAssertTrue(newObj->getCreated() > 0, @"created time must be given");
-                                      [l offTheLatch];
-                                  });
-    } withTimeOutSec:5];
+    auto created = res.first.get();
+    auto erorr = res.second.get();
+
+    XCTAssertTrue(created != nullptr, @"object should be given");
+    XCTAssertTrue(created->getCreated() > 0, @"created time should be given");
+    XCTAssertTrue(!(created->getId().empty()), @"id should be given");
+    XCTAssertTrue(erorr == nullptr, @"error should be null");
 }
-
 
 @end

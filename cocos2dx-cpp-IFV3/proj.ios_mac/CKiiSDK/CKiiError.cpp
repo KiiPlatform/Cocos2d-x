@@ -23,14 +23,20 @@ kiicloud::CKiiError::CKiiError()
     kiiErrorCode = new std::string("");
 }
 
-kiicloud::CKiiError::CKiiError(const CKiiError& lv) : kiiErrorCode {new std::string(*lv.kiiErrorCode) }
+kiicloud::CKiiError::CKiiError(const CKiiError& rhs)
 {
+    httpErrorCode = rhs.httpErrorCode;
+    kiiErrorCode = new std::string(*rhs.kiiErrorCode);
 }
 
-kiicloud::CKiiError::CKiiError(CKiiError&& lv) : kiiErrorCode { new std::string(*lv.kiiErrorCode) }
+kiicloud::CKiiError::CKiiError(CKiiError&& rhs)
 {
-    lv.kiiErrorCode = nullptr;
-    lv.httpErrorCode = 0;
+    httpErrorCode = rhs.httpErrorCode;
+    kiiErrorCode = new std::string(*rhs.kiiErrorCode);
+    
+    delete rhs.kiiErrorCode;
+    rhs.kiiErrorCode = nullptr;
+    rhs.httpErrorCode = 0;
 }
 
 kiicloud::CKiiError::CKiiError(int httpErrorCode, const std::string& kiiErrorCode)

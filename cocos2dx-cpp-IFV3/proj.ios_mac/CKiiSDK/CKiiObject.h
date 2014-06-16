@@ -10,11 +10,16 @@
 #define __cocos2dx_cpp_IFV3__CKiiObject__
 
 #include <iostream>
+#include <future>
 #include "picojson.h"
 #include "CKiiError.h"
 #include "CKiiApp.h"
+using kiicloud::ErrorPtr;
 
 namespace kiicloud {
+class CKiiObject;
+typedef std::shared_ptr<kiicloud::CKiiObject> ObjPtr;
+
 class CKiiObject
 {
 public:
@@ -29,12 +34,12 @@ public:
     long long getCreated() const;
     picojson::object getValues() const;
 
-    static void saveNewObject(const CKiiApp &app,
-                              const std::string &scopeUri,
-                              const std::string &bucketName,
-                              const picojson::object values,
-                              const std::string &accessToken,
-                              const std::function<void (CKiiObject *newObject, CKiiError *error)> saveCallback);
+    static std::future<std::pair<ObjPtr, ErrorPtr>>saveNewObject(
+                                                                 const CKiiApp &app,
+                                                                 const std::string &scopeUri,
+                                                                 const std::string &bucketName,
+                                                                 const picojson::object values,
+                                                                 const std::string &accessToken);
 
 private:
     picojson::object _values;
