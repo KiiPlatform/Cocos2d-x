@@ -36,7 +36,6 @@ static size_t callbackWriteHeaders(char *ptr, size_t size, size_t nmemb, std::ma
     std::string key = header.substr(0, idx);
     std::string val = header.substr(idx +1, header.length());
     stream->insert(std::pair<std::string, std::string>(key, val));
-//    kiicloud::CKiiLog::getInstance()->log("callbackWriteHeaders "  + key + " : " + val);
     return dataLen;
 }
 
@@ -336,7 +335,7 @@ void kiicloud::CKiicURLBindings::saveNewObject(const CKiiApp& app,
                                                const std::string &bucketName,
                                                const picojson::object values,
                                                const std::string &accessToken,
-                                               const std::function<void (picojson::value, CKiiError *)> saveCallback)
+                                               const std::function<void (picojson::value, std:: string& etag, CKiiError *)> saveCallback)
 {
     std::string destUrl = scopeUri + "/buckets/" + bucketName + "/objects";
     std::map<std::string, std::string> mheaders;
@@ -352,11 +351,13 @@ void kiicloud::CKiicURLBindings::saveNewObject(const CKiiApp& app,
     kiicloud::CKiiError *error;
     
     picojson::value jresult;
+    std::string etag;
     this->request(POST, destUrl, mheaders, reqBodyJson.serialize(), &respBody, &respHeaders, &error);
     if (error) {
-        saveCallback(jresult, error);
+        saveCallback(jresult, etag, error);
         return;
     }
+    etag = (*respHeaders)["ETag"];
     
     std::string err;
     const char* cRespBody = respBody->c_str();
@@ -364,7 +365,7 @@ void kiicloud::CKiicURLBindings::saveNewObject(const CKiiApp& app,
     if (!err.empty()) {
         error = new CKiiError(0, err);
     }
-    saveCallback(jresult, error);
+    saveCallback(jresult, etag, error);
 }
 
 void kiicloud::CKiicURLBindings::patchObject(const kiicloud::CKiiApp &app,

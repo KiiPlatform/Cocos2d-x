@@ -62,7 +62,7 @@ public:
                        const std::string &bucketName,
                        const picojson::object values,
                        const std::string& accessToken,
-                       const std::function<void (picojson::value, CKiiError *error)> saveCallback);
+                       const std::function<void (picojson::value, std::string& etag, CKiiError *error)> saveCallback);
 
     void patchObject(const CKiiApp& app,
                      const std::string &objUri,

@@ -88,14 +88,14 @@ static std::shared_ptr<kiicloud::CKiiUser> currentUser;
     picojson::object vals2;
     vals2["key2"] = picojson::value("val2");
     
-    auto res2 = kiicloud::CKiiObject::patchObject(app, *created, vals2, currentUser->getAccessToken());
+    auto res2 = kiicloud::CKiiObject::patchObject(app, *created, vals2, currentUser->getAccessToken(), false);
     auto erorr2 = res2.get();
     
     XCTAssertTrue(erorr2.get() == nullptr, @"error should be null");
 
     XCTAssertTrue(created->getVersion() == "2", @"version is different");
     XCTAssertTrue(created->getCreated() > 0, @"created time should be given");
-    XCTAssertTrue(created->getModified() > created->getCreated() , @"modified time should be greater than created");
+    XCTAssertTrue(created->getModified() > created->getCreated(), @"modified time should be greater than created");
     picojson::object custom = created->getValues();
     std::string vl1 = custom["key1"].get<std::string>();
     std::string vl2 = custom["key2"].get<std::string>();

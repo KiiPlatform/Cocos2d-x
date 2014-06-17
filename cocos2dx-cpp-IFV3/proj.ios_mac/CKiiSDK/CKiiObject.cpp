@@ -8,6 +8,7 @@
 
 #include "CKiiObject.h"
 #include "_CKiiGlobal.h"
+#include "CKiiLog.h"
 #include <thread>
 
 using kiicloud::ObjPtr;
@@ -130,11 +131,12 @@ ObjFuture kiicloud::CKiiObject::saveNewObject(
     auto *p = new std::promise<std::pair<ObjPtr, ErrorPtr>>;
     std::thread th = std::thread([=]() {
         _bind->saveNewObject(app, scopeUri, bucketName, values, accessToken,
-                             [=](picojson::value objValue, CKiiError* error)
+                             [=](picojson::value objValue, std::string& etag, CKiiError* error)
                              {
                                  CKiiObject *obj = nullptr;
                                  if (error == nullptr) {
                                      obj = new CKiiObject(scopeUri, bucketName, objValue.get<picojson::object>());
+                                     obj->_version = etag;
                                  }
                                  std::pair<ObjPtr, ErrorPtr> pr((ObjPtr(obj)), ErrorPtr(error));
                                  p->set_value(pr);
@@ -161,10 +163,11 @@ ErrorFuture kiicloud::CKiiObject::patchObject(const kiicloud::CKiiApp &app,
                            forceUpdate,
                            [=, &targetObject](picojson::value vals, CKiiError *error) {
                                ErrorPtr ret = ErrorPtr(error);
-                               
-                               // Add values returned from server.
-                               picojson::object obj = vals.get<picojson::object>();
-                               targetObject.updateValues(obj);
+                               if (error == nullptr) {
+                                   // Add values returned from server.
+                                   picojson::object obj = vals.get<picojson::object>();
+                                   targetObject.updateValues(obj);
+                               }
 
                                prm->set_value(ret);
                                delete prm;
