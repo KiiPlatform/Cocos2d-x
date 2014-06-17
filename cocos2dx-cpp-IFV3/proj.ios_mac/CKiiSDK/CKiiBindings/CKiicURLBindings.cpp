@@ -356,3 +356,47 @@ void kiicloud::CKiicURLBindings::saveNewObject(const CKiiApp& app,
     }
     saveCallback(jresult, error);
 }
+
+void kiicloud::CKiicURLBindings::patchObject(const kiicloud::CKiiApp &app,
+                                             const std::string &objUri,
+                                             const std::string &objVersion,
+                                             const picojson::object values,
+                                             const std::string& accessToken,
+                                             bool forceUpdate,
+                                             const std::function<void (picojson::value value,
+                                                                       std::string& etag,
+                                                                       CKiiError* error)> patchCallback)
+{
+    std::map<std::string, std::string> mheaders;
+    mheaders["x-kii-appid"] = app.appId;
+    mheaders["x-kii-appkey"] = app.appKey;
+    mheaders["content-type"] = "application/json";
+    mheaders["x-http-method-override"] = "PATCH";
+    if (!forceUpdate)
+        mheaders["if-match"] = objVersion;
+    if (!accessToken.empty())
+        mheaders["authorization"] = "Bearer " + accessToken;
+
+    picojson::value reqBodyJson = picojson::value(values);
+    std::string *respBody;
+    std::map<std::string, std::string> *respHeaders;
+    kiicloud::CKiiError *error;
+
+    picojson::value jresult;
+    std::string etag;
+    this->request(POST, objUri, mheaders, reqBodyJson.serialize(), &respBody, &respHeaders, &error);
+    if (error) {
+        patchCallback(jresult, etag, error);
+        return;
+    }
+
+    std::string err;
+    const char* cRespBody = respBody->c_str();
+    picojson::parse(jresult, cRespBody, cRespBody + strlen(cRespBody), &err);
+    if (!err.empty()) {
+        patchCallback(jresult, etag, error);
+        return;
+    }
+    etag = (*respHeaders)["ETag"];
+    patchCallback(jresult, etag, error);
+}

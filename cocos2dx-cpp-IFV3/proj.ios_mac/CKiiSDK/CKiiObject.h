@@ -25,13 +25,15 @@ typedef std::future<std::pair<ObjPtr, ErrorPtr>> ObjFuture;
 class CKiiObject
 {
 public:
-    CKiiObject(picojson::object values);
+    explicit CKiiObject(const std::string& scopeUri, const std::string& bucketName, picojson::object values);
     CKiiObject(const CKiiObject& lv);
     CKiiObject(CKiiObject&& lv);
 
     std::string getId() const;
     std::string getOwnerUserId() const;
     std::string getVersion() const;
+    std::string getUri() const;
+
     long long getModified() const;
     long long getCreated() const;
     picojson::object getValues() const;
@@ -44,15 +46,16 @@ public:
                                    const std::string &accessToken);
 
     static ErrorFuture patchObject(const CKiiApp &app,
-                                   CKiiObject& targetObject,
+                                   CKiiObject &targetObject,
                                    const picojson::object &patch,
                                    const std::string &accessToken,
-                                   bool forceUpdate = true,
-                                   bool replaceExistingValuesWithPatch = false);
+                                   bool forceUpdate = true);
 
 private:
     picojson::object _values;
     std::string _id;
+    std::string _scopeUri;
+    std::string _bucketName;
     std::string _ownerUserId;
     long long _modified;
     long long _created;

@@ -98,7 +98,7 @@ QueryFuture kiicloud::CKiiQueryHandler::nextPage()
                                    while (itr != objs.end())
                                    {
                                        picojson::object aObj = (*itr).get<picojson::object>();
-                                       CKiiObject kobj = CKiiObject(aObj);
+                                       CKiiObject kobj = CKiiObject(this->scopeUri, this->bucketName, aObj);
                                        objects.push_back(kobj);
                                        ++itr;
                                    }

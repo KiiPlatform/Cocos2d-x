@@ -12,9 +12,11 @@
 #include <iostream>
 #include <map>
 #include "CKiiBaseBindings.h"
+#include "CKiiObject.h"
 
 namespace kiicloud {
 
+// TODO: unify api style of Bindings.
 class CKiicURLBindings : public CKiiBaseBindings
 {
 
@@ -62,6 +64,17 @@ public:
                        const std::string& accessToken,
                        const std::function<void (picojson::value, CKiiError *error)> saveCallback);
 
+    void patchObject(const CKiiApp& app,
+                     const std::string &objUri,
+                     const std::string &objVersion,
+                     const picojson::object values,
+                     const std::string& accessToken,
+                     bool forceUpdate,
+                     const std::function<void (picojson::value values,
+                                               std::string& etag,
+                                               CKiiError *error)> patchCallback
+                     );
+
 private:
     void request(
                  const Method& method,
@@ -70,7 +83,7 @@ private:
                  const std::string& requestBody,
                  std::string** responseBody,
                  std::map<std::string, std::string>** responseHeaders,
-                 kiicloud::CKiiError** error
+                 kiicloud::CKiiError** outError
     );
 };
 
