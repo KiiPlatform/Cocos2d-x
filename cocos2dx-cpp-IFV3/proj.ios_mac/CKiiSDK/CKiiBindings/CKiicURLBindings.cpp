@@ -35,6 +35,8 @@ static size_t callbackWriteHeaders(char *ptr, size_t size, size_t nmemb, std::ma
 
     std::string key = header.substr(0, idx);
     std::string val = header.substr(idx +1, header.length());
+    stream->insert(std::pair<std::string, std::string>(key, val));
+//    kiicloud::CKiiLog::getInstance()->log("callbackWriteHeaders "  + key + " : " + val);
     return dataLen;
 }
 
@@ -94,6 +96,14 @@ void kiicloud::CKiicURLBindings::request(
 
             res = curl_easy_perform(curl);
             CKiiLog::getInstance()->log("response: " + respStr);
+            CKiiLog::getInstance()->log("recvHeaders: ");
+            auto itr = recvHeaders.begin();
+            while (itr != recvHeaders.end()) {
+                auto key = (*itr).first;
+                auto val = (*itr).second;
+                CKiiLog::getInstance()->log(key + " : " + val);
+                ++itr;
+            }
 
             if (res != CURLE_OK) {
                 // Connection error.
@@ -364,7 +374,6 @@ void kiicloud::CKiicURLBindings::patchObject(const kiicloud::CKiiApp &app,
                                              const std::string& accessToken,
                                              bool forceUpdate,
                                              const std::function<void (picojson::value value,
-                                                                       std::string& etag,
                                                                        CKiiError* error)> patchCallback)
 {
     std::map<std::string, std::string> mheaders;
@@ -383,10 +392,9 @@ void kiicloud::CKiicURLBindings::patchObject(const kiicloud::CKiiApp &app,
     kiicloud::CKiiError *error;
 
     picojson::value jresult;
-    std::string etag;
     this->request(POST, objUri, mheaders, reqBodyJson.serialize(), &respBody, &respHeaders, &error);
     if (error) {
-        patchCallback(jresult, etag, error);
+        patchCallback(jresult, error);
         return;
     }
 
@@ -394,9 +402,8 @@ void kiicloud::CKiicURLBindings::patchObject(const kiicloud::CKiiApp &app,
     const char* cRespBody = respBody->c_str();
     picojson::parse(jresult, cRespBody, cRespBody + strlen(cRespBody), &err);
     if (!err.empty()) {
-        patchCallback(jresult, etag, error);
+        patchCallback(jresult, error);
         return;
     }
-    etag = (*respHeaders)["ETag"];
-    patchCallback(jresult, etag, error);
+    patchCallback(jresult, error);
 }

@@ -15,32 +15,12 @@ using kiicloud::ErrorPtr;
 using kiicloud::ObjFuture;
 using kiicloud::ErrorFuture;
 
-kiicloud::CKiiObject::CKiiObject(const std::string& scopeUri, const std::string& bucketName, picojson::object values)
+kiicloud::CKiiObject::CKiiObject(const std::string& scopeUri, const std::string& bucketName, const picojson::object &values)
 :_values(values),
 _scopeUri(scopeUri),
 _bucketName(bucketName)
 {
-    // Parse contents.
-    if (values["_id"].is<std::string>())
-        this->_id = values["_id"].get<std::string>();
-    if (values["objectID"].is<std::string>())
-        this->_id = values["objectID"].get<std::string>();
-
-    if (values["_version"].is<std::string>())
-        this->_version = values["_version"].get<std::string>();
-
-    if (values["_owner"].is<std::string>())
-        this->_ownerUserId = values["_owner"].get<std::string>();
-
-    if (values["_created"].is<double>())
-        this->_created = values["_created"].get<double>();
-    if (values["createdAt"].is<double>())
-        this->_created = values["createdAt"].get<double>();
-
-    if (values["_modified"].is<double>())
-        this->_modified = values["_modified"].get<double>();
-    if (values["modifiedAt"].is<double>())
-        this->_created = values["modifiedAt"].get<double>();
+    this->updateValues(values);
 }
 
 kiicloud::CKiiObject::CKiiObject(const CKiiObject& lv)
@@ -73,6 +53,36 @@ _bucketName(lv._bucketName)
     lv._version = "";
     lv._scopeUri = "";
     lv._bucketName = "";
+}
+
+void kiicloud::CKiiObject::updateValues(const picojson::object &values)
+{
+    picojson::object::const_iterator itr = values.begin();
+    while (itr != values.end()) {
+        auto v = (*itr);
+        if (v.first == "_id" || v.first == "objectID") {
+            if (v.second.is<std::string>())
+                this->_id = v.second.get<std::string>();
+        }
+        if (v.first == "_version") {
+            if (v.second.is<std::string>())
+                this->_version = v.second.get<std::string>();
+        }
+        if (v.first == "_owner") {
+            if (v.second.is<std::string>())
+                this->_ownerUserId = v.second.get<std::string>();
+        }
+        if (v.first == "_created" || v.first == "createdAt") {
+            if (v.second.is<double>())
+                this->_created = v.second.get<double>();
+        }
+        if (v.first == "_modified" || v.first == "modifiedAt") {
+            if (v.second.is<double>())
+                this->_modified = v.second.get<double>();
+        }
+        this->_values.insert(v);
+        ++itr;
+    }
 }
 
 std::string kiicloud::CKiiObject::getId() const
@@ -149,19 +159,13 @@ ErrorFuture kiicloud::CKiiObject::patchObject(const kiicloud::CKiiApp &app,
                            patch,
                            accessToken,
                            forceUpdate,
-                           [=, &targetObject](picojson::value vals, std::string& etag, CKiiError *error) {
+                           [=, &targetObject](picojson::value vals, CKiiError *error) {
                                ErrorPtr ret = ErrorPtr(error);
                                
                                // Add values returned from server.
                                picojson::object obj = vals.get<picojson::object>();
-                               picojson::object::const_iterator itr = obj.begin();
-                               while (itr != obj.end()) {
-                                   targetObject._values.insert(*itr);
-                               }
-                               
-                               // Update ETag.
-                               if (!etag.empty())
-                                   targetObject._version = etag;
+                               targetObject.updateValues(obj);
+
                                prm->set_value(ret);
                                delete prm;
                            });

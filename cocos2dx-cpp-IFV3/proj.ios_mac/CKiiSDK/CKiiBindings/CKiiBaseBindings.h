@@ -61,7 +61,7 @@ public:
                              const picojson::object values,
                              const std::string& accessToken,
                              bool forceUpdate,
-                             const std::function<void (picojson::value, std::string&, CKiiError*)> patchCallback) = 0;
+                             const std::function<void (picojson::value, CKiiError*)> patchCallback) = 0;
 };
 
 };

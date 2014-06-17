@@ -84,6 +84,23 @@ static std::shared_ptr<kiicloud::CKiiUser> currentUser;
     XCTAssertTrue(created->getCreated() > 0, @"created time should be given");
     XCTAssertTrue(!(created->getId().empty()), @"id should be given");
     XCTAssertTrue(erorr == nullptr, @"error should be null");
+
+    picojson::object vals2;
+    vals2["key2"] = picojson::value("val2");
+    
+    auto res2 = kiicloud::CKiiObject::patchObject(app, *created, vals2, currentUser->getAccessToken());
+    auto erorr2 = res2.get();
+    
+    XCTAssertTrue(erorr2.get() == nullptr, @"error should be null");
+
+    XCTAssertTrue(created->getVersion() == "2", @"version is different");
+    XCTAssertTrue(created->getCreated() > 0, @"created time should be given");
+    XCTAssertTrue(created->getModified() > created->getCreated() , @"modified time should be greater than created");
+    picojson::object custom = created->getValues();
+    std::string vl1 = custom["key1"].get<std::string>();
+    std::string vl2 = custom["key2"].get<std::string>();
+    XCTAssertTrue(vl1 == "val1", @"unexpected value for key1 %s", vl1.c_str());
+    XCTAssertTrue(vl2 == "val2", @"unexpected value for key2 %s", vl2.c_str());
 }
 
 @end

@@ -25,7 +25,7 @@ typedef std::future<std::pair<ObjPtr, ErrorPtr>> ObjFuture;
 class CKiiObject
 {
 public:
-    explicit CKiiObject(const std::string& scopeUri, const std::string& bucketName, picojson::object values);
+    explicit CKiiObject(const std::string& scopeUri, const std::string& bucketName, const picojson::object &values);
     CKiiObject(const CKiiObject& lv);
     CKiiObject(CKiiObject&& lv);
 
@@ -52,6 +52,7 @@ public:
                                    bool forceUpdate = true);
 
 private:
+    void updateValues(const picojson::object &values);
     picojson::object _values;
     std::string _id;
     std::string _scopeUri;
