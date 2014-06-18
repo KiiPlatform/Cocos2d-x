@@ -17,6 +17,7 @@
 
 using kiicloud::ErrorPtr;
 
+//! namespace for kiicloud sdk.
 namespace kiicloud {
 class CKiiObject;
 typedef std::shared_ptr<kiicloud::CKiiObject> ObjPtr;
