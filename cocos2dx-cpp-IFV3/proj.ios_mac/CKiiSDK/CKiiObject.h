@@ -54,14 +54,33 @@ public:
     /*! @param accessToken used for authentication.
      * Required if object ACL doesn't allows anonymous user to update object.
      */
-    /*! @param forceUpdate if false, patch would be failed if the object has been updated on server after obtained or refreshed targetObject instance.
-        if true, apply patch regardless of updates on server. default is true. */
+    /*! @param forceUpdate if false, patch would be failed if the object has been updated
+        on server after obtained or refreshed targetObject instance.
+        if true, apply patch regardless of updates on server. */
     static ErrorFuture patchObject(const CKiiApp &app,
                                    CKiiObject &targetObject,
                                    const picojson::object &patch,
                                    const std::string &accessToken,
                                    bool forceUpdate = true);
 
+    //! Update object with specified data.
+    //! Exiting data in the object will be replaced with the specified data.
+    //! key-values not exists in specified data would be removed.
+    
+    //! @param app represents application in KiiCloud
+    //! @param targetObject would be replaced.
+    //! @param newValues replacement data.
+    /*! @param accessToken used for authentication.
+     * Required if object ACL doesn't allows anonymous user to update object.
+     */
+    /*! @param forceUpdate if false, replace would be failed if the object has been updated
+        on server after obtained or refreshed targetObject instance.
+        if true, replace object with new data regardless of updates on server. */
+    static ErrorFuture replaceObjectValuesWithNewValues(const CKiiApp &app,
+                                   CKiiObject &targetObject,
+                                   const picojson::object &newValues,
+                                   const std::string &accessToken,
+                                   bool forceUpdate = true);
 private:
     void updateValues(const picojson::object &values);
     picojson::object _values;
