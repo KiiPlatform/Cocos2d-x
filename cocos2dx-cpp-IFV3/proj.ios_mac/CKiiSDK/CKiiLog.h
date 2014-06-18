@@ -10,23 +10,7 @@
 #define __cocos2dx_cpp_IFV3__CKiiLog__
 
 #include <iostream>
-#include "CKiiLogger.h"
 
+#define CKiiLog(X) std::cerr << X << std::endl
 
-namespace kiicloud {
-
-class CKiiLog
-{
-public:
-    ~CKiiLog();
-    static std::shared_ptr<CKiiLog> getInstance();
-    void log(const std::string& message);
-
-private:
-    CKiiLog();
-    static std::shared_ptr<CKiiLog> factoryPtr;
-    CKiiLogger *logger;
-};
-
-}
 #endif /* defined(__cocos2dx_cpp_IFV3__CKiiLog__) */

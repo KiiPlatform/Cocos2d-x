@@ -9,7 +9,6 @@
 #include "CKiicURLBindings.h"
 #include "curl.h"
 #include "picojson.h"
-#include "CKiiLogger.h"
 #include "CKiiLog.h"
 #include "CKiiQuery.h"
 
@@ -65,14 +64,14 @@ void kiicloud::CKiicURLBindings::request(
                                          std::map<std::string, std::string>** responseHeaders,
                                          kiicloud::CKiiError** error)
 {
-    kiicloud::CKiiLog::getInstance()->log("request url: " + requestUrl);
-    kiicloud::CKiiLog::getInstance()->log("request body: " + requestBody);
+    CKiiLog("request url: " + requestUrl);
+    CKiiLog("request body: " + requestBody);
 
     struct curl_slist *headers = NULL;
     std::map<std::string, std::string>::const_iterator it = requestHeaders.begin();
     for (; it!= requestHeaders.end(); ++it) {
         std::string header = (*it).first + " : " + (*it).second;
-        kiicloud::CKiiLog::getInstance()->log("header: " + header);
+        CKiiLog("header: " + header);
         headers =curl_slist_append(headers, header.c_str());
     }
 
@@ -94,13 +93,13 @@ void kiicloud::CKiicURLBindings::request(
             curl_easy_setopt(curl, CURLOPT_HEADERDATA, &recvHeaders);
 
             res = curl_easy_perform(curl);
-            CKiiLog::getInstance()->log("response: " + respStr);
-            CKiiLog::getInstance()->log("recvHeaders: ");
+            CKiiLog("response: " + respStr);
+            CKiiLog("recvHeaders: ");
             auto itr = recvHeaders.begin();
             while (itr != recvHeaders.end()) {
                 auto key = (*itr).first;
                 auto val = (*itr).second;
-                CKiiLog::getInstance()->log(key + " : " + val);
+                CKiiLog(key + " : " + val);
                 ++itr;
             }
 
@@ -159,7 +158,7 @@ void kiicloud::CKiicURLBindings::request(
 
     if (*error)
     {
-        kiicloud::CKiiLog::getInstance()->log("error: " + (*error)->toString());
+        CKiiLog("error: " + (*error)->toString());
     }
 
     curl_slist_free_all(headers);
