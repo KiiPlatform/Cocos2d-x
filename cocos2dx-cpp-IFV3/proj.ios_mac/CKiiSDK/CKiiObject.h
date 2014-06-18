@@ -45,6 +45,16 @@ public:
                                    const picojson::object &values,
                                    const std::string &accessToken);
 
+    //! Apply patch to the existing object.
+    
+    //! @param app represents application in KiiCloud
+    //! @param targetObject patch will be applied
+    //! @param patch to apply
+    /*! @param accessToken used for authentication.
+     * Required if object ACL doesn't allows anonymous user to update object.
+     */
+    /*! @param forceUpdate if false, patch would be failed if the object has been updated on server after obtained or refreshed targetObject instance.
+        if true, apply patch regardless of updates on server. default is true. */
     static ErrorFuture patchObject(const CKiiApp &app,
                                    CKiiObject &targetObject,
                                    const picojson::object &patch,
