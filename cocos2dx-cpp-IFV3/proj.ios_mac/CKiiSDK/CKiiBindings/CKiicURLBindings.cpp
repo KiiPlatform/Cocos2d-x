@@ -11,6 +11,7 @@
 #include "picojson.h"
 #include "CKiiLog.h"
 #include "CKiiQuery.h"
+#include <regex>
 
 using kiicloud::CKiiSite;
 using kiicloud::CKiiUser;
@@ -27,13 +28,14 @@ static size_t callbackWriteHeaders(char *ptr, size_t size, size_t nmemb, std::ma
 {
     int dataLen = size * nmemb;
     std::string header(ptr, dataLen);
-
     std::string::size_type idx = header.find(std::string(":"));
     if (idx == std::string::npos)
         return dataLen;
 
-    std::string key = header.substr(0, idx);
-    std::string val = header.substr(idx +1, header.length());
+    header.erase(std::remove(header.begin(), header.end(), '\n'));
+    header.erase(std::remove(header.begin(), header.end(), '\r'));
+    std::string key  =  std::regex_replace(header, std::regex("^(.*)\\s*:\\s*(.*)"), "$1");
+    std::string val  =  std::regex_replace(header, std::regex("^(.*)\\s*:\\s*(.*)"), "$2");
     stream->insert(std::pair<std::string, std::string>(key, val));
     return dataLen;
 }
