@@ -35,6 +35,7 @@ static size_t callbackWriteHeaders(char *ptr, size_t size, size_t nmemb, std::ma
     header.erase(std::remove(header.begin(), header.end(), '\n'));
     header.erase(std::remove(header.begin(), header.end(), '\r'));
 
+    // parser need to be fixed. ex.) include multiple :
     std::regex reg("^(.*)\\s*:\\s*(.*)");
     std::string key  =  std::regex_replace(header, reg, "$1");
     std::string val  =  std::regex_replace(header, reg, "$2");
@@ -337,7 +338,7 @@ void kiicloud::CKiicURLBindings::queryBucket(const CKiiApp& app,
 void kiicloud::CKiicURLBindings::saveNewObject(const CKiiApp& app,
                                                const std::string &scopeUri,
                                                const std::string &bucketName,
-                                               const picojson::object values,
+                                               const picojson::object &values,
                                                const std::string &accessToken,
                                                const std::function<void (picojson::value, std:: string& etag, CKiiError *)> saveCallback)
 {
@@ -375,7 +376,7 @@ void kiicloud::CKiicURLBindings::saveNewObject(const CKiiApp& app,
 void kiicloud::CKiicURLBindings::patchObject(const kiicloud::CKiiApp &app,
                                              const std::string &objUri,
                                              const std::string &objVersion,
-                                             const picojson::object values,
+                                             const picojson::object &values,
                                              const std::string& accessToken,
                                              bool forceUpdate,
                                              const std::function<void (picojson::value value,
@@ -411,4 +412,46 @@ void kiicloud::CKiicURLBindings::patchObject(const kiicloud::CKiiApp &app,
         return;
     }
     patchCallback(jresult, error);
+}
+
+void kiicloud::CKiicURLBindings::
+replaceObjectValuesWithNewValues(const CKiiApp &app,
+                                 const std::string &objUri,
+                                 const std::string &objVersion,
+                                 const picojson::object &newValues,
+                                 const std::string &accessToken,
+                                 bool forceUpdate,
+                                 const std::function<void (picojson::value values,
+                                                           CKiiError *error)> replaceCallback
+                                 )
+{
+    std::map<std::string, std::string> mheaders;
+    mheaders["x-kii-appid"] = app.appId;
+    mheaders["x-kii-appkey"] = app.appKey;
+    mheaders["content-type"] = "application/json";
+    if (!forceUpdate)
+        mheaders["if-match"] = objVersion;
+    if (!accessToken.empty())
+        mheaders["authorization"] = "Bearer " + accessToken;
+    
+    picojson::value reqBodyJson = picojson::value(newValues);
+    std::string *respBody;
+    std::map<std::string, std::string> *respHeaders;
+    kiicloud::CKiiError *error;
+    
+    picojson::value jresult;
+    this->request(POST, objUri, mheaders, reqBodyJson.serialize(), &respBody, &respHeaders, &error);
+    if (error) {
+        replaceCallback(jresult, error);
+        return;
+    }
+    
+    std::string err;
+    const char* cRespBody = respBody->c_str();
+    picojson::parse(jresult, cRespBody, cRespBody + strlen(cRespBody), &err);
+    if (!err.empty()) {
+        replaceCallback(jresult, error);
+        return;
+    }
+    replaceCallback(jresult, error);
 }

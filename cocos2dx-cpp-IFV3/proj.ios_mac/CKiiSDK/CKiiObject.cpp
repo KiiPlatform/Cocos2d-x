@@ -176,3 +176,30 @@ ErrorFuture kiicloud::CKiiObject::patchObject(const kiicloud::CKiiApp &app,
     th.detach();
     return prm->get_future();
 }
+
+ErrorFuture kiicloud::CKiiObject::replaceObjectValuesWithNewValues(const CKiiApp &app,
+                                                    CKiiObject &targetObject,
+                                                    const picojson::object &newValues,
+                                                    const std::string &accessToken,
+                                                    bool forceUpdate)
+{
+    auto *prm = new std::promise<ErrorPtr>();
+    std::thread th = std::thread([=, &targetObject] {
+        _bind->replaceObjectValuesWithNewValues(app,
+                                                targetObject.getUri(),
+                                                targetObject.getVersion(),
+                                                newValues, accessToken,
+                                                forceUpdate,
+                                                [=, &targetObject](picojson::value vals, CKiiError *error) {
+                                                    ErrorPtr ret = ErrorPtr(error);
+                                                    if (error == nullptr) {
+                                                        // REPLACE values with returned from server.
+                                                        picojson::object obj = vals.get<picojson::object>();
+                                                        targetObject._values = obj;
+                                                    }
+                                                    prm->set_value(ret);
+                                                    delete prm;
+        });
+    });
+    return prm->get_future();
+}

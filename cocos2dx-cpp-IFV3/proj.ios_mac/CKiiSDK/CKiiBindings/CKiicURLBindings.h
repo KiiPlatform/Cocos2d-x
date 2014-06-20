@@ -60,19 +60,29 @@ public:
     void saveNewObject(const CKiiApp& app,
                        const std::string &scopeUri,
                        const std::string &bucketName,
-                       const picojson::object values,
+                       const picojson::object &values,
                        const std::string& accessToken,
                        const std::function<void (picojson::value, std::string& etag, CKiiError *error)> saveCallback);
 
     void patchObject(const CKiiApp& app,
                      const std::string &objUri,
                      const std::string &objVersion,
-                     const picojson::object values,
+                     const picojson::object &values,
                      const std::string& accessToken,
                      bool forceUpdate,
                      const std::function<void (picojson::value values,
                                                CKiiError *error)> patchCallback
                      );
+
+    void replaceObjectValuesWithNewValues(const CKiiApp &app,
+                                          const std::string &objUri,
+                                          const std::string &objVersion,
+                                          const picojson::object &newValues,
+                                          const std::string &accessToken,
+                                          bool forceUpdate,
+                                          const std::function<void (picojson::value values,
+                                                                    CKiiError *error)> replaceCallback
+                                          );
 
 private:
     void request(

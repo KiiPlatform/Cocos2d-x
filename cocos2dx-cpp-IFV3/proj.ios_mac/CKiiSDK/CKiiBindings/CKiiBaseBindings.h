@@ -41,9 +41,9 @@ public:
                              std::function<void (picojson::value keyValues, CKiiError* error)> refreshCallback) = 0;
 
     virtual void queryBucket(const CKiiApp& app,
-                             const std::string& scopeUri,
-                             const std::string& bucketName,
-                             const CKiiQuery& query,
+                             const std::string &scopeUri,
+                             const std::string &bucketName,
+                             const CKiiQuery &query,
                              const std::string& accessToken,
                              std::function<void (picojson::value result,
                                                  CKiiError* error)> queryCallback) = 0;
@@ -51,17 +51,28 @@ public:
     virtual void saveNewObject(const CKiiApp& app,
                        const std::string &scopeUri,
                        const std::string &bucketName,
-                       const picojson::object values,
+                       const picojson::object &values,
                        const std::string& accessToken,
                                const std::function<void (picojson::value, std::string &etag, CKiiError*)> saveCallback) = 0;
 
     virtual void patchObject(const CKiiApp& app,
                              const std::string &objUri,
                              const std::string &objVersion,
-                             const picojson::object values,
+                             const picojson::object &values,
                              const std::string& accessToken,
                              bool forceUpdate,
                              const std::function<void (picojson::value, CKiiError*)> patchCallback) = 0;
+
+    virtual void replaceObjectValuesWithNewValues(const CKiiApp &app,
+                                          const std::string &objUri,
+                                          const std::string &objVersion,
+                                          const picojson::object &newValues,
+                                          const std::string &accessToken,
+                                          bool forceUpdate,
+                                          const std::function<void (picojson::value values,
+                                                                    CKiiError *error)> replaceCallback
+                                          ) = 0;
+
 };
 
 };
