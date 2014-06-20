@@ -34,8 +34,11 @@ static size_t callbackWriteHeaders(char *ptr, size_t size, size_t nmemb, std::ma
 
     header.erase(std::remove(header.begin(), header.end(), '\n'));
     header.erase(std::remove(header.begin(), header.end(), '\r'));
-    std::string key  =  std::regex_replace(header, std::regex("^(.*)\\s*:\\s*(.*)"), "$1");
-    std::string val  =  std::regex_replace(header, std::regex("^(.*)\\s*:\\s*(.*)"), "$2");
+
+    std::regex reg("^(.*)\\s*:\\s*(.*)");
+    std::string key  =  std::regex_replace(header, reg, "$1");
+    std::string val  =  std::regex_replace(header, reg, "$2");
+
     stream->insert(std::pair<std::string, std::string>(key, val));
     return dataLen;
 }
