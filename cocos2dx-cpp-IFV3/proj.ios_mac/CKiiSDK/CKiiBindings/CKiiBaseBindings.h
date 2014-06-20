@@ -70,6 +70,7 @@ public:
                                           const std::string &accessToken,
                                           bool forceUpdate,
                                           const std::function<void (picojson::value values,
+                                                                    std::string &etag,
                                                                     CKiiError *error)> replaceCallback
                                           ) = 0;
 

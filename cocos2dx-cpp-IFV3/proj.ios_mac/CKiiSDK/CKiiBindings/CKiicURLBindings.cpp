@@ -422,6 +422,7 @@ replaceObjectValuesWithNewValues(const CKiiApp &app,
                                  const std::string &accessToken,
                                  bool forceUpdate,
                                  const std::function<void (picojson::value values,
+                                                           std::string& etag,
                                                            CKiiError *error)> replaceCallback
                                  )
 {
@@ -433,6 +434,7 @@ replaceObjectValuesWithNewValues(const CKiiApp &app,
         mheaders["if-match"] = objVersion;
     if (!accessToken.empty())
         mheaders["authorization"] = "Bearer " + accessToken;
+    mheaders["x-http-method-override"] = "PUT";
     
     picojson::value reqBodyJson = picojson::value(newValues);
     std::string *respBody;
@@ -440,9 +442,10 @@ replaceObjectValuesWithNewValues(const CKiiApp &app,
     kiicloud::CKiiError *error;
     
     picojson::value jresult;
+    std::string etag;
     this->request(POST, objUri, mheaders, reqBodyJson.serialize(), &respBody, &respHeaders, &error);
     if (error) {
-        replaceCallback(jresult, error);
+        replaceCallback(jresult, etag, error);
         return;
     }
     
@@ -450,8 +453,9 @@ replaceObjectValuesWithNewValues(const CKiiApp &app,
     const char* cRespBody = respBody->c_str();
     picojson::parse(jresult, cRespBody, cRespBody + strlen(cRespBody), &err);
     if (!err.empty()) {
-        replaceCallback(jresult, error);
+        replaceCallback(jresult, etag, error);
         return;
     }
-    replaceCallback(jresult, error);
+    etag = (*respHeaders)["ETag"];
+    replaceCallback(jresult, etag, error);
 }

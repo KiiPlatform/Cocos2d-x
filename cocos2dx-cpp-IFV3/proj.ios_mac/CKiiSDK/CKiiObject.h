@@ -83,6 +83,7 @@ public:
                                    bool forceUpdate = true);
 private:
     void updateValues(const picojson::object &values);
+    void replaceValues(const picojson::object &values);
     picojson::object _values;
     std::string _id;
     std::string _scopeUri;

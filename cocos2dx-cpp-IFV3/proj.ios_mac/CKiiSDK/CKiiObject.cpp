@@ -86,6 +86,36 @@ void kiicloud::CKiiObject::updateValues(const picojson::object &values)
     }
 }
 
+void kiicloud::CKiiObject::replaceValues(const picojson::object &values)
+{
+    picojson::object::const_iterator itr = values.begin();
+    while (itr != values.end()) {
+        auto v = (*itr);
+        if (v.first == "_id" || v.first == "objectID") {
+            if (v.second.is<std::string>())
+                this->_id = v.second.get<std::string>();
+        }
+        if (v.first == "_version") {
+            if (v.second.is<std::string>())
+                this->_version = v.second.get<std::string>();
+        }
+        if (v.first == "_owner") {
+            if (v.second.is<std::string>())
+                this->_ownerUserId = v.second.get<std::string>();
+        }
+        if (v.first == "_created" || v.first == "createdAt") {
+            if (v.second.is<double>())
+                this->_created = v.second.get<double>();
+        }
+        if (v.first == "_modified" || v.first == "modifiedAt") {
+            if (v.second.is<double>())
+                this->_modified = v.second.get<double>();
+        }
+        ++itr;
+    }
+    this->_values = values;
+}
+
 std::string kiicloud::CKiiObject::getId() const
 {
     return _id;
@@ -190,16 +220,18 @@ ErrorFuture kiicloud::CKiiObject::replaceObjectValuesWithNewValues(const CKiiApp
                                                 targetObject.getVersion(),
                                                 newValues, accessToken,
                                                 forceUpdate,
-                                                [=, &targetObject](picojson::value vals, CKiiError *error) {
+                                                [=, &targetObject](picojson::value vals, std::string &etag, CKiiError *error) {
                                                     ErrorPtr ret = ErrorPtr(error);
                                                     if (error == nullptr) {
                                                         // REPLACE values with returned from server.
                                                         picojson::object obj = vals.get<picojson::object>();
-                                                        targetObject._values = obj;
+                                                        targetObject.replaceValues(vals.get<picojson::object>());
+                                                        targetObject._version = etag;
                                                     }
                                                     prm->set_value(ret);
                                                     delete prm;
         });
     });
+    th.detach();
     return prm->get_future();
 }
