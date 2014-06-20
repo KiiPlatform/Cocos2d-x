@@ -216,6 +216,22 @@ static std::shared_ptr<kiicloud::CKiiUser> currentUser;
     custom = created->getValues();
     XCTAssertFalse(picojson::value(custom).contains("key1"), @"key1 should not be contained.");
     XCTAssertTrue(picojson::value(custom).contains("key2"), @"key2 should not be contained.");
+
+    // Delete.
+    auto ft3 = kiicloud::CKiiObject::deleteObject(app, *created, currentUser->getAccessToken());
+    auto res4 = ft3.get();
+    auto error4 = res4.get();
+    XCTAssertTrue(error4 == nullptr, @"error should be null");
+
+    // Refresh again.
+    ft2 = kiicloud::CKiiObject::refreshObject(app, *created, currentUser->getAccessToken());
+    res3 = ft2.get();
+    error3 = res3.get();
+
+    XCTAssertTrue(error3 != nullptr, @"error should be passed.");
+    XCTAssertTrue(error3->getHttpErrorCode() == 404, @"status should be 404 but %d", error3->getHttpErrorCode());
+    XCTAssertTrue(error3->getKiiErrorCode().compare("OBJECT_NOT_FOUND") == 0,
+                  @"kii error should be OBJECT_NOT_FOUND but %s", error3->getKiiErrorCode().c_str());
 }
 
 @end

@@ -93,6 +93,18 @@ public:
                                      CKiiObject &targetObject,
                                      const std::string& accessToken);
 
+    
+    //! Refresh object.
+    //! It retrieves the latest key-values of target object from Kii Cloud.
+    
+    //! @param app represents application in KiiCloud
+    //! @param targetObject would be deleted.
+    /*! @param accessToken used for authentication.
+     * Required if object ACL doesn't allows anonymous user to write object. */
+    static ErrorFuture deleteObject(const CKiiApp &app,
+                                     CKiiObject &targetObject,
+                                     const std::string& accessToken);
+
 private:
     void updateValues(const picojson::object &values);
     void replaceValues(const picojson::object &values);

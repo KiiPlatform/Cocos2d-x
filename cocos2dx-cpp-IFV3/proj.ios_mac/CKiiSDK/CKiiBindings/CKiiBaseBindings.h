@@ -81,6 +81,12 @@ public:
                                                          CKiiError *error)> refreshCallback
                                ) = 0;
 
+    virtual void deleteObject(const CKiiApp &app,
+                               const std::string &objUri,
+                               const std::string &accessToken,
+                               const std::function<void (CKiiError *error)> refreshCallback
+                               ) = 0;
+
 };
 
 };

@@ -91,6 +91,8 @@ void kiicloud::CKiicURLBindings::request(
             curl_easy_setopt(curl, CURLOPT_URL, requestUrl.c_str());
             if (method == POST) {
                 curl_easy_setopt(curl, CURLOPT_POSTFIELDS, requestBody.c_str());
+            } else if (method == DELETE) {
+                curl_easy_setopt(curl, CURLOPT_CUSTOMREQUEST, "DELETE");
             }
             curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
             curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, callbackWrite);
@@ -478,7 +480,6 @@ refreshObject(const CKiiApp &app,
     std::map<std::string, std::string> *respHeaders;
     kiicloud::CKiiError *error;
     picojson::value jresult;
-    std::string etag;
     this->request(GET, objUri, mheaders, "", &respBody, &respHeaders, &error);
     if (error) {
         refreshCallback(jresult, error);
@@ -493,4 +494,37 @@ refreshObject(const CKiiApp &app,
         return;
     }
     refreshCallback(jresult, error);
+}
+
+void kiicloud::CKiicURLBindings::
+deleteObject(const CKiiApp &app,
+              const std::string &objUri,
+              const std::string &accessToken,
+              const std::function<void (CKiiError *error)> deleteCallback
+              )
+{
+    std::map<std::string, std::string> mheaders;
+    mheaders["x-kii-appid"] = app.appId;
+    mheaders["x-kii-appkey"] = app.appKey;
+    if (!accessToken.empty())
+        mheaders["authorization"] = "Bearer " + accessToken;
+    
+    std::string *respBody;
+    std::map<std::string, std::string> *respHeaders;
+    kiicloud::CKiiError *error;
+    picojson::value jresult;
+    this->request(DELETE, objUri, mheaders, "", &respBody, &respHeaders, &error);
+    if (error) {
+        deleteCallback(error);
+        return;
+    }
+    
+    std::string err;
+    const char* cRespBody = respBody->c_str();
+    picojson::parse(jresult, cRespBody, cRespBody + strlen(cRespBody), &err);
+    if (!err.empty()) {
+        deleteCallback(error);
+        return;
+    }
+    deleteCallback(error);
 }

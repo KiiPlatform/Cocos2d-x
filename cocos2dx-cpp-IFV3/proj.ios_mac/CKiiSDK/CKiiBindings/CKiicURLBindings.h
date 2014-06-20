@@ -91,6 +91,12 @@ public:
                                                  CKiiError *error)> refreshCallback
                        );
 
+    void deleteObject(const CKiiApp &app,
+                              const std::string &objUri,
+                              const std::string &accessToken,
+                              const std::function<void (CKiiError *error)> deleteCallback
+                              );
+
 private:
     void request(
                  const Method& method,
