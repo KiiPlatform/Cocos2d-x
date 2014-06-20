@@ -107,6 +107,16 @@ private:
                  std::map<std::string, std::string>** responseHeaders,
                  kiicloud::CKiiError** outError
     );
+
+    void request2(
+                  const Method& method,
+                  const std::string& requestUrl,
+                  const std::map<std::string, std::string>& requestHeaders,
+                  const std::string& requestBody,
+                  std::shared_ptr<std::string> &responseBodyPtr,
+                  std::shared_ptr<std::map<std::string, std::string>> &responseHeaders,
+                  CKiiError **outError
+                  );
 };
 
 }

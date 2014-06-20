@@ -61,6 +61,23 @@ kiicloud::CKiicURLBindings::~CKiicURLBindings()
     
 };
 
+void kiicloud::CKiicURLBindings::request2(
+                                          const Method& method,
+                                          const std::string& requestUrl,
+                                          const std::map<std::string, std::string>& requestHeaders,
+                                          const std::string& requestBody,
+                                          std::shared_ptr<std::string> &responseBodyPtr,
+                                          std::shared_ptr<std::map<std::string, std::string>> &responseHeadersPtr,
+                                          CKiiError **outError
+                                          )
+{
+    std::string* responseBody;
+    std::map<std::string, std::string>* responseHeaders;
+    this->request(method, requestUrl, requestHeaders, requestBody, &responseBody, &responseHeaders, outError);
+    responseBodyPtr = std::shared_ptr<std::string>(responseBody);
+    responseHeadersPtr = std::shared_ptr<std::map<std::string, std::string>>(responseHeaders);
+}
+
 void kiicloud::CKiicURLBindings::request(
                                          const Method& method,
                                          const std::string& requestUrl,
@@ -197,13 +214,11 @@ void kiicloud::CKiicURLBindings::registerNewUser(
     picojson::value reqObj(reqMap);
     std::string reqStr = reqObj.serialize();
 
-    std::string *respBody;
-    std::map<std::string, std::string> *respHeaders;
+    std::shared_ptr<std::string> respBodyPtr;
+    std::shared_ptr<std::map<std::string, std::string>> respHeadersPtr;
     kiicloud::CKiiError *error;
 
-    this->request(POST, destUrl, mheaders, reqStr, &respBody, &respHeaders, &error);
-    std::shared_ptr<std::string> bodyPtr(respBody);
-    std::shared_ptr<std::map<std::string, std::string>> headerPtr(respHeaders);
+    this->request2(POST, destUrl, mheaders, reqStr, respBodyPtr, respHeadersPtr, &error);
     if (error) {
         registerCallback(nullptr, error);
         return;
@@ -211,7 +226,7 @@ void kiicloud::CKiicURLBindings::registerNewUser(
     
     picojson::value v;
     std::string err;
-    const char* cRespBody = respBody->c_str();
+    const char* cRespBody = respBodyPtr->c_str();
     picojson::parse(v, cRespBody, cRespBody + strlen(cRespBody), &err);
     if (!err.empty()) {
         error = new CKiiError(0, err);
@@ -243,20 +258,18 @@ void kiicloud::CKiicURLBindings::login(
     picojson::value reqObj(reqMap);
     std::string reqStr = reqObj.serialize();
 
-    std::string *respBody;
-    std::map<std::string, std::string> *respHeaders;
+    std::shared_ptr<std::string> respBodyPtr;
+    std::shared_ptr<std::map<std::string, std::string>> respHeadersPtr;
     kiicloud::CKiiError *error;
 
-    this->request(POST, destUrl, mheaders, reqStr, &respBody, &respHeaders, &error);
-    std::shared_ptr<std::string> bodyPtr(respBody);
-    std::shared_ptr<std::map<std::string, std::string>> headerPtr(respHeaders);
+    this->request2(POST, destUrl, mheaders, reqStr, respBodyPtr, respHeadersPtr, &error);
     if (error) {
         loginCallback(nullptr, error);
         return;
     }
     picojson::value v;
     std::string err;
-    const char* cRespBody = respBody->c_str();
+    const char* cRespBody = respBodyPtr->c_str();
     picojson::parse(v, cRespBody, cRespBody + strlen(cRespBody), &err);
     if (!err.empty()) {
         error = new CKiiError(0, err);
@@ -282,18 +295,18 @@ void kiicloud::CKiicURLBindings::refreshUser(const kiicloud::CKiiApp &app,
     mheaders["x-kii-appkey"] = app.appKey;
     mheaders["authorization"] = "Bearer " + user.getAccessToken();
     
-    std::string *respBody;
-    std::map<std::string, std::string> *respHeaders;
+    std::shared_ptr<std::string> respBodyPtr;
+    std::shared_ptr<std::map<std::string, std::string>> respHeadersPtr;
     kiicloud::CKiiError *error;
     
-    this->request(GET, destUrl, mheaders, "", &respBody, &respHeaders, &error);
+    this->request2(GET, destUrl, mheaders, "", respBodyPtr, respHeadersPtr, &error);
     if (error) {
         refreshCallback(kvs, error);
         return;
     }
 
     std::string err;
-    const char* cRespBody = respBody->c_str();
+    const char* cRespBody = respBodyPtr.get()->c_str();
     picojson::parse(kvs, cRespBody, cRespBody + strlen(cRespBody), &err);
     if (!err.empty()) {
         error = new CKiiError(0, err);
@@ -317,19 +330,19 @@ void kiicloud::CKiicURLBindings::queryBucket(const CKiiApp& app,
     if (!accessToken.empty())
         mheaders["authorization"] = "Bearer " + accessToken;
 
-    std::string *respBody;
-    std::map<std::string, std::string> *respHeaders;
+    std::shared_ptr<std::string> respBodyPtr;
+    std::shared_ptr<std::map<std::string, std::string>> respHeadersPtr;
     kiicloud::CKiiError *error;
 
     picojson::value jresult;
-    this->request(POST, destUrl, mheaders, query.toString(), &respBody, &respHeaders, &error);
+    this->request2(POST, destUrl, mheaders, query.toString(), respBodyPtr, respHeadersPtr, &error);
     if (error) {
         queryCallback(jresult, error);
         return;
     }
 
     std::string err;
-    const char* cRespBody = respBody->c_str();
+    const char* cRespBody = respBodyPtr.get()->c_str();
     picojson::parse(jresult, cRespBody, cRespBody + strlen(cRespBody), &err);
     if (!err.empty()) {
         error = new CKiiError(0, err);
@@ -353,21 +366,22 @@ void kiicloud::CKiicURLBindings::saveNewObject(const CKiiApp& app,
         mheaders["authorization"] = "Bearer " + accessToken;
 
     picojson::value reqBodyJson = picojson::value(values);
-    std::string *respBody;
-    std::map<std::string, std::string> *respHeaders;
+
+    std::shared_ptr<std::string> respBodyPtr;
+    std::shared_ptr<std::map<std::string, std::string>> respHeadersPtr;
     kiicloud::CKiiError *error;
     
     picojson::value jresult;
     std::string etag;
-    this->request(POST, destUrl, mheaders, reqBodyJson.serialize(), &respBody, &respHeaders, &error);
+    this->request2(POST, destUrl, mheaders, reqBodyJson.serialize(), respBodyPtr, respHeadersPtr, &error);
     if (error) {
         saveCallback(jresult, etag, error);
         return;
     }
-    etag = (*respHeaders)["ETag"];
+    etag = (*respHeadersPtr.get())["ETag"];
     
     std::string err;
-    const char* cRespBody = respBody->c_str();
+    const char* cRespBody = respBodyPtr.get()->c_str();
     picojson::parse(jresult, cRespBody, cRespBody + strlen(cRespBody), &err);
     if (!err.empty()) {
         error = new CKiiError(0, err);
@@ -395,19 +409,20 @@ void kiicloud::CKiicURLBindings::patchObject(const kiicloud::CKiiApp &app,
         mheaders["authorization"] = "Bearer " + accessToken;
 
     picojson::value reqBodyJson = picojson::value(values);
-    std::string *respBody;
-    std::map<std::string, std::string> *respHeaders;
+
+    std::shared_ptr<std::string> respBodyPtr;
+    std::shared_ptr<std::map<std::string, std::string>> respHeadersPtr;
     kiicloud::CKiiError *error;
 
     picojson::value jresult;
-    this->request(POST, objUri, mheaders, reqBodyJson.serialize(), &respBody, &respHeaders, &error);
+    this->request2(POST, objUri, mheaders, reqBodyJson.serialize(), respBodyPtr, respHeadersPtr, &error);
     if (error) {
         patchCallback(jresult, error);
         return;
     }
 
     std::string err;
-    const char* cRespBody = respBody->c_str();
+    const char* cRespBody = respBodyPtr.get()->c_str();
     picojson::parse(jresult, cRespBody, cRespBody + strlen(cRespBody), &err);
     if (!err.empty()) {
         patchCallback(jresult, error);
@@ -439,26 +454,26 @@ replaceObjectValuesWithNewValues(const CKiiApp &app,
     mheaders["x-http-method-override"] = "PUT";
     
     picojson::value reqBodyJson = picojson::value(newValues);
-    std::string *respBody;
-    std::map<std::string, std::string> *respHeaders;
+    std::shared_ptr<std::string> respBodyPtr;
+    std::shared_ptr<std::map<std::string, std::string>> respHeadersPtr;
     kiicloud::CKiiError *error;
     
     picojson::value jresult;
     std::string etag;
-    this->request(POST, objUri, mheaders, reqBodyJson.serialize(), &respBody, &respHeaders, &error);
+    this->request2(POST, objUri, mheaders, reqBodyJson.serialize(), respBodyPtr, respHeadersPtr, &error);
     if (error) {
         replaceCallback(jresult, etag, error);
         return;
     }
     
     std::string err;
-    const char* cRespBody = respBody->c_str();
+    const char* cRespBody = respBodyPtr.get()->c_str();
     picojson::parse(jresult, cRespBody, cRespBody + strlen(cRespBody), &err);
     if (!err.empty()) {
         replaceCallback(jresult, etag, error);
         return;
     }
-    etag = (*respHeaders)["ETag"];
+    etag = (*respHeadersPtr.get())["ETag"];
     replaceCallback(jresult, etag, error);
 }
 
@@ -476,18 +491,19 @@ refreshObject(const CKiiApp &app,
     if (!accessToken.empty())
         mheaders["authorization"] = "Bearer " + accessToken;
 
-    std::string *respBody;
-    std::map<std::string, std::string> *respHeaders;
+    std::shared_ptr<std::string> respBodyPtr;
+    std::shared_ptr<std::map<std::string, std::string>> respHeadersPtr;
     kiicloud::CKiiError *error;
+
     picojson::value jresult;
-    this->request(GET, objUri, mheaders, "", &respBody, &respHeaders, &error);
+    this->request2(GET, objUri, mheaders, "", respBodyPtr, respHeadersPtr, &error);
     if (error) {
         refreshCallback(jresult, error);
         return;
     }
     
     std::string err;
-    const char* cRespBody = respBody->c_str();
+    const char* cRespBody = respBodyPtr.get()->c_str();
     picojson::parse(jresult, cRespBody, cRespBody + strlen(cRespBody), &err);
     if (!err.empty()) {
         refreshCallback(jresult, error);
@@ -509,22 +525,15 @@ deleteObject(const CKiiApp &app,
     if (!accessToken.empty())
         mheaders["authorization"] = "Bearer " + accessToken;
     
-    std::string *respBody;
-    std::map<std::string, std::string> *respHeaders;
-    kiicloud::CKiiError *error;
+    std::shared_ptr<std::string> respBodyPtr;
+    std::shared_ptr<std::map<std::string, std::string>> respHeadersPtr;
+    CKiiError *error;
     picojson::value jresult;
-    this->request(DELETE, objUri, mheaders, "", &respBody, &respHeaders, &error);
+    this->request2(DELETE, objUri, mheaders, "", respBodyPtr, respHeadersPtr, &error);
     if (error) {
         deleteCallback(error);
         return;
     }
-    
-    std::string err;
-    const char* cRespBody = respBody->c_str();
-    picojson::parse(jresult, cRespBody, cRespBody + strlen(cRespBody), &err);
-    if (!err.empty()) {
-        deleteCallback(error);
-        return;
-    }
+
     deleteCallback(error);
 }
