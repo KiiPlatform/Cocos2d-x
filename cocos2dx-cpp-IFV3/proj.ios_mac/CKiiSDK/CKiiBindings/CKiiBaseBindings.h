@@ -74,6 +74,13 @@ public:
                                                                     CKiiError *error)> replaceCallback
                                           ) = 0;
 
+    virtual void refreshObject(const CKiiApp &app,
+                               const std::string &objUri,
+                               const std::string &accessToken,
+                               const std::function<void (picojson::value values,
+                                                         CKiiError *error)> refreshCallback
+                               ) = 0;
+
 };
 
 };

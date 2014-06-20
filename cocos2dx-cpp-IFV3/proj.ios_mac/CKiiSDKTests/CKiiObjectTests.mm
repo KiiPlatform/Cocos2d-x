@@ -203,6 +203,19 @@ static std::shared_ptr<kiicloud::CKiiUser> currentUser;
     picojson::object custom = created->getValues();
     XCTAssertFalse(picojson::value(custom).contains("key1"), @"key1 should not be contained.");
     XCTAssertFalse(picojson::value(custom).contains("key2"), @"key2 should not be contained.");
+
+    // Refresh.
+    auto ft2 = kiicloud::CKiiObject::refreshObject(app, *created, currentUser->getAccessToken());
+    auto res3 = ft2.get();
+    auto error3 = res3.get();
+    
+    XCTAssertTrue(error3 == nullptr, @"error should be null");
+    XCTAssertTrue(created->getVersion() == "2", @"version is different");
+    XCTAssertTrue(created->getCreated() > 0, @"created time should be given");
+    XCTAssertTrue(created->getModified() > created->getCreated(), @"modified time should be greater than created");
+    custom = created->getValues();
+    XCTAssertFalse(picojson::value(custom).contains("key1"), @"key1 should not be contained.");
+    XCTAssertTrue(picojson::value(custom).contains("key2"), @"key2 should not be contained.");
 }
 
 @end

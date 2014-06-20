@@ -66,7 +66,7 @@ public:
     //! Update object with specified data.
     //! Exiting data in the object will be replaced with the specified data.
     //! key-values not exists in specified data would be removed.
-    
+
     //! @param app represents application in KiiCloud
     //! @param targetObject would be replaced.
     //! @param newValues replacement data.
@@ -81,6 +81,18 @@ public:
                                    const picojson::object &newValues,
                                    const std::string &accessToken,
                                    bool forceUpdate = true);
+
+    //! Refresh object.
+    //! It retrieves the latest key-values of target object from Kii Cloud.
+
+    //! @param app represents application in KiiCloud
+    //! @param targetObject would be refreshed.
+    /*! @param accessToken used for authentication.
+     * Required if object ACL doesn't allows anonymous user to read object. */
+    static ErrorFuture refreshObject(const CKiiApp &app,
+                                     CKiiObject &targetObject,
+                                     const std::string& accessToken);
+
 private:
     void updateValues(const picojson::object &values);
     void replaceValues(const picojson::object &values);

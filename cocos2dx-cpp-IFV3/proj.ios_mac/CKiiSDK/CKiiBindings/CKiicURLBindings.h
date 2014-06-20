@@ -23,7 +23,6 @@ class CKiicURLBindings : public CKiiBaseBindings
 public:
     enum Method{
         POST,
-        PUT,
         GET,
         DELETE,
     };
@@ -84,6 +83,13 @@ public:
                                                                     std::string& etag,
                                                                     CKiiError *error)> replaceCallback
                                           );
+
+    void refreshObject(const CKiiApp &app,
+                       const std::string &objUri,
+                       const std::string &accessToken,
+                       const std::function<void (picojson::value values,
+                                                 CKiiError *error)> refreshCallback
+                       );
 
 private:
     void request(

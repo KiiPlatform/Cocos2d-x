@@ -459,3 +459,38 @@ replaceObjectValuesWithNewValues(const CKiiApp &app,
     etag = (*respHeaders)["ETag"];
     replaceCallback(jresult, etag, error);
 }
+
+void kiicloud::CKiicURLBindings::
+refreshObject(const CKiiApp &app,
+              const std::string &objUri,
+              const std::string &accessToken,
+              const std::function<void (picojson::value values,
+                                        CKiiError *error)> refreshCallback
+              )
+{
+    std::map<std::string, std::string> mheaders;
+    mheaders["x-kii-appid"] = app.appId;
+    mheaders["x-kii-appkey"] = app.appKey;
+    if (!accessToken.empty())
+        mheaders["authorization"] = "Bearer " + accessToken;
+
+    std::string *respBody;
+    std::map<std::string, std::string> *respHeaders;
+    kiicloud::CKiiError *error;
+    picojson::value jresult;
+    std::string etag;
+    this->request(GET, objUri, mheaders, "", &respBody, &respHeaders, &error);
+    if (error) {
+        refreshCallback(jresult, error);
+        return;
+    }
+    
+    std::string err;
+    const char* cRespBody = respBody->c_str();
+    picojson::parse(jresult, cRespBody, cRespBody + strlen(cRespBody), &err);
+    if (!err.empty()) {
+        refreshCallback(jresult, error);
+        return;
+    }
+    refreshCallback(jresult, error);
+}
