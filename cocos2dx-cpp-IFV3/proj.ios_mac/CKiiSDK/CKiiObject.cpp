@@ -24,36 +24,36 @@ _bucketName(bucketName)
     this->updateValues(values);
 }
 
-kiicloud::CKiiObject::CKiiObject(const CKiiObject& lv)
-:_values(lv._values),
-_id(lv._id),
-_ownerUserId(lv._ownerUserId),
-_modified(lv._modified),
-_created(lv._created),
-_version(lv._version),
-_scopeUri(lv._scopeUri),
-_bucketName(lv._bucketName)
+kiicloud::CKiiObject::CKiiObject(const CKiiObject& rhs)
+:_values(rhs._values),
+_id(rhs._id),
+_ownerUserId(rhs._ownerUserId),
+_modified(rhs._modified),
+_created(rhs._created),
+_version(rhs._version),
+_scopeUri(rhs._scopeUri),
+_bucketName(rhs._bucketName)
 {
 }
 
-kiicloud::CKiiObject::CKiiObject(CKiiObject&& lv)
-:_values(lv._values),
-_id(lv._id),
-_ownerUserId(lv._ownerUserId),
-_modified(lv._modified),
-_created(lv._created),
-_version(lv._version),
-_scopeUri(lv._scopeUri),
-_bucketName(lv._bucketName)
+kiicloud::CKiiObject::CKiiObject(CKiiObject&& rhs)
+:_values(rhs._values),
+_id(rhs._id),
+_ownerUserId(rhs._ownerUserId),
+_modified(rhs._modified),
+_created(rhs._created),
+_version(rhs._version),
+_scopeUri(rhs._scopeUri),
+_bucketName(rhs._bucketName)
 {
-    lv._values = picojson::object();
-    lv._id = "";
-    lv._ownerUserId = "";
-    lv._modified = 0;
-    lv._created = 0;
-    lv._version = "";
-    lv._scopeUri = "";
-    lv._bucketName = "";
+    rhs._values = picojson::object();
+    rhs._id = "";
+    rhs._ownerUserId = "";
+    rhs._modified = 0;
+    rhs._created = 0;
+    rhs._version = "";
+    rhs._scopeUri = "";
+    rhs._bucketName = "";
 }
 
 void kiicloud::CKiiObject::updateValues(const picojson::object &values)

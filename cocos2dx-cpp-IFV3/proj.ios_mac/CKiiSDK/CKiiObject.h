@@ -25,26 +25,103 @@ typedef std::future<std::pair<ObjPtr, ErrorPtr>> ObjFuture;
 
 class CKiiObject
 {
-public:
-    explicit CKiiObject(const std::string& scopeUri, const std::string& bucketName, const picojson::object &values);
-    CKiiObject(const CKiiObject& lv);
-    CKiiObject(CKiiObject&& lv);
 
+public:
+    //! For internal use.
+    explicit CKiiObject(const std::string& scopeUri, const std::string& bucketName, const picojson::object &values);
+
+    //! Copy constructor
+    CKiiObject(const CKiiObject& rhs);
+    
+    //! Move constructor
+    CKiiObject(CKiiObject&& rhs);
+
+    //! Create object instance from scope uri, bucktname and object id.
+    //! After the instantiation, it doesn't have any info other than uri of the object.
+    //! Make sure to call CKiiObject::refreshObject before accessing key-values in the object.
+    explicit CKiiObject(const std::string& scopeUri, const std::string& bucketName, const std::string objectID);
+
+
+    //! Create object instance from object uri.
+    //! Object uri can be obtained from getUri().
+    //! After the instantiation, it doesn't have any info other than uri of the object.
+    //! Make sure to call CKiiObject::refreshObject before accessing key-values in the object.
+    explicit CKiiObject(const std::string& objectUri);
+
+    //! Returns ID of the object.
     std::string getId() const;
+    
+    //! Returns user ID of the object.
     std::string getOwnerUserId() const;
+
+    //! Returns version string of the object.
     std::string getVersion() const;
+
+    //! returns Uri of the object.
     std::string getUri() const;
 
+    //! returns last modified time.
+    //! milliseconds from epoch
     long long getModified() const;
+
+    //! returns created time.
+    //! milliseconds from epoch
     long long getCreated() const;
+
+    //! get key-values of object.
+    //! modifying this object won't be synced with Kii Cloud.
+    //! to update object, user CKiiObject::patchObject or
+    //! CKiiObject::replaceObjectValuesWithNewValues
+    //! to retrieve latest key-values from Kii Cloud,
+    //! use CKiiObject::refreshObject.
     picojson::object getValues() const;
 
+    //! Save new object in Kii Cloud
+    //! Unique Object ID is assigned by server.
+    
+    //! @param app represents application in KiiCloud
+    //! @param scopeUri Uri of the scope in which bucket/ object will be created.
+    //! It must be Uri of whose Application, Group or User.
+    //! @param bucketName specify bucket name where object should be saved.
+    //! @param values object values.
+    /*! @param accessToken used for authentication.
+     * Required if bucket ACL doesn't allows anonymous user to create object.
+     */
     static ObjFuture saveNewObject(
                                    const CKiiApp &app,
                                    const std::string &scopeUri,
                                    const std::string &bucketName,
                                    const picojson::object &values,
                                    const std::string &accessToken);
+
+
+    //! Save new object in Kii Cloud
+    //! Unique Object ID is should be assinged in client side.
+    
+    //! @param app represents application in KiiCloud
+    //! @param scopeUri Uri of the scope in which bucket/ object will be created.
+    //! It must be Uri of whose Application, Group or User.
+    //! @param bucketName specify bucket name where object should be saved.
+    //! @param objectID unique object ID.
+    //! @param values object values.
+    /*! @param accessToken used for authentication.
+     * Required if bucket ACL doesn't allows anonymous user to create object.
+     */
+    //! @param overWriteIfExist define behavior when the object
+    //! which has specified ID is already exists in Kii Cloud.
+    //! If this flag is true, existing object will be overwritten with specified values.
+    //! existing object values will be replaced with specified values.
+    //! (i.e.) key-value pair which is not in the specified values will be removed.
+    //! If false, saveObjectWill be failed if there is object which has same ID.
+    //! Uniqueness of object ID should be ensured in the same scope uri and same bucket bucket name.
+    static ObjFuture saveNewObjectWithID(
+                                         const CKiiApp &app,
+                                         const std::string &scopeUri,
+                                         const std::string &bucketName,
+                                         const std::string &objectID,
+                                         const picojson::object &values,
+                                         const std::string &accessToken,
+                                         bool overWriteIfExist = false);
 
     //! Apply patch to the existing object.
     
@@ -94,8 +171,7 @@ public:
                                      const std::string& accessToken);
 
     
-    //! Refresh object.
-    //! It retrieves the latest key-values of target object from Kii Cloud.
+    //! Delete object.
     
     //! @param app represents application in KiiCloud
     //! @param targetObject would be deleted.
