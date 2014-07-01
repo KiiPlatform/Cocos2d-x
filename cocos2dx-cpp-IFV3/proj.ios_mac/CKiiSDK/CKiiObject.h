@@ -94,6 +94,12 @@ public:
                                    const picojson::object &values,
                                    const std::string &accessToken);
 
+    //! Used to determine the behavior of saveNewObjectWithID() when there is object which
+    //! has same ID exists in cloud.
+    enum SaveMode {
+        FAIL_IF_EXIST,
+        REPLACE_IF_EXIST
+    };
 
     //! Save new object in Kii Cloud
     //! Unique Object ID is should be assinged in client side.
@@ -107,13 +113,13 @@ public:
     /*! @param accessToken used for authentication.
      * Required if bucket ACL doesn't allows anonymous user to create object.
      */
-    //! @param overWriteIfExist define behavior when the object
+    //! @param saveMode define behavior when the object
     //! which has specified ID is already exists in Kii Cloud.
-    //! If this flag is true, existing object will be overwritten with specified values.
+    //! If the mode is is REPLACE_IF_EXIST, existing object will be overwritten with specified values.
     //! existing object values will be replaced with specified values.
     //! (i.e.) key-value pair which is not in the specified values will be removed.
-    //! If false, saveObjectWill be failed if there is object which has same ID.
-    //! Uniqueness of object ID should be ensured in the same scope uri and same bucket bucket name.
+    //! If the mode is FAILE_IF_EXIST, save Object will be failed if there is object which has same ID.
+    //! Uniqueness of object ID is guranteed in the same scope uri and same bucket bucket name.
     static ObjFuture saveNewObjectWithID(
                                          const CKiiApp &app,
                                          const std::string &scopeUri,
@@ -121,7 +127,7 @@ public:
                                          const std::string &objectID,
                                          const picojson::object &values,
                                          const std::string &accessToken,
-                                         bool overWriteIfExist = false);
+                                         SaveMode saveMode = SaveMode::FAIL_IF_EXIST);
 
     //! Apply patch to the existing object.
     

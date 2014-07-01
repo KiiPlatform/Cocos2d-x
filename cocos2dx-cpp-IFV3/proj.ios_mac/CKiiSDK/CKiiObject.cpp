@@ -177,6 +177,35 @@ ObjFuture kiicloud::CKiiObject::saveNewObject(
     return p->get_future();
 }
 
+ObjFuture kiicloud::CKiiObject::saveNewObjectWithID(
+                                                    const CKiiApp &app,
+                                                    const std::string &scopeUri,
+                                                    const std::string &bucketName,
+                                                    const std::string &objectID,
+                                                    const picojson::object &values,
+                                                    const std::string &accessToken,
+                                                    SaveMode saveMode)
+{
+    auto *p = new std::promise<std::pair<ObjPtr, ErrorPtr>>;
+    std::thread th = std::thread([=]() {
+        _bind->saveNewObjectWithID(app, scopeUri, bucketName, objectID, values, accessToken, saveMode,
+                             [=](picojson::value objValue, std::string& etag, CKiiError* error)
+                             {
+                                 CKiiObject *obj = nullptr;
+                                 if (error == nullptr) {
+                                     obj = new CKiiObject(scopeUri, bucketName, objValue.get<picojson::object>());
+                                     obj->_id = objectID;
+                                     obj->_version = etag;
+                                 }
+                                 std::pair<ObjPtr, ErrorPtr> pr((ObjPtr(obj)), ErrorPtr(error));
+                                 p->set_value(pr);
+                                 delete p;
+                             });
+    });
+    th.detach();
+    return p->get_future();
+}
+
 ErrorFuture kiicloud::CKiiObject::patchObject(const kiicloud::CKiiApp &app,
                                               kiicloud::CKiiObject &targetObject,
                                               const picojson::object &patch,

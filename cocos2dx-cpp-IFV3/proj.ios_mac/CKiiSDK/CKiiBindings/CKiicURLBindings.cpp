@@ -389,6 +389,53 @@ void kiicloud::CKiicURLBindings::saveNewObject(const CKiiApp& app,
     saveCallback(jresult, etag, error);
 }
 
+void kiicloud::CKiicURLBindings::
+saveNewObjectWithID(const CKiiApp& app,
+                    const std::string &scopeUri,
+                    const std::string &bucketName,
+                    const std::string &objectID,
+                    const picojson::object &values,
+                    const std::string& accessToken,
+                    kiicloud::CKiiObject::SaveMode saveMode,
+                    const std::function<void (picojson::value,
+                                              std::string &etag,
+                                              CKiiError*)> saveCallback)
+{
+    std::string destUrl = scopeUri + "/buckets/" + bucketName + "/objects/" + objectID;
+    std::map<std::string, std::string> mheaders;
+    mheaders["x-kii-appid"] = app.appId;
+    mheaders["x-kii-appkey"] = app.appKey;
+    mheaders["x-http-method-override"] = "PUT";
+    mheaders["content-type"] = "application/json";
+    if (!accessToken.empty())
+        mheaders["authorization"] = "Bearer " + accessToken;
+    if (saveMode == kiicloud::CKiiObject::SaveMode::FAIL_IF_EXIST)
+        mheaders["if-none-match"] = "*";
+    
+    picojson::value reqBodyJson = picojson::value(values);
+    
+    std::shared_ptr<std::string> respBodyPtr;
+    std::shared_ptr<std::map<std::string, std::string>> respHeadersPtr;
+    kiicloud::CKiiError *error;
+    
+    picojson::value jresult;
+    std::string etag;
+    this->request2(POST, destUrl, mheaders, reqBodyJson.serialize(), respBodyPtr, respHeadersPtr, &error);
+    if (error) {
+        saveCallback(jresult, etag, error);
+        return;
+    }
+    etag = (*respHeadersPtr.get())["ETag"];
+    
+    std::string err;
+    const char* cRespBody = respBodyPtr.get()->c_str();
+    picojson::parse(jresult, cRespBody, cRespBody + strlen(cRespBody), &err);
+    if (!err.empty()) {
+        error = new CKiiError(0, err);
+    }
+    saveCallback(jresult, etag, error);
+}
+
 void kiicloud::CKiicURLBindings::patchObject(const kiicloud::CKiiApp &app,
                                              const std::string &objUri,
                                              const std::string &objVersion,

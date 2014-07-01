@@ -234,4 +234,66 @@ static std::shared_ptr<kiicloud::CKiiUser> currentUser;
                   @"kii error should be OBJECT_NOT_FOUND but %s", error3->getKiiErrorCode().c_str());
 }
 
+- (void) testCreateWithIDByUser
+{
+    NSUUID *uuid = [[NSUUID alloc]init];
+    NSString *ust = [uuid UUIDString];
+    std::string *uname = new std::string([ust cStringUsingEncoding:NSUTF8StringEncoding]);
+    std::string *password = new std::string("1234");
+    
+    std::shared_ptr<std::string> namePtr(uname);
+    std::shared_ptr<std::string> passPtr(password);
+    auto regFut = kiicloud::CKiiUser::registerNewUser(app,
+                                                      *uname,
+                                                      *password);
+    UserAndError pair = regFut.get();
+    CKiiUser* user = pair.first.get();
+    CKiiError* error = pair.second.get();
+    XCTAssertTrue(user != nullptr, @"user should be given");
+    XCTAssertTrue(error == nullptr, @"no error should be given");
+    
+    auto loginFut = kiicloud::CKiiUser::login(app, *uname, *password);
+    pair = loginFut.get();
+    user = pair.first.get();
+    error = pair.second.get();
+    XCTAssertTrue(user != nullptr, @"user should be given");
+    XCTAssertTrue(error == nullptr, @"no error should be given");
+    currentUser = pair.first;
+    
+    picojson::object vals;
+    vals["key1"] = picojson::value("val1");
+    auto ft = CKiiObject::saveNewObjectWithID(app,
+                                              app.appUrl(),
+                                              std::string("bk1"),
+                                              *uname,
+                                              vals,
+                                              currentUser->getAccessToken());
+    auto res = ft.get();
+    
+    auto created = res.first.get();
+    auto erorr = res.second.get();
+    
+    XCTAssertTrue(created != nullptr, @"object should be given");
+    XCTAssertTrue(created->getCreated() > 0, @"created time should be given");
+    XCTAssertTrue(!(created->getId().empty()), @"id should be given");
+    XCTAssertTrue(erorr == nullptr, @"error should be null");
+
+
+    // Save Again with same ID and SaveMode::FAIL_IF_EXIST
+    ft = CKiiObject::saveNewObjectWithID(app,
+                                         app.appUrl(),
+                                         std::string("bk1"),
+                                         *uname,
+                                         vals,
+                                         currentUser->getAccessToken(),
+                                         kiicloud::CKiiObject::SaveMode::FAIL_IF_EXIST);
+    res = ft.get();
+    error = res.second.get();
+    XCTAssertTrue(error != nullptr, @"error should be given");
+    XCTAssertTrue(error->getHttpErrorCode() == 409,
+                  @"error code should be 409 but %d", error->getHttpErrorCode());
+    XCTAssertTrue(error->getKiiErrorCode().compare("OBJECT_ALREADY_EXISTS") == 0,
+                  @"error code should be OBJECT_ALREADY_EXISTS but %s", error->getKiiErrorCode().c_str());
+}
+
 @end

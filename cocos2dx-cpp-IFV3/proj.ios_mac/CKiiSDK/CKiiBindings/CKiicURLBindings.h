@@ -63,6 +63,15 @@ public:
                        const std::string& accessToken,
                        const std::function<void (picojson::value, std::string& etag, CKiiError *error)> saveCallback);
 
+    void saveNewObjectWithID(const CKiiApp& app,
+                             const std::string &scopeUri,
+                             const std::string &bucketName,
+                             const std::string &objectID,
+                             const picojson::object &values,
+                             const std::string& accessToken,
+                             kiicloud::CKiiObject::SaveMode saveMode,
+                             const std::function<void (picojson::value, std::string &etag, CKiiError*)> saveCallback);
+
     void patchObject(const CKiiApp& app,
                      const std::string &objUri,
                      const std::string &objVersion,
